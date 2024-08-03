@@ -1,27 +1,8 @@
 {
-  "name": "angular-electron",
-  "version": "14.0.1",
-  "description": "Angular 17 with Electron 30 (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
-  "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
-  },
-  "keywords": [
-    "angular",
-    "angular 17",
-    "electron",
-    "electron 30",
-    "nodejs",
-    "typescript",
-    "jest",
-    "playwright",
-    "eslint",
-    "sass",
-    "windows",
-    "mac",
-    "linux"
-  ],
+  "author": "Kyle Kemp <kyle@seiyria.com>",
+  "description": "Modding tools for Land of the Rair.",
+  "homepage": "https://rair.land",
+  "version": "2.0.0",
   "main": "app/main.js",
   "private": true,
   "scripts": {
