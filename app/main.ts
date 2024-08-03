@@ -1,29 +1,73 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, shell } from 'electron';
+import log from 'electron-log';
 import * as fs from 'fs';
 import * as path from 'path';
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+log.transports.file.resolvePath = () =>
+  path.join(app.getAppPath(), 'logs/main.log');
+
+process.on('uncaughtException', (err) => {
+  log.error(err);
+});
+
+const Config = require('electron-config');
+const config = new Config();
 
 let win: BrowserWindow | null = null;
 const args = process.argv.slice(1),
   serve = args.some((val) => val === '--serve');
 
 function createWindow(): BrowserWindow {
+  const opts = {
+    show: false,
+    icon: __dirname + '/favicon.ico',
+    height: 0,
+    width: 0,
+    x: 0,
+    y: 0,
+  };
+
+  Object.assign(opts, config.get('winBounds'));
+
+  if (!opts.height) opts.height = 900;
+  if (!opts.width) opts.width = 1300;
+
   const size = screen.getPrimaryDisplay().workAreaSize;
 
   // Create the browser window.
   win = new BrowserWindow({
-    x: 0,
-    y: 0,
+    ...opts,
+    minWidth: 1300,
+    minHeight: 900,
     width: size.width,
     height: size.height,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
       webSecurity: false,
       contextIsolation: true,
       allowRunningInsecureContent: serve,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
+
+  win.setMenu(null);
+
+  win.once('ready-to-show', win.show);
+
+  win.webContents.setWindowOpenHandler(({ url }: any) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
+  });
+
+  win.on('close', () => {
+    config.set('winBounds', win.getBounds());
+  });
+
+  if (isDevelopment) {
+    win.webContents.openDevTools();
+  }
 
   if (serve) {
     const debug = require('electron-debug');
@@ -51,6 +95,10 @@ function createWindow(): BrowserWindow {
     // when you should delete the corresponding element.
     win = null;
   });
+
+  const sendToUI = (d: any, i: any) => {
+    win.webContents.send(d, i);
+  };
 
   return win;
 }
