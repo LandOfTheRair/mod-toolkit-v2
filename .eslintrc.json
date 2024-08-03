@@ -7,16 +7,9 @@
   ],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "./tsconfig.serve.json",
-          "./src/tsconfig.app.json",
-          "./src/tsconfig.spec.json",
-          "./e2e/tsconfig.e2e.json"
-        ],
+        "project": ["./tsconfig.serve.json", "./src/tsconfig.app.json"],
         "createDefaultProgram": true
       },
       "extends": [
@@ -33,7 +26,7 @@
         "@typescript-eslint/no-unsafe-call": 0,
         "@typescript-eslint/no-unsafe-member-access": 0,
         "prefer-arrow/prefer-arrow-functions": 0,
-        "@angular-eslint/directive-selector":  0,
+        "@angular-eslint/directive-selector": 0,
         "@angular-eslint/component-selector": [
           "error",
           {
@@ -46,14 +39,9 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
-      "rules": {
-      }
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {}
     }
   ]
 }
