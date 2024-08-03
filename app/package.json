@@ -1,13 +1,13 @@
 {
-  "name": "angular-electron",
-  "description": "Angular Electron sample",
-  "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
-  },
-  "version": "14.0.1",
+  "name": "mod-toolkit",
+  "author": "Kyle Kemp <kyle@seiyria.com>",
+  "description": "Modding tools for Land of the Rair.",
+  "homepage": "https://rair.land",
+  "version": "1.0.7",
   "main": "main.js",
   "private": true,
   "dependencies": {
+    "electron-config": "^2.0.0",
+    "electron-log": "^5.1.7"
   }
 }
