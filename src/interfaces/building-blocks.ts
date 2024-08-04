@@ -292,7 +292,7 @@ export type CharacterCurrency = Partial<Record<Currency, number>>;
 
 export interface Rollable {
   chance: number;
-  result: string | any;
+  result: string;
   maxChance?: number;
   requireHoliday?: Holiday;
   noLuckBonus?: boolean;
