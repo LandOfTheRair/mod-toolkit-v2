@@ -1,17 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { ElectronService } from '../services/electron.service';
+import { ModService } from '../services/mod.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
+  public electronService = inject(ElectronService);
+  public modService = inject(ModService);
 
-  constructor(private router: Router) { }
+  public activeTab = signal<string>('Maps');
 
-  ngOnInit(): void {
-    console.log('HomeComponent INIT');
+  public tabOrder = [
+    { name: 'Maps' },
+    { name: 'Items' },
+    { name: 'NPCs' },
+    { name: 'Droptables' },
+    { name: 'Recipes' },
+    { name: 'Spawners' },
+    { name: 'Dialogs' },
+    { name: 'Quests' },
+  ];
+
+  changeTab(newTab: string) {
+    this.activeTab.set(newTab);
   }
-
 }

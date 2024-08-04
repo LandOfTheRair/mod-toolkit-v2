@@ -7,7 +7,14 @@
   "main": "main.js",
   "private": true,
   "dependencies": {
+    "adm-zip": "^0.5.14",
+    "chokidar": "^3.6.0",
+    "download-github-repo": "^0.1.4",
     "electron-config": "^2.0.0",
-    "electron-log": "^5.1.7"
+    "electron-log": "^5.1.7",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.5"
   }
 }

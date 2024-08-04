@@ -26,7 +26,7 @@ contextBridge.exposeInMainWorld("api", {
       return;
     }
 
-    console.log("[Send]", event, data);
+    console.log("[SEND FE->BE]", event, data);
     ipcRenderer.send(event, data);
   },
 
@@ -35,7 +35,7 @@ contextBridge.exposeInMainWorld("api", {
     functions[event] = func;
 
     const callFunc = (ev, ...args) => {
-      console.log("[Receive]", event, ...args);
+      console.log("[RECV BE->FE]", event, ...args);
 
       // cache json if we get it
       if (event === "json") jsonCache[args[0].name] = args[0].data;

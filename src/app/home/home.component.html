@@ -1,5 +1,120 @@
-<h1 class="text-3xl font-bold underline">
-  Hello world!
-</h1>
+<div class="navbar bg-base-100">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-xl">Land of the Rair Mod Toolkit</a>
 
-<button class="btn btn-primary">test</button>
+    @if(electronService.isLoaded()) {
+    <a class="btn btn-ghost text-lg" [swal]="changeModName">{{ modService.modName() }}</a>
+    <a class="btn btn-ghost" [swal]="changeModAuthor">{{ modService.modAuthor() }}</a>
+    }
+  </div>
+
+  @if(electronService.isLoaded()) {
+  <div class="flex-none">
+    <ul class="menu menu-horizontal px-1">
+      <li>
+        <details>
+          <summary>Actions</summary>
+          <ul class="z-30 top-6 right-1.5 w-60 bg-base-100 rounded-t-none p-2">
+            <li class="menu-title"><a>Mod Metadata</a></li>
+            <li><a [swal]="changeModName">Change Mod Name</a></li>
+            <li><a [swal]="changeModAuthor">Change Mod Author</a></li>
+
+            <li class="menu-title"><a>Mod I/O</a></li>
+            <li><a (click)="electronService.send('IMPORT_MOD')">Load/Import Mod</a></li>
+            <li><a>Export Mod</a></li>
+            <li><a>Validate Mod</a></li>
+
+            <li class="menu-title"><a>Mod Testing</a></li>
+            <li><a target="_blank" href="https://rair.land/docs/modkit/">Help</a></li>
+            <li><a (click)="electronService.send('DOWNLOAD_MONGO')">Install MongoDB...</a></li>
+            <li><a (click)="electronService.send('DOWNLOAD_RAIR')">Install Rair Server...</a></li>
+            <li><a>Test Mod!</a></li>
+
+            <li class="menu-title"><a>Updates</a></li>
+            <li><a (click)="electronService.send('UPDATE_RESOURCES')">Update Resources</a></li>
+
+            <li class="menu-title"><a>Danger Zone</a></li>
+            <li><a [swal]="resetMod">Reset Mod</a></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </div>
+  }
+</div>
+
+
+<div class="root-body">
+  <div role="tablist" class="tabs tabs-boxed rounded-none">
+
+    @for(tab of tabOrder; track tab.name) {
+    <a role="tab" class="tab" [class.tab-disabled]="!electronService.isLoaded()"
+      [class.tab-active]="activeTab() === tab.name" (click)="changeTab(tab.name)">{{ tab.name
+      }}</a>
+    }
+
+  </div>
+
+  @if(electronService.isLoaded()) {
+  <div class="root-content px-3">
+    @switch (activeTab()) {
+    @case ('Maps') {
+    <app-maps></app-maps>
+    }
+
+    @case ('Items') {
+    <app-items></app-items>
+    }
+
+    @case ('NPCs') {
+    <app-npcs></app-npcs>
+    }
+
+    @case ('Droptables') {
+    <app-droptables></app-droptables>
+    }
+
+    @case ('Recipes') {
+    <app-recipes></app-recipes>
+    }
+
+    @case ('Spawners') {
+    <app-spawners></app-spawners>
+    }
+
+    @case ('Dialogs') {
+    <app-dialogs></app-dialogs>
+    }
+
+    @case ('Quests') {
+    <app-quests></app-quests>
+    }
+
+    }
+  </div>
+  }
+
+  @else {
+  <div class="root-content px-3">
+    <div class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl">
+      First time load detected.
+      <br><br>
+      Loading necessary resources to use the modding tools...
+    </div>
+  </div>
+  }
+</div>
+
+<swal #changeModName title="Change Mod Name" text="Change the name of your mod." input="text"
+  [inputValue]="modService.modName()" [inputAttributes]="{ maxlength: '20' }" [focusCancel]="true"
+  (confirm)="modService.setName($event)">
+</swal>
+
+<swal #changeModAuthor title="Change Mod Author" text="Change the author of your mod." input="text"
+  [inputValue]="modService.modAuthor()" [inputAttributes]="{ maxlength: '20' }" [showCancelButton]="true"
+  [focusCancel]="true" (confirm)="modService.setAuthor($event)">
+</swal>
+
+<swal #resetMod title="Reset Mod?" text="This cannot be undone. You may want to back up your mod before doing this."
+  icon="warning" [showCancelButton]="true" [focusCancel]="true" (confirm)="modService.resetMod()">
+</swal>

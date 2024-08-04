@@ -1,48 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  height: 100vh;
-  background-color: #8c3310;
-  background-image: repeating-linear-gradient(
-      120deg,
-      rgba(200, 200, 200, 0.1),
-      rgba(200, 200, 200, 0.1) 1px,
-      transparent 1px,
-      transparent 60px
-    ),
-    repeating-linear-gradient(
-      60deg,
-      rgba(200, 200, 200, 0.1),
-      rgba(200, 200, 200, 0.1) 1px,
-      transparent 1px,
-      transparent 60px
-    ),
-    linear-gradient(
-      60deg,
-      rgba(50, 50, 50, 0.1) 15%,
-      transparent 15%,
-      transparent 85%,
-      rgba(50, 50, 50, 0.1) 85%,
-      rgba(50, 50, 50, 0.1)
-    ),
-    linear-gradient(
-      120deg,
-      rgba(50, 50, 50, 0.1),
-      transparent 15%,
-      transparent 85%,
-      rgba(50, 50, 50, 0.1) 85%,
-      rgba(50, 50, 50, 0.1)
-    );
-  border: 5px outset #49200e;
-  color: #ccc;
-}
-
 // tailwind
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.swal2-input {
+  color: #000;
+}

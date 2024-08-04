@@ -5,14 +5,19 @@ import {
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { DetailModule } from './detail/detail.module';
 import { HomeModule } from './home/home.module';
 
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import {
+  provideNgxWebstorage,
+  withLocalStorage,
+  withNgxWebstorageConfig,
+} from 'ngx-webstorage';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -21,12 +26,20 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     FormsModule,
-    CoreModule,
     SharedModule,
     HomeModule,
-    DetailModule,
     AppRoutingModule,
+    SweetAlert2Module.forRoot({
+      provideSwal: () => import('sweetalert2/dist/sweetalert2.js'),
+    }),
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+    provideHotToastConfig(),
+    provideNgxWebstorage(
+      withNgxWebstorageConfig({ separator: ':', caseSensitive: true }),
+      withLocalStorage()
+    ),
+  ],
 })
 export class AppModule {}

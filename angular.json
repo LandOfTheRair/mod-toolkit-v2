@@ -30,7 +30,11 @@
             "polyfills": "src/polyfills.ts",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "node_modules/@ngxpert/hot-toast/src/styles/styles.scss",
+              "node_modules/@sweetalert2/theme-dark/dark.scss",
+              "src/styles.scss"
+            ],
             "scripts": [],
             "customWebpackConfig": {
               "path": "./angular.webpack.js",
@@ -122,20 +126,6 @@
             "web-production": {
               "browserTarget": "angular-electron:build:web-production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "buildTarget": "angular-electron:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-builders/jest:run",
-          "options": {
-            "polyfills": ["src/polyfills-test.ts"],
-            "tsConfig": "src/tsconfig.spec.json",
-            "globalMocks": ["styleTransform", "matchMedia", "getComputedStyle"]
           }
         },
         "lint": {

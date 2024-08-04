@@ -8,6 +8,7 @@
 /release
 main.js
 src/**/*.js
+app/**/*.js
 *.js.map
 
 # dependencies
@@ -50,3 +51,5 @@ testem.log
 .DS_Store
 Thumbs.db
 .nx
+
+resources

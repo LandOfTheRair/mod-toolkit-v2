@@ -1,7 +1,11 @@
-import { app, BrowserWindow, screen, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, screen, shell } from 'electron';
 import log from 'electron-log';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as handlers from './handlers';
+import { baseUrl } from './helpers';
+import { setupIPC } from './ipc';
+import { SendToUI } from './types';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -19,7 +23,41 @@ let win: BrowserWindow | null = null;
 const args = process.argv.slice(1),
   serve = args.some((val) => val === '--serve');
 
-function createWindow(): BrowserWindow {
+const sendToUI: SendToUI = (d: string, i?: any) => {
+  win.webContents.send(d, i);
+};
+
+const handleSetup = async () => {
+  // check for and load resources if they're not present
+  let isReady = false;
+
+  if (!fs.existsSync(baseUrl + '/resources/.loaded')) {
+    sendToUI('notify', {
+      type: 'info',
+      text: 'Loading resources for first time launch...',
+    });
+    await handlers.updateResources(sendToUI);
+    sendToUI('notify', {
+      type: 'success',
+      text: 'Spritesheets and game data have been installed.',
+    });
+    sendToUI('ready');
+    isReady = true;
+  } else {
+    sendToUI('ready');
+    isReady = true;
+  }
+
+  // watch IPC stuff
+  ipcMain.on('READY_CHECK', async () => {
+    if (!isReady) return;
+    sendToUI('ready');
+  });
+
+  setupIPC(sendToUI);
+};
+
+async function createWindow(): Promise<BrowserWindow> {
   const opts = {
     show: false,
     icon: __dirname + '/favicon.ico',
@@ -31,18 +69,18 @@ function createWindow(): BrowserWindow {
 
   Object.assign(opts, config.get('winBounds'));
 
-  if (!opts.height) opts.height = 900;
-  if (!opts.width) opts.width = 1300;
-
   const size = screen.getPrimaryDisplay().workAreaSize;
+
+  if (!opts.height) opts.height = size.height;
+  if (!opts.width) opts.width = size.width;
 
   // Create the browser window.
   win = new BrowserWindow({
     ...opts,
     minWidth: 1300,
     minHeight: 900,
-    width: size.width,
-    height: size.height,
+    width: opts.width,
+    height: opts.height,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
@@ -54,7 +92,10 @@ function createWindow(): BrowserWindow {
 
   win.setMenu(null);
 
-  win.once('ready-to-show', win.show);
+  win.once('ready-to-show', () => {
+    win.show();
+    handleSetup();
+  });
 
   win.webContents.setWindowOpenHandler(({ url }: any) => {
     shell.openExternal(url);
@@ -95,10 +136,6 @@ function createWindow(): BrowserWindow {
     // when you should delete the corresponding element.
     win = null;
   });
-
-  const sendToUI = (d: any, i: any) => {
-    win.webContents.send(d, i);
-  };
 
   return win;
 }
