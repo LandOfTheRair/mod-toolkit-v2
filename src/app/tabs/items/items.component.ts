@@ -56,6 +56,12 @@ export class ItemsComponent {
       filter: 'agTextColumnFilter',
     },
     {
+      field: 'secondaryType',
+      flex: 1,
+      cellDataType: 'text',
+      filter: 'agTextColumnFilter',
+    },
+    {
       field: '',
       width: 200,
       sortable: false,

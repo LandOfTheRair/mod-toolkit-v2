@@ -17,7 +17,7 @@
 
 @switch (activeTab()) {
 @case (0) {
-<div class="flex flex-row">
+<div class="flex flex-row gap-2">
   <div class="form-column">
     <div class="form-row">
       <app-input-sprite [(sprite)]="editingData.sprite"></app-input-sprite>
@@ -30,8 +30,8 @@
     </div>
 
     <div class="form-row">
-      <app-input-itemclass [(itemClass)]="editingData.itemClass"
-        (change)="update('itemClass', $event)"></app-input-itemclass>
+      <app-input-itemclass [itemClass]="editingData.itemClass" label="Item Class"
+        (change)="changeItemClass($event)"></app-input-itemclass>
     </div>
 
     <div class="form-row split">
@@ -82,7 +82,7 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <label class="label cursor-pointer">
+          <label class="label cursor-pointer" floatUi="Whether or not the item is sackable.">
             <input type="checkbox" [(ngModel)]="editingData.isSackable" class="checkbox" />
             <span class="label-text">Sackable</span>
           </label>
@@ -91,7 +91,7 @@
 
       <div class="form-column">
         <div class="form-row">
-          <label class="label cursor-pointer">
+          <label class="label cursor-pointer" floatUi="Whether or not the item is beltable.">
             <input type="checkbox" [(ngModel)]="editingData.isBeltable" class="checkbox" />
             <span class="label-text">Beltable</span>
           </label>
@@ -102,7 +102,7 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <label class="label cursor-pointer">
+          <label class="label cursor-pointer" floatUi="Whether or not the item binds when picked up.">
             <input type="checkbox" [(ngModel)]="editingData.binds" class="checkbox" />
             <span class="label-text">Binds</span>
           </label>
@@ -111,7 +111,8 @@
 
       <div class="form-column">
         <div class="form-row">
-          <label class="label cursor-pointer">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the item puts a message in chat when bound (and picked up).">
             <input type="checkbox" [(ngModel)]="editingData.tellsBind" class="checkbox" />
             <span class="label-text">Tells Bind</span>
           </label>
@@ -122,7 +123,8 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <label class="label cursor-pointer">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the item is destroyed when put on the ground (dangerous!).">
             <input type="checkbox" [(ngModel)]="editingData.destroyOnDrop" class="checkbox" />
             <span class="label-text">Destroy on Drop</span>
           </label>
@@ -150,9 +152,79 @@
   </div>
 
   <div class="form-column">
+    <div class="form-row split">
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stat [(stat)]="currentStat"></app-input-stat>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-secondary btn-sm" [disabled]="!currentStat() || doesItemHaveCurrentStat()"
+            (click)="addStat(currentStat())">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(stat of statsInOrder(); track $index) {
+
+    <div class="form-row split">
+      @if(stat.type === 'set') {
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ stat.stat }}</app-input-floating-label>
+          <input [(ngModel)]="stat.set" type="number" placeholder="Choose value..." class="form-input" />
+        </div>
+      </div>
+      }
+
+      @if(stat.type === 'minmax') {
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ stat.stat }} min</app-input-floating-label>
+          <input [(ngModel)]="stat.min" type="number" placeholder="Choose min..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ stat.stat }} max</app-input-floating-label>
+          <input [(ngModel)]="stat.max" type="number" placeholder="Choose max..." class="form-input" />
+        </div>
+      </div>
+      }
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-info btn-sm" (click)="toggleStat(stat)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+            </svg>
+          </button>
+
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeStat(stat.stat)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
   </div>
 
   <div class="form-column">
+    {{ extraProps() | json }}
   </div>
 </div>
 }

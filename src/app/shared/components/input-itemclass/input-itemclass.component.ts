@@ -1,4 +1,4 @@
-import { Component, input, model } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 import {
   ArmorClass,
   ItemClassType,
@@ -14,6 +14,7 @@ import {
 export class InputItemclassComponent {
   public itemClass = model.required<ItemClassType>();
   public label = input<string>('Type');
+  public change = output<ItemClassType>();
 
   public values = [
     ...Object.values(WeaponClass).map((c) => ({

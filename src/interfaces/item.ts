@@ -56,7 +56,7 @@ export interface IGear {
   quality?: ItemQuality;
 
   // the stats this item boosts
-  stats?: StatBlock;
+  stats: StatBlock;
 
   // the trait on the item
   trait?: IItemTrait;

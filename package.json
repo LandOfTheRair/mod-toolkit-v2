@@ -40,6 +40,7 @@
     "@sweetalert2/theme-dark": "5.0.17",
     "ag-grid-angular": "32.0.2",
     "lodash": "4.17.21",
+    "ngx-float-ui": "18.0.1",
     "ngx-webstorage": "18.0.0",
     "rxjs": "7.8.1",
     "tslib": "2.6.2",

@@ -1,4 +1,5 @@
 import { sortBy } from 'lodash';
+import { StatBlock } from '../../interfaces';
 
 export const coreStats = sortBy(
   [
@@ -257,7 +258,7 @@ export const itemTypes = [
   'Wand',
 ];
 
-export const typePropSets: Record<string, any[]> = {
+export const typePropSets: Record<string, string[]> = {
   Arrow: ['shots', 'tier', 'damageClass'],
   Bottle: ['ounces'],
   Box: ['containedItems'],
@@ -266,9 +267,13 @@ export const typePropSets: Record<string, any[]> = {
   Book: ['bookPages', 'bookItemFilter', 'bookFindablePages'],
   Trap: ['trapUses'],
   Scroll: ['bookPage'],
+  Twig: ['type'],
 };
 
-export const typePropDefaults: Record<string, any> = {
+export const typePropDefaults: Record<
+  string,
+  Record<string, number | string | boolean | Partial<StatBlock>>
+> = {
   Arrow: { shots: 1000, tier: 1, damageClass: 'physical' },
   Bottle: { ounces: 1 },
   Food: { ounces: 1 },
@@ -278,7 +283,10 @@ export const typePropDefaults: Record<string, any> = {
   Twig: { type: 'Staff' },
 };
 
-const typePropPrimarySecondary: Record<string, any> = {
+export const typePropPrimarySecondary: Record<
+  string,
+  { p: string; s?: string }
+> = {
   Axe: { p: 'Axe' },
   Blunderbuss: { p: 'Ranged', s: 'Twohanded' },
   Broadsword: { p: 'Sword' },
@@ -359,8 +367,9 @@ weaponClasses.forEach((weaponType) => {
   }
 
   if (['Shield', 'Saucer'].includes(weaponType)) {
-    typePropDefaults[weaponType].stats.accuracy = 0;
-    typePropDefaults[weaponType].stats.mitigation = 5;
+    typePropSets[weaponType].push('stats');
+    (typePropDefaults[weaponType].stats as Partial<StatBlock>).accuracy = 0;
+    (typePropDefaults[weaponType].stats as Partial<StatBlock>).mitigation = 5;
     typePropDefaults[weaponType].tier = 1;
   }
 
@@ -428,11 +437,13 @@ armorClasses.forEach((armorType) => {
   }
 
   if (['Tunic', 'Fur', 'Scaleplate'].includes(armorType)) {
-    typePropDefaults[armorType].stats.mitigation = 10;
+    typePropSets[armorType].push('stats');
+    (typePropDefaults[armorType].stats as Partial<StatBlock>).mitigation = 10;
   }
 
   if (['Fullplate', 'Breastplate'].includes(armorType)) {
-    typePropDefaults[armorType].stats.mitigation = 25;
+    typePropSets[armorType].push('stats');
+    (typePropDefaults[armorType].stats as Partial<StatBlock>).mitigation = 25;
     typePropDefaults[armorType].isHeavy = true;
   }
 

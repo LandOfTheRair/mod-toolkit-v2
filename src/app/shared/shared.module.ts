@@ -14,6 +14,8 @@ import { InputSpriteComponent } from './components/input-sprite/input-sprite.com
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { SpriteComponent } from './components/sprite/sprite.component';
 import { WebviewDirective } from './directives/';
+import { InputStatComponent } from './components/input-stat/input-stat.component';
+import { EditorBaseComponent } from './components/editor-base/editor-base.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { WebviewDirective } from './directives/';
     CellButtonsComponent,
     CellSpriteComponent,
     HeaderButtonsComponent,
+    InputStatComponent,
+    EditorBaseComponent,
   ],
   imports: [CommonModule, FormsModule, NgSelectModule, SweetAlert2Module],
   exports: [
@@ -40,6 +44,8 @@ import { WebviewDirective } from './directives/';
     CellButtonsComponent,
     CellSpriteComponent,
     HeaderButtonsComponent,
+    InputStatComponent,
+    EditorBaseComponent,
   ],
 })
 export class SharedModule {}

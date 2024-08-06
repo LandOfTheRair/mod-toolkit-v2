@@ -58,6 +58,11 @@ ag-grid-angular {
   }
 }
 
+.ngxp__inner {
+  min-width: 250px;
+  padding: 4px;
+}
+
 .form-column {
   @apply flex;
   @apply flex-col;

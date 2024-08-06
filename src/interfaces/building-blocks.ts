@@ -170,6 +170,8 @@ export enum Stat {
   RestorationBonus = 'restorationBonus',
 }
 
+export type StatType = `${Stat}`;
+
 export enum Skill {
   Axe = 'axe',
   Conjuration = 'conjuration',
