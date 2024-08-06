@@ -6,3 +6,90 @@
 .swal2-input {
   color: #000;
 }
+
+.ng-select {
+  .ng-select-container,
+  .ng-dropdown-panel {
+    background-color: var(
+      --fallback-b1,
+      oklch(var(--b1) / var(--tw-bg-opacity))
+    ) !important;
+
+    border-color: var(--fallback-bc, oklch(var(--bc) / 0.2)) !important;
+    border-radius: var(--rounded-btn, 0.5rem) !important;
+
+    color: #fff;
+    font-size: 0.875rem;
+  }
+
+  .ng-option {
+    color: #fff;
+    background-color: var(
+      --fallback-b1,
+      oklch(var(--b1) / var(--tw-bg-opacity))
+    ) !important;
+  }
+
+  .ng-option-label {
+    color: #fff;
+  }
+
+  .ng-option-marked {
+    background-color: var(
+      --fallback-b1,
+      oklch(var(--p) / var(--tw-bg-opacity))
+    ) !important;
+  }
+
+  .ng-select-container {
+    height: 2rem;
+  }
+
+  .ng-dropdown-panel {
+  }
+}
+
+ag-grid-angular {
+  height: calc(100vh - 152px);
+
+  .ag-cell:not(.no-adjust) {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.form-column {
+  @apply flex;
+  @apply flex-col;
+  @apply flex-1;
+}
+
+.form-row {
+  @apply relative;
+  @apply mt-5;
+
+  &.split {
+    @apply flex;
+    @apply gap-2;
+
+    .form-row {
+      @apply m-0;
+    }
+  }
+
+  .label {
+    @apply p-0;
+    @apply block;
+
+    .label-text {
+      @apply ml-3;
+    }
+  }
+}
+
+.form-input {
+  @apply input;
+  @apply input-sm;
+  @apply input-bordered;
+  @apply w-full;
+}

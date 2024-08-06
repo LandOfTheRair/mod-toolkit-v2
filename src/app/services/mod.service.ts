@@ -1,6 +1,6 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
-import { IModKit } from '../../interfaces';
+import { IItemDefinition, IModKit } from '../../interfaces';
 
 export function defaultModKit(): IModKit {
   return {
@@ -9,6 +9,7 @@ export function defaultModKit(): IModKit {
       name: 'Unnamed Mod',
       savedAt: 0,
       version: 1,
+      _backup: undefined,
     },
     dialogs: [],
     drops: [],
@@ -31,6 +32,8 @@ export class ModService {
   public modName = computed(() => this.mod().meta.name);
   public modAuthor = computed(() => this.mod().meta.author);
 
+  public json = signal<Record<string, any>>({});
+
   constructor() {
     const oldModData: IModKit = this.localStorage.retrieve('mod');
     if (oldModData) {
@@ -43,6 +46,7 @@ export class ModService {
     });
   }
 
+  // mod functions
   public resetMod(): void {
     this.updateMod(defaultModKit());
   }
@@ -73,10 +77,65 @@ export class ModService {
     });
   }
 
-  private updateMod(mod: IModKit) {
+  public updateMod(mod: IModKit) {
     this.presave(mod);
     console.info('[UpdateMod]', mod);
 
     this.mod.set(structuredClone(mod));
+  }
+
+  // json functions
+  public setJSON(key: string, value: any): void {
+    const json = this.json();
+    json[key] = value;
+
+    this.json.set(structuredClone(json));
+  }
+
+  // map functions
+  public addMap(map: any) {
+    if (map.name === 'Template') return;
+
+    const mod = this.mod();
+    mod.maps.push(map);
+
+    this.updateMod(mod);
+  }
+
+  public renameMap(oldName: string, newName: string) {
+    if (oldName === 'Template') return;
+
+    const mod = this.mod();
+    const mapRef = mod.maps.find((f) => f.name === oldName);
+    if (!mapRef) return;
+
+    mapRef.name = newName;
+
+    this.updateMod(mod);
+  }
+
+  // item functions
+  public addItem(item: IItemDefinition) {
+    const mod = this.mod();
+    mod.items.push(item);
+
+    this.updateMod(mod);
+  }
+
+  public editItem(oldItem: IItemDefinition, newItem: IItemDefinition) {
+    const mod = this.mod();
+    const foundItem = mod.items.find((i) => i.name === oldItem.name);
+    if (!foundItem) return;
+
+    Object.assign(foundItem, newItem);
+
+    this.updateMod(mod);
+  }
+
+  public removeItem(item: IItemDefinition) {
+    const mod = this.mod();
+    mod.items = mod.items.filter((i) => i !== item);
+
+    this.updateMod(mod);
   }
 }

@@ -12,6 +12,7 @@ export interface IModKit {
     author: string;
     version: number;
     savedAt: number;
+    _backup: any;
   };
 
   npcs: INPCDefinition[];

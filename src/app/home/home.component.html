@@ -56,41 +56,45 @@
   </div>
 
   @if(electronService.isLoaded()) {
-  <div class="root-content px-3">
-    @switch (activeTab()) {
-    @case ('Maps') {
-    <app-maps></app-maps>
-    }
+  <div class="root-content p-3">
+    <div class="card bg-base-100 w-full shadow-xl">
+      <div class="card-body">
+        @switch (activeTab()) {
+        @case ('Maps') {
+        <app-maps class="h-full"></app-maps>
+        }
 
-    @case ('Items') {
-    <app-items></app-items>
-    }
+        @case ('Items') {
+        <app-items class="h-full"></app-items>
+        }
 
-    @case ('NPCs') {
-    <app-npcs></app-npcs>
-    }
+        @case ('NPCs') {
+        <app-npcs class="h-full"></app-npcs>
+        }
 
-    @case ('Droptables') {
-    <app-droptables></app-droptables>
-    }
+        @case ('Droptables') {
+        <app-droptables class="h-full"></app-droptables>
+        }
 
-    @case ('Recipes') {
-    <app-recipes></app-recipes>
-    }
+        @case ('Recipes') {
+        <app-recipes class="h-full"></app-recipes>
+        }
 
-    @case ('Spawners') {
-    <app-spawners></app-spawners>
-    }
+        @case ('Spawners') {
+        <app-spawners class="h-full"></app-spawners>
+        }
 
-    @case ('Dialogs') {
-    <app-dialogs></app-dialogs>
-    }
+        @case ('Dialogs') {
+        <app-dialogs class="h-full"></app-dialogs>
+        }
 
-    @case ('Quests') {
-    <app-quests></app-quests>
-    }
+        @case ('Quests') {
+        <app-quests class="h-full"></app-quests>
+        }
 
-    }
+        }
+      </div>
+    </div>
   </div>
   }
 

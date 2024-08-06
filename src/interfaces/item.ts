@@ -15,6 +15,7 @@ import { IItemEffect } from './effect';
 import { ItemClassType } from './itemtypes';
 
 export enum ItemQuality {
+  NONE = 0,
   POOR = 1,
   BELOW_AVERAGE = 2,
   AVERAGE = 3,
@@ -264,16 +265,13 @@ export type IItem = IConsumable &
     type: string;
 
     // the secondary type of the item (it will also give this skill)
-    secondaryType?: string;
+    secondaryType: string;
 
     // how much the item will absolutely sell for - useful for gems that have a specific value (no CHA)
     sellValue?: number;
 
     // how much the item will be able to be bought back for
     buybackValue?: number;
-
-    // the condition of the item
-    condition: number;
 
     // whether or not the item should be destroyed when it's dropped on the ground
     destroyOnDrop?: boolean;
@@ -292,7 +290,7 @@ export interface ISimpleItem {
 }
 
 export type IItemDefinition = IItem & {
-  randomStats: Record<Stat, RandomNumber>;
+  randomStats: Partial<Record<Stat, RandomNumber>>;
   randomTrait: {
     name: string[];
     level: RandomNumber;

@@ -15,7 +15,10 @@
           "strict": true
         },
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "standalone": false,
+          "skipTests": true,
+          "export": true
         }
       },
       "prefix": "app",
@@ -31,8 +34,11 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/@ngxpert/hot-toast/src/styles/styles.scss",
               "node_modules/@sweetalert2/theme-dark/dark.scss",
+              "node_modules/ag-grid-community/styles/ag-grid.css",
+              "node_modules/ag-grid-community/styles/ag-theme-quartz.css",
               "src/styles.scss"
             ],
             "scripts": [],

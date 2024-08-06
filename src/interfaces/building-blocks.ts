@@ -171,21 +171,21 @@ export enum Stat {
 }
 
 export enum Skill {
-  Mace = 'mace',
   Axe = 'axe',
+  Conjuration = 'conjuration',
   Dagger = 'dagger',
-  Sword = 'sword',
-  Shortsword = 'shortsword',
-  Polearm = 'polearm',
-  Wand = 'wand',
-  Staff = 'staff',
+  Mace = 'mace',
   Martial = 'martial',
+  Polearm = 'polearm',
   Ranged = 'ranged',
+  Restoration = 'restoration',
+  Shortsword = 'shortsword',
+  Staff = 'staff',
+  Thievery = 'thievery',
   Throwing = 'throwing',
   TwoHanded = 'twohanded',
-  Thievery = 'thievery',
-  Conjuration = 'conjuration',
-  Restoration = 'restoration',
+  Sword = 'sword',
+  Wand = 'wand',
 }
 
 export enum Tradeskill {

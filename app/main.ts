@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, protocol, screen, shell } from 'electron';
 import log from 'electron-log';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -24,7 +24,7 @@ const args = process.argv.slice(1),
   serve = args.some((val) => val === '--serve');
 
 const sendToUI: SendToUI = (d: string, i?: any) => {
-  win.webContents.send(d, i);
+  win?.webContents.send(d, i);
 };
 
 const handleSetup = async () => {
@@ -74,13 +74,18 @@ async function createWindow(): Promise<BrowserWindow> {
   if (!opts.height) opts.height = size.height;
   if (!opts.width) opts.width = size.width;
 
+  /*
+  opts.x += 4;
+  opts.y += 7;
+  opts.width += 60;
+  opts.height += 25;
+  */
+
   // Create the browser window.
   win = new BrowserWindow({
     ...opts,
     minWidth: 1300,
     minHeight: 900,
-    width: opts.width,
-    height: opts.height,
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
@@ -93,8 +98,14 @@ async function createWindow(): Promise<BrowserWindow> {
   win.setMenu(null);
 
   win.once('ready-to-show', () => {
-    win.show();
+    win?.show();
     handleSetup();
+  });
+
+  // load intercepter for image loading
+  protocol.interceptFileProtocol('file', (req, callback) => {
+    const url = req.url.substr(7);
+    callback({ path: path.normalize(app.getAppPath() + url) });
   });
 
   win.webContents.setWindowOpenHandler(({ url }: any) => {
@@ -103,7 +114,7 @@ async function createWindow(): Promise<BrowserWindow> {
   });
 
   win.on('close', () => {
-    config.set('winBounds', win.getBounds());
+    config.set('winBounds', win?.getBounds());
   });
 
   if (isDevelopment) {

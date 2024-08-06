@@ -4,9 +4,11 @@ import { NgModule } from '@angular/core';
 import { HomeRoutingModule } from './home-routing.module';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { AgGridModule } from 'ag-grid-angular';
 import { SharedModule } from '../shared/shared.module';
 import { DialogsComponent } from '../tabs/dialogs/dialogs.component';
 import { DroptablesComponent } from '../tabs/droptables/droptables.component';
+import { ItemsEditorComponent } from '../tabs/items/items-editor/items-editor.component';
 import { ItemsComponent } from '../tabs/items/items.component';
 import { MapsComponent } from '../tabs/maps/maps.component';
 import { NpcsComponent } from '../tabs/npcs/npcs.component';
@@ -21,12 +23,19 @@ import { HomeComponent } from './home.component';
     DialogsComponent,
     DroptablesComponent,
     ItemsComponent,
+    ItemsEditorComponent,
     MapsComponent,
     NpcsComponent,
     QuestsComponent,
     RecipesComponent,
     SpawnersComponent,
   ],
-  imports: [CommonModule, SharedModule, HomeRoutingModule, SweetAlert2Module],
+  imports: [
+    CommonModule,
+    SharedModule,
+    HomeRoutingModule,
+    SweetAlert2Module,
+    AgGridModule,
+  ],
 })
 export class HomeModule {}

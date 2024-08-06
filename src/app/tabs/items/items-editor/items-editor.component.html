@@ -1,0 +1,170 @@
+@let editingData = editing();
+
+<div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+
+  @for(tab of tabs; let i = $index; track tab.name) {
+  <a role="tab" class="tab" [class.tab-active]="activeTab() === i" (click)="changeTab(i)">
+    {{ tab.name }}
+  </a>
+  }
+
+  <div class="tab flex flex-row justify-end">
+    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
+    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()">Save</button>
+  </div>
+
+</div>
+
+@switch (activeTab()) {
+@case (0) {
+<div class="flex flex-row">
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-sprite [(sprite)]="editingData.sprite"></app-input-sprite>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Name</app-input-floating-label>
+      <input [ngModel]="editingData.name" type="text" placeholder="Choose name..." class="form-input"
+        (ngModelChange)="update('name', $event)" />
+    </div>
+
+    <div class="form-row">
+      <app-input-itemclass [(itemClass)]="editingData.itemClass"
+        (change)="update('itemClass', $event)"></app-input-itemclass>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <app-input-skill [(skill)]="editingData.type" label="Primary Skill"></app-input-skill>
+      </div>
+
+      <div class="form-column">
+        <app-input-skill [(skill)]="editingData.secondaryType" label="Secondary Skill (optional)"></app-input-skill>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Max # Of Upgrades</app-input-floating-label>
+          <input [(ngModel)]="editingData.maxUpgrades" type="number" min="0" placeholder="Choose max #..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label># of ★</app-input-floating-label>
+          <input [(ngModel)]="editingData.quality" type="number" min="0" max="5" placeholder="Choose ★ #..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Shop Purchase Cost</app-input-floating-label>
+          <input [(ngModel)]="editingData.value" type="number" min="0" placeholder="Enter cost..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Sell Value</app-input-floating-label>
+          <input [(ngModel)]="editingData.sellValue" type="number" min="0" placeholder="Enter value..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <label class="label cursor-pointer">
+            <input type="checkbox" [(ngModel)]="editingData.isSackable" class="checkbox" />
+            <span class="label-text">Sackable</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <label class="label cursor-pointer">
+            <input type="checkbox" [(ngModel)]="editingData.isBeltable" class="checkbox" />
+            <span class="label-text">Beltable</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <label class="label cursor-pointer">
+            <input type="checkbox" [(ngModel)]="editingData.binds" class="checkbox" />
+            <span class="label-text">Binds</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <label class="label cursor-pointer">
+            <input type="checkbox" [(ngModel)]="editingData.tellsBind" class="checkbox" />
+            <span class="label-text">Tells Bind</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <label class="label cursor-pointer">
+            <input type="checkbox" [(ngModel)]="editingData.destroyOnDrop" class="checkbox" />
+            <span class="label-text">Destroy on Drop</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Description</app-input-floating-label>
+      <input [(ngModel)]="editingData.desc" type="text" placeholder="Enter description..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Sense Description (optional)</app-input-floating-label>
+      <input [(ngModel)]="editingData.extendedDesc" type="text" placeholder="Enter sense description..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      You are looking at {{ editingData.desc }}.
+    </div>
+  </div>
+
+  <div class="form-column">
+  </div>
+
+  <div class="form-column">
+  </div>
+</div>
+}
+
+@case (1) {
+
+}
+
+@case (2) {
+
+}
+}
+
+<br>
+{{ editingData | json }}

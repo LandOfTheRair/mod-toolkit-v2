@@ -1,0 +1,31 @@
+import { IItemDefinition } from '../../interfaces';
+
+export const defaultItem: () => IItemDefinition = () => ({
+  sprite: 0,
+  quality: 0,
+  name: '',
+  itemClass: undefined as any,
+  maxUpgrades: 0,
+  value: 1,
+  sellValue: 0,
+  desc: 'an item',
+  stats: {},
+  randomStats: {},
+  type: 'Martial',
+  secondaryType: undefined as any,
+  succorInfo: undefined,
+  cosmetic: { name: '' },
+  containedItems: [],
+  trait: { name: '', level: 0 },
+  randomTrait: { name: [], level: { min: 0, max: 0 } },
+  useEffect: {
+    name: '',
+    potency: 0,
+    duration: 0,
+    extra: { statChanges: {}, tooltip: '', message: '' },
+  },
+  strikeEffect: { name: '', potency: 0, duration: 0, chance: 0 },
+  breakEffect: { name: '', potency: 0, duration: 0 },
+  equipEffect: { name: '', potency: 0, duration: 0 },
+  requirements: { baseClass: undefined, level: 0 },
+});

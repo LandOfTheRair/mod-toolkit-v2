@@ -1,5 +1,6 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 
+import { IModKit } from '../../interfaces';
 import { ModService } from './mod.service';
 import { NotifyService } from './notify.service';
 
@@ -31,7 +32,7 @@ export class ElectronService {
     });
   }
 
-  watchIPC() {
+  private watchIPC() {
     window.api.reset();
 
     window.api.receive('ready', () => {
@@ -41,33 +42,35 @@ export class ElectronService {
     window.api.receive('notify', ({ type, text }) => {
       this.notifyService[type as keyof NotifyService]({ message: text });
     });
-    /*
 
     window.api.receive('newmap', (mapData) => {
-      if (mapData.name === 'Template') return;
-      events.$emit('add:map', mapData);
+      this.modService.addMap(mapData);
     });
 
     window.api.receive('renamemap', (nameData) => {
-      events.$emit('rename:map', nameData.oldName, nameData.newName);
+      this.modService.renameMap(
+        nameData.oldName as string,
+        nameData.newName as string
+      );
     });
 
     window.api.receive('json', (jsonData) => {
-      events.$emit(`json:${jsonData.name}`, jsonData.data);
+      this.modService.setJSON(jsonData.name as string, jsonData.data);
     });
 
-    window.api.receive('loadmod', (mod) => {
-      this.mod = mod;
-      this.persist();
+    window.api.receive('loadmod', (mod: IModKit) => {
+      this.modService.updateMod(mod);
     });
 
-    window.api.receive('importmod', (mod) => {
-      this.mod = mod.meta._backup;
-      this.persist();
+    window.api.receive('importmod', (mod: IModKit) => {
+      this.modService.updateMod(mod.meta._backup as IModKit);
     });
-    */
 
     this.send('READY_CHECK');
+  }
+
+  requestJSON(key: string) {
+    window.api.send('JSON', { json: key });
   }
 
   send(key: string, value?: any) {
