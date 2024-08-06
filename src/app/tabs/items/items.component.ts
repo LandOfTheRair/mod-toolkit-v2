@@ -69,11 +69,15 @@ export class ItemsComponent {
       cellClass: 'no-adjust',
       cellRendererParams: {
         showCopyButton: true,
-        copyCallback: (item: EditingType) => {},
+        copyCallback: (item: EditingType) => {
+          const newItem = structuredClone(item);
+          newItem.name = `${newItem.name} (copy)`;
+          this.saveNewData(newItem);
+        },
         showEditButton: true,
         editCallback: (item: EditingType) => this.editExisting(item),
         showDeleteButton: true,
-        deleteCallback: (item: EditingType) => {},
+        deleteCallback: (item: EditingType) => this.deleteData(item),
       },
     },
   ];
@@ -104,5 +108,9 @@ export class ItemsComponent {
     }
 
     this.modService.addItem(data);
+  }
+
+  public deleteData(data: EditingType) {
+    this.modService.removeItem(data);
   }
 }
