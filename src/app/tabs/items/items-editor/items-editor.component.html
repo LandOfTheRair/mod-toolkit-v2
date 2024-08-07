@@ -446,10 +446,25 @@
 @case (2) {
 <div class="flex flex-row gap-2">
   <div class="form-column">
+
+    <div class="form-row">
+      <app-input-floating-label>Cosmetic Name</app-input-floating-label>
+      <input [(ngModel)]="editingData.cosmetic!.name" type="text" placeholder="Enter cosmetic name..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <label class="label cursor-pointer" floatUi="Whether or not the cosmetic can be taken off of the item.">
+        <input type="checkbox" [(ngModel)]="editingData.cosmetic!.isPermanent" class="checkbox" />
+        <span class="label-text">Is Permanent Cosmetic</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-column">
+  </div>
+  <div class="form-column">
   </div>
 </div>
 }
 }
-
-<br>
-{{ editingData | json }}

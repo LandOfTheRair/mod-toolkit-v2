@@ -105,6 +105,7 @@ export class ItemsEditorComponent
     item.equipEffect ??= { name: '', potency: 0 };
     item.breakEffect ??= { name: '', potency: 0 };
     item.requirements ??= { baseClass: undefined, level: 0 };
+    item.cosmetic ??= { name: '', isPermanent: false };
 
     this.editing.set(item);
   }
@@ -312,6 +313,10 @@ export class ItemsEditorComponent
       !item.requirements.level
     ) {
       delete item.requirements;
+    }
+
+    if (item.cosmetic && !item.cosmetic.name) {
+      delete item.cosmetic;
     }
   }
 
