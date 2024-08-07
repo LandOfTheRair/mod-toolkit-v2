@@ -16,6 +16,8 @@ import { SpriteComponent } from './components/sprite/sprite.component';
 import { WebviewDirective } from './directives/';
 import { InputStatComponent } from './components/input-stat/input-stat.component';
 import { EditorBaseComponent } from './components/editor-base/editor-base.component';
+import { InputDamageclassComponent } from './components/input-damageclass/input-damageclass.component';
+import { InputItemComponent } from './components/input-item/input-item.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { EditorBaseComponent } from './components/editor-base/editor-base.compon
     HeaderButtonsComponent,
     InputStatComponent,
     EditorBaseComponent,
+    InputDamageclassComponent,
+    InputItemComponent,
   ],
   imports: [CommonModule, FormsModule, NgSelectModule, SweetAlert2Module],
   exports: [
@@ -46,6 +50,8 @@ import { EditorBaseComponent } from './components/editor-base/editor-base.compon
     HeaderButtonsComponent,
     InputStatComponent,
     EditorBaseComponent,
+    InputDamageclassComponent,
+    InputItemComponent,
   ],
 })
 export class SharedModule {}

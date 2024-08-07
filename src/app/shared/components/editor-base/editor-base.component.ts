@@ -30,6 +30,7 @@ export class EditorBaseComponent<T> {
   }
 
   doSave() {
+    console.log('[SAVE DATA]', this.editing());
     this.save.emit(this.editing());
   }
 }

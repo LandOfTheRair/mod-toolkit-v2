@@ -9,6 +9,7 @@ export const defaultItem: () => IItemDefinition = () => ({
   value: 1,
   sellValue: 0,
   desc: 'an item',
+  damageClass: 'physical',
   stats: {},
   randomStats: {},
   type: 'Martial',

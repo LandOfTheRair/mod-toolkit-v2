@@ -15,6 +15,8 @@ const divisors: Record<SpriteType, number> = {
 export class SpriteComponent {
   public sprite = input.required<number>();
   public type = input.required<'items' | 'creatures'>();
+  public scale = input<number>(1);
+
   public size = computed(() => divisors[this.type()]);
 
   public objectPosition = computed(() => {

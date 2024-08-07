@@ -50,6 +50,8 @@ export enum DamageClass {
   Blunt = 'blunt',
 }
 
+export type DamageClassType = `${DamageClass}`;
+
 export enum BaseClass {
   Traveller = 'Traveller',
   Mage = 'Mage',

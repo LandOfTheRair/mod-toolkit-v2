@@ -1,0 +1,6 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values" groupBy="category" [(ngModel)]="damageClass"
+    placeholder="Select damage class..." (change)="change.emit($event.value)"></ng-select>
+
+  <app-input-floating-label>Damage Class</app-input-floating-label>
+</div>

@@ -4,7 +4,7 @@ import {
   Alignment,
   BaseClass,
   CurrencyType,
-  DamageClass,
+  DamageClassType,
   ItemSlot,
   RandomNumber,
   Rollable,
@@ -67,7 +67,7 @@ export interface IWeapon {
   attackRange?: number;
 
   // the damage class of the item (defaults to physical)
-  damageClass?: DamageClass;
+  damageClass: DamageClassType;
 
   // whether of not the item can shoot ammo from the offhand
   canShoot?: boolean;

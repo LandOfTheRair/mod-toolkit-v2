@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, Signal, signal } from '@angular/core';
 import { sortBy } from 'lodash';
 import {
   IItemDefinition,
@@ -36,6 +36,37 @@ export class ItemsEditorComponent
     { name: 'Miscellaneous' },
   ];
 
+  public readonly propTypes: Partial<
+    Record<
+      keyof IItemDefinition,
+      | 'number'
+      | 'boolean'
+      | 'string'
+      | 'damageClass'
+      | 'succorInfo'
+      | 'containedItems'
+    >
+  > = {
+    tier: 'number',
+    shots: 'number',
+    proneChance: 'number',
+    attackRange: 'number',
+    isHeavy: 'boolean',
+    twoHanded: 'boolean',
+    offhand: 'boolean',
+    returnsOnThrow: 'boolean',
+    canShoot: 'boolean',
+    ounces: 'number',
+    bookPages: 'number',
+    bookFindablePages: 'number',
+    bookItemFilter: 'string',
+    trapUses: 'number',
+    damageClass: 'damageClass',
+    succorInfo: 'succorInfo',
+    containedItems: 'containedItems',
+  };
+
+  public currentItem = signal<IItemDefinition | undefined>(undefined);
   public currentStat = signal<StatType>('agi');
   public allStatEdits = signal<StatEdit[]>([]);
 
@@ -53,14 +84,15 @@ export class ItemsEditorComponent
     return sortBy(this.allStatEdits(), 'stat');
   });
 
-  public extraProps = computed(() => {
-    return (
-      typePropSets[this.editing().itemClass]?.filter((s) => s !== 'stats') ?? []
-    );
+  public extraProps: Signal<(keyof IItemDefinition)[]> = computed(() => {
+    return (typePropSets[this.editing().itemClass]
+      ?.filter((s) => s !== 'stats')
+      .sort() ?? []) as unknown as (keyof IItemDefinition)[];
   });
 
   ngOnInit() {
     this.extractStats(this.editing());
+    this.addItemClassMissingProps(this.editing().itemClass);
   }
 
   public changeItemClass(newItemClass: ItemClassType) {
@@ -73,9 +105,24 @@ export class ItemsEditorComponent
       this.update('secondaryType', propChanges.s);
     }
 
+    this.removeOldItemClassMissingProps(oldItemClass);
+    this.addItemClassMissingProps(newItemClass);
+  }
+
+  private removeOldItemClassMissingProps(oldItemClass: ItemClassType) {
     const oldPropSets = typePropSets[oldItemClass];
     if (oldPropSets) {
       oldPropSets.forEach((prop) => {
+        if (prop === 'containedItems') {
+          return;
+        }
+        if (prop === 'succorInfo') {
+          this.editing.update((i) => {
+            delete i.succorInfo;
+            return i;
+          });
+          return;
+        }
         if (prop === 'stats') {
           Object.keys(typePropDefaults[oldItemClass].stats).forEach(
             (statKey) => {
@@ -88,10 +135,24 @@ export class ItemsEditorComponent
         this.update(prop as keyof IItemDefinition, undefined);
       });
     }
+  }
 
+  private addItemClassMissingProps(newItemClass: ItemClassType) {
     const extraPropSets = typePropSets[newItemClass];
     if (extraPropSets) {
       extraPropSets.forEach((prop) => {
+        if (prop === 'containedItems') {
+          return;
+        }
+        if (prop === 'succorInfo') {
+          if (this.editing().succorInfo) return;
+
+          this.editing.update((i) => ({
+            ...i,
+            succorInfo: { map: '', x: 0, y: 0 },
+          }));
+          return;
+        }
         if (prop === 'stats') {
           Object.keys(typePropDefaults[newItemClass].stats).forEach(
             (statKey) => {
@@ -179,9 +240,49 @@ export class ItemsEditorComponent
     });
   }
 
+  public addContainedItem() {
+    const addItem = this.currentItem();
+    if (!addItem) return;
+
+    const item = this.editing();
+    item.containedItems ??= [];
+
+    item.containedItems.push({
+      chance: 1,
+      result: addItem.name,
+    });
+
+    this.editing.set(item);
+  }
+
+  public removeContainedItem(index: number) {
+    const item = this.editing();
+
+    item.containedItems?.splice(index, 1);
+
+    this.editing.set(item);
+  }
+
+  private cleanUpItem(item: IItemDefinition) {
+    if (item.succorInfo) {
+      if (!item.succorInfo.map) {
+        delete item.succorInfo;
+      }
+    }
+
+    if (item.containedItems) {
+      if (item.containedItems.length === 0) {
+        delete item.containedItems;
+      }
+    }
+  }
+
   public doSave() {
     const item = this.editing();
     this.assignStats(item);
+    this.cleanUpItem(item);
+    this.editing.set(item);
+
     super.doSave();
   }
 }

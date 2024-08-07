@@ -124,10 +124,10 @@ export class ModService {
 
   public editItem(oldItem: IItemDefinition, newItem: IItemDefinition) {
     const mod = this.mod();
-    const foundItem = mod.items.find((i) => i.name === oldItem.name);
-    if (!foundItem) return;
+    const foundItemIdx = mod.items.findIndex((i) => i.name === oldItem.name);
+    if (foundItemIdx === -1) return;
 
-    Object.assign(foundItem, newItem);
+    mod.items[foundItemIdx] = newItem;
 
     this.updateMod(mod);
   }
