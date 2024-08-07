@@ -60,6 +60,8 @@ export enum BaseClass {
   Warrior = 'Warrior',
 }
 
+export type BaseClassType = `${BaseClass}`;
+
 export enum ItemSlot {
   Head = 'head',
   Neck = 'neck',

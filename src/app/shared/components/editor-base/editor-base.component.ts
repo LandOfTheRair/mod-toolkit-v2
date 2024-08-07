@@ -1,4 +1,12 @@
-import { Component, model, output, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  model,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
+import { LocalStorageService } from 'ngx-webstorage';
 
 type Tab = { name: string };
 
@@ -7,7 +15,10 @@ type Tab = { name: string };
   templateUrl: './editor-base.component.html',
   styleUrl: './editor-base.component.scss',
 })
-export class EditorBaseComponent<T> {
+export class EditorBaseComponent<T> implements OnInit {
+  private localStorage = inject(LocalStorageService);
+
+  public readonly key: string = '';
   public readonly tabs: Tab[] = [];
 
   public activeTab = signal<number>(0);
@@ -19,10 +30,22 @@ export class EditorBaseComponent<T> {
 
   public changeTab(tab: number) {
     this.activeTab.set(tab);
+    this.localStorage.store(`${this.key}-tabs`, tab);
   }
 
   public update(key: keyof T, value: any) {
     this.editing.update((editing) => ({ ...editing, [key]: value }));
+  }
+
+  ngOnInit() {
+    this.initTabs();
+  }
+
+  private initTabs() {
+    const oldTab = +this.localStorage.retrieve(`${this.key}-tabs`);
+    if (oldTab) {
+      this.activeTab.set(oldTab);
+    }
   }
 
   doBack() {

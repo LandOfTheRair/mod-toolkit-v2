@@ -30,6 +30,7 @@ export class ItemsEditorComponent
   extends EditorBaseComponent<IItemDefinition>
   implements OnInit
 {
+  public readonly key = 'items';
   public readonly tabs = [
     { name: 'Core Stats' },
     { name: 'Traits, Effects & Requirements' },
@@ -92,7 +93,20 @@ export class ItemsEditorComponent
 
   ngOnInit() {
     this.extractStats(this.editing());
+    this.resetProps(this.editing());
     this.addItemClassMissingProps(this.editing().itemClass);
+
+    super.ngOnInit();
+  }
+
+  private resetProps(item: IItemDefinition) {
+    item.strikeEffect ??= { name: '', potency: 0, duration: 0, chance: 0 };
+    item.useEffect ??= { name: '', potency: 0, duration: 0 };
+    item.equipEffect ??= { name: '', potency: 0 };
+    item.breakEffect ??= { name: '', potency: 0 };
+    item.requirements ??= { baseClass: undefined, level: 0 };
+
+    this.editing.set(item);
   }
 
   public changeItemClass(newItemClass: ItemClassType) {
@@ -274,6 +288,30 @@ export class ItemsEditorComponent
       if (item.containedItems.length === 0) {
         delete item.containedItems;
       }
+    }
+
+    if (item.strikeEffect && !item.strikeEffect.name) {
+      delete item.strikeEffect;
+    }
+
+    if (item.useEffect && !item.useEffect.name) {
+      delete item.useEffect;
+    }
+
+    if (item.equipEffect && !item.equipEffect.name) {
+      delete item.equipEffect;
+    }
+
+    if (item.breakEffect && !item.breakEffect.name) {
+      delete item.breakEffect;
+    }
+
+    if (
+      item.requirements &&
+      !item.requirements.baseClass &&
+      !item.requirements.level
+    ) {
+      delete item.requirements;
     }
   }
 

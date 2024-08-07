@@ -1,0 +1,17 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values()" [(ngModel)]="effect" placeholder="Select effect..."
+    (change)="change.emit($event?.value)">
+
+    <ng-template ng-option-tmp let-item="item">
+      <div class="relative">
+        <div class="text-white">
+          {{ item.value }}
+        </div>
+
+        <p class="text-white text-sm italic">{{ item.desc }}</p>
+      </div>
+    </ng-template>
+  </ng-select>
+
+  <app-input-floating-label>{{ label() }}</app-input-floating-label>
+</div>

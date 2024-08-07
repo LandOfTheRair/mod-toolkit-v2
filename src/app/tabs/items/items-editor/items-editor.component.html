@@ -338,11 +338,116 @@
 }
 
 @case (1) {
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-trait [(trait)]="editingData.trait!.name" label="Trait"></app-input-trait>
+    </div>
 
+    <div class="form-row">
+      <app-input-floating-label>Trait Level</app-input-floating-label>
+      <input [(ngModel)]="editingData.trait!.level" type="number" min="0" placeholder="Enter level..."
+        class="form-input" />
+    </div>
+
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-effect [effect]="editingData.useEffect!.name" (change)="editingData.useEffect!.name = $event"
+        label="Use Effect"></app-input-effect>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Use Potency</app-input-floating-label>
+      <input [(ngModel)]="editingData.useEffect!.potency" type="number" min="0" placeholder="Enter potency..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Use Duration</app-input-floating-label>
+      <input [(ngModel)]="editingData.useEffect!.duration" type="number" min="-1" placeholder="Enter duration..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <label class="label cursor-pointer" floatUi="Whether or not the effect can be applied via Thief Apply.">
+        <input type="checkbox" [(ngModel)]="editingData.useEffect!.canApply" class="checkbox" />
+        <span class="label-text">Can Apply Use Effect Via Thief Apply</span>
+      </label>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="form-row">
+      <app-input-effect [effect]="editingData.strikeEffect!.name" (change)="editingData.strikeEffect!.name = $event"
+        label="Strike Effect"></app-input-effect>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Strike Potency</app-input-floating-label>
+      <input [(ngModel)]="editingData.strikeEffect!.potency" type="number" min="0" placeholder="Enter potency..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Strike Duration</app-input-floating-label>
+      <input [(ngModel)]="editingData.strikeEffect!.duration" type="number" min="-1" placeholder="Enter duration..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Strike Chance</app-input-floating-label>
+      <input [(ngModel)]="editingData.strikeEffect!.chance" type="number" min="0" max="100"
+        placeholder="Enter chance..." class="form-input" />
+    </div>
+
+    <hr class="my-4">
+
+    <div class="form-row">
+      <app-input-effect [effect]="editingData.equipEffect!.name" (change)="editingData.equipEffect!.name = $event"
+        label="Equip Effect"></app-input-effect>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Equip Potency</app-input-floating-label>
+      <input [(ngModel)]="editingData.equipEffect!.potency" type="number" min="0" placeholder="Enter potency..."
+        class="form-input" />
+    </div>
+
+    <hr class="my-4">
+
+    <div class="form-row">
+      <app-input-effect [effect]="editingData.breakEffect!.name" (change)="editingData.breakEffect!.name = $event"
+        label="Break Effect"></app-input-effect>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Break Potency</app-input-floating-label>
+      <input [(ngModel)]="editingData.breakEffect!.potency" type="number" min="0" placeholder="Enter potency..."
+        class="form-input" />
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-class [(playerClass)]="editingData.requirements!.baseClass" label="Required Class"></app-input-class>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Required Level</app-input-floating-label>
+      <input [(ngModel)]="editingData.requirements!.level" type="number" min="0" placeholder="Enter required level..."
+        class="form-input" />
+    </div>
+  </div>
+</div>
 }
 
 @case (2) {
-
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+  </div>
+</div>
 }
 }
 

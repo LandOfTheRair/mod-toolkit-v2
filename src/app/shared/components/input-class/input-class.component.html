@@ -1,0 +1,6 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values" [(ngModel)]="playerClass" placeholder="Select player class..."
+    (change)="change.emit($event)"></ng-select>
+
+  <app-input-floating-label>{{ label() }}</app-input-floating-label>
+</div>

@@ -2,7 +2,7 @@
 
 import {
   Alignment,
-  BaseClass,
+  BaseClassType,
   CurrencyType,
   DamageClassType,
   ItemSlot,
@@ -29,7 +29,7 @@ export type IItemEncrust = { strikeEffect: IItemEffect } & {
 
 export interface IItemRequirements {
   alignment?: Alignment;
-  baseClass?: BaseClass;
+  baseClass?: BaseClassType;
   level?: number;
   quest?: string;
 }

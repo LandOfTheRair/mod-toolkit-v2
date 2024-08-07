@@ -1,7 +1,7 @@
 <div class="relative">
   <ng-select class="form-control" [clearable]="false" [items]="values" bindLabel="value" bindValue="value"
     groupBy="category" [(ngModel)]="itemClass" placeholder="Select item type..."
-    (change)="change.emit($event.value)"></ng-select>
+    (change)="change.emit($event?.value)"></ng-select>
 
   <app-input-floating-label>{{ label() }}</app-input-floating-label>
 </div>

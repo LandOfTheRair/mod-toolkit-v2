@@ -1,4 +1,4 @@
-import { Component, input, model } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 import { Skill } from '../../../../interfaces';
 
 @Component({
@@ -9,6 +9,7 @@ import { Skill } from '../../../../interfaces';
 export class InputSkillComponent {
   public skill = model.required<string>();
   public label = input<string>('Skill');
+  public change = output<string>();
 
   public values = [...Object.keys(Skill)];
 }
