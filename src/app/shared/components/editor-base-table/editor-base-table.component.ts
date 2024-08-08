@@ -30,9 +30,11 @@ export class EditorBaseTableComponent<T> {
     this.isEditing.set(false);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public saveNewData(data: T) {
     this.isEditing.set(false);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public deleteData(data: T) {}
 }
