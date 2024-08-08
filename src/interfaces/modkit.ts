@@ -1,5 +1,6 @@
-import { Rollable } from './building-blocks';
+import { IDroptable } from './droptable';
 import { IItemDefinition } from './item';
+import { IEditorMap } from './map';
 import { INPCDefinition } from './npc';
 import { INPCScript } from './npcscript';
 import { IQuest } from './quest';
@@ -17,10 +18,10 @@ export interface IModKit {
 
   npcs: INPCDefinition[];
   items: IItemDefinition[];
-  drops: Array<{ mapName?: string; regionName?: string; drops: Rollable[] }>;
+  drops: IDroptable[];
   spawners: ISpawnerData[];
   recipes: IRecipe[];
-  maps: any[];
+  maps: IEditorMap[];
   quests: IQuest[];
   dialogs: INPCScript[];
 }

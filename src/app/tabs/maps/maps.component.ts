@@ -7,13 +7,14 @@ import {
 } from '@angular/core';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { ColDef } from 'ag-grid-community';
+import { IEditorMap } from '../../../interfaces/map';
 import { ElectronService } from '../../services/electron.service';
 import { NotifyService } from '../../services/notify.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
 import { HeaderButtonsComponent } from '../../shared/components/header-buttons/header-buttons.component';
 
-type EditingType = { name: string; map: any };
+type EditingType = IEditorMap;
 
 @Component({
   selector: 'app-maps',

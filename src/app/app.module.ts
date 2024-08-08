@@ -52,5 +52,6 @@ import { AppComponent } from './app.component';
       withLocalStorage()
     ),
   ],
+  exports: [],
 })
 export class AppModule {}

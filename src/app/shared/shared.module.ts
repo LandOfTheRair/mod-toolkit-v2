@@ -25,6 +25,9 @@ import { InputTraitComponent } from './components/input-trait/input-trait.compon
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { SpriteComponent } from './components/sprite/sprite.component';
 import { WebviewDirective } from './directives/';
+import { InputMapComponent } from './components/input-map/input-map.component';
+import { InputRegionComponent } from './components/input-region/input-region.component';
+import { InputHolidayComponent } from './components/input-holiday/input-holiday.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,9 @@ import { WebviewDirective } from './directives/';
     InputClassComponent,
     EditorViewTableComponent,
     EditorBaseTableComponent,
+    InputMapComponent,
+    InputRegionComponent,
+    InputHolidayComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +82,9 @@ import { WebviewDirective } from './directives/';
     InputClassComponent,
     EditorViewTableComponent,
     EditorBaseTableComponent,
+    InputMapComponent,
+    InputRegionComponent,
+    InputHolidayComponent,
   ],
 })
 export class SharedModule {}

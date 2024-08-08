@@ -1,6 +1,6 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 
-import { IModKit } from '../../interfaces';
+import { IEditorMap, IModKit } from '../../interfaces';
 import { ModService } from './mod.service';
 import { NotifyService } from './notify.service';
 
@@ -49,8 +49,8 @@ export class ElectronService {
       this.notifyService[type as keyof NotifyService]({ message: text });
     });
 
-    window.api.receive('newmap', (mapData) => {
-      this.modService.addMap(mapData as { name: string; map: any });
+    window.api.receive('newmap', (mapData: IEditorMap) => {
+      this.modService.addMap(mapData);
     });
 
     window.api.receive('renamemap', (nameData) => {

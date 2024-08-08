@@ -8,6 +8,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { NgxFloatUiModule } from 'ngx-float-ui';
 import { SharedModule } from '../shared/shared.module';
 import { DialogsComponent } from '../tabs/dialogs/dialogs.component';
+import { DroptablesEditorComponent } from '../tabs/droptables/droptables-editor/droptables-editor.component';
 import { DroptablesComponent } from '../tabs/droptables/droptables.component';
 import { ItemsEditorComponent } from '../tabs/items/items-editor/items-editor.component';
 import { ItemsComponent } from '../tabs/items/items.component';
@@ -23,6 +24,7 @@ import { HomeComponent } from './home.component';
     HomeComponent,
     DialogsComponent,
     DroptablesComponent,
+    DroptablesEditorComponent,
     ItemsComponent,
     ItemsEditorComponent,
     MapsComponent,

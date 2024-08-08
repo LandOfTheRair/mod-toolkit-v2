@@ -1,0 +1,6 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values()" groupBy="category" [(ngModel)]="region"
+    placeholder="Select region..." (change)="change.emit($event?.value)"></ng-select>
+
+  <app-input-floating-label>Region</app-input-floating-label>
+</div>

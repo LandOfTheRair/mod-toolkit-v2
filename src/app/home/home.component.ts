@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
@@ -16,14 +16,32 @@ export class HomeComponent {
   public activeTab = signal<string>('Maps');
 
   public tabOrder = [
-    { name: 'Maps' },
-    { name: 'Items' },
-    { name: 'NPCs' },
-    { name: 'Droptables' },
-    { name: 'Recipes' },
-    { name: 'Spawners' },
-    { name: 'Dialogs' },
-    { name: 'Quests' },
+    { name: 'Maps', count: computed(() => this.modService.mod().maps.length) },
+    {
+      name: 'Items',
+      count: computed(() => this.modService.mod().items.length),
+    },
+    { name: 'NPCs', count: computed(() => this.modService.mod().npcs.length) },
+    {
+      name: 'Droptables',
+      count: computed(() => this.modService.mod().drops.length),
+    },
+    {
+      name: 'Recipes',
+      count: computed(() => this.modService.mod().recipes.length),
+    },
+    {
+      name: 'Spawners',
+      count: computed(() => this.modService.mod().spawners.length),
+    },
+    {
+      name: 'Dialogs',
+      count: computed(() => this.modService.mod().dialogs.length),
+    },
+    {
+      name: 'Quests',
+      count: computed(() => this.modService.mod().quests.length),
+    },
   ];
 
   constructor() {

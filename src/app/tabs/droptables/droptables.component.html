@@ -1,1 +1,13 @@
-<p>droptables works!</p>
+@if(!isEditing()) {
+@if(!canEdit()) {
+<div class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl">
+  Add items and maps first.
+</div>
+} @else {
+<app-editor-view-table [dataType]="'droptables'" [tableColumns]="tableColumns" [tableItems]="tableItems()"
+  (create)="createNew()"></app-editor-view-table>
+}
+} @else {
+<app-droptables-editor class="h-full w-full" [editing]="editingData()" (goBack)="cancelEditing()"
+  (save)="saveNewData($event)"></app-droptables-editor>
+}

@@ -1,6 +1,11 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
-import { IItemDefinition, IModKit } from '../../interfaces';
+import {
+  IDroptable,
+  IEditorMap,
+  IItemDefinition,
+  IModKit,
+} from '../../interfaces';
 
 export function defaultModKit(): IModKit {
   return {
@@ -31,6 +36,9 @@ export class ModService {
   public mod = signal<IModKit>(defaultModKit());
   public modName = computed(() => this.mod().meta.name);
   public modAuthor = computed(() => this.mod().meta.author);
+
+  public availableItems = computed(() => this.mod().items);
+  public availableMaps = computed(() => this.mod().maps);
 
   public json = signal<Record<string, any>>({});
 
@@ -101,12 +109,12 @@ export class ModService {
     });
   }
 
-  public importMap(incomingMap: { name: string; map: any }) {
+  public importMap(incomingMap: IEditorMap) {
     this.addMap(incomingMap);
     window.api.send('ENSURE_MAP', { ...incomingMap });
   }
 
-  public addMap(incomingMap: { name: string; map: any }) {
+  public addMap(incomingMap: IEditorMap) {
     if (incomingMap.name === 'Template') return;
 
     const mod = this.mod();
@@ -160,7 +168,7 @@ export class ModService {
     this.updateMod(mod);
   }
 
-  public removeMap(removeMap: { name: string; map: any }) {
+  public removeMap(removeMap: IEditorMap) {
     const mod = this.mod();
     const existingMap = mod.maps.findIndex((x) => x.name === removeMap.name);
     if (existingMap !== -1) {
@@ -191,6 +199,31 @@ export class ModService {
   public removeItem(item: IItemDefinition) {
     const mod = this.mod();
     mod.items = mod.items.filter((i) => i !== item);
+
+    this.updateMod(mod);
+  }
+
+  // droptable functions
+  public addDroptable(item: IDroptable) {
+    const mod = this.mod();
+    mod.drops.push(item);
+
+    this.updateMod(mod);
+  }
+
+  public editDroptable(oldItem: IDroptable, newItem: IDroptable) {
+    const mod = this.mod();
+    const foundItemIdx = mod.drops.findIndex((i) => i === oldItem);
+    if (foundItemIdx === -1) return;
+
+    mod.drops[foundItemIdx] = newItem;
+
+    this.updateMod(mod);
+  }
+
+  public removeDroptable(item: IDroptable) {
+    const mod = this.mod();
+    mod.drops = mod.drops.filter((i) => i !== item);
 
     this.updateMod(mod);
   }

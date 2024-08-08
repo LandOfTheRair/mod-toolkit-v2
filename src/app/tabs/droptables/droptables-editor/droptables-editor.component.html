@@ -1,0 +1,58 @@
+@let editingData = editing();
+
+<div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+
+  <div class="tab flex flex-row justify-end">
+    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
+    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()">Save</button>
+  </div>
+
+</div>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-item [item]="currentItem()" (change)="update('result', $event)"></app-input-item>
+    </div>
+
+    <div class="form-row">
+      <app-input-map [(map)]="editingData.mapName"
+        (change)="update('regionName', undefined); update('isGlobal', false)"></app-input-map>
+    </div>
+
+    <div class="form-row">
+      <app-input-region [(region)]="editingData.regionName"
+        (change)="update('mapName', undefined); update('isGlobal', false)"></app-input-region>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Chance to Drop (1/X)</app-input-floating-label>
+      <input [(ngModel)]="editingData.maxChance" (ngModelChange)="update('maxChance', $event)" type="number" min="0"
+        placeholder="Choose drop chance..." class="form-input" />
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <label class="label cursor-pointer" floatUi="Whether or not to utilize LUK when trying to get this item.">
+        <input type="checkbox" [(ngModel)]="editingData.noLuckBonus" class="checkbox" />
+        <span class="label-text">Disallow LUK Bonus</span>
+      </label>
+    </div>
+
+    <div class="form-row">
+      <label class="label cursor-pointer" floatUi="Whether or not this item should actually drop on every map.">
+        <input type="checkbox" [(ngModel)]="editingData.isGlobal"
+          (ngModelChange)="update('regionName', undefined); update('mapName', undefined); update('isGlobal', $event)"
+          class="checkbox" />
+        <span class="label-text">Is Global Drop</span>
+      </label>
+    </div>
+
+    <div class="form-row">
+      <app-input-holiday [(holiday)]="editingData.requireHoliday"></app-input-holiday>
+    </div>
+  </div>
+</div>
+
+{{ editingData | json }}
