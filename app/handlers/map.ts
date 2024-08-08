@@ -10,6 +10,8 @@ export const fixTiledMapPaths = (map: any) => {
 
 export function ensureMap(mapName: string, mapData: any) {
   const path = `${baseUrl}/resources/maps/src/content/maps/custom/${mapName}.json`;
+  if (fs.existsSync(path)) return;
+
   fs.writeFileSync(path, JSON.stringify(mapData));
 }
 

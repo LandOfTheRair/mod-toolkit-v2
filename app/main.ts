@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as handlers from './handlers';
 import { baseUrl } from './helpers';
-import { setupIPC } from './ipc';
+import { setupIPC, watchMaps } from './ipc';
 import { SendToUI } from './types';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -32,11 +32,13 @@ const handleSetup = async () => {
   let isReady = false;
 
   if (!fs.existsSync(baseUrl + '/resources/.loaded')) {
+    sendToUI('firstload');
     sendToUI('notify', {
       type: 'info',
       text: 'Loading resources for first time launch...',
     });
     await handlers.updateResources(sendToUI);
+    watchMaps(sendToUI);
     sendToUI('notify', {
       type: 'success',
       text: 'Spritesheets and game data have been installed.',

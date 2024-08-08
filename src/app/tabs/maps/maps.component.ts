@@ -34,7 +34,7 @@ export class MapsComponent extends EditorBaseTableComponent<EditingType> {
   public tableColumns: ColDef[] = [
     {
       field: 'name',
-      flex: 1,
+      flex: 2,
       cellDataType: 'text',
       filter: 'agTextColumnFilter',
       sort: 'asc',

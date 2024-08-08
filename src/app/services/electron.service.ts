@@ -19,6 +19,7 @@ declare global {
 })
 export class ElectronService {
   public isLoaded = signal<boolean>(false);
+  public isFirstLoad = signal<boolean>(false);
 
   private modService = inject(ModService);
   private notifyService = inject(NotifyService);
@@ -37,6 +38,11 @@ export class ElectronService {
 
     window.api.receive('ready', () => {
       this.isLoaded.set(true);
+      this.isFirstLoad.set(false);
+    });
+
+    window.api.receive('firstload', () => {
+      this.isFirstLoad.set(true);
     });
 
     window.api.receive('notify', ({ type, text }) => {

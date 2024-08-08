@@ -55,6 +55,16 @@
 
   </div>
 
+  @if(electronService.isFirstLoad()) {
+  <div class="root-content px-3">
+    <div class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl">
+      First time load detected.
+      <br><br>
+      Loading necessary resources to use the modding tools...
+    </div>
+  </div>
+  }
+
   @if(electronService.isLoaded()) {
   <div class="root-content p-3">
     <div class="card bg-base-100 w-full shadow-xl">
@@ -101,9 +111,7 @@
   @else {
   <div class="root-content px-3">
     <div class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl">
-      First time load detected.
-      <br><br>
-      Loading necessary resources to use the modding tools...
+      <span class="loading loading-ring loading-lg"></span>
     </div>
   </div>
   }
