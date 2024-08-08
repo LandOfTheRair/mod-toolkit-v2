@@ -1,1 +1,10 @@
-<p>maps works!</p>
+<app-editor-view-table [dataType]="'maps'" [tableColumns]="tableColumns" [tableItems]="tableItems()" [showImport]="true"
+  (create)="createNewDialog()" (import)="importDialog()"></app-editor-view-table>
+
+<input #mapUpload type="file" multiple (change)="importMaps($event)" accept="application/json" class="hidden" />
+
+<swal #newSwal title="Create New Map" text="What would you like to name your map?" input="text" icon="question"
+  [showCancelButton]="true" [focusCancel]="true"></swal>
+
+<swal #renameSwal title="Rename Map" text="What would you like to rename your map to?" input="text" icon="question"
+  [showCancelButton]="true" [focusCancel]="true"></swal>

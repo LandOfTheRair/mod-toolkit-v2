@@ -1,0 +1,19 @@
+@let allData = tableItems();
+
+@if(allData.length === 0) {
+<div class="w-full h-full vh- flex flex-col flex-nowrap justify-center items-center text-center text-3xl">
+  You don't have any {{ dataType() }}.
+
+  <button class="mt-4 btn btn-secondary" (click)="create.emit()">Add one</button>
+
+  @if(showImport()) {
+  <button class="mt-4 btn btn-secondary" (click)="import.emit()">Import one</button>
+  }
+</div>
+
+} @else {
+<div>
+  <ag-grid-angular class="ag-theme-quartz-dark -m-6" [rowHeight]="70" [rowData]="allData" [columnDefs]="tableColumns()"
+    [pagination]="true" [paginationPageSize]="20"></ag-grid-angular>
+</div>
+}

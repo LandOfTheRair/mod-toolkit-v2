@@ -1,19 +1,6 @@
 @if(!isEditing()) {
-@let allData = tableItems();
-
-@if(allData.length === 0) {
-<div class="w-full h-full vh- flex flex-col flex-nowrap justify-center items-center text-center text-3xl">
-  You don't have any {{ dataType }}.
-
-  <button class="mt-4 btn btn-secondary" (click)="createNew()">Add one</button>
-</div>
-
-} @else {
-<div>
-  <ag-grid-angular class="ag-theme-quartz-dark -m-6" [rowHeight]="70" [rowData]="tableItems()"
-    [columnDefs]="tableColumns" [pagination]="true" [paginationPageSize]="20"></ag-grid-angular>
-</div>
-}
+<app-editor-view-table [dataType]="'items'" [tableColumns]="tableColumns" [tableItems]="tableItems()"
+  (create)="createNew()"></app-editor-view-table>
 } @else {
 <app-items-editor class="h-full w-full" [editing]="editingData()" (goBack)="cancelEditing()"
   (save)="saveNewData($event)"></app-items-editor>

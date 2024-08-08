@@ -44,7 +44,7 @@ export class ElectronService {
     });
 
     window.api.receive('newmap', (mapData) => {
-      this.modService.addMap(mapData);
+      this.modService.addMap(mapData as { name: string; map: any });
     });
 
     window.api.receive('renamemap', (nameData) => {
@@ -52,6 +52,10 @@ export class ElectronService {
         nameData.oldName as string,
         nameData.newName as string
       );
+    });
+
+    window.api.receive('copymap', (nameData) => {
+      this.modService.copyMap(nameData.mapName as string);
     });
 
     window.api.receive('json', (jsonData) => {

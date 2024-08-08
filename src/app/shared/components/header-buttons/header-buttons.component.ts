@@ -5,6 +5,8 @@ import { IHeaderParams } from 'ag-grid-community';
 type AllHeaderParams = IHeaderParams & {
   showNewButton: boolean;
   newCallback: () => void;
+  showImportButton: boolean;
+  importCallback: () => void;
 };
 
 @Component({

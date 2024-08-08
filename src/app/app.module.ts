@@ -14,6 +14,11 @@ import { HomeModule } from './home/home.module';
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import {
+  NgxFloatUiModule,
+  NgxFloatUiPlacements,
+  NgxFloatUiTriggers,
+} from 'ngx-float-ui';
+import {
   provideNgxWebstorage,
   withLocalStorage,
   withNgxWebstorageConfig,
@@ -29,6 +34,12 @@ import { AppComponent } from './app.component';
     SharedModule,
     HomeModule,
     AppRoutingModule,
+    NgxFloatUiModule.forRoot({
+      trigger: NgxFloatUiTriggers.hover,
+      showDelay: 500,
+      placement: NgxFloatUiPlacements.TOPEND,
+      appendTo: 'body',
+    }),
     SweetAlert2Module.forRoot({
       provideSwal: () => import('sweetalert2/dist/sweetalert2.js'),
     }),

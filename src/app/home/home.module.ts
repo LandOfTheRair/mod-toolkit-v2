@@ -5,11 +5,7 @@ import { HomeRoutingModule } from './home-routing.module';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AgGridModule } from 'ag-grid-angular';
-import {
-  NgxFloatUiModule,
-  NgxFloatUiPlacements,
-  NgxFloatUiTriggers,
-} from 'ngx-float-ui';
+import { NgxFloatUiModule } from 'ngx-float-ui';
 import { SharedModule } from '../shared/shared.module';
 import { DialogsComponent } from '../tabs/dialogs/dialogs.component';
 import { DroptablesComponent } from '../tabs/droptables/droptables.component';
@@ -41,11 +37,7 @@ import { HomeComponent } from './home.component';
     HomeRoutingModule,
     SweetAlert2Module,
     AgGridModule,
-    NgxFloatUiModule.forRoot({
-      trigger: NgxFloatUiTriggers.hover,
-      showDelay: 500,
-      placement: NgxFloatUiPlacements.TOPEND,
-    }),
+    NgxFloatUiModule,
   ],
 })
 export class HomeModule {}

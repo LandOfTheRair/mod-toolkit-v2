@@ -73,8 +73,38 @@ export function setupIPC(sendToUI: SendToUI) {
   });
 
   ipcMain.on('RENAME_MAP', async (e: any, data: any) => {
-    handlers.renameMap(data.oldName, data.newName);
-    sendToUI('renamemap', data);
+    try {
+      handlers.renameMap(data.oldName, data.newName);
+      sendToUI('renamemap', data);
+    } catch (e) {
+      sendToUI('notify', {
+        type: 'error',
+        text: 'A map by that name already exists.',
+      });
+    }
+  });
+
+  ipcMain.on('REMOVE_MAP', async (e: any, data: any) => {
+    try {
+      handlers.removeMap(data.mapName);
+    } catch (e) {
+      sendToUI('notify', {
+        type: 'error',
+        text: 'Could not fully delete map for some reason.',
+      });
+    }
+  });
+
+  ipcMain.on('COPY_MAP', async (e: any, data: any) => {
+    try {
+      handlers.copyMap(data.mapName);
+      sendToUI('copymap', data);
+    } catch (e) {
+      sendToUI('notify', {
+        type: 'error',
+        text: 'A map by that name already exists.',
+      });
+    }
   });
 
   ipcMain.on('EDIT_MAP', async (e: any, data: any) => {

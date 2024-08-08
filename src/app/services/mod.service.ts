@@ -44,6 +44,8 @@ export class ModService {
       const newModData = this.mod();
       this.localStorage.store('mod', newModData);
     });
+
+    this.ensureMapsExist();
   }
 
   // mod functions
@@ -93,11 +95,43 @@ export class ModService {
   }
 
   // map functions
-  public addMap(map: any) {
-    if (map.name === 'Template') return;
+  private ensureMapsExist() {
+    this.mod().maps.forEach((map) => {
+      window.api.send('ENSURE_MAP', { ...map });
+    });
+  }
+
+  public importMap(incomingMap: { name: string; map: any }) {
+    this.addMap(incomingMap);
+    window.api.send('ENSURE_MAP', { ...incomingMap });
+  }
+
+  public addMap(incomingMap: { name: string; map: any }) {
+    if (incomingMap.name === 'Template') return;
 
     const mod = this.mod();
-    mod.maps.push(map);
+    if (!mod.meta.name) mod.meta.name = incomingMap.name;
+
+    const existingMap = mod.maps.findIndex((x) => x.name === incomingMap.name);
+    if (existingMap !== -1) {
+      mod.maps.splice(existingMap, 1, incomingMap);
+    } else {
+      mod.maps.push(incomingMap);
+    }
+
+    this.updateMod(mod);
+  }
+
+  public copyMap(mapName: string) {
+    const mod = this.mod();
+
+    const existingMap = mod.maps.find((x) => x.name === mapName);
+    if (!existingMap) return;
+
+    const newMap = structuredClone(existingMap);
+    newMap.name = `${mapName} (copy)`;
+
+    mod.maps.push(newMap);
 
     this.updateMod(mod);
   }
@@ -110,6 +144,28 @@ export class ModService {
     if (!mapRef) return;
 
     mapRef.name = newName;
+
+    this.updateMapNameAcrossMod(oldName, newName);
+    this.updateMod(mod);
+  }
+
+  private updateMapNameAcrossMod(oldName: string, newName: string) {
+    const mod = this.mod();
+    mod.drops.forEach((droptable) => {
+      if (droptable.mapName !== oldName) return;
+
+      droptable.mapName = newName;
+    });
+
+    this.updateMod(mod);
+  }
+
+  public removeMap(removeMap: { name: string; map: any }) {
+    const mod = this.mod();
+    const existingMap = mod.maps.findIndex((x) => x.name === removeMap.name);
+    if (existingMap !== -1) {
+      mod.maps.splice(existingMap, 1);
+    }
 
     this.updateMod(mod);
   }

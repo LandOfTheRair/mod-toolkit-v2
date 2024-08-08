@@ -1,11 +1,11 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IItemDefinition } from '../../../interfaces';
 import { defaultItem } from '../../helpers';
-import { ModService } from '../../services/mod.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
+import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
 import { HeaderButtonsComponent } from '../../shared/components/header-buttons/header-buttons.component';
 
 type EditingType = IItemDefinition;
@@ -15,17 +15,10 @@ type EditingType = IItemDefinition;
   templateUrl: './items.component.html',
   styleUrl: './items.component.scss',
 })
-export class ItemsComponent {
-  private modService = inject(ModService);
-
-  public readonly dataType = 'items';
-
-  public isEditing = signal<boolean>(false);
-  public oldData = signal<EditingType | undefined>(undefined);
-  public editingData = signal<EditingType>(defaultItem());
+export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
+  public defaultData = defaultItem;
 
   public tableItems = computed(() => this.modService.mod().items);
-
   public tableColumns: ColDef[] = [
     {
       field: 'sprite',
@@ -88,23 +81,8 @@ export class ItemsComponent {
     },
   ];
 
-  public createNew() {
-    this.isEditing.set(true);
-    this.editingData.set(defaultItem());
-  }
-
-  public editExisting(data: EditingType) {
-    this.isEditing.set(true);
-    this.oldData.set(structuredClone(data));
-    this.editingData.set(data);
-  }
-
-  public cancelEditing() {
-    this.isEditing.set(false);
-  }
-
   public saveNewData(data: EditingType) {
-    this.isEditing.set(false);
+    super.saveNewData(data);
 
     const oldItem = this.oldData();
     if (oldItem) {
@@ -117,6 +95,8 @@ export class ItemsComponent {
   }
 
   public deleteData(data: EditingType) {
+    super.deleteData(data);
+
     this.modService.removeItem(data);
   }
 }
