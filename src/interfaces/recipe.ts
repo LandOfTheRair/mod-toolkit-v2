@@ -1,7 +1,8 @@
-import { BaseClass, Tradeskill } from './building-blocks';
+import { BaseClass, TradeskillType } from './building-blocks';
+import { HasIdentification } from './identified';
 
-export interface IRecipe {
-  recipeType: Tradeskill;
+export interface IRecipe extends HasIdentification {
+  recipeType: TradeskillType;
   item: string;
   name: string;
   category: string;

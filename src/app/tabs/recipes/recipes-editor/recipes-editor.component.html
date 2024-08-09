@@ -1,0 +1,162 @@
+@let editingData = editing();
+
+<div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+
+  <div class="tab flex flex-row justify-end">
+    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
+    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()">Save</button>
+  </div>
+
+</div>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+
+    <div class="form-row">
+      <app-input-floating-label>Display Name</app-input-floating-label>
+      <input [ngModel]="editingData.name" (ngModelChange)="update('name', $event)" type="text"
+        placeholder="Enter recipe display name..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-item [item]="currentItem()" (change)="update('item', $event)" [label]="'Result Item'"
+        [defaultValue]="editingData.item"></app-input-item>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-tradeskill [tradeskill]="editingData.recipeType"
+            (change)="update('recipeType', $event)"></app-input-tradeskill>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Category</app-input-floating-label>
+          <input [ngModel]="editingData.category" (ngModelChange)="update('category', $event)" type="text"
+            placeholder="Enter recipe category name..." class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Min Skill Req'd To Use</app-input-floating-label>
+          <input [(ngModel)]="editingData.requireSkill" type="number" min="0" placeholder="Enter skill..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Max Skill Req'd For Skill Gain</app-input-floating-label>
+          <input [(ngModel)]="editingData.maxSkillForGains" min="0" type="number" placeholder="Enter skill..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Skill Gained</app-input-floating-label>
+          <input [ngModel]="editingData.skillGained" (ngModelChange)="update('skillGained', $event)" min="0"
+            type="number" placeholder="Enter skill..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>XP Gained</app-input-floating-label>
+          <input [(ngModel)]="editingData.xpGained" (ngModelChange)="update('xpGained', $event)" min="0" type="number"
+            placeholder="Enter xp..." class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-class [(playerClass)]="requiredClass" label="Required Class"></app-input-class>
+    </div>
+
+    <div class="form-row">
+      <app-input-spell [(spell)]="editingData.requireSpell" label="Required Spell"></app-input-spell>
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Whether or not this recipe must be learned from a recipe book.">
+        <input type="checkbox" [(ngModel)]="editingData.requireLearn" class="checkbox" />
+        <span class="label-text">Must Be Learned</span>
+      </label>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the potency of the resulting item useEffect is scaled by your tradeskill.">
+            <input type="checkbox" [(ngModel)]="editingData.copySkillToPotency" class="checkbox" />
+            <span class="label-text">Skill → Potency</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Potency Scalar</app-input-floating-label>
+          <input [(ngModel)]="editingData.potencyScalar" min="0" type="number" placeholder="Enter scalar..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-item [item]="transferItem()" label="Transfer Owner From Ingredient Item"
+        [defaultValue]="editingData.transferOwnerFrom" (change)="update('transferOwnerFrom', $event)"
+        [label]="'Transfer Owner From'"></app-input-item>
+    </div>
+  </div>
+
+  <div class="form-column">
+    @for(ing of ingredients; track $index) {
+    <div class="form-row">
+      <app-input-item [item]="ing()" (change)="updateArray('ingredients', $index, $event)"
+        [defaultValue]="editingData.ingredients![$index]" [label]="'Ingredient #' + ($index + 1)"></app-input-item>
+    </div>
+    }
+  </div>
+
+  <div class="form-column">
+    @for(ing of ozIngredients; track $index) {
+    @if(editingData.ozIngredients?.[$index]; as ozIng) {
+    <div class="form-row">
+      <app-input-item [item]="ing()" (change)="ozIng.display = $event"
+        [defaultValue]="editingData.ozIngredients![$index].display"
+        [label]="'Oz. Ingredient #' + ($index + 1)"></app-input-item>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Oz. Ingredient Filter</app-input-floating-label>
+          <input [(ngModel)]="ozIng.filter" type="text" placeholder="Enter filter..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Oz. Required</app-input-floating-label>
+          <input [(ngModel)]="ozIng.ounces" min="0" type="number" placeholder="Enter ounces required..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+    }
+    }
+  </div>
+</div>
+
+<app-debug-view>
+  {{ editingData | json }}
+</app-debug-view>

@@ -1,6 +1,7 @@
 import { Rollable } from './building-blocks';
+import { HasIdentification } from './identified';
 
-export interface ISpawnerData {
+export interface ISpawnerData extends HasIdentification {
   npcIds: Rollable[] | string[];
   tag: string;
   respawnRate: number;

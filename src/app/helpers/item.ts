@@ -1,10 +1,12 @@
-import { IItemDefinition } from '../../interfaces';
+import { IItemDefinition, ItemClassType } from '../../interfaces';
+import { id } from './id';
 
 export const defaultItem: () => IItemDefinition = () => ({
+  _id: id(),
   sprite: 0,
   quality: 0,
   name: '',
-  itemClass: undefined as any,
+  itemClass: undefined as unknown as ItemClassType,
   maxUpgrades: 0,
   value: 1,
   sellValue: 0,
@@ -13,20 +15,33 @@ export const defaultItem: () => IItemDefinition = () => ({
   stats: {},
   randomStats: {},
   type: 'Martial',
-  secondaryType: undefined as any,
+  secondaryType: undefined as unknown as string,
   succorInfo: undefined,
   cosmetic: { name: '' },
   containedItems: [],
-  trait: { name: '', level: 0 },
+  trait: { name: undefined as unknown as string, level: 0 },
   randomTrait: { name: [], level: { min: 0, max: 0 } },
   useEffect: {
-    name: '',
+    name: undefined as unknown as string,
     potency: 0,
     duration: 0,
     extra: { statChanges: {}, tooltip: '', message: '' },
   },
-  strikeEffect: { name: '', potency: 0, duration: 0, chance: 0 },
-  breakEffect: { name: '', potency: 0, duration: 0 },
-  equipEffect: { name: '', potency: 0, duration: 0 },
+  strikeEffect: {
+    name: undefined as unknown as string,
+    potency: 0,
+    duration: 0,
+    chance: 0,
+  },
+  breakEffect: {
+    name: undefined as unknown as string,
+    potency: 0,
+    duration: 0,
+  },
+  equipEffect: {
+    name: undefined as unknown as string,
+    potency: 0,
+    duration: 0,
+  },
   requirements: { baseClass: undefined, level: 0 },
 });

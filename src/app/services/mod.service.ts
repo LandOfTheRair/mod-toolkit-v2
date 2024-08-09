@@ -5,6 +5,7 @@ import {
   IEditorMap,
   IItemDefinition,
   IModKit,
+  IRecipe,
 } from '../../interfaces';
 
 export function defaultModKit(): IModKit {
@@ -188,7 +189,7 @@ export class ModService {
 
   public editItem(oldItem: IItemDefinition, newItem: IItemDefinition) {
     const mod = this.mod();
-    const foundItemIdx = mod.items.findIndex((i) => i.name === oldItem.name);
+    const foundItemIdx = mod.items.findIndex((i) => i._id === oldItem._id);
     if (foundItemIdx === -1) return;
 
     mod.items[foundItemIdx] = newItem;
@@ -203,6 +204,11 @@ export class ModService {
     this.updateMod(mod);
   }
 
+  public findItemByName(itemName: string): IItemDefinition | undefined {
+    const items = this.availableItems();
+    return items.find((i) => i.name === itemName);
+  }
+
   // droptable functions
   public addDroptable(item: IDroptable) {
     const mod = this.mod();
@@ -213,7 +219,7 @@ export class ModService {
 
   public editDroptable(oldItem: IDroptable, newItem: IDroptable) {
     const mod = this.mod();
-    const foundItemIdx = mod.drops.findIndex((i) => i === oldItem);
+    const foundItemIdx = mod.drops.findIndex((i) => i._id === oldItem._id);
     if (foundItemIdx === -1) return;
 
     mod.drops[foundItemIdx] = newItem;
@@ -224,6 +230,31 @@ export class ModService {
   public removeDroptable(item: IDroptable) {
     const mod = this.mod();
     mod.drops = mod.drops.filter((i) => i !== item);
+
+    this.updateMod(mod);
+  }
+
+  // recipe functions
+  public addRecipe(item: IRecipe) {
+    const mod = this.mod();
+    mod.recipes.push(item);
+
+    this.updateMod(mod);
+  }
+
+  public editRecipe(oldItem: IRecipe, newItem: IRecipe) {
+    const mod = this.mod();
+    const foundItemIdx = mod.recipes.findIndex((i) => i._id === oldItem._id);
+    if (foundItemIdx === -1) return;
+
+    mod.recipes[foundItemIdx] = newItem;
+
+    this.updateMod(mod);
+  }
+
+  public removeRecipe(item: IRecipe) {
+    const mod = this.mod();
+    mod.recipes = mod.recipes.filter((i) => i !== item);
 
     this.updateMod(mod);
   }

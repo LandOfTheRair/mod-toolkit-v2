@@ -2,6 +2,7 @@ export * from './behavior';
 export * from './building-blocks';
 export * from './droptable';
 export * from './effect';
+export * from './identified';
 export * from './item';
 export * from './itemtypes';
 export * from './map';

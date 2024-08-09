@@ -7,6 +7,7 @@ import {
   Rollable,
   Stat,
 } from './building-blocks';
+import { HasIdentification } from './identified';
 import { ISimpleItem } from './item';
 
 export interface IItemContainer {
@@ -22,7 +23,7 @@ export interface ICharacterItems {
   buyback: ISimpleItem[];
 }
 
-export interface INPCScript {
+export interface INPCScript extends HasIdentification {
   tag: string;
   name?: string;
   affiliation?: string;

@@ -203,6 +203,8 @@ export enum Tradeskill {
   Foodmaking = 'foodmaking',
 }
 
+export type TradeskillType = `${Tradeskill}`;
+
 export enum SkillDisplayName {
   // base item classes
   Mace = 'Maces',

@@ -28,6 +28,9 @@ import { WebviewDirective } from './directives/';
 import { InputMapComponent } from './components/input-map/input-map.component';
 import { InputRegionComponent } from './components/input-region/input-region.component';
 import { InputHolidayComponent } from './components/input-holiday/input-holiday.component';
+import { InputTradeskillComponent } from './components/input-tradeskill/input-tradeskill.component';
+import { InputSpellComponent } from './components/input-spell/input-spell.component';
+import { DebugViewComponent } from './components/debug-view/debug-view.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { InputHolidayComponent } from './components/input-holiday/input-holiday.
     InputMapComponent,
     InputRegionComponent,
     InputHolidayComponent,
+    InputTradeskillComponent,
+    InputSpellComponent,
+    DebugViewComponent,
   ],
   imports: [
     CommonModule,
@@ -85,6 +91,9 @@ import { InputHolidayComponent } from './components/input-holiday/input-holiday.
     InputMapComponent,
     InputRegionComponent,
     InputHolidayComponent,
+    InputTradeskillComponent,
+    InputSpellComponent,
+    DebugViewComponent,
   ],
 })
 export class SharedModule {}

@@ -81,7 +81,7 @@
 
     <div class="form-row split">
       <div class="form-column">
-        <div class="form-row">
+        <div class="form-row pl-1">
           <label class="label cursor-pointer" floatUi="Whether or not the item is sackable.">
             <input type="checkbox" [(ngModel)]="editingData.isSackable" class="checkbox" />
             <span class="label-text">Sackable</span>
@@ -90,7 +90,7 @@
       </div>
 
       <div class="form-column">
-        <div class="form-row">
+        <div class="form-row pl-1">
           <label class="label cursor-pointer" floatUi="Whether or not the item is beltable.">
             <input type="checkbox" [(ngModel)]="editingData.isBeltable" class="checkbox" />
             <span class="label-text">Beltable</span>
@@ -101,7 +101,7 @@
 
     <div class="form-row split">
       <div class="form-column">
-        <div class="form-row">
+        <div class="form-row pl-1">
           <label class="label cursor-pointer" floatUi="Whether or not the item binds when picked up.">
             <input type="checkbox" [(ngModel)]="editingData.binds" class="checkbox" />
             <span class="label-text">Binds</span>
@@ -110,7 +110,7 @@
       </div>
 
       <div class="form-column">
-        <div class="form-row">
+        <div class="form-row pl-1">
           <label class="label cursor-pointer"
             floatUi="Whether or not the item puts a message in chat when bound (and picked up).">
             <input type="checkbox" [(ngModel)]="editingData.tellsBind" class="checkbox" />
@@ -122,7 +122,7 @@
 
     <div class="form-row split">
       <div class="form-column">
-        <div class="form-row">
+        <div class="form-row pl-1">
           <label class="label cursor-pointer"
             floatUi="Whether or not the item is destroyed when put on the ground (dangerous!).">
             <input type="checkbox" [(ngModel)]="editingData.destroyOnDrop" class="checkbox" />
@@ -242,7 +242,7 @@
     }
 
     @case('boolean') {
-    <div class="form-row">
+    <div class="form-row pl-1">
       <label class="label cursor-pointer">
         <input type="checkbox" [(ngModel)]="editingData[prop]" class="checkbox" />
         <span class="label-text">{{ prop }}</span>
@@ -370,7 +370,7 @@
         class="form-input" />
     </div>
 
-    <div class="form-row">
+    <div class="form-row pl-1">
       <label class="label cursor-pointer" floatUi="Whether or not the effect can be applied via Thief Apply.">
         <input type="checkbox" [(ngModel)]="editingData.useEffect!.canApply" class="checkbox" />
         <span class="label-text">Can Apply Use Effect Via Thief Apply</span>
@@ -453,7 +453,7 @@
         class="form-input" />
     </div>
 
-    <div class="form-row">
+    <div class="form-row pl-1">
       <label class="label cursor-pointer" floatUi="Whether or not the cosmetic can be taken off of the item.">
         <input type="checkbox" [(ngModel)]="editingData.cosmetic!.isPermanent" class="checkbox" />
         <span class="label-text">Is Permanent Cosmetic</span>
@@ -468,3 +468,7 @@
 </div>
 }
 }
+
+<app-debug-view>
+  {{ editingData | json }}
+</app-debug-view>

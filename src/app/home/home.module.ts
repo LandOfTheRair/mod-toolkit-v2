@@ -15,6 +15,7 @@ import { ItemsComponent } from '../tabs/items/items.component';
 import { MapsComponent } from '../tabs/maps/maps.component';
 import { NpcsComponent } from '../tabs/npcs/npcs.component';
 import { QuestsComponent } from '../tabs/quests/quests.component';
+import { RecipesEditorComponent } from '../tabs/recipes/recipes-editor/recipes-editor.component';
 import { RecipesComponent } from '../tabs/recipes/recipes.component';
 import { SpawnersComponent } from '../tabs/spawners/spawners.component';
 import { HomeComponent } from './home.component';
@@ -31,6 +32,7 @@ import { HomeComponent } from './home.component';
     NpcsComponent,
     QuestsComponent,
     RecipesComponent,
+    RecipesEditorComponent,
     SpawnersComponent,
   ],
   imports: [

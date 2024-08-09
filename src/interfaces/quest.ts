@@ -1,3 +1,5 @@
+import { HasIdentification } from './identified';
+
 export enum QuestRewardType {
   XP = 'xp',
   Gold = 'gold',
@@ -45,7 +47,7 @@ export type IQuestRequirement = IQuestRequirementKill &
   IQuestRequirementCount &
   IQuestRequirementArray & { type: QuestRequirementType };
 
-export interface IQuest {
+export interface IQuest extends HasIdentification {
   name: string;
   desc: string;
   giver: string;

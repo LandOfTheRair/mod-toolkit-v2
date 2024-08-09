@@ -12,7 +12,8 @@
 <div class="flex flex-row gap-2">
   <div class="form-column">
     <div class="form-row">
-      <app-input-item [item]="currentItem()" (change)="update('result', $event)"></app-input-item>
+      <app-input-item [item]="currentItem()" (change)="update('result', $event)"
+        [defaultValue]="editingData.result"></app-input-item>
     </div>
 
     <div class="form-row">
@@ -33,14 +34,14 @@
   </div>
 
   <div class="form-column">
-    <div class="form-row">
+    <div class="form-row pl-1">
       <label class="label cursor-pointer" floatUi="Whether or not to utilize LUK when trying to get this item.">
         <input type="checkbox" [(ngModel)]="editingData.noLuckBonus" class="checkbox" />
         <span class="label-text">Disallow LUK Bonus</span>
       </label>
     </div>
 
-    <div class="form-row">
+    <div class="form-row pl-1">
       <label class="label cursor-pointer" floatUi="Whether or not this item should actually drop on every map.">
         <input type="checkbox" [(ngModel)]="editingData.isGlobal"
           (ngModelChange)="update('regionName', undefined); update('mapName', undefined); update('isGlobal', $event)"
@@ -55,4 +56,6 @@
   </div>
 </div>
 
-{{ editingData | json }}
+<app-debug-view>
+  {{ editingData | json }}
+</app-debug-view>

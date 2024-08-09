@@ -7,6 +7,9 @@ import {
   signal,
 } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
+import { HasIdentification } from '../../../../interfaces';
+import { id } from '../../../helpers/id';
+import { ModService } from '../../../services/mod.service';
 
 type Tab = { name: string };
 
@@ -15,8 +18,11 @@ type Tab = { name: string };
   templateUrl: './editor-base.component.html',
   styleUrl: './editor-base.component.scss',
 })
-export class EditorBaseComponent<T> implements OnInit {
+export class EditorBaseComponent<T extends HasIdentification>
+  implements OnInit
+{
   private localStorage = inject(LocalStorageService);
+  public modService = inject(ModService);
 
   public readonly key: string = '';
   public readonly tabs: Tab[] = [];
@@ -37,8 +43,23 @@ export class EditorBaseComponent<T> implements OnInit {
     this.editing.update((editing) => ({ ...editing, [key]: value }));
   }
 
+  public updateArray(key: keyof T, idx: number, value: any) {
+    this.editing.update((editing) => {
+      const arr = editing[key] as Array<any>;
+      arr[idx] = value;
+      return editing;
+    });
+  }
+
   ngOnInit() {
     this.initTabs();
+
+    const editing = this.editing();
+    if (!editing._id) {
+      editing._id = id();
+    }
+
+    this.editing.set(editing);
   }
 
   private initTabs() {

@@ -12,6 +12,7 @@ import {
   StatBlock,
 } from './building-blocks';
 import { IItemEffect } from './effect';
+import { HasIdentification } from './identified';
 import { ItemClassType } from './itemtypes';
 
 export enum ItemQuality {
@@ -289,11 +290,12 @@ export interface ISimpleItem {
   mods: Partial<IItem>;
 }
 
-export type IItemDefinition = IItem & {
-  randomStats: Partial<Record<Stat, RandomNumber>>;
-  randomTrait: {
-    name: string[];
-    level: RandomNumber;
+export type IItemDefinition = IItem &
+  HasIdentification & {
+    randomStats: Partial<Record<Stat, RandomNumber>>;
+    randomTrait: {
+      name: string[];
+      level: RandomNumber;
+    };
+    baseMods?: Partial<IItem>;
   };
-  baseMods?: Partial<IItem>;
-};

@@ -13,6 +13,7 @@ import {
   Stat,
   StatBlock,
 } from './building-blocks';
+import { HasIdentification } from './identified';
 import { IStatusEffectInfo } from './mod-stripped';
 
 export enum NPCTriggerType {
@@ -21,7 +22,7 @@ export enum NPCTriggerType {
   Combat = 'combat',
 }
 
-export interface INPCDefinition {
+export interface INPCDefinition extends HasIdentification {
   npcId: string;
 
   // the sprite or sprites this creature can be

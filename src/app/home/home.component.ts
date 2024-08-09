@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
+import { DebugService } from '../services/debug.service';
 import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
 
@@ -10,6 +11,7 @@ import { ModService } from '../services/mod.service';
 })
 export class HomeComponent {
   private localStorage = inject(LocalStorageService);
+  public debugService = inject(DebugService);
   public electronService = inject(ElectronService);
   public modService = inject(ModService);
 

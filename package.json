@@ -44,6 +44,7 @@
     "ngx-webstorage": "18.0.0",
     "rxjs": "7.8.1",
     "tslib": "2.6.2",
+    "uuid": "10.0.0",
     "zone.js": "0.14.4"
   },
   "devDependencies": {
@@ -59,6 +60,7 @@
     "@tailwindcss/forms": "0.5.7",
     "@types/lodash": "4.17.7",
     "@types/node": "20.12.7",
+    "@types/uuid": "10.0.0",
     "@typescript-eslint/eslint-plugin": "7.7.1",
     "@typescript-eslint/parser": "7.7.1",
     "autoprefixer": "10.4.20",

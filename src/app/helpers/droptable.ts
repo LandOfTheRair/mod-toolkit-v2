@@ -1,6 +1,8 @@
 import { IDroptable } from '../../interfaces';
+import { id } from './id';
 
 export const defaultDroptable: () => IDroptable = () => ({
+  _id: id(),
   isGlobal: false,
   mapName: null as unknown as string,
   maxChance: 0,

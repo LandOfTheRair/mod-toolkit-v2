@@ -2,7 +2,7 @@ import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IDroptable } from '../../../interfaces';
-import { defaultDroptable } from '../../helpers/droptable';
+import { defaultDroptable } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';

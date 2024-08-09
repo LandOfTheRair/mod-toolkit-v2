@@ -19,6 +19,12 @@ export class CellSpriteComponent implements ICellRendererAngularComp {
       );
     }
 
+    if (this.params.fromItem) {
+      return (
+        allItems.find((f) => f.name === this.params.data.item)?.sprite ?? -1
+      );
+    }
+
     return this.params.data.sprite as number;
   });
 
