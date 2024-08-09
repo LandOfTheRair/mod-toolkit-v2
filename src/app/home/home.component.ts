@@ -37,7 +37,7 @@ export class HomeComponent {
       count: computed(() => this.modService.mod().spawners.length),
     },
     {
-      name: 'Dialogs',
+      name: 'NPC Scripts/Dialogs',
       count: computed(() => this.modService.mod().dialogs.length),
     },
     {
