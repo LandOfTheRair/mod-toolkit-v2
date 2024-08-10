@@ -107,8 +107,9 @@ export class NpcsEditorComponent
     return isNumber(this.editing().traitLevels[trait]);
   }
 
-  public addStat(stat: StatType, value = 0) {
+  public addStat(stat: StatType | undefined, value = 0) {
     if (!stat) return;
+
     const npc = structuredClone(this.editing());
     npc.otherStats[stat] = value;
     this.editing.set(npc);
