@@ -108,6 +108,7 @@ export class NpcsEditorComponent
   }
 
   public addStat(stat: StatType, value = 0) {
+    if (!stat) return;
     const npc = structuredClone(this.editing());
     npc.otherStats[stat] = value;
     this.editing.set(npc);
@@ -119,7 +120,8 @@ export class NpcsEditorComponent
     this.editing.set(npc);
   }
 
-  public hasStat(stat: StatType) {
+  public hasStat(stat: StatType | undefined) {
+    if (!stat) return false;
     return isNumber(this.editing().otherStats[stat]);
   }
 
