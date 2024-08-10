@@ -8,7 +8,7 @@ import { coreStats, extraStats } from '../../../helpers';
   styleUrl: './input-stat.component.scss',
 })
 export class InputStatComponent {
-  public stat = model.required<StatType>();
+  public stat = model.required<StatType | undefined>();
   public change = output<ItemClassType>();
   public allowCore = input<boolean>(true);
   public allowExtra = input<boolean>(true);
