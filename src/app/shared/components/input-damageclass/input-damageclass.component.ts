@@ -7,7 +7,7 @@ import { DamageClass, DamageClassType } from '../../../../interfaces';
   styleUrl: './input-damageclass.component.scss',
 })
 export class InputDamageclassComponent {
-  public damageClass = model.required<DamageClassType>();
+  public damageClass = model.required<DamageClassType | undefined>();
   public change = output<DamageClass>();
 
   public values = [...Object.values(DamageClass)];

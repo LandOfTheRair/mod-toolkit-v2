@@ -19,11 +19,15 @@ export enum Allegiance {
   GM = 'GM',
 }
 
+export type AllegianceType = `${Allegiance}`;
+
 export enum Alignment {
   Good = 'good',
   Neutral = 'neutral',
   Evil = 'evil',
 }
+
+export type AlignmentType = `${Alignment}`;
 
 export enum DamageClass {
   Physical = 'physical',
@@ -243,6 +247,8 @@ export enum Hostility {
   Always = 'Always',
 }
 
+export type HostilityType = `${Hostility}`;
+
 export enum FOVVisibility {
   CantSee = 0,
   CanSee = 1,
@@ -289,6 +295,8 @@ export enum MonsterClass {
   Humanoid = 'Humanoid',
   Undead = 'Undead',
 }
+
+export type MonsterClassType = `${MonsterClass}`;
 
 export type SkillBlock = Partial<Record<Skill, number>>;
 

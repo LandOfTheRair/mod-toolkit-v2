@@ -48,4 +48,8 @@ export class InputItemComponent implements OnInit {
   public itemCompare(itemA: ItemModel, itemB: ItemModel): boolean {
     return itemA.value === itemB.value;
   }
+
+  public search(term: string, item: { value: string }) {
+    return item.value.toLowerCase().includes(term.toLowerCase());
+  }
 }

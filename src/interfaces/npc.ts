@@ -1,20 +1,21 @@
 import { IBehavior, IDialogTree } from './behavior';
 import {
-  Alignment,
-  Allegiance,
-  BaseClass,
-  Hostility,
+  AlignmentType,
+  AllegianceType,
+  BaseClassType,
+  DamageClassType,
+  HostilityType,
   ItemSlot,
-  MonsterClass,
+  MonsterClassType,
   RandomNumber,
   Rollable,
   Skill,
   SkillBlock,
   Stat,
   StatBlock,
+  StatType,
 } from './building-blocks';
 import { HasIdentification } from './identified';
-import { IStatusEffectInfo } from './mod-stripped';
 
 export enum NPCTriggerType {
   Spawn = 'spawn',
@@ -26,22 +27,22 @@ export interface INPCDefinition extends HasIdentification {
   npcId: string;
 
   // the sprite or sprites this creature can be
-  sprite: number | number[];
+  sprite: number[];
 
   // the npc name - optional - if unspecified, generated randomly
-  name?: string[];
+  name?: string;
 
   // the npc "guild" that it belongs to
   affiliation?: string;
 
   // the alignment of this npc
-  alignment?: Alignment;
+  alignment?: AlignmentType;
 
   // the allegiance of the npc - determines basic reps
-  allegiance?: Allegiance;
+  allegiance: AllegianceType;
 
   // the current reputation (how it views other allegiances)
-  allegianceReputation?: Partial<Record<Allegiance, number>>;
+  allegianceReputation?: Partial<Record<AllegianceType, number>>;
 
   // whether the npc can only use water
   aquaticOnly?: boolean;
@@ -50,13 +51,16 @@ export interface INPCDefinition extends HasIdentification {
   avoidWater?: boolean;
 
   // the base class of the creature
-  baseClass?: BaseClass;
+  baseClass?: BaseClassType;
 
   // the base effects given to the creature (usually attributes/truesight/etc)
-  baseEffects?: Array<{
+  baseEffects: Array<{
     name: string;
     endsAt: number;
-    extra: IStatusEffectInfo;
+    extra: {
+      potency: number;
+      damageType?: DamageClassType;
+    };
   }>;
 
   // the behaviors for the npc
@@ -82,7 +86,7 @@ export interface INPCDefinition extends HasIdentification {
   drops?: Rollable[];
 
   // the hp multiplier for the npc
-  hpMult?: number;
+  hpMult: number;
 
   // extra properties pulled in from the map, varies depending on the NPC
   extraProps?: any;
@@ -104,7 +108,7 @@ export interface INPCDefinition extends HasIdentification {
   maxWanderRandomlyDistance?: number;
 
   // the creature class (used for rippers, etc)
-  monsterClass?: MonsterClass;
+  monsterClass?: MonsterClassType;
 
   // the monster grouping, so Hostility.Always dont infight with themselves
   monsterGroup?: string;
@@ -113,10 +117,10 @@ export interface INPCDefinition extends HasIdentification {
   owner?: string;
 
   // the "other stats" for this npc, inherited from NPC definition
-  otherStats?: Partial<Record<Stat, number>>;
+  otherStats: Partial<Record<StatType, number>>;
 
   // how hostile the creature is (default: always)
-  hostility?: Hostility;
+  hostility: HostilityType;
 
   // the base hp/mp/gold/xp for the creature
   hp: RandomNumber;
@@ -131,10 +135,12 @@ export interface INPCDefinition extends HasIdentification {
   noItemDrop?: boolean;
 
   // the reputation modifications for the killer when this npc is killed
-  repMod: Array<{ allegiance: Allegiance; delta: number }>;
+  repMod: Array<{ allegiance: AllegianceType; delta: number }>;
 
   // the amount of skill gained by the party when this creature is killed
   skillOnKill: number;
+
+  skillLevels: number;
 
   // the skills this creature has
   skills: SkillBlock;
@@ -155,7 +161,7 @@ export interface INPCDefinition extends HasIdentification {
   tansFor?: string;
 
   // the trait levels this creature has
-  traitLevels?: Record<string, number>;
+  traitLevels: Record<string, number>;
 
   // npc triggers
   triggers?: Partial<Record<NPCTriggerType, any>>;
@@ -170,5 +176,5 @@ export interface INPCDefinition extends HasIdentification {
   y?: number;
 
   // the challenge rating of the creature - scales the hp / damageFactor
-  cr?: number;
+  cr: number;
 }

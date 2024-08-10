@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, computed, input, model } from '@angular/core';
 
 @Component({
   selector: 'app-input-sprite',
@@ -7,4 +7,6 @@ import { Component, model } from '@angular/core';
 })
 export class InputSpriteComponent {
   public sprite = model.required<number>();
+  public type = input<'creatures' | 'items'>('items');
+  public step = computed(() => (this.type() === 'creatures' ? 5 : 1));
 }

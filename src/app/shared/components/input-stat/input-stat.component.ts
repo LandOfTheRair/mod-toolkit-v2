@@ -1,4 +1,4 @@
-import { Component, model, output } from '@angular/core';
+import { Component, computed, input, model, output } from '@angular/core';
 import { ItemClassType, StatType } from '../../../../interfaces';
 import { coreStats, extraStats } from '../../../helpers';
 
@@ -10,9 +10,16 @@ import { coreStats, extraStats } from '../../../helpers';
 export class InputStatComponent {
   public stat = model.required<StatType>();
   public change = output<ItemClassType>();
+  public allowCore = input<boolean>(true);
+  public allowExtra = input<boolean>(true);
 
-  public values = [
-    ...coreStats.map((x) => x.stat),
-    ...extraStats.map((x) => x.stat),
-  ];
+  public values = computed(() => {
+    const allowCore = this.allowCore();
+    const allowExtra = this.allowExtra();
+
+    return [
+      ...(allowCore ? coreStats.map((x) => x.stat) : []),
+      ...(allowExtra ? extraStats.map((x) => x.stat) : []),
+    ];
+  });
 }

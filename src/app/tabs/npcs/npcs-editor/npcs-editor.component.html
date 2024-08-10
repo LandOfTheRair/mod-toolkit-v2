@@ -1,0 +1,393 @@
+@let editingData = editing();
+
+<div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+
+  @for(tab of tabs; let i = $index; track tab.name) {
+  <a role="tab" class="tab" [class.tab-active]="activeTab() === i" (click)="changeTab(i)">
+    {{ tab.name }}
+  </a>
+  }
+
+  <div class="tab flex flex-row justify-end">
+    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
+    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()">Save</button>
+  </div>
+
+</div>
+
+@switch (activeTab()) {
+@case (0) {
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Internal ID</app-input-floating-label>
+      <input [ngModel]="editingData.npcId" (ngModelChange)="update('npcId', $event)" type="text"
+        placeholder="[Map Name] - NPC Identifier" class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Name (optional)</app-input-floating-label>
+      <input [(ngModel)]="editingData.name" type="text" placeholder="If unspecified, will be random"
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Affiliation (optional)</app-input-floating-label>
+      <input [(ngModel)]="editingData.affiliation" type="text" placeholder="Guild or tag for the NPC"
+        class="form-input" />
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Level</app-input-floating-label>
+          <input [(ngModel)]="editingData.level" min="0" type="number" placeholder="Choose level..." class="form-input"
+            (ngModelChange)="changeCRStats()" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Skill</app-input-floating-label>
+          <input [(ngModel)]="editingData.skillLevels" min="0" type="number" placeholder="Choose skill..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-class [(playerClass)]="editingData.baseClass" label="NPC Class"></app-input-class>
+    </div>
+
+    <div class="form-row">
+      <app-input-alignment [(alignment)]="editingData.alignment"></app-input-alignment>
+    </div>
+
+    <div class="form-row">
+      <app-input-hostility [(hostility)]="editingData.hostility"></app-input-hostility>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Hostility Group (optional)</app-input-floating-label>
+      <input [(ngModel)]="editingData.monsterGroup" type="text" placeholder="Prevents NPC infighting"
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-allegiance [(allegiance)]="editingData.allegiance"></app-input-allegiance>
+    </div>
+
+    <div class="form-row">
+      <app-input-category [(category)]="editingData.monsterClass"></app-input-category>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the creature should stay only in the water.">
+            <input type="checkbox" [(ngModel)]="editingData.aquaticOnly" class="checkbox" />
+            <span class="label-text">Aquatic</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the creature should step in the water.">
+            <input type="checkbox" [(ngModel)]="editingData.avoidWater" class="checkbox" />
+            <span class="label-text">Hydrophobic</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the creature should drop a corpse (sometimes you don't want one).">
+            <input type="checkbox" [(ngModel)]="editingData.noCorpseDrop" class="checkbox" />
+            <span class="label-text">No Corpse</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the creature should drop any items (used for temporary spawns like lair adds).">
+            <input type="checkbox" [(ngModel)]="editingData.noItemDrop" class="checkbox" />
+            <span class="label-text">No Items</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-column">
+    @for(sprite of editingData.sprite; track $index) {
+    <div class="form-row split">
+      <div class="form-column sprite-col">
+        <div class="form-row">
+          <app-input-sprite [(sprite)]="editingData.sprite[$index]" type="creatures"></app-input-sprite>
+        </div>
+      </div>
+
+      <div class="form-column justify-center">
+        <div class="form-row">
+          @if($index === 0) {
+          <button class="btn btn-accent btn-sm" [disabled]="editingData.sprite.length > 8" (click)="addSprite()">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+          } @else {
+          <button class="btn btn-error btn-sm" (click)="removeSprite($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="form-column">
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-challengerating [(rating)]="editingData.cr"></app-input-challengerating>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>HP Multiplier</app-input-floating-label>
+          <input [(ngModel)]="editingData.hpMult" min="0" (ngModelChange)="changeCRStats()" type="number"
+            placeholder="Choose HP multiplier..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Skill on Kill</app-input-floating-label>
+          <input [(ngModel)]="editingData.skillOnKill" type="number" placeholder="Choose skill on kill..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    @for(prop of coreProps; track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ prop.name }} Min</app-input-floating-label>
+          <input [(ngModel)]="editingData[prop.prop].min" [disabled]="true" type="number" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ prop.name }} Max</app-input-floating-label>
+          <input [(ngModel)]="editingData[prop.prop].max" [disabled]="true" type="number" class="form-input" />
+        </div>
+      </div>
+    </div>
+    }
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Whether or not all stats should change simultaneously.">
+        <input type="checkbox" [(ngModel)]="linkStats" class="checkbox" />
+        <span class="label-text">Link Stats</span>
+      </label>
+    </div>
+
+    <div class="form-row split stat-container">
+
+      @for(stat of statOrder; track $index) {
+      <div class="form-column stat-column">
+        <div class="form-row stat-row">
+          <app-input-floating-label>{{ stat | uppercase }}</app-input-floating-label>
+          <input [(ngModel)]="editingData.stats[stat]" (ngModelChange)="updateStatsIfLinked($event)" type="number"
+            class="form-input" />
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row split">
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stat [(stat)]="currentStat" [allowCore]="false"></app-input-stat>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" [disabled]="!currentStat() || hasStat(currentStat())"
+            (click)="addStat(currentStat())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(stat of statsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ stat }}</app-input-floating-label>
+          <input [(ngModel)]="editingData.otherStats[stat]" type="number" placeholder="Choose value..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeStat(stat)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+}
+
+@case (1) {
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+    <div class="form-row split">
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-trait [(trait)]="currentTrait"></app-input-trait>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" [disabled]="!currentTrait() || hasTrait(currentTrait())"
+            (click)="addTrait(currentTrait())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(trait of traitsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ trait }} Level</app-input-floating-label>
+          <input [(ngModel)]="editingData.traitLevels[trait]" min="0" type="number" placeholder="Choose value..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeTrait(trait)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addSpell()">
+        Add Spell
+      </button>
+    </div>
+
+    <div class="form-row">
+
+      @for(spell of editingData.usableSkills; track $index) {
+      <div class="form-row split">
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-spell [(spell)]="spell.result"></app-input-spell>
+          </div>
+        </div>
+
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-floating-label>Use Chance (Weight)</app-input-floating-label>
+            <input [(ngModel)]="spell.chance" min="0" type="number" placeholder="Choose value..." class="form-input" />
+          </div>
+        </div>
+
+        <div class="form-column">
+          <div class="form-row w-full flex justify-end">
+            <button class="ml-1 btn btn-error btn-sm" (click)="removeSpell($index)">
+              <ng-icon name="heroMinus"></ng-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addBaseEffect()">
+        Add Base Effect
+      </button>
+    </div>
+
+    @for(baseEffect of editingData.baseEffects; track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-effect [effect]="baseEffect.name" (change)="baseEffect.name = $event"></app-input-effect>
+        </div>
+      </div>
+
+      @if(baseEffect.name === 'Attribute') {
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-damageclass [(damageClass)]="baseEffect.extra.damageType"></app-input-damageclass>
+        </div>
+      </div>
+      }
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Potency</app-input-floating-label>
+          <input [(ngModel)]="baseEffect.extra.potency" type="number" placeholder="Choose value..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeBaseEffect($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+}
+
+@case (2) {
+}
+
+@case (3) {
+}
+
+@case (4) {
+}
+}
+
+<app-debug-view>
+  {{ editingData | json }}
+</app-debug-view>

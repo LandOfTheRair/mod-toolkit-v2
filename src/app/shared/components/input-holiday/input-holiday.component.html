@@ -1,6 +1,6 @@
 <div class="relative">
   <ng-select class="form-control" [items]="values()" [bindValue]="'value'" [(ngModel)]="holiday"
-    placeholder="Select holiday..." (change)="change.emit($event?.value)">
+    placeholder="Select holiday..." (change)="change.emit($event?.value)" [searchFn]="search">
 
     <ng-template ng-label-tmp let-item="item">
       <div class="text-white">

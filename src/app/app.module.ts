@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HomeModule } from './home/home.module';
 
+import { NgIconsModule, provideNgIconsConfig } from '@ng-icons/core';
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import {
@@ -24,6 +25,7 @@ import {
   withNgxWebstorageConfig,
 } from 'ngx-webstorage';
 import { AppComponent } from './app.component';
+import { appIcons } from './app.icons';
 
 @NgModule({
   declarations: [AppComponent],
@@ -43,6 +45,9 @@ import { AppComponent } from './app.component';
     SweetAlert2Module.forRoot({
       provideSwal: () => import('sweetalert2/dist/sweetalert2.js'),
     }),
+    NgIconsModule.withIcons({
+      ...appIcons,
+    }),
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
@@ -51,6 +56,9 @@ import { AppComponent } from './app.component';
       withNgxWebstorageConfig({ separator: ':', caseSensitive: true }),
       withLocalStorage()
     ),
+    provideNgIconsConfig({
+      size: '1.5em',
+    }),
   ],
   exports: [],
 })

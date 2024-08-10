@@ -164,10 +164,7 @@
         <div class="form-row w-full flex justify-end">
           <button class="btn btn-accent btn-sm" [disabled]="!currentStat() || doesItemHaveCurrentStat()"
             (click)="addStat(currentStat())">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
+            <ng-icon name="heroPlus"></ng-icon>
           </button>
         </div>
       </div>
@@ -204,18 +201,11 @@
       <div class="form-column">
         <div class="form-row w-full flex justify-end">
           <button class="btn btn-info btn-sm" (click)="toggleStat(stat)">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M7.5 21 3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-            </svg>
+            <ng-icon name="heroArrowsRightLeft"></ng-icon>
           </button>
 
           <button class="ml-1 btn btn-error btn-sm" (click)="removeStat(stat.stat)">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-            </svg>
+            <ng-icon name="heroMinus"></ng-icon>
           </button>
         </div>
       </div>
@@ -290,10 +280,7 @@
       <div class="form-column">
         <div class="form-row w-full flex justify-end">
           <button class="btn btn-accent btn-sm" (click)="addContainedItem()" [disabled]="!currentItem()">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
+            <ng-icon name="heroPlus"></ng-icon>
           </button>
         </div>
       </div>
@@ -317,10 +304,7 @@
       <div class="form-column">
         <div class="form-row w-full flex justify-end">
           <button class="ml-1 btn btn-error btn-sm" (click)="removeContainedItem($index)">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
-            </svg>
+            <ng-icon name="heroMinus"></ng-icon>
           </button>
         </div>
       </div>

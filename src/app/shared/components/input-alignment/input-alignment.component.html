@@ -1,0 +1,6 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values" [(ngModel)]="alignment" placeholder="Select alignment..."
+    (change)="change.emit($event)"></ng-select>
+
+  <app-input-floating-label>Alignment</app-input-floating-label>
+</div>

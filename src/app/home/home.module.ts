@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { HomeRoutingModule } from './home-routing.module';
 
+import { NgIconsModule } from '@ng-icons/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AgGridModule } from 'ag-grid-angular';
 import { NgxFloatUiModule } from 'ngx-float-ui';
@@ -13,6 +14,7 @@ import { DroptablesComponent } from '../tabs/droptables/droptables.component';
 import { ItemsEditorComponent } from '../tabs/items/items-editor/items-editor.component';
 import { ItemsComponent } from '../tabs/items/items.component';
 import { MapsComponent } from '../tabs/maps/maps.component';
+import { NpcsEditorComponent } from '../tabs/npcs/npcs-editor/npcs-editor.component';
 import { NpcsComponent } from '../tabs/npcs/npcs.component';
 import { QuestsComponent } from '../tabs/quests/quests.component';
 import { RecipesEditorComponent } from '../tabs/recipes/recipes-editor/recipes-editor.component';
@@ -34,6 +36,7 @@ import { HomeComponent } from './home.component';
     RecipesComponent,
     RecipesEditorComponent,
     SpawnersComponent,
+    NpcsEditorComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +45,8 @@ import { HomeComponent } from './home.component';
     SweetAlert2Module,
     AgGridModule,
     NgxFloatUiModule,
+    NgIconsModule,
   ],
+  exports: [NpcsEditorComponent],
 })
 export class HomeModule {}

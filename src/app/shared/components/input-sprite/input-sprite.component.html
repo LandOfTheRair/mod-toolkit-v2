@@ -1,9 +1,9 @@
 <div class="flex flex-row items-center">
 
-  <app-sprite class="w-16 mr-4 bg-gray-400" [sprite]="sprite()" [type]="'items'"></app-sprite>
+  <app-sprite class="w-16 mr-4 bg-gray-400 p-1" [sprite]="sprite()" [type]="type()"></app-sprite>
 
   <div class="relative">
-    <input class="flex-1" [(ngModel)]="sprite" min="0" type="number" placeholder="Choose sprite..."
+    <input class="flex-1" [(ngModel)]="sprite" min="0" [step]="step()" type="number" placeholder="Choose sprite..."
       class="input input-sm input-bordered w-full max-w-xs" />
 
     <app-input-floating-label>Sprite</app-input-floating-label>

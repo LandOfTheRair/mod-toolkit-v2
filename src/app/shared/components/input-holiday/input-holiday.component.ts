@@ -38,4 +38,8 @@ export class InputHolidayComponent {
   constructor() {
     this.electronService.requestJSON('holidaydescs');
   }
+
+  public search(term: string, item: { value: string }) {
+    return item.value.toLowerCase().includes(term.toLowerCase());
+  }
 }

@@ -33,6 +33,8 @@
     "@angular/platform-browser": "18.1.3",
     "@angular/platform-browser-dynamic": "18.1.3",
     "@angular/router": "18.1.3",
+    "@ng-icons/core": "29.3.0",
+    "@ng-icons/heroicons": "29.3.0",
     "@ng-select/ng-select": "13.5.2",
     "@ngneat/overview": "6.0.0",
     "@ngxpert/hot-toast": "3.0.0",

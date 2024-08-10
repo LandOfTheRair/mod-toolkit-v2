@@ -5,6 +5,7 @@ import {
   IEditorMap,
   IItemDefinition,
   IModKit,
+  INPCDefinition,
   IRecipe,
 } from '../../interfaces';
 
@@ -255,6 +256,31 @@ export class ModService {
   public removeRecipe(item: IRecipe) {
     const mod = this.mod();
     mod.recipes = mod.recipes.filter((i) => i !== item);
+
+    this.updateMod(mod);
+  }
+
+  // npc functions
+  public addNPC(npc: INPCDefinition) {
+    const mod = this.mod();
+    mod.npcs.push(npc);
+
+    this.updateMod(mod);
+  }
+
+  public editNPC(oldNPC: INPCDefinition, newNPC: INPCDefinition) {
+    const mod = this.mod();
+    const foundItemIdx = mod.npcs.findIndex((i) => i._id === oldNPC._id);
+    if (foundItemIdx === -1) return;
+
+    mod.npcs[foundItemIdx] = newNPC;
+
+    this.updateMod(mod);
+  }
+
+  public removeNPC(npc: INPCDefinition) {
+    const mod = this.mod();
+    mod.npcs = mod.npcs.filter((i) => i !== npc);
 
     this.updateMod(mod);
   }

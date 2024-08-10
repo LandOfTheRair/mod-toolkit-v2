@@ -1,0 +1,11 @@
+.sprite-col {
+  flex: 3;
+}
+
+.stat-container {
+  flex-wrap: wrap;
+
+  .stat-column {
+    flex: 1 1 30%;
+  }
+}
