@@ -39,6 +39,7 @@ import { InputCategoryComponent } from './components/input-category/input-catego
 import { InputChallengeratingComponent } from './components/input-challengerating/input-challengerating.component';
 import { InputItemslotComponent } from './components/input-itemslot/input-itemslot.component';
 import { InputSfxComponent } from './components/input-sfx/input-sfx.component';
+import { InputNpcComponent } from './components/input-npc/input-npc.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { InputSfxComponent } from './components/input-sfx/input-sfx.component';
     InputChallengeratingComponent,
     InputItemslotComponent,
     InputSfxComponent,
+    InputNpcComponent,
   ],
   imports: [
     CommonModule,
@@ -117,6 +119,7 @@ import { InputSfxComponent } from './components/input-sfx/input-sfx.component';
     InputChallengeratingComponent,
     InputItemslotComponent,
     InputSfxComponent,
+    InputNpcComponent,
   ],
 })
 export class SharedModule {}

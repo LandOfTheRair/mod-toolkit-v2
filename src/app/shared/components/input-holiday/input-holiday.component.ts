@@ -18,7 +18,7 @@ export class InputHolidayComponent {
   private electronService = inject(ElectronService);
   private modService = inject(ModService);
 
-  public holiday = model.required<string>();
+  public holiday = model.required<string | undefined>();
   public label = input<string>('Holiday');
   public change = output<string>();
 

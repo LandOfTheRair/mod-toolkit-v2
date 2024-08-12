@@ -1,0 +1,253 @@
+@let editingData = editing();
+
+<div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+
+  <div class="tab flex flex-row justify-end">
+    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
+    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()">Save</button>
+  </div>
+
+</div>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+
+    <div class="form-row">
+      <app-input-floating-label>Tag</app-input-floating-label>
+      <input [ngModel]="editingData.tag" (ngModelChange)="update('tag', $event)" type="text"
+        placeholder="Enter spawner tag name..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Respawn Rate (sec)</app-input-floating-label>
+      <input [(ngModel)]="editingData.respawnRate" type="number" min="0" placeholder="Enter respawn rate..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Elite Tick Cap</app-input-floating-label>
+      <input [(ngModel)]="editingData.eliteTickCap" type="number" min="0" placeholder="Enter tick cap..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Spawn Radius</app-input-floating-label>
+          <input [(ngModel)]="editingData.spawnRadius" type="number" min="0" placeholder="Enter spawn radius..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Walk Radius</app-input-floating-label>
+          <input [(ngModel)]="editingData.randomWalkRadius" type="number" min="0" placeholder="Enter walk radius..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Leash Radius</app-input-floating-label>
+          <input [(ngModel)]="editingData.leashRadius" type="number" min="0" placeholder="Enter leash radius..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Initial Monster Spawn #</app-input-floating-label>
+          <input [(ngModel)]="editingData.initialSpawn" type="number" min="0" placeholder="Enter spawn #..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Max Monsters Active</app-input-floating-label>
+          <input [(ngModel)]="editingData.maxCreatures" type="number" min="0" placeholder="Enter max #..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-holiday [(holiday)]="editingData.requireHoliday"></app-input-holiday>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Creatures will always spawn from this spawner. Useful for lairs/resources. Use sparingly.">
+            <input type="checkbox" [(ngModel)]="editingData.alwaysSpawn" class="checkbox" />
+            <span class="label-text">Always Spawn</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Spawner will persist. Useful for lairs/resources.">
+            <input type="checkbox" [(ngModel)]="editingData.shouldSerialize" class="checkbox" />
+            <span class="label-text">Should Save</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Spawner will only tick if players are nearby. Turning off is useful to let towns stay vibrant.">
+            <input type="checkbox" [(ngModel)]="editingData.respectKnowledge" class="checkbox" />
+            <span class="label-text">Respect Knowledge</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Spawner will only spawn a creature if creature is dead. Useful for lairs/resources.">
+            <input type="checkbox" [(ngModel)]="editingData.requireDeadToRespawn" class="checkbox" />
+            <span class="label-text">Require Dead to Respawn</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Paths</app-input-floating-label>
+      <textarea rows="4" [(ngModel)]="editingData._paths" placeholder="Enter spawner paths (2-N 3-W 5-E 6-S)"
+        class="form-input textarea"></textarea>
+    </div>
+
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="makeLairLike()"
+        floatUi="Be sure you really want to do this. There is a global Lair-like spawner that should be used most often, with properties edited in the map.">
+        Make Lair-like Spawner
+      </button>
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Creatures from this spawner are marked as Dangerous.">
+        <input type="checkbox" [(ngModel)]="editingData.isDangerous" class="checkbox" />
+        <span class="label-text">Dangerous Creatures</span>
+      </label>
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Creatures from this spawner will always strip the player.">
+        <input type="checkbox" [(ngModel)]="editingData.shouldStrip" class="checkbox" />
+        <span class="label-text">Should Strip</span>
+      </label>
+    </div>
+
+    @if(editingData.shouldStrip) {
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Stripping will happen on the spawner.">
+        <input type="checkbox" [(ngModel)]="editingData.stripOnSpawner" class="checkbox" />
+        <span class="label-text">Strip on Spawner</span>
+      </label>
+    </div>
+    }
+
+    <div class="form-row">
+      <app-input-floating-label>Attribute Add Chance</app-input-floating-label>
+      <input [(ngModel)]="editingData.attributeAddChance" type="number" min="0" max="100" placeholder="Enter chance..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Eat Tier</app-input-floating-label>
+      <input [(ngModel)]="editingData.shouldEatTier" type="number" min="0" placeholder="(5 * tier)% lost"
+        class="form-input" />
+    </div>
+
+    @if(editingData.shouldStrip) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Strip Radius</app-input-floating-label>
+          <input [disabled]="editingData.stripOnSpawner" [(ngModel)]="editingData.stripRadius" type="number" min="0"
+            placeholder="Enter strip radius..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Strip X</app-input-floating-label>
+          <input [disabled]="editingData.stripOnSpawner" [(ngModel)]="editingData.stripX" type="number" min="0"
+            placeholder="Enter strip X..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Strip Y</app-input-floating-label>
+          <input [disabled]="editingData.stripOnSpawner" [(ngModel)]="editingData.stripY" type="number" min="0"
+            placeholder="Enter strip Y..." class="form-input" />
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="form-column">
+    <div class="form-row split">
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-npc [(npc)]="currentNPC" label="Add NPC to Spawner"></app-input-npc>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" [disabled]="!currentNPC() || hasNPC(currentNPC())"
+            (click)="addNPC(currentNPC())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    @for(npc of editingData.npcIds; track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          {{ npc.result }}
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Weight</app-input-floating-label>
+          <input [(ngModel)]="npc.chance" min="0" type="number" placeholder="Choose value..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeNPC($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<app-debug-view>
+  {{ editingData | json }}
+</app-debug-view>

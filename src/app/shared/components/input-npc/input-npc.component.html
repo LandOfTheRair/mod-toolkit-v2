@@ -1,25 +1,25 @@
 <div class="relative">
-  <ng-select class="form-control" [items]="values()" bindValue="data" groupBy="category" [(ngModel)]="item"
-    placeholder="Select item..." (change)="change.emit($event?.value)" [compareWith]="itemCompare" [searchFn]="search">
+  <ng-select class="form-control" [items]="values()" bindValue="data" groupBy="category" [(ngModel)]="npc"
+    placeholder="Select NPC..." (change)="change.emit($event?.value)" [compareWith]="npcCompare" [searchFn]="search">
 
     <ng-template ng-label-tmp let-item="item">
       <div class="relative">
         @if(item.data) {
-        <app-sprite class="absolute -top-5 -left-5" [scale]="0.5" [type]="'items'"
+        <app-sprite class="absolute -top-5 -left-5" [scale]="0.5" [type]="'creatures'"
           [sprite]="item.data.sprite"></app-sprite>
         }
         <div class="ml-7 text-white">
-          {{ item.data.name }}
+          {{ item.data.npcId }}
         </div>
       </div>
     </ng-template>
 
     <ng-template ng-option-tmp let-item="item">
       <div class="relative">
-        <app-sprite class="absolute -top-5 -left-7" [scale]="0.5" [type]="'items'"
+        <app-sprite class="absolute -top-5 -left-7" [scale]="0.5" [type]="'creatures'"
           [sprite]="item.data.sprite"></app-sprite>
         <div class="ml-5 text-white">
-          {{ item.data.name }}
+          {{ item.data.npcId }}
         </div>
       </div>
     </ng-template>

@@ -4,3 +4,4 @@ export * from './id';
 export * from './item';
 export * from './npc';
 export * from './recipe';
+export * from './spawner';

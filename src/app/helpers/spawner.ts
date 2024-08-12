@@ -1,0 +1,33 @@
+import { ISpawnerData } from '../../interfaces';
+import { id } from './id';
+
+export const defaultSpawner: () => ISpawnerData = () => ({
+  _id: id(),
+  tag: '',
+  paths: [],
+  shouldSerialize: false,
+  alwaysSpawn: false,
+  requireDeadToRespawn: false,
+  doInitialSpawnImmediately: false,
+  canSlowDown: true,
+  isDangerous: false,
+  npcAISettings: [],
+  npcIds: [],
+  respawnRate: 120,
+  randomWalkRadius: 10,
+  leashRadius: 20,
+  eliteTickCap: 50,
+  initialSpawn: 0,
+  spawnRadius: 0,
+  maxCreatures: 5,
+  stripRadius: 0,
+  stripX: 0,
+  stripY: 0,
+  shouldEatTier: 0,
+  shouldStrip: false,
+  stripOnSpawner: false,
+  respectKnowledge: true,
+  attributeAddChance: 0,
+  requireHoliday: undefined as unknown as string,
+  _paths: '',
+});

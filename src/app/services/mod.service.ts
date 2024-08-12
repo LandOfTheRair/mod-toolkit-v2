@@ -7,6 +7,7 @@ import {
   IModKit,
   INPCDefinition,
   IRecipe,
+  ISpawnerData,
 } from '../../interfaces';
 
 export function defaultModKit(): IModKit {
@@ -39,6 +40,7 @@ export class ModService {
   public modName = computed(() => this.mod().meta.name);
   public modAuthor = computed(() => this.mod().meta.author);
 
+  public availableNPCs = computed(() => this.mod().npcs);
   public availableItems = computed(() => this.mod().items);
   public availableMaps = computed(() => this.mod().maps);
 
@@ -200,7 +202,7 @@ export class ModService {
 
   public removeItem(item: IItemDefinition) {
     const mod = this.mod();
-    mod.items = mod.items.filter((i) => i !== item);
+    mod.items = mod.items.filter((i) => i._id !== item._id);
 
     this.updateMod(mod);
   }
@@ -230,7 +232,7 @@ export class ModService {
 
   public removeDroptable(item: IDroptable) {
     const mod = this.mod();
-    mod.drops = mod.drops.filter((i) => i !== item);
+    mod.drops = mod.drops.filter((i) => i._id !== item._id);
 
     this.updateMod(mod);
   }
@@ -255,7 +257,7 @@ export class ModService {
 
   public removeRecipe(item: IRecipe) {
     const mod = this.mod();
-    mod.recipes = mod.recipes.filter((i) => i !== item);
+    mod.recipes = mod.recipes.filter((i) => i._id !== item._id);
 
     this.updateMod(mod);
   }
@@ -280,7 +282,32 @@ export class ModService {
 
   public removeNPC(npc: INPCDefinition) {
     const mod = this.mod();
-    mod.npcs = mod.npcs.filter((i) => i !== npc);
+    mod.npcs = mod.npcs.filter((i) => i._id !== npc._id);
+
+    this.updateMod(mod);
+  }
+
+  // spawner functions
+  public addSpawner(spawner: ISpawnerData) {
+    const mod = this.mod();
+    mod.spawners.push(spawner);
+
+    this.updateMod(mod);
+  }
+
+  public editSpawner(oldSpawner: ISpawnerData, newSpawner: ISpawnerData) {
+    const mod = this.mod();
+    const foundItemIdx = mod.npcs.findIndex((i) => i._id === oldSpawner._id);
+    if (foundItemIdx === -1) return;
+
+    mod.spawners[foundItemIdx] = newSpawner;
+
+    this.updateMod(mod);
+  }
+
+  public removeSpawner(spawner: ISpawnerData) {
+    const mod = this.mod();
+    mod.spawners = mod.spawners.filter((i) => i._id !== spawner._id);
 
     this.updateMod(mod);
   }

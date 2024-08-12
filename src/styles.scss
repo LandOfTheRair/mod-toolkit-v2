@@ -102,4 +102,9 @@ ag-grid-angular {
   @apply input-bordered;
   @apply w-full;
   @apply h-9;
+
+  &.textarea {
+    @apply leading-4;
+    @apply h-20;
+  }
 }

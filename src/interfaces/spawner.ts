@@ -2,7 +2,8 @@ import { Rollable } from './building-blocks';
 import { HasIdentification } from './identified';
 
 export interface ISpawnerData extends HasIdentification {
-  npcIds: Rollable[] | string[];
+  npcIds: Rollable[];
+  paths: string[];
   tag: string;
   respawnRate: number;
   initialSpawn: number;
@@ -12,16 +13,20 @@ export interface ISpawnerData extends HasIdentification {
   leashRadius: number;
   shouldSerialize: boolean;
   alwaysSpawn: boolean;
+  requireHoliday?: string;
   requireDeadToRespawn: boolean;
   canSlowDown: boolean;
+  stripX: number;
+  stripY: number;
+  stripRadius: number;
+  shouldEatTier: number;
+  shouldStrip: boolean;
+  stripOnSpawner: boolean;
   doInitialSpawnImmediately: boolean;
+  attributeAddChance: number;
   eliteTickCap: number;
   npcAISettings: string[];
+  respectKnowledge?: boolean;
   isDangerous?: boolean;
-
-  x: number;
-  y: number;
-  name: string;
-  currentTick: number;
-  respectKnowledge: boolean;
+  _paths?: string;
 }
