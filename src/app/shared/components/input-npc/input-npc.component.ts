@@ -45,7 +45,7 @@ export class InputNpcComponent implements OnInit {
     }
   }
 
-  public itemCompare(itemA: NPCModel, itemB: NPCModel): boolean {
+  public npcCompare(itemA: NPCModel, itemB: NPCModel): boolean {
     return itemA.value === itemB.value;
   }
 
