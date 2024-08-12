@@ -7,7 +7,7 @@ import { Skill } from '../../../../interfaces';
   styleUrl: './input-skill.component.scss',
 })
 export class InputSkillComponent {
-  public skill = model.required<string>();
+  public skill = model.required<string | undefined>();
   public label = input<string>('Skill');
   public change = output<string>();
 

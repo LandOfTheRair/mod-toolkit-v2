@@ -9,3 +9,23 @@
     flex: 1 1 30%;
   }
 }
+
+.equipment-pickers {
+  & > .form-column:first-child {
+    flex: 3;
+  }
+
+  & > .form-column:not(:first-child) {
+    flex: 2;
+  }
+}
+
+.drop-pickers {
+  & > .form-column:first-child {
+    flex: 1;
+  }
+
+  & > .form-column:not(:first-child) {
+    flex: 2;
+  }
+}

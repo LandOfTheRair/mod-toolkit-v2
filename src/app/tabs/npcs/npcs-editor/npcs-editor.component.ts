@@ -7,7 +7,15 @@ import {
   signal,
 } from '@angular/core';
 import { isNumber, sortBy } from 'lodash';
-import { INPCDefinition, StatType } from '../../../../interfaces';
+import {
+  Allegiance,
+  AllegianceType,
+  IItemDefinition,
+  INPCDefinition,
+  ItemSlotType,
+  SkillType,
+  StatType,
+} from '../../../../interfaces';
 import { ElectronService } from '../../../services/electron.service';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
@@ -29,6 +37,7 @@ export class NpcsEditorComponent
     { name: 'Gear' },
     { name: 'Drops' },
     { name: 'Triggers' },
+    { name: 'Faction Reputation & Summonability' },
   ];
 
   public readonly coreProps: Array<{
@@ -53,12 +62,33 @@ export class NpcsEditorComponent
     'luk',
   ];
 
+  public equipmentColumns: Array<Array<ItemSlotType>> = [
+    ['rightHand', 'leftHand', 'armor', 'robe1', 'robe2'],
+    ['head', 'neck', 'waist', 'wrists', 'hands', 'feet'],
+    ['ear', 'ring1', 'ring2', 'trinket', 'potion', 'ammo'],
+  ];
+
+  public allegiances = Object.values(Allegiance).sort();
+
   public currentStat = signal<StatType | undefined>(undefined);
+  public currentSummonStat = signal<StatType | undefined>(undefined);
+  public currentSummonSkill = signal<SkillType | undefined>(undefined);
   public currentTrait = signal<string | undefined>(undefined);
+  public tansFor = signal<IItemDefinition | undefined>(undefined);
 
   public statsInOrder = computed(() => {
     const npc = this.editing();
     return sortBy(Object.keys(npc.otherStats)) as StatType[];
+  });
+
+  public summonStatsInOrder = computed(() => {
+    const npc = this.editing();
+    return sortBy(Object.keys(npc.summonStatModifiers)) as StatType[];
+  });
+
+  public summonSkillsInOrder = computed(() => {
+    const npc = this.editing();
+    return sortBy(Object.keys(npc.summonSkillModifiers)) as SkillType[];
   });
 
   public traitsInOrder = computed(() => {
@@ -88,18 +118,48 @@ export class NpcsEditorComponent
     });
   }
 
+  ngOnInit(): void {
+    this.checkLinkedStats();
+    const npc = this.editing();
+    npc.items.sack.forEach((i) => (i._itemRef = signal(undefined)));
+
+    (this.equipmentColumns.flat(Infinity) as ItemSlotType[]).forEach(
+      (slot: ItemSlotType) => {
+        npc.items.equipment[slot].forEach(
+          (i) => (i._itemRef = signal(undefined))
+        );
+      }
+    );
+
+    npc.drops.forEach((d) => (d._itemRef = signal(undefined)));
+    npc.dropPool.items.forEach((d) => (d._itemRef = signal(undefined)));
+
+    const reps = npc.repMod ?? [];
+    npc.repMod = this.allegiances.map((allegiance) => ({
+      allegiance,
+      delta: reps.find((r) => r.allegiance === allegiance)?.delta ?? 0,
+    }));
+
+    this.editing.set(npc);
+
+    super.ngOnInit();
+  }
+
   public addTrait(trait: string | undefined, value = 0) {
     if (!trait) return;
 
-    const npc = structuredClone(this.editing());
-    npc.traitLevels[trait] = value;
-    this.editing.set(npc);
+    this.editing.update((npc) => ({
+      ...npc,
+      traitLevels: { ...npc.traitLevels, [trait]: value },
+    }));
   }
 
   public removeTrait(trait: string) {
-    const npc = structuredClone(this.editing());
-    delete npc.traitLevels[trait];
-    this.editing.set(npc);
+    this.editing.update((npc) => {
+      const newNpc = { ...npc };
+      delete npc.traitLevels[trait];
+      return newNpc;
+    });
   }
 
   public hasTrait(trait: string | undefined) {
@@ -110,20 +170,67 @@ export class NpcsEditorComponent
   public addStat(stat: StatType | undefined, value = 0) {
     if (!stat) return;
 
-    const npc = structuredClone(this.editing());
-    npc.otherStats[stat] = value;
-    this.editing.set(npc);
+    this.editing.update((npc) => ({
+      ...npc,
+      otherStats: { ...npc.otherStats, [stat]: value },
+    }));
   }
 
   public removeStat(stat: StatType) {
-    const npc = structuredClone(this.editing());
-    delete npc.otherStats[stat];
-    this.editing.set(npc);
+    this.editing.update((npc) => {
+      const newNpc = { ...npc };
+      delete npc.otherStats[stat];
+      return newNpc;
+    });
   }
 
   public hasStat(stat: StatType | undefined) {
     if (!stat) return false;
     return isNumber(this.editing().otherStats[stat]);
+  }
+
+  public addSummonStat(stat: StatType | undefined, value = 0) {
+    if (!stat) return;
+
+    this.editing.update((npc) => ({
+      ...npc,
+      summonStatModifiers: { ...npc.summonStatModifiers, [stat]: value },
+    }));
+  }
+
+  public removeSummonStat(stat: StatType) {
+    this.editing.update((npc) => {
+      const newNpc = { ...npc };
+      delete npc.summonStatModifiers[stat];
+      return newNpc;
+    });
+  }
+
+  public hasSummonStat(stat: StatType | undefined) {
+    if (!stat) return false;
+    return isNumber(this.editing().summonStatModifiers[stat]);
+  }
+
+  public addSummonSkill(skill: SkillType | undefined, value = 0) {
+    if (!skill) return;
+
+    this.editing.update((npc) => ({
+      ...npc,
+      summonSkillModifiers: { ...npc.summonSkillModifiers, [skill]: value },
+    }));
+  }
+
+  public removeSummonSkill(skill: SkillType) {
+    this.editing.update((npc) => {
+      const newNpc = { ...npc };
+      delete npc.summonSkillModifiers[skill];
+      return newNpc;
+    });
+  }
+
+  public hasSummonSkill(skill: SkillType | undefined) {
+    if (!skill) return false;
+    return isNumber(this.editing().summonSkillModifiers[skill]);
   }
 
   public addSprite() {
@@ -205,15 +312,138 @@ export class NpcsEditorComponent
     this.linkStats.set(isLinked);
   }
 
-  ngOnInit(): void {
-    this.checkLinkedStats();
-    super.ngOnInit();
+  public addSackItem() {
+    const npc = this.editing();
+    npc.items.sack.push({
+      chance: -1,
+      maxChance: 100,
+      result: undefined as unknown as string,
+      _itemRef: signal<IItemDefinition | undefined>(undefined),
+    });
+
+    this.editing.set(npc);
+  }
+
+  public removeSackItem(index: number) {
+    const npc = this.editing();
+    npc.items.sack.splice(index, 1);
+    this.editing.set(npc);
+  }
+
+  public addEquipmentItem(slot: ItemSlotType) {
+    const npc = this.editing();
+    npc.items.equipment[slot].push({
+      chance: 1,
+      result: undefined as unknown as string,
+      _itemRef: signal<IItemDefinition | undefined>(undefined),
+    });
+
+    this.editing.set(npc);
+  }
+
+  public removeEquipmentItem(slot: ItemSlotType, index: number) {
+    const npc = this.editing();
+    npc.items.equipment[slot].splice(index, 1);
+    this.editing.set(npc);
+  }
+
+  public addDrop() {
+    const npc = this.editing();
+    npc.drops.push({
+      chance: 1,
+      result: undefined as unknown as string,
+      _itemRef: signal<IItemDefinition | undefined>(undefined),
+    });
+    this.editing.set(npc);
+  }
+
+  public removeDrop(index: number) {
+    const npc = this.editing();
+    npc.drops.splice(index, 1);
+    this.editing.set(npc);
+  }
+
+  public addCopyDrop() {
+    const npc = this.editing();
+    npc.copyDrops.push({
+      chance: -1,
+      result: undefined as unknown as string,
+    });
+    this.editing.set(npc);
+  }
+
+  public removeCopyDrop(index: number) {
+    const npc = this.editing();
+    npc.copyDrops.splice(index, 1);
+    this.editing.set(npc);
+  }
+
+  public addDropPoolItem() {
+    const npc = this.editing();
+    npc.dropPool.items.push({
+      chance: 1,
+      result: undefined as unknown as string,
+      _itemRef: signal<IItemDefinition | undefined>(undefined),
+    });
+    this.editing.set(npc);
+  }
+
+  public removeDropPoolItem(index: number) {
+    const npc = this.editing();
+    npc.dropPool.items.splice(index, 1);
+    this.editing.set(npc);
+  }
+
+  public addCombatMessage() {
+    const npc = this.editing();
+    npc.triggers.combat.messages.push('');
+    this.editing.set(npc);
+  }
+
+  public removeCombatMessage(index: number) {
+    const npc = this.editing();
+    npc.triggers.combat.messages.splice(index, 1);
+    this.editing.set(npc);
+  }
+
+  public setReputation(allegiance: AllegianceType, number = 0) {
+    const npc = this.editing();
+    npc.allegianceReputation[allegiance] = number;
+    this.editing.set(npc);
   }
 
   doSave() {
     const npc = this.editing();
     npc.usableSkills = npc.usableSkills.filter((f) => f.result);
     npc.baseEffects = npc.baseEffects.filter((f) => f.name);
+    npc.items.sack = npc.items.sack.filter((f) => f.result);
+    npc.items.sack.forEach((item) => {
+      delete item._itemRef;
+    });
+
+    (this.equipmentColumns.flat(Infinity) as ItemSlotType[]).forEach(
+      (slot: ItemSlotType) => {
+        npc.items.equipment[slot] = npc.items.equipment[slot].filter(
+          (f) => f.result
+        );
+
+        npc.items.equipment[slot].forEach((item) => {
+          delete item._itemRef;
+        });
+      }
+    );
+
+    npc.drops.forEach((d) => delete d._itemRef);
+    npc.dropPool.items.forEach((d) => delete d._itemRef);
+
+    npc.drops = npc.drops.filter((d) => d.result);
+    npc.copyDrops = npc.copyDrops.filter((d) => d.result);
+    npc.dropPool.items = npc.dropPool.items.filter((d) => d.result);
+
+    npc.triggers.combat.messages = npc.triggers.combat.messages.filter(Boolean);
+
+    npc.repMod = npc.repMod.filter((r) => r.delta);
+
     this.editing.set(npc);
 
     super.doSave();

@@ -1,3 +1,6 @@
+import { WritableSignal } from '@angular/core';
+import { IItemDefinition } from './item';
+
 export enum Allegiance {
   // for things that do not have an allegiance
   None = 'None',
@@ -72,13 +75,11 @@ export enum ItemSlot {
   Ear = 'ear',
   Waist = 'waist',
   Wrists = 'wrists',
-  Ring = 'ring', // internal type, not to be used as an actual slot
   Ring1 = 'ring1',
   Ring2 = 'ring2',
   Hands = 'hands',
   Feet = 'feet',
   Armor = 'armor',
-  Robe = 'robe', // internal type, not to be used as an actual slot
   Robe1 = 'robe1',
   Robe2 = 'robe2',
   RightHand = 'rightHand',
@@ -87,6 +88,8 @@ export enum ItemSlot {
   Potion = 'potion',
   Ammo = 'ammo',
 }
+
+export type ItemSlotType = `${ItemSlot}`;
 
 export enum Stat {
   // core
@@ -197,6 +200,8 @@ export enum Skill {
   Sword = 'sword',
   Wand = 'wand',
 }
+
+export type SkillType = `${Skill}`;
 
 export enum Tradeskill {
   Alchemy = 'alchemy',
@@ -312,6 +317,8 @@ export interface Rollable {
   maxChance?: number;
   requireHoliday?: Holiday;
   noLuckBonus?: boolean;
+
+  _itemRef?: WritableSignal<IItemDefinition | undefined>;
 }
 
 export interface RandomNumber {

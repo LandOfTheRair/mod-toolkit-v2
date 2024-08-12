@@ -69,12 +69,16 @@ export const defaultNPC: () => INPCDefinition = () => ({
     spawn: {
       messages: [''],
       sfx: {
-        name: '',
+        name: undefined as unknown as string,
         maxChance: 0,
       },
     },
     combat: {
       messages: [],
+      sfx: {
+        name: undefined as unknown as string,
+        maxChance: 0,
+      },
     },
   },
   items: {
@@ -100,6 +104,20 @@ export const defaultNPC: () => INPCDefinition = () => ({
       ammo: [],
     },
   },
+  allegianceReputation: {
+    Adventurers: 0,
+    Enemy: 0,
+    GM: 0,
+    NaturalResource: 0,
+    None: 0,
+    Pirates: 0,
+    Royalty: 0,
+    Townsfolk: 0,
+    Underground: 0,
+    Wilderness: 0,
+  },
   repMod: [],
   skills: {},
+  summonSkillModifiers: {},
+  summonStatModifiers: {},
 });

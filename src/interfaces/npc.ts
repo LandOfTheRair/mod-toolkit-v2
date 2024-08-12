@@ -1,4 +1,3 @@
-import { IBehavior, IDialogTree } from './behavior';
 import {
   AlignmentType,
   AllegianceType,
@@ -42,7 +41,7 @@ export interface INPCDefinition extends HasIdentification {
   allegiance: AllegianceType;
 
   // the current reputation (how it views other allegiances)
-  allegianceReputation?: Partial<Record<AllegianceType, number>>;
+  allegianceReputation: Record<AllegianceType, number>;
 
   // whether the npc can only use water
   aquaticOnly?: boolean;
@@ -63,17 +62,11 @@ export interface INPCDefinition extends HasIdentification {
     };
   }>;
 
-  // the behaviors for the npc
-  behaviors?: IBehavior[];
-
   // the drop chance for copying items that are already equipped
-  copyDrops?: Rollable[];
-
-  // the dialog tree for the npc, if applicable
-  dialog?: IDialogTree;
+  copyDrops: Rollable[];
 
   // the drop pool for lairs that can drop X of Y items
-  dropPool?: {
+  dropPool: {
     replace?: boolean;
     choose: {
       min: number;
@@ -83,7 +76,7 @@ export interface INPCDefinition extends HasIdentification {
   };
 
   // stuff that can be put in the loot table for normal drops
-  drops?: Rollable[];
+  drops: Rollable[];
 
   // the hp multiplier for the npc
   hpMult: number;
@@ -95,26 +88,20 @@ export interface INPCDefinition extends HasIdentification {
   forceAI?: string;
 
   // gear items that can spawn on the creature
-  items?: {
-    equipment?: Partial<Record<ItemSlot, Rollable[]>>;
-    sack?: Rollable[];
-    belt?: Rollable[];
+  items: {
+    equipment: Record<ItemSlot, Rollable[]>;
+    sack: Rollable[];
+    belt: Rollable[];
   };
 
   // the creatures level
   level: number;
-
-  // how far the NPC can wander, in tiles
-  maxWanderRandomlyDistance?: number;
 
   // the creature class (used for rippers, etc)
   monsterClass?: MonsterClassType;
 
   // the monster grouping, so Hostility.Always dont infight with themselves
   monsterGroup?: string;
-
-  // the owner of the creature (used for summons)
-  owner?: string;
 
   // the "other stats" for this npc, inherited from NPC definition
   otherStats: Partial<Record<StatType, number>>;
@@ -149,10 +136,10 @@ export interface INPCDefinition extends HasIdentification {
   stats: StatBlock;
 
   // the modifiers (based on potency) for each stat to modify this character by
-  summonStatModifiers?: Record<Stat, number>;
+  summonStatModifiers: Partial<Record<Stat, number>>;
 
   // the modifiers (based on potency) for each skill to modify this character by
-  summonSkillModifiers?: Record<Skill, number>;
+  summonSkillModifiers: Partial<Record<Skill, number>>;
 
   // the skill required to tan this creature
   tanSkillRequired?: number;
@@ -164,7 +151,16 @@ export interface INPCDefinition extends HasIdentification {
   traitLevels: Record<string, number>;
 
   // npc triggers
-  triggers?: Partial<Record<NPCTriggerType, any>>;
+  triggers: Record<
+    NPCTriggerType,
+    {
+      messages: string[];
+      sfx: {
+        name: string;
+        maxChance: number;
+      };
+    }
+  >;
 
   // npc usable skills
   usableSkills: Rollable[];

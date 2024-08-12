@@ -1,8 +1,11 @@
 import {
   heroArrowDownOnSquare,
+  heroArrowPathRoundedSquare,
   heroArrowsRightLeft,
   heroDocumentDuplicate,
   heroDocumentText,
+  heroFaceFrown,
+  heroFaceSmile,
   heroMinus,
   heroPencil,
   heroPlus,
@@ -18,4 +21,7 @@ export const appIcons = {
   heroMinus,
   heroTrash,
   heroArrowsRightLeft,
+  heroFaceFrown,
+  heroFaceSmile,
+  heroArrowPathRoundedSquare,
 };

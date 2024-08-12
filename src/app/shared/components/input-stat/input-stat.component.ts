@@ -9,6 +9,7 @@ import { coreStats, extraStats } from '../../../helpers';
 })
 export class InputStatComponent {
   public stat = model.required<StatType | undefined>();
+  public label = input<string>('Stat');
   public change = output<ItemClassType>();
   public allowCore = input<boolean>(true);
   public allowExtra = input<boolean>(true);

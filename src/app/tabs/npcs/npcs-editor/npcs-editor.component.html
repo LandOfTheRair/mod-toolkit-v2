@@ -133,7 +133,7 @@
         </div>
       </div>
 
-      <div class="form-column justify-center">
+      <div class="form-column justify-center button-column">
         <div class="form-row">
           @if($index === 0) {
           <button class="btn btn-accent btn-sm" [disabled]="editingData.sprite.length > 8" (click)="addSprite()">
@@ -223,7 +223,7 @@
         </div>
       </div>
 
-      <div class="form-column">
+      <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
           <button class="btn btn-accent btn-sm" [disabled]="!currentStat() || hasStat(currentStat())"
             (click)="addStat(currentStat())">
@@ -243,7 +243,7 @@
         </div>
       </div>
 
-      <div class="form-column">
+      <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
           <button class="ml-1 btn btn-error btn-sm" (click)="removeStat(stat)">
             <ng-icon name="heroMinus"></ng-icon>
@@ -267,7 +267,7 @@
         </div>
       </div>
 
-      <div class="form-column">
+      <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
           <button class="btn btn-accent btn-sm" [disabled]="!currentTrait() || hasTrait(currentTrait())"
             (click)="addTrait(currentTrait())">
@@ -287,7 +287,7 @@
         </div>
       </div>
 
-      <div class="form-column">
+      <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
           <button class="ml-1 btn btn-error btn-sm" (click)="removeTrait(trait)">
             <ng-icon name="heroMinus"></ng-icon>
@@ -305,33 +305,30 @@
       </button>
     </div>
 
-    <div class="form-row">
-
-      @for(spell of editingData.usableSkills; track $index) {
-      <div class="form-row split">
-        <div class="form-column">
-          <div class="form-row">
-            <app-input-spell [(spell)]="spell.result"></app-input-spell>
-          </div>
-        </div>
-
-        <div class="form-column">
-          <div class="form-row">
-            <app-input-floating-label>Use Chance (Weight)</app-input-floating-label>
-            <input [(ngModel)]="spell.chance" min="0" type="number" placeholder="Choose value..." class="form-input" />
-          </div>
-        </div>
-
-        <div class="form-column">
-          <div class="form-row w-full flex justify-end">
-            <button class="ml-1 btn btn-error btn-sm" (click)="removeSpell($index)">
-              <ng-icon name="heroMinus"></ng-icon>
-            </button>
-          </div>
+    @for(spell of editingData.usableSkills; track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-spell [(spell)]="spell.result"></app-input-spell>
         </div>
       </div>
-      }
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Use Chance (Weight)</app-input-floating-label>
+          <input [(ngModel)]="spell.chance" min="0" type="number" placeholder="Choose value..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeSpell($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
     </div>
+    }
   </div>
 
   <div class="form-column">
@@ -365,7 +362,7 @@
         </div>
       </div>
 
-      <div class="form-column">
+      <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
           <button class="ml-1 btn btn-error btn-sm" (click)="removeBaseEffect($index)">
             <ng-icon name="heroMinus"></ng-icon>
@@ -379,12 +376,429 @@
 }
 
 @case (2) {
+<div class="flex flex-row gap-2 equipment-pickers">
+  <div class="form-column">
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addSackItem()">
+        Add sack item
+      </button>
+    </div>
+
+    @for(item of editingData.items.sack; track item) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-item [item]="editingData.items.sack[$index]._itemRef!()"
+            (change)="editingData.items.sack[$index].result = $event"
+            [defaultValue]="editingData.items.sack[$index].result"></app-input-item>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Chance (-1 = always)</app-input-floating-label>
+          <input [(ngModel)]="editingData.items.sack[$index].chance" min="-1" type="number"
+            placeholder="Choose chance..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Max Chance (1/X)</app-input-floating-label>
+          <input [(ngModel)]="editingData.items.sack[$index].maxChance" min="0" type="number"
+            placeholder="Choose chance..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeSackItem($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  @for(col of equipmentColumns; track $index) {
+  <div class="form-column">
+    @for(slot of col; track $index) {
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addEquipmentItem(slot)">
+        Add {{ slot }} item
+      </button>
+    </div>
+
+    @for(item of editingData.items.equipment[slot]; track item; let eqSlot = $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-item [item]="editingData.items.equipment[slot][eqSlot]._itemRef!()"
+            (change)="editingData.items.equipment[slot][eqSlot].result = $event"
+            [defaultValue]="editingData.items.equipment[slot][eqSlot].result"></app-input-item>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Weight</app-input-floating-label>
+          <input [(ngModel)]="editingData.items.equipment[slot][eqSlot].chance" min="-1" type="number"
+            placeholder="Choose chance..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeEquipmentItem(slot, eqSlot)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+    }
+  </div>
+  }
+</div>
 }
 
 @case (3) {
+<div class="flex flex-row gap-2 drop-pickers">
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-item [item]="tansFor()" (change)="editingData.tansFor = $event" [defaultValue]="editingData.tansFor"
+        label="Tans For Item"></app-input-item>
+    </div>
+    <div class="form-row">
+      <app-input-floating-label>Tan Skill Required</app-input-floating-label>
+      <input [(ngModel)]="editingData.tanSkillRequired" min="-1" type="number" placeholder="Choose skill..."
+        class="form-input" />
+    </div>
+
+    <hr class="my-2">
+
+    <div class="form-row">
+      <div class="form-row pl-1">
+        <label class="label cursor-pointer"
+          floatUi="When picking items from the drop pool, choose with replacement rather than without. Choosing with replacement will allow the same entry to be chosen any number of times. Choosing without replacement means the drop pool will slowly deplete when this creature is searched.">
+          <input type="checkbox" [(ngModel)]="editingData.dropPool.replace" class="checkbox" />
+          <span class="label-text">Drop Pool Replace Choices</span>
+        </label>
+      </div>
+
+      <div class="form-row">
+        <app-input-floating-label>Drop Pool Min Items</app-input-floating-label>
+        <input [(ngModel)]="editingData.dropPool.choose.min" min="0" type="number" placeholder="Choose min..."
+          class="form-input" />
+      </div>
+
+      <div class="form-row">
+        <app-input-floating-label>Drop Pool Max Items</app-input-floating-label>
+        <input [(ngModel)]="editingData.dropPool.choose.max" min="0" type="number" placeholder="Choose max..."
+          class="form-input" />
+      </div>
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addDrop()">
+        Add dropped item
+      </button>
+    </div>
+
+    @for(item of editingData.drops; track item; let eqSlot = $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-item [item]="editingData.drops[eqSlot]._itemRef!()"
+            (change)="editingData.drops[eqSlot].result = $event"
+            [defaultValue]="editingData.drops[eqSlot].result"></app-input-item>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Chance (-1 = always)</app-input-floating-label>
+          <input [(ngModel)]="editingData.drops[eqSlot].chance" min="-1" type="number" placeholder="Choose chance..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Max Chance (1/X)</app-input-floating-label>
+          <input [(ngModel)]="editingData.drops[eqSlot].maxChance" min="0" type="number" placeholder="Choose chance..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeDrop(eqSlot)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addDropPoolItem()">
+        Add drop pool item
+      </button>
+    </div>
+
+    @for(item of editingData.dropPool.items; track item; let eqSlot = $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-item [item]="editingData.dropPool.items[eqSlot]._itemRef!()"
+            (change)="editingData.dropPool.items[eqSlot].result = $event"
+            [defaultValue]="editingData.dropPool.items[eqSlot].result"></app-input-item>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeDropPoolItem(eqSlot)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addCopyDrop()">
+        Add copy drop slot
+      </button>
+    </div>
+
+    @for(item of editingData.copyDrops; track item; let eqSlot = $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-itemslot [(itemSlot)]="editingData.copyDrops[$index].result"></app-input-itemslot>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeDropPoolItem(eqSlot)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
 }
 
 @case (4) {
+<div class="flex flex-row gap-2">
+
+  <div class="form-column">
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addCombatMessage()">
+        Add combat message
+      </button>
+    </div>
+
+    @for(message of editingData.triggers.combat.messages; track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Combat Message</app-input-floating-label>
+          <input [(ngModel)]="editingData.triggers.combat.messages[$index]" type="text" placeholder="Input message..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeCombatMessage($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Spawn Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.triggers.spawn.messages[0]" type="text" placeholder="Input message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-sfx [(sfx)]="editingData.triggers.spawn.sfx.name" label="Spawn SFX"></app-input-sfx>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Spawn SFX %</app-input-floating-label>
+      <input [(ngModel)]="editingData.triggers.spawn.sfx.maxChance" min="0" max="100" type="number"
+        placeholder="Choose value..." class="form-input" />
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Leash Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.triggers.leash.messages[0]" type="text" placeholder="Input message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-sfx [(sfx)]="editingData.triggers.leash.sfx.name" label="Leash SFX"></app-input-sfx>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Leash SFX %</app-input-floating-label>
+      <input [(ngModel)]="editingData.triggers.leash.sfx.maxChance" min="0" max="100" type="number"
+        placeholder="Choose value..." class="form-input" />
+    </div>
+  </div>
+
+</div>
+}
+
+@case (5) {
+<div class="flex flex-row gap-2">
+
+  <div class="form-column">
+    @for(allegiance of allegiances; track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ allegiance }} Outlook</app-input-floating-label>
+          <input [(ngModel)]="editingData.allegianceReputation[allegiance]" type="number" placeholder="Choose value..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-error btn-sm" (click)="setReputation(allegiance, -101)">
+            <ng-icon name="heroFaceFrown"></ng-icon>
+          </button>
+
+          <button class="ml-1 btn btn-neutral btn-sm" (click)="setReputation(allegiance, 0)">
+            <ng-icon name="heroArrowPathRoundedSquare"></ng-icon>
+          </button>
+
+          <button class="ml-1 btn btn-success btn-sm" (click)="setReputation(allegiance, 101)">
+            <ng-icon name="heroFaceSmile"></ng-icon>
+          </button>
+        </div>
+      </div>
+
+    </div>
+    }
+  </div>
+
+
+  <div class="form-column">
+    @for(repMod of editingData.repMod; track $index) {
+    <div class="form-row">
+      <app-input-floating-label>{{ repMod.allegiance }} Delta On Kill</app-input-floating-label>
+      <input [(ngModel)]="repMod.delta" type="number" placeholder="Choose value..." class="form-input" />
+    </div>
+
+    }
+  </div>
+
+
+  <div class="form-column">
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stat [(stat)]="currentSummonStat" [allowCore]="true"
+            label="Summon Stat To Modify"></app-input-stat>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" [disabled]="!currentSummonStat() || hasSummonStat(currentSummonStat())"
+            (click)="addSummonStat(currentSummonStat())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(stat of summonStatsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Summon {{ stat }} Owner Multiplier</app-input-floating-label>
+          <input [(ngModel)]="editingData.summonStatModifiers[stat]" type="number" placeholder="Choose value..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeSummonStat(stat)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+
+  <div class="form-column">
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-skill [(skill)]="currentSummonSkill" label="Summon Skill To Modify"></app-input-skill>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm"
+            [disabled]="!currentSummonSkill() || hasSummonSkill(currentSummonSkill())"
+            (click)="addSummonSkill(currentSummonSkill())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(skill of summonSkillsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Summon {{ skill }} Owner Multiplier</app-input-floating-label>
+          <input [(ngModel)]="editingData.summonSkillModifiers[skill]" type="number" placeholder="Choose value..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeSummonSkill(skill)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+</div>
 }
 }
 

@@ -63,7 +63,14 @@ ag-grid-angular {
 .form-column {
   @apply flex;
   @apply flex-col;
-  @apply flex-1;
+
+  &:not(.button-column) {
+    @apply flex-1;
+  }
+
+  &.button-column {
+    @apply w-12;
+  }
 }
 
 .form-row {

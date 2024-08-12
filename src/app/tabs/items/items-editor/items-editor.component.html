@@ -160,7 +160,7 @@
         </div>
       </div>
 
-      <div class="form-column">
+      <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
           <button class="btn btn-accent btn-sm" [disabled]="!currentStat() || doesItemHaveCurrentStat()"
             (click)="addStat(currentStat())">
@@ -277,7 +277,7 @@
         </div>
       </div>
 
-      <div class="form-column">
+      <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
           <button class="btn btn-accent btn-sm" (click)="addContainedItem()" [disabled]="!currentItem()">
             <ng-icon name="heroPlus"></ng-icon>
@@ -301,7 +301,7 @@
         </div>
       </div>
 
-      <div class="form-column">
+      <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
           <button class="ml-1 btn btn-error btn-sm" (click)="removeContainedItem($index)">
             <ng-icon name="heroMinus"></ng-icon>
