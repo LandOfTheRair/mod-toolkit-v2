@@ -73,7 +73,17 @@ export class ItemsEditorComponent
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.name && data.itemClass;
+    return data.name && data.itemClass && this.satisfiesUnique();
+  });
+
+  public satisfiesUnique = computed(() => {
+    const data = this.editing();
+    return !this.modService.doesExistDuplicate<IItemDefinition>(
+      'items',
+      'name',
+      data.name,
+      data._id
+    );
   });
 
   public doesItemHaveCurrentStat = computed(() => {

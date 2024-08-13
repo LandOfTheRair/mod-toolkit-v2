@@ -15,7 +15,17 @@ import { EditorBaseComponent } from '../../../shared/components/editor-base/edit
 export class QuestsEditorComponent extends EditorBaseComponent<IQuest> {
   public canSave = computed(() => {
     const data = this.editing();
-    return data.desc && data.giver && data.name;
+    return data.desc && data.giver && data.name && this.satisfiesUnique();
+  });
+
+  public satisfiesUnique = computed(() => {
+    const data = this.editing();
+    return !this.modService.doesExistDuplicate<IQuest>(
+      'quests',
+      'name',
+      data.name,
+      data._id
+    );
   });
 
   public currentItem = signal<IItemDefinition | undefined>(undefined);

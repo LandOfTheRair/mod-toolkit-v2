@@ -28,7 +28,23 @@ export class RecipesEditorComponent
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.category && data.name && data.recipeType && data.item;
+    return (
+      data.category &&
+      data.name &&
+      data.recipeType &&
+      data.item &&
+      this.satisfiesUnique()
+    );
+  });
+
+  public satisfiesUnique = computed(() => {
+    const data = this.editing();
+    return !this.modService.doesExistDuplicate<IRecipe>(
+      'recipes',
+      'name',
+      data.name,
+      data._id
+    );
   });
 
   ngOnInit() {

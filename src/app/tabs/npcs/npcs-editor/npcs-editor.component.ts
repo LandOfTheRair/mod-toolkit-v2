@@ -100,7 +100,17 @@ export class NpcsEditorComponent
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.npcId;
+    return data.npcId && this.satisfiesUnique();
+  });
+
+  public satisfiesUnique = computed(() => {
+    const data = this.editing();
+    return !this.modService.doesExistDuplicate<INPCDefinition>(
+      'npcs',
+      'npcId',
+      data.npcId,
+      data._id
+    );
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return

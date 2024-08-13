@@ -15,7 +15,7 @@
     <div class="form-row">
       <app-input-floating-label>Tag</app-input-floating-label>
       <input [ngModel]="editingData.tag" (ngModelChange)="update('tag', $event)" type="text"
-        placeholder="Enter spawner tag name..." class="form-input" />
+        placeholder="Enter spawner tag name..." class="form-input" [class.has-error]="!satisfiesUnique()" />
     </div>
 
     <div class="form-row">

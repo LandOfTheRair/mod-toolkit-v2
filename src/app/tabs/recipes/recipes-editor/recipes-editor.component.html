@@ -15,7 +15,7 @@
     <div class="form-row">
       <app-input-floating-label>Display Name</app-input-floating-label>
       <input [ngModel]="editingData.name" (ngModelChange)="update('name', $event)" type="text"
-        placeholder="Enter recipe display name..." class="form-input" />
+        placeholder="Enter recipe display name..." class="form-input" [class.has-error]="!satisfiesUnique()" />
     </div>
 
     <div class="form-row">

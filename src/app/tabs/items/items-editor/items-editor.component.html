@@ -26,7 +26,7 @@
     <div class="form-row">
       <app-input-floating-label>Name</app-input-floating-label>
       <input [ngModel]="editingData.name" type="text" placeholder="Choose name..." class="form-input"
-        (ngModelChange)="update('name', $event)" />
+        (ngModelChange)="update('name', $event)" [class.has-error]="!satisfiesUnique()" />
     </div>
 
     <div class="form-row">

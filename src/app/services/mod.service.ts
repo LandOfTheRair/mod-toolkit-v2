@@ -95,6 +95,44 @@ export class ModService {
     this.mod.set(structuredClone(mod));
   }
 
+  public modAdd<T extends HasIdentification>(
+    key: keyof Omit<IModKit, 'meta'>,
+    data: T
+  ) {
+    const mod = this.mod();
+    const arr = mod[key] as unknown as T[];
+    arr.push(data);
+    this.updateMod(mod);
+  }
+
+  public modEdit<T extends HasIdentification>(
+    key: keyof Omit<IModKit, 'meta'>,
+    oldData: T,
+    newData: T
+  ) {
+    const mod = this.mod();
+    const arr = mod[key] as unknown as T[];
+
+    const foundItemIdx = arr.findIndex((i) => i._id === oldData._id);
+    if (foundItemIdx === -1) return;
+
+    arr[foundItemIdx] = newData;
+
+    this.updateMod(mod);
+  }
+
+  public modDelete<T extends HasIdentification>(
+    key: keyof Omit<IModKit, 'meta'>,
+    data: T
+  ) {
+    const mod = this.mod();
+    const arr = mod[key] as unknown as T[];
+
+    (mod[key] as unknown as T[]) = arr.filter((i) => i._id !== data._id);
+
+    this.updateMod(mod);
+  }
+
   // json functions
   public setJSON(key: string, value: any): void {
     const json = this.json();
@@ -184,41 +222,14 @@ export class ModService {
     return items.find((i) => i.name === itemName);
   }
 
-  public modAdd<T extends HasIdentification>(
-    key: keyof Omit<IModKit, 'meta'>,
-    data: T
-  ) {
-    const mod = this.mod();
-    const arr = mod[key] as unknown as T[];
-    arr.push(data);
-    this.updateMod(mod);
-  }
-
-  public modEdit<T extends HasIdentification>(
-    key: keyof Omit<IModKit, 'meta'>,
-    oldData: T,
-    newData: T
-  ) {
-    const mod = this.mod();
-    const arr = mod[key] as unknown as T[];
-
-    const foundItemIdx = arr.findIndex((i) => i._id === oldData._id);
-    if (foundItemIdx === -1) return;
-
-    arr[foundItemIdx] = newData;
-
-    this.updateMod(mod);
-  }
-
-  public modDelete<T extends HasIdentification>(
-    key: keyof Omit<IModKit, 'meta'>,
-    data: T
-  ) {
-    const mod = this.mod();
-    const arr = mod[key] as unknown as T[];
-
-    (mod[key] as unknown as T[]) = arr.filter((i) => i._id !== data._id);
-
-    this.updateMod(mod);
+  public doesExistDuplicate<T extends HasIdentification>(
+    containerKey: keyof Omit<IModKit, 'meta'>,
+    checkProp: keyof T,
+    checkValue: string,
+    myId: T['_id']
+  ): boolean {
+    return !!(this.mod()[containerKey] as unknown as T[]).find(
+      (t) => t._id !== myId && t[checkProp] === checkValue
+    );
   }
 }

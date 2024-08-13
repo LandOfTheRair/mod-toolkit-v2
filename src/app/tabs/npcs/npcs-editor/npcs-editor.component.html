@@ -22,7 +22,7 @@
     <div class="form-row">
       <app-input-floating-label>Internal ID</app-input-floating-label>
       <input [ngModel]="editingData.npcId" (ngModelChange)="update('npcId', $event)" type="text"
-        placeholder="[Map Name] - NPC Identifier" class="form-input" />
+        placeholder="[Map Name] - NPC Identifier" class="form-input" [class.has-error]="!satisfiesUnique()" />
     </div>
 
     <div class="form-row">

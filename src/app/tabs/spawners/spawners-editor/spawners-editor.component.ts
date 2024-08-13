@@ -15,7 +15,17 @@ export class SpawnersEditorComponent
 
   public canSave = computed(() => {
     const spawner = this.editing();
-    return spawner.tag && spawner.npcIds.length > 0;
+    return spawner.tag && spawner.npcIds.length > 0 && this.satisfiesUnique();
+  });
+
+  public satisfiesUnique = computed(() => {
+    const data = this.editing();
+    return !this.modService.doesExistDuplicate<ISpawnerData>(
+      'spawners',
+      'tag',
+      data.tag,
+      data._id
+    );
   });
 
   ngOnInit(): void {
