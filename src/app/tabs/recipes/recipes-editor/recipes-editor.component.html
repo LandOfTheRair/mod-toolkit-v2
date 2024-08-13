@@ -131,8 +131,7 @@
     @for(ing of ozIngredients; track $index) {
     @if(editingData.ozIngredients?.[$index]; as ozIng) {
     <div class="form-row">
-      <app-input-item [item]="ing()" (change)="ozIng.display = $event"
-        [defaultValue]="editingData.ozIngredients![$index].display"
+      <app-input-item (change)="ozIng.display = $event" [defaultValue]="ozIng.display"
         [label]="'Oz. Ingredient #' + ($index + 1)"></app-input-item>
     </div>
 

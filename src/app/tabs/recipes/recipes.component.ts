@@ -67,11 +67,11 @@ export class RecipesComponent extends EditorBaseTableComponent<EditingType> {
       cellRenderer: (v: any) => {
         const data = v.data as IRecipe;
         const ingText = data.ingredients || [];
-        const ozText = (data.ozIngredients || []).map(
-          (i) => `${i.display} (${i.ounces}oz)`
-        );
+        const ozText = (data.ozIngredients || [])
+          .filter((i) => i.ounces > 0)
+          .map((i) => `${i.display} (${i.ounces}oz)`);
 
-        return [...ingText, ...ozText].join(', ');
+        return [...ingText, ...ozText].filter(Boolean).join(', ');
       },
     },
     {

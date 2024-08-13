@@ -5,6 +5,7 @@ import {
   IEditorMap,
   IItemDefinition,
   IModKit,
+  ItemSlotType,
 } from '../../interfaces';
 
 export function defaultModKit(): IModKit {
@@ -249,7 +250,155 @@ export class ModService {
   }
 
   // item functions
-  public updateItemNameAcrossMod(oldName: string, newName: string) {}
+  public updateItemNameAcrossMod(oldName: string, newName: string) {
+    if (oldName === newName) return;
+
+    const mod = this.mod();
+
+    mod.items.forEach((item) => {
+      const contained = item.containedItems;
+      if (!contained) return;
+
+      contained.forEach((rollable) => {
+        if (rollable.result !== oldName) return;
+
+        console.log(
+          `[Propagate Item] Updated containedItems for "${item.name}" item: ${oldName} -> ${newName}`
+        );
+        rollable.result = newName;
+      });
+    });
+
+    mod.drops.forEach((droptable) => {
+      if (droptable.result !== oldName) return;
+
+      console.log(
+        `[Propagate Item] Updated droptable for "${
+          droptable.mapName ||
+          droptable.regionName ||
+          (droptable.isGlobal ? 'global' : '')
+        }" item: ${oldName} -> ${newName}`
+      );
+
+      droptable.result = newName;
+    });
+
+    mod.quests.forEach((quest) => {
+      if (quest.requirements.item !== oldName) return;
+
+      console.log(
+        `[Propagate Item] Updated quest "${quest.name}" item: ${oldName} -> ${newName}`
+      );
+
+      quest.requirements.item = newName;
+    });
+
+    mod.dialogs.forEach((npcScript) => {
+      Object.keys(npcScript.items.equipment).forEach((slot) => {
+        const itemSlot = slot as ItemSlotType;
+        if (npcScript.items.equipment[itemSlot] !== oldName) return;
+
+        console.log(
+          `[Propagate Item] Updated NPC Script "${npcScript.name}" item#${itemSlot}: ${oldName} -> ${newName}`
+        );
+        npcScript.items.equipment[itemSlot] = newName;
+      });
+    });
+
+    mod.npcs.forEach((npc) => {
+      npc.items.sack.forEach((item) => {
+        if (item.result !== oldName) return;
+
+        console.log(
+          `[Propagate Item] Updated NPC "${npc.npcId}" item in sack: ${oldName} -> ${newName}`
+        );
+
+        item.result = newName;
+      });
+
+      Object.keys(npc.items.equipment).forEach((slot) => {
+        const itemSlot = slot as ItemSlotType;
+
+        npc.items.equipment[itemSlot].forEach((rollable) => {
+          if (rollable.result !== oldName) return;
+
+          console.log(
+            `[Propagate Item] Updated NPC "${npc.npcId}" item#${itemSlot}: ${oldName} -> ${newName}`
+          );
+
+          rollable.result = newName;
+        });
+      });
+
+      npc.drops.forEach((rollable) => {
+        if (rollable.result !== oldName) return;
+
+        console.log(
+          `[Propagate Item] Updated NPC "${npc.npcId}" drop: ${oldName} -> ${newName}`
+        );
+
+        rollable.result = newName;
+      });
+
+      npc.dropPool.items.forEach((rollable) => {
+        if (rollable.result !== oldName) return;
+
+        console.log(
+          `[Propagate Item] Updated NPC "${npc.npcId}" dropPool: ${oldName} -> ${newName}`
+        );
+
+        rollable.result = newName;
+      });
+
+      if (npc.tansFor === oldName) {
+        console.log(
+          `[Propagate Item] Updated NPC "${npc.npcId}" tans for item: ${oldName} -> ${newName}`
+        );
+
+        npc.tansFor = newName;
+      }
+    });
+
+    mod.recipes.forEach((recipe) => {
+      if (recipe.item === oldName) {
+        console.log(
+          `[Propagate Item] Updated recipe "${recipe.name}" result item: ${oldName} -> ${newName}`
+        );
+
+        recipe.item = newName;
+      }
+
+      if (recipe.transferOwnerFrom === oldName) {
+        console.log(
+          `[Propagate Item] Updated recipe "${recipe.name}" transfer owner item: ${oldName} -> ${newName}`
+        );
+
+        recipe.transferOwnerFrom = newName;
+      }
+
+      const ingredients = recipe.ingredients;
+      ingredients?.forEach((ing, i) => {
+        if (ing !== oldName) return;
+
+        console.log(
+          `[Propagate Item] Updated recipe "${recipe.name}" ingredient#${i}: ${oldName} -> ${newName}`
+        );
+
+        ingredients[i] = newName;
+      });
+
+      recipe.ozIngredients?.forEach((ing) => {
+        if (ing.display !== oldName) return;
+        console.log(
+          `[Propagate Item] Updated recipe "${recipe.name}" ozIngredient: ${oldName} -> ${newName}`
+        );
+
+        ing.display = newName;
+      });
+    });
+
+    this.mod.set(mod);
+  }
 
   public findItemByName(itemName: string): IItemDefinition | undefined {
     const items = this.availableItems();

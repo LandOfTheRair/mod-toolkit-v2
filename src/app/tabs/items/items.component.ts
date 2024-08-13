@@ -83,4 +83,8 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
       },
     },
   ];
+
+  protected dataEdited(oldItem: EditingType, newItem: EditingType) {
+    this.modService.updateItemNameAcrossMod(oldItem.name, newItem.name);
+  }
 }
