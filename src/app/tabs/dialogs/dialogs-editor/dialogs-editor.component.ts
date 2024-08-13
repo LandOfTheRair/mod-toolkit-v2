@@ -81,13 +81,15 @@ export class DialogsEditorComponent
     const npc = this.editing();
 
     if (npc.behaviors.length > 0) {
-      this.behaviorText.set(yaml.dump(npc.behaviors) as string);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      this.behaviorText.set(yaml.dump(npc.behaviors));
       this.behaviorModel.value = this.behaviorText();
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     if (Object.keys(npc.dialog.keyword ?? {}).length > 0) {
-      this.dialogText.set(yaml.dump(npc.dialog) as string);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      this.dialogText.set(yaml.dump(npc.dialog));
       this.dialogModel.value = this.dialogText();
     }
 
