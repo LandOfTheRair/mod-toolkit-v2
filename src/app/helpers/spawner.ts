@@ -11,7 +11,7 @@ export const defaultSpawner: () => ISpawnerData = () => ({
   doInitialSpawnImmediately: false,
   canSlowDown: true,
   isDangerous: false,
-  npcAISettings: [],
+  npcAISettings: ['default'],
   npcIds: [],
   respawnRate: 120,
   randomWalkRadius: 10,

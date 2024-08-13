@@ -122,6 +122,12 @@
     </div>
 
     <div class="form-row">
+      <app-input-floating-label>AI Settings</app-input-floating-label>
+      <input [(ngModel)]="editingData.npcAISettings[0]" type="text" placeholder="Enter spawner AI name..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
       <app-input-floating-label>Paths</app-input-floating-label>
       <textarea rows="4" [(ngModel)]="editingData._paths" placeholder="Enter spawner paths (2-N 3-W 5-E 6-S)"
         class="form-input textarea"></textarea>

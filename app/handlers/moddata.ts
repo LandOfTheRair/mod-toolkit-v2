@@ -7,9 +7,17 @@ import {
   IItemDefinition,
   IModKit,
   INPCDefinition,
+  ISpawnerData,
 } from '../../src/interfaces';
 import { fillInItemProperties } from './format-item';
 import { fillInNPCProperties } from './format-npc';
+
+function formatSpawners(spawners: ISpawnerData[]): ISpawnerData[] {
+  return spawners.map((spawner) => {
+    delete spawner._paths;
+    return spawner;
+  });
+}
 
 function formatNPCs(npcs: INPCDefinition[]): INPCDefinition[] {
   return npcs.map((npc: any) => {
@@ -117,7 +125,7 @@ export function formatMod(modData: IModKit): IExportedModKit {
     maps: modData.maps,
     quests: modData.quests,
     recipes: modData.recipes,
-    spawners: modData.spawners,
+    spawners: formatSpawners(modData.spawners),
   };
 
   return exported;
