@@ -121,18 +121,6 @@ export class NpcsEditorComponent
   ngOnInit(): void {
     this.checkLinkedStats();
     const npc = this.editing();
-    npc.items.sack.forEach((i) => (i._itemRef = signal(undefined)));
-
-    (this.equipmentColumns.flat(Infinity) as ItemSlotType[]).forEach(
-      (slot: ItemSlotType) => {
-        npc.items.equipment[slot].forEach(
-          (i) => (i._itemRef = signal(undefined))
-        );
-      }
-    );
-
-    npc.drops.forEach((d) => (d._itemRef = signal(undefined)));
-    npc.dropPool.items.forEach((d) => (d._itemRef = signal(undefined)));
 
     const reps = npc.repMod ?? [];
     npc.repMod = this.allegiances.map((allegiance) => ({
@@ -318,7 +306,6 @@ export class NpcsEditorComponent
       chance: -1,
       maxChance: 100,
       result: undefined as unknown as string,
-      _itemRef: signal<IItemDefinition | undefined>(undefined),
     });
 
     this.editing.set(npc);
@@ -335,7 +322,6 @@ export class NpcsEditorComponent
     npc.items.equipment[slot].push({
       chance: 1,
       result: undefined as unknown as string,
-      _itemRef: signal<IItemDefinition | undefined>(undefined),
     });
 
     this.editing.set(npc);
@@ -352,7 +338,6 @@ export class NpcsEditorComponent
     npc.drops.push({
       chance: 1,
       result: undefined as unknown as string,
-      _itemRef: signal<IItemDefinition | undefined>(undefined),
     });
     this.editing.set(npc);
   }
@@ -383,7 +368,6 @@ export class NpcsEditorComponent
     npc.dropPool.items.push({
       chance: 1,
       result: undefined as unknown as string,
-      _itemRef: signal<IItemDefinition | undefined>(undefined),
     });
     this.editing.set(npc);
   }
@@ -417,24 +401,14 @@ export class NpcsEditorComponent
     npc.usableSkills = npc.usableSkills.filter((f) => f.result);
     npc.baseEffects = npc.baseEffects.filter((f) => f.name);
     npc.items.sack = npc.items.sack.filter((f) => f.result);
-    npc.items.sack.forEach((item) => {
-      delete item._itemRef;
-    });
 
     (this.equipmentColumns.flat(Infinity) as ItemSlotType[]).forEach(
       (slot: ItemSlotType) => {
         npc.items.equipment[slot] = npc.items.equipment[slot].filter(
           (f) => f.result
         );
-
-        npc.items.equipment[slot].forEach((item) => {
-          delete item._itemRef;
-        });
       }
     );
-
-    npc.drops.forEach((d) => delete d._itemRef);
-    npc.dropPool.items.forEach((d) => delete d._itemRef);
 
     npc.drops = npc.drops.filter((d) => d.result);
     npc.copyDrops = npc.copyDrops.filter((d) => d.result);

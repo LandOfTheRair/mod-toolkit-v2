@@ -1,6 +1,3 @@
-import { WritableSignal } from '@angular/core';
-import { IItemDefinition } from './item';
-
 export enum Allegiance {
   // for things that do not have an allegiance
   None = 'None',
@@ -317,8 +314,6 @@ export interface Rollable {
   maxChance?: number;
   requireHoliday?: Holiday;
   noLuckBonus?: boolean;
-
-  _itemRef?: WritableSignal<IItemDefinition | undefined>;
 }
 
 export interface RandomNumber {

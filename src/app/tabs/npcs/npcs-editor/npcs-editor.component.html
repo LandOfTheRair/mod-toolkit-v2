@@ -388,8 +388,7 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-item [item]="editingData.items.sack[$index]._itemRef!()"
-            (change)="editingData.items.sack[$index].result = $event"
+          <app-input-item (change)="editingData.items.sack[$index].result = $event"
             [defaultValue]="editingData.items.sack[$index].result"></app-input-item>
         </div>
       </div>
@@ -434,8 +433,7 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-item [item]="editingData.items.equipment[slot][eqSlot]._itemRef!()"
-            (change)="editingData.items.equipment[slot][eqSlot].result = $event"
+          <app-input-item (change)="editingData.items.equipment[slot][eqSlot].result = $event"
             [defaultValue]="editingData.items.equipment[slot][eqSlot].result"></app-input-item>
         </div>
       </div>
@@ -512,8 +510,7 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-item [item]="editingData.drops[eqSlot]._itemRef!()"
-            (change)="editingData.drops[eqSlot].result = $event"
+          <app-input-item (change)="editingData.drops[eqSlot].result = $event"
             [defaultValue]="editingData.drops[eqSlot].result"></app-input-item>
         </div>
       </div>
@@ -556,8 +553,7 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-item [item]="editingData.dropPool.items[eqSlot]._itemRef!()"
-            (change)="editingData.dropPool.items[eqSlot].result = $event"
+          <app-input-item (change)="editingData.dropPool.items[eqSlot].result = $event"
             [defaultValue]="editingData.dropPool.items[eqSlot].result"></app-input-item>
         </div>
       </div>
