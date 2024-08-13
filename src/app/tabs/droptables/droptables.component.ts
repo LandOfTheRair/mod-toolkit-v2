@@ -1,7 +1,7 @@
 import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
-import { IDroptable } from '../../../interfaces';
+import { IDroptable, IModKit } from '../../../interfaces';
 import { defaultDroptable } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
@@ -16,6 +16,8 @@ type EditingType = IDroptable;
   styleUrl: './droptables.component.scss',
 })
 export class DroptablesComponent extends EditorBaseTableComponent<EditingType> {
+  protected dataKey: keyof Omit<IModKit, 'meta'> = 'drops';
+
   public defaultData = defaultDroptable;
 
   public canEdit = computed(
@@ -89,23 +91,4 @@ export class DroptablesComponent extends EditorBaseTableComponent<EditingType> {
       },
     },
   ];
-
-  public saveNewData(data: EditingType) {
-    super.saveNewData(data);
-
-    const oldItem = this.oldData();
-    if (oldItem) {
-      this.oldData.set(undefined);
-      this.modService.editDroptable(oldItem, data);
-      return;
-    }
-
-    this.modService.addDroptable(data);
-  }
-
-  public deleteData(data: EditingType) {
-    super.deleteData(data);
-
-    this.modService.removeDroptable(data);
-  }
 }

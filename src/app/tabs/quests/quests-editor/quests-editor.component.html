@@ -1,0 +1,218 @@
+@let editingData = editing();
+
+<div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+
+  <div class="tab flex flex-row justify-end">
+    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
+    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()">Save</button>
+  </div>
+
+</div>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+
+    <div class="form-row">
+      <app-input-floating-label>Name</app-input-floating-label>
+      <input [(ngModel)]="editingData.name" (ngModelChange)="update('name', $event)" type="text"
+        placeholder="Enter name..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Giver</app-input-floating-label>
+      <input [(ngModel)]="editingData.giver" (ngModelChange)="update('giver', $event)" type="text"
+        placeholder="Enter quest giver..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Description</app-input-floating-label>
+      <input [(ngModel)]="editingData.desc" (ngModelChange)="update('desc', $event)" type="text"
+        placeholder="Enter description..." class="form-input" />
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the quest is a daily quest, and can be given as such.">
+            <input type="checkbox" [(ngModel)]="editingData.isDaily" class="checkbox" />
+            <span class="label-text">Daily</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the quest is repeatable, and can be given as such. These reset instantly, compared to daily quests which reset daily.">
+            <input type="checkbox" [(ngModel)]="editingData.isRepeatable" class="checkbox" />
+            <span class="label-text">Repeatable</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>On-Kill Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.messages.kill" type="text" placeholder="Enter message..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Incomplete Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.messages.incomplete" type="text" placeholder="Enter message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>On-Complete Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.messages.complete" type="text" placeholder="Enter message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Permanently-Completed Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.messages.permComplete" type="text" placeholder="Enter message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Already-Has Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.messages.alreadyHas" type="text" placeholder="Enter message..."
+        class="form-input" />
+    </div>
+
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-questtype [(questType)]="editingData.requirements.type"></app-input-questtype>
+    </div>
+
+    @if(editingData.requirements.type !== 'none') {
+    <hr class="my-3">
+    }
+
+    @switch(editingData.requirements.type) {
+    @case ('array') {
+    <div class="form-row">
+      <app-input-floating-label>Array Size (Item Count)</app-input-floating-label>
+      <input [(ngModel)]="editingData.requirements.itemsRequired" min="0" type="number" placeholder="Choose size..."
+        class="form-input" />
+    </div>
+    }
+    @case ('count') {
+    <div class="form-row">
+      <app-input-floating-label>Count Required</app-input-floating-label>
+      <input [(ngModel)]="editingData.requirements.countRequired" min="0" type="number" placeholder="Choose count..."
+        class="form-input" />
+    </div>
+    }
+    @case ('item') {
+    <div class="form-row">
+      <app-input-item [item]="currentItem()" (change)="editingData.requirements.item = $event"
+        [defaultValue]="editingData.requirements.item"></app-input-item>
+    </div>
+    }
+    @case ('kill') {
+    <div class="form-row">
+      <app-input-floating-label>Kills Required</app-input-floating-label>
+      <input [(ngModel)]="editingData.requirements.killsRequired" min="0" type="number" placeholder="Choose kills..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row split">
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-npc [(npc)]="currentNPC" label="Add NPC to Kill List"></app-input-npc>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" [disabled]="!currentNPC() || hasNPC(currentNPC())"
+            (click)="addNPC(currentNPC())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(npc of editingData.requirements.npcIds; track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          {{ npc }}
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeNPC($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+    }
+    }
+  </div>
+
+  <div class="form-column">
+    <div class="form-row split">
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-questreward [(rewardType)]="currentQuestReward"></app-input-questreward>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm"
+            [disabled]="!currentQuestReward() || hasQuestReward(currentQuestReward())"
+            (click)="addQuestReward(currentQuestReward())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    @for(reward of editingData.rewards; track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ reward.type }}</app-input-floating-label>
+          <input [(ngModel)]="reward.value" min="0" type="number" placeholder="Choose value..." class="form-input" />
+        </div>
+      </div>
+
+      @if(reward.type === 'stat') {
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stat [(stat)]="reward.statName"></app-input-stat>
+        </div>
+      </div>
+      }
+
+      @if(reward.type === 'reputation') {
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-allegiance [(allegiance)]="reward.statName"></app-input-allegiance>
+        </div>
+      </div>
+      }
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeQuestReward($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
-import { ISpawnerData } from '../../../interfaces';
+import { IModKit, ISpawnerData } from '../../../interfaces';
 import { defaultSpawner } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -15,6 +15,8 @@ type EditingType = ISpawnerData;
   styleUrl: './spawners.component.scss',
 })
 export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
+  protected dataKey: keyof Omit<IModKit, 'meta'> = 'spawners';
+
   public defaultData = defaultSpawner;
 
   public canEdit = computed(() => this.modService.availableNPCs().length > 0);
@@ -80,23 +82,4 @@ export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
       },
     },
   ];
-
-  public saveNewData(data: EditingType) {
-    super.saveNewData(data);
-
-    const oldItem = this.oldData();
-    if (oldItem) {
-      this.oldData.set(undefined);
-      this.modService.editSpawner(oldItem, data);
-      return;
-    }
-
-    this.modService.addSpawner(data);
-  }
-
-  public deleteData(data: EditingType) {
-    super.deleteData(data);
-
-    this.modService.removeSpawner(data);
-  }
 }

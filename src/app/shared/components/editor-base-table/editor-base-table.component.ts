@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { HasIdentification, IModKit } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
@@ -6,8 +7,10 @@ import { ModService } from '../../../services/mod.service';
   templateUrl: './editor-base-table.component.html',
   styleUrl: './editor-base-table.component.scss',
 })
-export class EditorBaseTableComponent<T> {
+export class EditorBaseTableComponent<T extends HasIdentification> {
   protected modService = inject(ModService);
+
+  protected dataKey!: keyof Omit<IModKit, 'meta'>;
 
   protected defaultData = () => ({} as T);
 
@@ -30,11 +33,28 @@ export class EditorBaseTableComponent<T> {
     this.isEditing.set(false);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public saveNewData(data: T) {
+    if (!this.dataKey) {
+      throw new Error('Set a datakey for this component.');
+    }
+
     this.isEditing.set(false);
+
+    const oldItem = this.oldData();
+    if (oldItem) {
+      this.oldData.set(undefined);
+      this.modService.modEdit<T>(this.dataKey, oldItem, data);
+      return;
+    }
+
+    this.modService.modAdd<T>(this.dataKey, data);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public deleteData(data: T) {}
+  public deleteData(data: T) {
+    if (!this.dataKey) {
+      throw new Error('Set a datakey for this component.');
+    }
+
+    this.modService.modDelete<T>(this.dataKey, data);
+  }
 }

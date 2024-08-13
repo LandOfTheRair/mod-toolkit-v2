@@ -1,7 +1,7 @@
 import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
-import { IRecipe } from '../../../interfaces';
+import { IModKit, IRecipe } from '../../../interfaces';
 import { defaultRecipe } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
@@ -16,6 +16,8 @@ type EditingType = IRecipe;
   styleUrl: './recipes.component.scss',
 })
 export class RecipesComponent extends EditorBaseTableComponent<EditingType> {
+  protected dataKey: keyof Omit<IModKit, 'meta'> = 'recipes';
+
   public defaultData = defaultRecipe;
 
   public canEdit = computed(() => this.modService.availableItems().length > 1);
@@ -93,23 +95,4 @@ export class RecipesComponent extends EditorBaseTableComponent<EditingType> {
       },
     },
   ];
-
-  public saveNewData(data: EditingType) {
-    super.saveNewData(data);
-
-    const oldItem = this.oldData();
-    if (oldItem) {
-      this.oldData.set(undefined);
-      this.modService.editRecipe(oldItem, data);
-      return;
-    }
-
-    this.modService.addRecipe(data);
-  }
-
-  public deleteData(data: EditingType) {
-    super.deleteData(data);
-
-    this.modService.removeRecipe(data);
-  }
 }

@@ -9,6 +9,8 @@ export enum QuestRewardType {
   HolidayTokens = 'holidayTokens',
 }
 
+export type QuestRewardTypeType = `${QuestRewardType}`;
+
 export enum QuestRequirementType {
   Kill = 'kill',
   Item = 'item',
@@ -17,9 +19,11 @@ export enum QuestRequirementType {
   Array = 'array',
 }
 
+export type QuestRequirementTypeType = `${QuestRequirementType}`;
+
 export interface IQuestReward {
-  type: QuestRewardType;
-  statName?: string;
+  type: QuestRewardTypeType;
+  statName?: any;
   value: number;
 }
 
@@ -45,7 +49,7 @@ export interface IQuestRequirementArray {
 export type IQuestRequirement = IQuestRequirementKill &
   IQuestRequirementItem &
   IQuestRequirementCount &
-  IQuestRequirementArray & { type: QuestRequirementType };
+  IQuestRequirementArray & { type: QuestRequirementTypeType };
 
 export interface IQuest extends HasIdentification {
   name: string;

@@ -8,6 +8,7 @@ import {
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { ColDef } from 'ag-grid-community';
 import { IEditorMap } from '../../../interfaces/map';
+import { id } from '../../helpers';
 import { ElectronService } from '../../services/electron.service';
 import { NotifyService } from '../../services/notify.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
@@ -144,7 +145,7 @@ export class MapsComponent extends EditorBaseTableComponent<EditingType> {
         try {
           const map = JSON.parse(evt.target.result as string);
           const mapName = file.name.split('.')[0];
-          this.import({ map, name: mapName });
+          this.import({ map, name: mapName, _id: id() });
         } catch (e: any) {
           this.notifyService.error({
             message: `Map upload error: ${e.message}`,

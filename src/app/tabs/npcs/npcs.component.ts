@@ -1,7 +1,7 @@
 import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
-import { INPCDefinition } from '../../../interfaces';
+import { IModKit, INPCDefinition } from '../../../interfaces';
 import { defaultNPC } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
@@ -16,6 +16,8 @@ type EditingType = INPCDefinition;
   styleUrl: './npcs.component.scss',
 })
 export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
+  protected dataKey: keyof Omit<IModKit, 'meta'> = 'npcs';
+
   public defaultData = defaultNPC;
 
   public tableItems = computed(() => this.modService.mod().npcs);
@@ -97,23 +99,4 @@ export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
       },
     },
   ];
-
-  public saveNewData(data: EditingType) {
-    super.saveNewData(data);
-
-    const oldItem = this.oldData();
-    if (oldItem) {
-      this.oldData.set(undefined);
-      this.modService.editNPC(oldItem, data);
-      return;
-    }
-
-    this.modService.addNPC(data);
-  }
-
-  public deleteData(data: EditingType) {
-    super.deleteData(data);
-
-    this.modService.removeNPC(data);
-  }
 }

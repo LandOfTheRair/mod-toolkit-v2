@@ -22,6 +22,7 @@ import { RecipesComponent } from '../tabs/recipes/recipes.component';
 import { SpawnersComponent } from '../tabs/spawners/spawners.component';
 import { HomeComponent } from './home.component';
 import { SpawnersEditorComponent } from '../tabs/spawners/spawners-editor/spawners-editor.component';
+import { QuestsEditorComponent } from '../tabs/quests/quests-editor/quests-editor.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { SpawnersEditorComponent } from '../tabs/spawners/spawners-editor/spawne
     SpawnersComponent,
     NpcsEditorComponent,
     SpawnersEditorComponent,
+    QuestsEditorComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +51,6 @@ import { SpawnersEditorComponent } from '../tabs/spawners/spawners-editor/spawne
     NgxFloatUiModule,
     NgIconsModule,
   ],
-  exports: [NpcsEditorComponent, SpawnersEditorComponent],
+  exports: [NpcsEditorComponent, SpawnersEditorComponent, QuestsEditorComponent],
 })
 export class HomeModule {}

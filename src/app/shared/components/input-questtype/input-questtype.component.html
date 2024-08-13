@@ -1,0 +1,6 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values" [(ngModel)]="questType" placeholder="Select quest type..."
+    (change)="change.emit($event)"></ng-select>
+
+  <app-input-floating-label>Quest Type</app-input-floating-label>
+</div>

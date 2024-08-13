@@ -1,13 +1,10 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
 import {
-  IDroptable,
+  HasIdentification,
   IEditorMap,
   IItemDefinition,
   IModKit,
-  INPCDefinition,
-  IRecipe,
-  ISpawnerData,
 } from '../../interfaces';
 
 export function defaultModKit(): IModKit {
@@ -182,132 +179,45 @@ export class ModService {
     this.updateMod(mod);
   }
 
-  // item functions
-  public addItem(item: IItemDefinition) {
-    const mod = this.mod();
-    mod.items.push(item);
-
-    this.updateMod(mod);
-  }
-
-  public editItem(oldItem: IItemDefinition, newItem: IItemDefinition) {
-    const mod = this.mod();
-    const foundItemIdx = mod.items.findIndex((i) => i._id === oldItem._id);
-    if (foundItemIdx === -1) return;
-
-    mod.items[foundItemIdx] = newItem;
-
-    this.updateMod(mod);
-  }
-
-  public removeItem(item: IItemDefinition) {
-    const mod = this.mod();
-    mod.items = mod.items.filter((i) => i._id !== item._id);
-
-    this.updateMod(mod);
-  }
-
   public findItemByName(itemName: string): IItemDefinition | undefined {
     const items = this.availableItems();
     return items.find((i) => i.name === itemName);
   }
 
-  // droptable functions
-  public addDroptable(item: IDroptable) {
+  public modAdd<T extends HasIdentification>(
+    key: keyof Omit<IModKit, 'meta'>,
+    data: T
+  ) {
     const mod = this.mod();
-    mod.drops.push(item);
-
+    const arr = mod[key] as unknown as T[];
+    arr.push(data);
     this.updateMod(mod);
   }
 
-  public editDroptable(oldItem: IDroptable, newItem: IDroptable) {
+  public modEdit<T extends HasIdentification>(
+    key: keyof Omit<IModKit, 'meta'>,
+    oldData: T,
+    newData: T
+  ) {
     const mod = this.mod();
-    const foundItemIdx = mod.drops.findIndex((i) => i._id === oldItem._id);
+    const arr = mod[key] as unknown as T[];
+
+    const foundItemIdx = arr.findIndex((i) => i._id === oldData._id);
     if (foundItemIdx === -1) return;
 
-    mod.drops[foundItemIdx] = newItem;
+    arr[foundItemIdx] = newData;
 
     this.updateMod(mod);
   }
 
-  public removeDroptable(item: IDroptable) {
+  public modDelete<T extends HasIdentification>(
+    key: keyof Omit<IModKit, 'meta'>,
+    data: T
+  ) {
     const mod = this.mod();
-    mod.drops = mod.drops.filter((i) => i._id !== item._id);
+    const arr = mod[key] as unknown as T[];
 
-    this.updateMod(mod);
-  }
-
-  // recipe functions
-  public addRecipe(item: IRecipe) {
-    const mod = this.mod();
-    mod.recipes.push(item);
-
-    this.updateMod(mod);
-  }
-
-  public editRecipe(oldItem: IRecipe, newItem: IRecipe) {
-    const mod = this.mod();
-    const foundItemIdx = mod.recipes.findIndex((i) => i._id === oldItem._id);
-    if (foundItemIdx === -1) return;
-
-    mod.recipes[foundItemIdx] = newItem;
-
-    this.updateMod(mod);
-  }
-
-  public removeRecipe(item: IRecipe) {
-    const mod = this.mod();
-    mod.recipes = mod.recipes.filter((i) => i._id !== item._id);
-
-    this.updateMod(mod);
-  }
-
-  // npc functions
-  public addNPC(npc: INPCDefinition) {
-    const mod = this.mod();
-    mod.npcs.push(npc);
-
-    this.updateMod(mod);
-  }
-
-  public editNPC(oldNPC: INPCDefinition, newNPC: INPCDefinition) {
-    const mod = this.mod();
-    const foundItemIdx = mod.npcs.findIndex((i) => i._id === oldNPC._id);
-    if (foundItemIdx === -1) return;
-
-    mod.npcs[foundItemIdx] = newNPC;
-
-    this.updateMod(mod);
-  }
-
-  public removeNPC(npc: INPCDefinition) {
-    const mod = this.mod();
-    mod.npcs = mod.npcs.filter((i) => i._id !== npc._id);
-
-    this.updateMod(mod);
-  }
-
-  // spawner functions
-  public addSpawner(spawner: ISpawnerData) {
-    const mod = this.mod();
-    mod.spawners.push(spawner);
-
-    this.updateMod(mod);
-  }
-
-  public editSpawner(oldSpawner: ISpawnerData, newSpawner: ISpawnerData) {
-    const mod = this.mod();
-    const foundItemIdx = mod.npcs.findIndex((i) => i._id === oldSpawner._id);
-    if (foundItemIdx === -1) return;
-
-    mod.spawners[foundItemIdx] = newSpawner;
-
-    this.updateMod(mod);
-  }
-
-  public removeSpawner(spawner: ISpawnerData) {
-    const mod = this.mod();
-    mod.spawners = mod.spawners.filter((i) => i._id !== spawner._id);
+    (mod[key] as unknown as T[]) = arr.filter((i) => i._id !== data._id);
 
     this.updateMod(mod);
   }

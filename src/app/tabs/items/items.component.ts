@@ -1,7 +1,7 @@
 import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
-import { IItemDefinition } from '../../../interfaces';
+import { IItemDefinition, IModKit } from '../../../interfaces';
 import { defaultItem } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
@@ -16,6 +16,8 @@ type EditingType = IItemDefinition;
   styleUrl: './items.component.scss',
 })
 export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
+  protected dataKey: keyof Omit<IModKit, 'meta'> = 'items';
+
   public defaultData = defaultItem;
 
   public tableItems = computed(() => this.modService.mod().items);
@@ -80,23 +82,4 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
       },
     },
   ];
-
-  public saveNewData(data: EditingType) {
-    super.saveNewData(data);
-
-    const oldItem = this.oldData();
-    if (oldItem) {
-      this.oldData.set(undefined);
-      this.modService.editItem(oldItem, data);
-      return;
-    }
-
-    this.modService.addItem(data);
-  }
-
-  public deleteData(data: EditingType) {
-    super.deleteData(data);
-
-    this.modService.removeItem(data);
-  }
 }
