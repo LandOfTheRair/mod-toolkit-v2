@@ -1,4 +1,4 @@
-import { IItemDefinition, ItemClassType } from '../../interfaces';
+import { IItemDefinition, ItemClassType, SkillType } from '../../interfaces';
 import { id } from './id';
 
 export const defaultItem: () => IItemDefinition = () => ({
@@ -14,8 +14,8 @@ export const defaultItem: () => IItemDefinition = () => ({
   damageClass: 'physical',
   stats: {},
   randomStats: {},
-  type: 'Martial',
-  secondaryType: undefined as unknown as string,
+  type: 'martial',
+  secondaryType: undefined as unknown as SkillType,
   succorInfo: undefined,
   cosmetic: { name: '' },
   containedItems: [],

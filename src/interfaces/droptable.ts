@@ -9,3 +9,13 @@ export interface IDroptable extends HasIdentification {
   requireHoliday: string;
   isGlobal: boolean;
 }
+
+export interface IDroptableMap {
+  mapName: string;
+  drops: IDroptable[];
+}
+
+export interface IDroptableRegion {
+  regionName: string;
+  drops: IDroptable[];
+}

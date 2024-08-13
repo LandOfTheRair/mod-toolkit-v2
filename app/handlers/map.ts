@@ -91,9 +91,13 @@ export function editMapSpawnerNames(oldName: string, newName: string) {
       let didWrite = false;
 
       json.layers[10].objects.forEach((spawner: any) => {
-        if (spawner.tag !== oldName) return;
+        if (spawner.properties.tag !== oldName) return;
 
-        spawner.tag = newName;
+        console.log(
+          `[Propagate Spawner] Updated spawner "${oldName}" in map "${file}": ${oldName} -> ${newName}`
+        );
+
+        spawner.properties.tag = newName;
         didWrite = true;
       });
 

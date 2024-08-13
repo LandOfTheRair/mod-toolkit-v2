@@ -134,6 +134,17 @@ export class ModService {
     this.updateMod(mod);
   }
 
+  public doesExistDuplicate<T extends HasIdentification>(
+    containerKey: keyof Omit<IModKit, 'meta'>,
+    checkProp: keyof T,
+    checkValue: string,
+    myId: T['_id']
+  ): boolean {
+    return !!(this.mod()[containerKey] as unknown as T[]).find(
+      (t) => t._id !== myId && t[checkProp] === checkValue
+    );
+  }
+
   // json functions
   public setJSON(key: string, value: any): void {
     const json = this.json();
@@ -202,6 +213,9 @@ export class ModService {
     mod.drops.forEach((droptable) => {
       if (droptable.mapName !== oldName) return;
 
+      console.log(
+        `[Propagate Map] Updated droptable "${droptable.result}" Map: ${oldName} -> ${newName}`
+      );
       droptable.mapName = newName;
     });
 
@@ -403,16 +417,5 @@ export class ModService {
   public findItemByName(itemName: string): IItemDefinition | undefined {
     const items = this.availableItems();
     return items.find((i) => i.name === itemName);
-  }
-
-  public doesExistDuplicate<T extends HasIdentification>(
-    containerKey: keyof Omit<IModKit, 'meta'>,
-    checkProp: keyof T,
-    checkValue: string,
-    myId: T['_id']
-  ): boolean {
-    return !!(this.mod()[containerKey] as unknown as T[]).find(
-      (t) => t._id !== myId && t[checkProp] === checkValue
-    );
   }
 }

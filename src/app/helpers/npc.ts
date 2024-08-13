@@ -34,7 +34,6 @@ export const defaultNPC: () => INPCDefinition = () => ({
   skillLevels: 1,
   skillOnKill: 1,
   otherStats: {},
-  gear: {},
   hp: { min: 0, max: 0 },
   mp: { min: 0, max: 0 },
   giveXp: { min: 0, max: 0 },

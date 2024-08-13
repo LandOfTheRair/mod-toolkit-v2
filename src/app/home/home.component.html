@@ -21,7 +21,8 @@
 
             <li class="menu-title"><a>Mod I/O</a></li>
             <li><a (click)="electronService.send('IMPORT_MOD')">Load/Import Mod</a></li>
-            <li><a>Export Mod</a></li>
+            <li><a (click)="electronService.send('SAVE_MOD', { shouldExport: true, modData: modService.mod() })">Export
+                Mod</a></li>
             <li><a>Validate Mod</a></li>
 
             <li class="menu-title"><a>Mod Testing</a></li>

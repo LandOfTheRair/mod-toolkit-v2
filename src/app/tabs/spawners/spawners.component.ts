@@ -1,8 +1,9 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IModKit, ISpawnerData } from '../../../interfaces';
 import { defaultSpawner } from '../../helpers';
+import { ElectronService } from '../../services/electron.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
 import { HeaderButtonsComponent } from '../../shared/components/header-buttons/header-buttons.component';
@@ -15,6 +16,8 @@ type EditingType = ISpawnerData;
   styleUrl: './spawners.component.scss',
 })
 export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
+  private electronService = inject(ElectronService);
+
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'spawners';
 
   public defaultData = defaultSpawner;
@@ -82,4 +85,11 @@ export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
       },
     },
   ];
+
+  protected dataEdited(oldItem: EditingType, newItem: EditingType) {
+    this.electronService.send('EDIT_MAP_SPAWNER', {
+      oldName: oldItem.tag,
+      newName: newItem.tag,
+    });
+  }
 }

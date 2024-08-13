@@ -154,23 +154,6 @@ export const damageClasses = sortBy([
   'sonic',
 ]);
 
-export const gearSlots = [
-  'gear.rightHand',
-  'gear.leftHand',
-  'gear.Armor',
-  'gear.Robe1',
-  'gear.Robe2',
-  'gear.Ring1',
-  'gear.Ring2',
-  'gear.Head',
-  'gear.Neck',
-  'gear.Waist',
-  'gear.Wrists',
-  'gear.Hands',
-  'gear.Feet',
-  'gear.Ear',
-];
-
 export const itemClasses = [
   'Abacus',
   'Book',

@@ -11,5 +11,5 @@ export class InputSkillComponent {
   public label = input<string>('Skill');
   public change = output<string>();
 
-  public values = [...Object.keys(Skill)];
+  public values = [...Object.values(Skill)];
 }
