@@ -20,7 +20,7 @@ type ItemModel = { category: string; data: IItemDefinition; value: string };
 export class InputItemComponent implements OnInit {
   private modService = inject(ModService);
 
-  public item = model.required<IItemDefinition | undefined>();
+  public item = model<IItemDefinition | undefined>();
   public label = input<string>('Item');
   public defaultValue = input<string>();
   public change = output<string>();

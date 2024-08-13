@@ -15,7 +15,7 @@ export class HomeComponent {
   public electronService = inject(ElectronService);
   public modService = inject(ModService);
 
-  public activeTab = signal<string>('Maps');
+  public activeTab = signal<number>(0);
 
   public tabOrder = [
     { name: 'Maps', count: computed(() => this.modService.mod().maps.length) },
@@ -47,11 +47,11 @@ export class HomeComponent {
   ];
 
   constructor() {
-    const lastTab = (this.localStorage.retrieve('lasttab') as string) || 'Maps';
+    const lastTab = (this.localStorage.retrieve('lasttab') as number) ?? 0;
     this.activeTab.set(lastTab);
   }
 
-  changeTab(newTab: string) {
+  changeTab(newTab: number) {
     this.activeTab.set(newTab);
 
     this.localStorage.store('lasttab', newTab);

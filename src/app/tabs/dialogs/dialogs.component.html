@@ -1,1 +1,7 @@
-<p>dialogs works!</p>
+@if(!isEditing()) {
+<app-editor-view-table [dataType]="'dialogs'" [tableColumns]="tableColumns" [tableItems]="tableItems()"
+  (create)="createNew()"></app-editor-view-table>
+} @else {
+<app-dialogs-editor class="h-full w-full" [editing]="editingData()" (goBack)="cancelEditing()"
+  (save)="saveNewData($event)"></app-dialogs-editor>
+}

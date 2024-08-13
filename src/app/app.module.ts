@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
 
 import { NgIconsModule, provideNgIconsConfig } from '@ng-icons/core';
+import { CodeEditorModule } from '@ngstack/code-editor';
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import {
@@ -48,6 +49,7 @@ import { appIcons } from './app.icons';
     NgIconsModule.withIcons({
       ...appIcons,
     }),
+    CodeEditorModule.forRoot(),
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

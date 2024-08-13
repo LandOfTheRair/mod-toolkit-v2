@@ -2,7 +2,7 @@ import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IModKit, INPCDefinition } from '../../../interfaces';
-import { defaultNPC } from '../../helpers';
+import { defaultNPC, id } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -90,6 +90,7 @@ export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
         copyCallback: (item: EditingType) => {
           const newItem = structuredClone(item);
           newItem.npcId = `${newItem.npcId} (copy)`;
+          newItem._id = id();
           this.saveNewData(newItem);
         },
         showEditButton: true,

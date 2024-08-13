@@ -6,7 +6,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { isNumber, sortBy } from 'lodash';
+import { isNumber } from 'lodash';
 import {
   Allegiance,
   AllegianceType,
@@ -78,22 +78,22 @@ export class NpcsEditorComponent
 
   public statsInOrder = computed(() => {
     const npc = this.editing();
-    return sortBy(Object.keys(npc.otherStats)) as StatType[];
+    return Object.keys(npc.otherStats).sort() as StatType[];
   });
 
   public summonStatsInOrder = computed(() => {
     const npc = this.editing();
-    return sortBy(Object.keys(npc.summonStatModifiers)) as StatType[];
+    return Object.keys(npc.summonStatModifiers).sort() as StatType[];
   });
 
   public summonSkillsInOrder = computed(() => {
     const npc = this.editing();
-    return sortBy(Object.keys(npc.summonSkillModifiers)) as SkillType[];
+    return Object.keys(npc.summonSkillModifiers).sort() as SkillType[];
   });
 
   public traitsInOrder = computed(() => {
     const npc = this.editing();
-    return sortBy(Object.keys(npc.traitLevels));
+    return Object.keys(npc.traitLevels).sort();
   });
 
   public linkStats = signal<boolean>(true);

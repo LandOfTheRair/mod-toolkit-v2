@@ -1,0 +1,6 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values()" [(ngModel)]="tag" placeholder="Select NPC tag..."
+    (change)="change.emit($event)"></ng-select>
+
+  <app-input-floating-label>Map NPC Tag</app-input-floating-label>
+</div>

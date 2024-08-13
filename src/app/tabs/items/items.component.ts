@@ -2,7 +2,7 @@ import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IItemDefinition, IModKit } from '../../../interfaces';
-import { defaultItem } from '../../helpers';
+import { defaultItem, id } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -73,6 +73,7 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
         copyCallback: (item: EditingType) => {
           const newItem = structuredClone(item);
           newItem.name = `${newItem.name} (copy)`;
+          newItem._id = id();
           this.saveNewData(newItem);
         },
         showEditButton: true,

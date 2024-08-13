@@ -50,9 +50,9 @@
 <div class="root-body">
   <div role="tablist" class="tabs tabs-boxed rounded-none">
 
-    @for(tab of tabOrder; track tab.name) {
-    <a role="tab" class="tab" [class.tab-disabled]="!electronService.isLoaded()"
-      [class.tab-active]="activeTab() === tab.name" (click)="changeTab(tab.name)">{{ tab.name
+    @for(tab of tabOrder; track tab.name; let i = $index) {
+    <a role="tab" class="tab" [class.tab-disabled]="!electronService.isLoaded()" [class.tab-active]="activeTab() === i"
+      (click)="changeTab(i)">{{ tab.name
       }} ({{ tab.count() }})</a>
     }
 
@@ -73,35 +73,35 @@
     <div class="card bg-base-100 w-full shadow-xl">
       <div class="card-body">
         @switch (activeTab()) {
-        @case ('Maps') {
+        @case (0) {
         <app-maps class="h-full"></app-maps>
         }
 
-        @case ('Items') {
+        @case (1) {
         <app-items class="h-full"></app-items>
         }
 
-        @case ('NPCs') {
+        @case (2) {
         <app-npcs class="h-full"></app-npcs>
         }
 
-        @case ('Droptables') {
+        @case (3) {
         <app-droptables class="h-full"></app-droptables>
         }
 
-        @case ('Recipes') {
+        @case (4) {
         <app-recipes class="h-full"></app-recipes>
         }
 
-        @case ('Spawners') {
+        @case (5) {
         <app-spawners class="h-full"></app-spawners>
         }
 
-        @case ('Dialogs') {
+        @case (6) {
         <app-dialogs class="h-full"></app-dialogs>
         }
 
-        @case ('Quests') {
+        @case (7) {
         <app-quests class="h-full"></app-quests>
         }
 

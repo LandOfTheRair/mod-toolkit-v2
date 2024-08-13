@@ -42,6 +42,7 @@ import { InputSfxComponent } from './components/input-sfx/input-sfx.component';
 import { InputNpcComponent } from './components/input-npc/input-npc.component';
 import { InputQuesttypeComponent } from './components/input-questtype/input-questtype.component';
 import { InputQuestrewardComponent } from './components/input-questreward/input-questreward.component';
+import { InputMapnpcComponent } from './components/input-mapnpc/input-mapnpc.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { InputQuestrewardComponent } from './components/input-questreward/input-
     InputNpcComponent,
     InputQuesttypeComponent,
     InputQuestrewardComponent,
+    InputMapnpcComponent,
   ],
   imports: [
     CommonModule,
@@ -126,6 +128,7 @@ import { InputQuestrewardComponent } from './components/input-questreward/input-
     InputNpcComponent,
     InputQuesttypeComponent,
     InputQuestrewardComponent,
+    InputMapnpcComponent,
   ],
 })
 export class SharedModule {}

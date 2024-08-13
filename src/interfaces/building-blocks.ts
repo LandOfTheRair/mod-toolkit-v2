@@ -327,7 +327,6 @@ export interface RandomNumber {
 }
 
 export interface BoundedNumber {
-  maximum: number;
-  minimum: number;
-  current: number;
+  max: number;
+  min: number;
 }
