@@ -44,6 +44,7 @@ export class EditorBaseTableComponent<T extends HasIdentification> {
     if (oldItem) {
       this.oldData.set(undefined);
       this.modService.modEdit<T>(this.dataKey, oldItem, data);
+      this.dataEdited(oldItem, data);
       return;
     }
 
@@ -57,4 +58,7 @@ export class EditorBaseTableComponent<T extends HasIdentification> {
 
     this.modService.modDelete<T>(this.dataKey, data);
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected dataEdited(oldItem: T, newItem: T) {}
 }

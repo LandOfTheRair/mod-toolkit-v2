@@ -100,4 +100,8 @@ export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
       },
     },
   ];
+
+  protected dataEdited(oldItem: EditingType, newItem: EditingType) {
+    this.modService.updateNPCIdAcrossMod(oldItem.npcId, newItem.npcId);
+  }
 }

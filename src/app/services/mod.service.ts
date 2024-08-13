@@ -217,6 +217,40 @@ export class ModService {
     this.updateMod(mod);
   }
 
+  // npc functions
+  public updateNPCIdAcrossMod(oldName: string, newName: string) {
+    if (oldName === newName) return;
+
+    const mod = this.mod();
+
+    mod.spawners.forEach((spawner) => {
+      spawner.npcIds.forEach((rollable) => {
+        if (rollable.result !== oldName) return;
+
+        console.log(
+          `[Propagate NPC] Updated spawner "${spawner.tag}" NPC: ${oldName} -> ${newName}`
+        );
+        rollable.result = newName;
+      });
+    });
+
+    mod.quests.forEach((quest) => {
+      quest.requirements.npcIds.forEach((id, i) => {
+        if (id !== oldName) return;
+
+        console.log(
+          `[Propagate NPC] Updated quest "${quest.name}" NPC: ${oldName} -> ${newName}`
+        );
+        quest.requirements.npcIds[i] = newName;
+      });
+    });
+
+    this.mod.set(mod);
+  }
+
+  // item functions
+  public updateItemNameAcrossMod(oldName: string, newName: string) {}
+
   public findItemByName(itemName: string): IItemDefinition | undefined {
     const items = this.availableItems();
     return items.find((i) => i.name === itemName);
