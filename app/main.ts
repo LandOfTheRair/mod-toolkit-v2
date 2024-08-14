@@ -9,6 +9,8 @@ import { SendToUI } from './types';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+console.log(`Starting in ${isDevelopment ? 'dev' : 'prod'} mode...`);
+
 log.transports.file.resolvePath = () =>
   path.join(app.getAppPath(), 'logs/main.log');
 
@@ -20,8 +22,8 @@ const Config = require('electron-config');
 const config = new Config();
 
 let win: BrowserWindow | null = null;
-const args = process.argv.slice(1),
-  serve = args.some((val) => val === '--serve');
+const args = process.argv.slice(1);
+const serve = args.some((val) => val === '--serve');
 
 const sendToUI: SendToUI = (d: string, i?: any) => {
   win?.webContents.send(d, i);
@@ -119,10 +121,6 @@ async function createWindow(): Promise<BrowserWindow> {
     config.set('winBounds', win?.getBounds());
   });
 
-  if (isDevelopment) {
-    win.webContents.openDevTools();
-  }
-
   if (serve) {
     const debug = require('electron-debug');
     debug();
@@ -140,6 +138,10 @@ async function createWindow(): Promise<BrowserWindow> {
 
     const url = new URL(path.join('file:', __dirname, pathIndex));
     win.loadURL(url.href);
+  }
+
+  if (isDevelopment) {
+    win.webContents.openDevTools();
   }
 
   // Emitted when the window is closed.

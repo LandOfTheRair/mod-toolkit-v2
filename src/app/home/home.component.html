@@ -12,33 +12,35 @@
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1">
       <li>
-        <details>
+        <details #menu>
           <summary>Actions</summary>
           <ul class="z-30 top-6 right-1.5 w-60 bg-base-100 rounded-t-none p-2">
             <li class="menu-title"><a>Mod Metadata</a></li>
-            <li><a [swal]="changeModName">Change Mod Name</a></li>
-            <li><a [swal]="changeModAuthor">Change Mod Author</a></li>
+            <li><a (click)="closeMenu()" [swal]="changeModName">Change Mod Name</a></li>
+            <li><a (click)="closeMenu()" [swal]="changeModAuthor">Change Mod Author</a></li>
 
             <li class="menu-title"><a>Mod I/O</a></li>
-            <li><a (click)="electronService.send('IMPORT_MOD')">Load/Import Mod</a></li>
-            <li><a (click)="electronService.send('SAVE_MOD', { shouldExport: true, modData: modService.mod() })">Export
+            <li><a (click)="closeMenu(); electronService.send('IMPORT_MOD')">Load/Import
                 Mod</a></li>
-            <li><a>Validate Mod</a></li>
+            <li><a (click)="closeMenu(); attemptExport();">Export
+                Mod</a></li>
+            <li><a (click)="closeMenu(); toggleModValidation()">Validate Mod</a></li>
 
             <li class="menu-title"><a>Mod Testing</a></li>
-            <li><a target="_blank" href="https://rair.land/docs/modkit/">Help</a></li>
+            <li><a (click)="closeMenu()" target="_blank" href="https://rair.land/docs/modkit/">Help</a></li>
             <li>
-              <a (click)="debugService.toggleDebug()">Debug Mode {{ debugService.isDebug() ? '☑' : '☐' }}</a>
+              <a (click)="closeMenu(); debugService.toggleDebug()">Debug Mode {{ debugService.isDebug() ? '☑' : '☐'
+                }}</a>
             </li>
-            <li><a (click)="electronService.send('DOWNLOAD_MONGO')">Install MongoDB...</a></li>
-            <li><a (click)="electronService.send('DOWNLOAD_RAIR')">Install Rair Server...</a></li>
-            <li><a>Test Mod!</a></li>
+            <li><a (click)="closeMenu(); electronService.send('DOWNLOAD_MONGO')">Install MongoDB...</a></li>
+            <li><a (click)="closeMenu(); electronService.send('DOWNLOAD_RAIR')">Install Rair Server...</a></li>
+            <li><a (click)="closeMenu()">Test Mod!</a></li>
 
             <li class="menu-title"><a>Updates</a></li>
-            <li><a (click)="electronService.send('UPDATE_RESOURCES')">Update Resources</a></li>
+            <li><a (click)="closeMenu(); electronService.send('UPDATE_RESOURCES')">Update Resources</a></li>
 
             <li class="menu-title"><a>Danger Zone</a></li>
-            <li><a [swal]="resetMod">Reset Mod</a></li>
+            <li><a (click)="closeMenu()" [swal]="resetMod">Reset Mod</a></li>
           </ul>
         </details>
       </li>
@@ -47,7 +49,18 @@
   }
 </div>
 
+@if(isValidating()) {
+<div class="root-body">
+  <div class="root-content p-3">
+    <div class="card bg-base-100 w-full shadow-xl">
+      <div class="card-body">
+        <app-validation (exit)="isValidating.set(false)"></app-validation>
+      </div>
+    </div>
+  </div>
+</div>
 
+} @else {
 <div class="root-body">
   <div role="tablist" class="tabs tabs-boxed rounded-none">
 
@@ -120,17 +133,24 @@
   </div>
   }
 </div>
+}
 
 <swal #changeModName title="Change Mod Name" text="Change the name of your mod." input="text"
-  [inputValue]="modService.modName()" [inputAttributes]="{ maxlength: '20' }" [focusCancel]="true"
-  (confirm)="modService.setName($event)">
+  confirmButtonText="Change name" [inputValue]="modService.modName()" [inputAttributes]="{ maxlength: '20' }"
+  [focusCancel]="true" (confirm)="modService.setName($event)">
 </swal>
 
 <swal #changeModAuthor title="Change Mod Author" text="Change the author of your mod." input="text"
-  [inputValue]="modService.modAuthor()" [inputAttributes]="{ maxlength: '20' }" [showCancelButton]="true"
-  [focusCancel]="true" (confirm)="modService.setAuthor($event)">
+  confirmButtonText="Change author" [inputValue]="modService.modAuthor()" [inputAttributes]="{ maxlength: '20' }"
+  [showCancelButton]="true" [focusCancel]="true" (confirm)="modService.setAuthor($event)">
 </swal>
 
 <swal #resetMod title="Reset Mod?" text="This cannot be undone. You may want to back up your mod before doing this."
-  icon="warning" [showCancelButton]="true" [focusCancel]="true" (confirm)="modService.resetMod()">
+  confirmButtonText="Yes, reset" icon="warning" [showCancelButton]="true" [focusCancel]="true"
+  (confirm)="modService.resetMod()">
 </swal>
+
+<swal #exportWarnSwal title="Export Confirmation"
+  text="Your mod has errors. Are you sure you want to export it? It may fail. You can view errors by going to Actions > Validate Mod."
+  confirmButtonText="Yes, export" [showDenyButton]="true" denyButtonText="View errors" icon="warning"
+  [showCancelButton]="true" [focusCancel]="true"></swal>

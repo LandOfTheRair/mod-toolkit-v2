@@ -162,10 +162,14 @@ export function setupIPC(sendToUI: SendToUI) {
 
     if (!res) return;
 
-    const fullMod = shouldExport ? handlers.formatMod(modData) : modData;
+    try {
+      const fullMod = shouldExport ? handlers.formatMod(modData) : modData;
 
-    fs.writeJSONSync(res, fullMod, { spaces: 2 });
-    sendToUI('notify', { type: 'info', text: `Saved ${res}!` });
+      fs.writeJSONSync(res, fullMod, { spaces: 2 });
+      sendToUI('notify', { type: 'info', text: `Saved ${res}!` });
+    } catch {
+      sendToUI('notify', { type: 'error', text: `Failed to save ${res}!` });
+    }
   });
 
   ipcMain.on('LOAD_MOD', () => {
