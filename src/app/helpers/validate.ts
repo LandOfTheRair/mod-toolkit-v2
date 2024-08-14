@@ -127,6 +127,7 @@ export const validationMessagesForMod = (mod: IModKit) => {
     validations.push(...itemValidations);
   };
 
+  // item validators
   const checkItems = () => {
     validations.push({ header: 'Items' });
     checkItemStats();
@@ -194,10 +195,10 @@ export const validationMessagesForMod = (mod: IModKit) => {
       });
     });
 
-    // calculate unused mod spawners
+    // calculate unused spawners
     const modSpawnerValidations: ValidationMessage[] = [];
 
-    modSpawnerValidations.push({ subheader: 'Unused Mod Spawners' });
+    modSpawnerValidations.push({ subheader: 'Unused Spawners' });
 
     Object.keys(modSpawnerTags).forEach((item) => {
       if (modSpawnerTags[item] > 0) return;
@@ -306,8 +307,158 @@ export const validationMessagesForMod = (mod: IModKit) => {
     checkMapNPCDialogs();
   };
 
+  // npc validators
+  const checkNPCUsages = () => {
+    const npcValidations: ValidationMessage[] = [];
+
+    npcValidations.push({ subheader: 'NPCs' });
+
+    // item count tracker
+    const itemCounts: Record<string, number> = {};
+
+    const addItemCount = (itemName: string) => {
+      if (itemCounts[itemName] >= 0) {
+        itemCounts[itemName]++;
+      }
+    };
+
+    mod.npcs.forEach((item) => {
+      itemCounts[item.npcId] = 0;
+    });
+
+    mod.spawners.forEach((spawner) => {
+      spawner.npcIds.forEach((npcId) => {
+        addItemCount(npcId.result);
+      });
+    });
+
+    mod.quests.forEach((quest) => {
+      quest.requirements.npcIds.forEach((npcId) => {
+        addItemCount(npcId);
+      });
+    });
+
+    mod.maps.forEach((map) => {
+      map.map.layers[10].objects.forEach((spawner: any) => {
+        if (spawner.properties.lairName) {
+          addItemCount(spawner.properties.lairName as string);
+        }
+      });
+    });
+
+    Object.keys(itemCounts).forEach((item) => {
+      if (itemCounts[item] > 0) return;
+
+      npcValidations.push({ type: 'warning', message: `${item} is unused.` });
+    });
+
+    if (npcValidations.length === 1) {
+      npcValidations.push({ type: 'good', message: 'No abnormalities!' });
+    }
+
+    validations.push(...npcValidations);
+  };
+
+  const checkNPCs = () => {
+    checkNPCUsages();
+  };
+
+  // recipe validators
+  const checkRecipes = () => {
+    const itemValidations: ValidationMessage[] = [];
+
+    itemValidations.push({ subheader: 'Recipes' });
+
+    mod.recipes.forEach((recipe) => {
+      if (recipe.maxSkillForGains === recipe.requireSkill) {
+        itemValidations.push({
+          type: 'warning',
+          message: `Recipe ${recipe.name} (${recipe.category}) has max and min skill set to the same value.`,
+        });
+      }
+
+      if (
+        recipe.transferOwnerFrom &&
+        !recipe.ingredients?.includes(recipe.transferOwnerFrom)
+      ) {
+        itemValidations.push({
+          type: 'error',
+          message: `Recipe ${recipe.name} (${recipe.category}) has a transferOwnerFrom but no ingredient that matches.`,
+        });
+      }
+
+      if (recipe.copySkillToPotency && !recipe.potencyScalar) {
+        itemValidations.push({
+          type: 'warning',
+          message: `Recipe ${recipe.name} (${recipe.category}) has copySkillToPotency set, but no potency scalar.`,
+        });
+      }
+    });
+
+    if (itemValidations.length === 1) {
+      itemValidations.push({ type: 'good', message: 'No abnormalities!' });
+    }
+
+    validations.push(...itemValidations);
+  };
+
+  // spawner validators
+  const checkSpawners = () => {
+    const itemValidations: ValidationMessage[] = [];
+
+    itemValidations.push({ subheader: 'Spawners' });
+
+    mod.spawners.forEach((spawner) => {
+      if (spawner.respawnRate < 5) {
+        itemValidations.push({
+          type: 'warning',
+          message: `Spawner ${spawner.tag} has a very fast respawn rate (<5).`,
+        });
+      }
+
+      if (!spawner.npcAISettings.includes('default')) {
+        itemValidations.push({
+          type: 'warning',
+          message: `Spawner ${spawner.tag} does not have the default AI setting.`,
+        });
+      }
+    });
+
+    if (itemValidations.length === 1) {
+      itemValidations.push({ type: 'good', message: 'No abnormalities!' });
+    }
+
+    validations.push(...itemValidations);
+  };
+
+  // quest validators
+  const checkQuests = () => {
+    const itemValidations: ValidationMessage[] = [];
+
+    itemValidations.push({ subheader: 'Quests' });
+
+    mod.quests.forEach((quest) => {
+      if (quest.rewards.length === 0) {
+        itemValidations.push({
+          type: 'warning',
+          message: `Quest ${quest.name} does not have any rewards.`,
+        });
+      }
+    });
+
+    if (itemValidations.length === 1) {
+      itemValidations.push({ type: 'good', message: 'No abnormalities!' });
+    }
+
+    validations.push(...itemValidations);
+  };
+
   checkItems();
   checkMaps();
+  checkNPCs();
+  checkRecipes();
+  checkSpawners();
+  checkQuests();
 
   return removeExtraneousSubheaders(validations);
 };
