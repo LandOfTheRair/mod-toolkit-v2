@@ -61,7 +61,9 @@ export function checkItemUses(mod: IModKit): ValidationMessageGroup {
 
   // count item usages by type
   mod.drops.forEach((droptable) => {
-    addItemCount(droptable.result);
+    droptable.drops.forEach((drop) => {
+      addItemCount(drop.result);
+    });
   });
 
   mod.recipes.forEach((recipe) => {

@@ -1,4 +1,4 @@
-import { IDroptable, IDroptableMap, IDroptableRegion } from './droptable';
+import { IDroptable } from './droptable';
 import { IItemDefinition } from './item';
 import { IEditorMap } from './map';
 import { INPCDefinition } from './npc';
@@ -19,25 +19,6 @@ export interface IModKit {
   npcs: INPCDefinition[];
   items: IItemDefinition[];
   drops: IDroptable[];
-  spawners: ISpawnerData[];
-  recipes: IRecipe[];
-  maps: IEditorMap[];
-  quests: IQuest[];
-  dialogs: INPCScript[];
-}
-
-export interface IExportedModKit {
-  meta: {
-    name: string;
-    author: string;
-    version: number;
-    savedAt: number;
-    _backup: any;
-  };
-
-  npcs: INPCDefinition[];
-  items: IItemDefinition[];
-  drops: { maps: IDroptableMap[]; regions: IDroptableRegion[] };
   spawners: ISpawnerData[];
   recipes: IRecipe[];
   maps: IEditorMap[];

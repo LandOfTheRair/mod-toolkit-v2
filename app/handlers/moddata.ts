@@ -1,9 +1,4 @@
-import { groupBy } from 'lodash';
 import {
-  IDroptable,
-  IDroptableMap,
-  IDroptableRegion,
-  IExportedModKit,
   IItemDefinition,
   IModKit,
   INPCDefinition,
@@ -45,32 +40,6 @@ function formatNPCs(npcs: INPCDefinition[]): INPCDefinition[] {
   });
 }
 
-function formatDroptables(droptables: IDroptable[]): {
-  regions: IDroptableRegion[];
-  maps: IDroptableMap[];
-} {
-  const globalDrops = droptables.filter((f) => f.isGlobal);
-  const regionDrops = groupBy(
-    droptables.filter((f) => f.regionName),
-    'regionName'
-  );
-  const mapDrops = groupBy(
-    droptables.filter((f) => f.mapName),
-    'mapName'
-  );
-
-  return {
-    maps: Object.keys(mapDrops).map((mapName) => ({
-      mapName,
-      drops: [...mapDrops[mapName], ...globalDrops],
-    })),
-    regions: Object.keys(regionDrops).map((regionName) => ({
-      regionName,
-      drops: [...regionDrops[regionName], ...globalDrops],
-    })),
-  };
-}
-
 function formatItems(items: IItemDefinition[]): IItemDefinition[] {
   return items.map((item: any) => {
     if (!item.sellValue) delete item.sellValue;
@@ -109,10 +78,10 @@ function stripIds(modData: IModKit) {
   });
 }
 
-export function formatMod(modData: IModKit): IExportedModKit {
+export function formatMod(modData: IModKit): IModKit {
   stripIds(modData);
 
-  const exported: IExportedModKit = {
+  const exported: IModKit = {
     meta: {
       ...structuredClone(modData.meta),
       _backup: structuredClone(modData),
@@ -120,7 +89,7 @@ export function formatMod(modData: IModKit): IExportedModKit {
 
     npcs: formatNPCs(modData.npcs),
     items: formatItems(modData.items),
-    drops: formatDroptables(modData.drops),
+    drops: modData.drops,
     dialogs: modData.dialogs,
     maps: modData.maps,
     quests: modData.quests,

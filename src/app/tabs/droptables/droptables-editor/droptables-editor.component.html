@@ -11,10 +11,6 @@
 
 <div class="flex flex-row gap-2">
   <div class="form-column">
-    <div class="form-row">
-      <app-input-item [item]="currentItem()" (change)="update('result', $event)"
-        [defaultValue]="editingData.result"></app-input-item>
-    </div>
 
     <div class="form-row">
       <app-input-map [(map)]="editingData.mapName"
@@ -26,33 +22,74 @@
         (change)="update('mapName', undefined); update('isGlobal', false)"></app-input-region>
     </div>
 
-    <div class="form-row">
-      <app-input-floating-label>Chance to Drop (1/X)</app-input-floating-label>
-      <input [(ngModel)]="editingData.maxChance" (ngModelChange)="update('maxChance', $event)" type="number" min="0"
-        placeholder="Choose drop chance..." class="form-input" />
-    </div>
-  </div>
-
-  <div class="form-column">
-    <div class="form-row pl-1">
-      <label class="label cursor-pointer" floatUi="Whether or not to utilize LUK when trying to get this item.">
-        <input type="checkbox" [(ngModel)]="editingData.noLuckBonus" class="checkbox" />
-        <span class="label-text">Disallow LUK Bonus</span>
-      </label>
-    </div>
-
     <div class="form-row pl-1">
       <label class="label cursor-pointer" floatUi="Whether or not this item should actually drop on every map.">
         <input type="checkbox" [(ngModel)]="editingData.isGlobal"
           (ngModelChange)="update('regionName', undefined); update('mapName', undefined); update('isGlobal', $event)"
           class="checkbox" />
-        <span class="label-text">Is Global Drop</span>
+        <span class="label-text">Is Global Droptable</span>
       </label>
     </div>
 
-    <div class="form-row">
-      <app-input-holiday [(holiday)]="editingData.requireHoliday"></app-input-holiday>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-item [(item)]="currentItem"></app-input-item>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" (click)="addItem(currentItem())"
+            [disabled]="!currentItem() || hasItem(currentItem())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
     </div>
+
+    @for(drop of editingData.drops; track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          {{ drop.result }}
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Max Chance (1/X)</app-input-floating-label>
+          <input [(ngModel)]="drop.maxChance" min="1" type="number" placeholder="Choose chance..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not to utilize LUK when trying to get this item.">
+            <input type="checkbox" [(ngModel)]="drop.noLuckBonus" class="checkbox" />
+            <span class="label-text">Disallow LUK Bonus</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-holiday [(holiday)]="drop.requireHoliday"></app-input-holiday>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeItem(drop.result)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
   </div>
 </div>
 

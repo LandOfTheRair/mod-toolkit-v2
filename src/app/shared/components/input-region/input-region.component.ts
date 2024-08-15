@@ -10,7 +10,7 @@ import { ModService } from '../../../services/mod.service';
 export class InputRegionComponent {
   private modService = inject(ModService);
 
-  public region = model.required<string>();
+  public region = model.required<string | undefined>();
   public change = output<string>();
 
   public values = computed(() =>

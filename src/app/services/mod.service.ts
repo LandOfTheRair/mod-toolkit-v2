@@ -214,7 +214,7 @@ export class ModService {
       if (droptable.mapName !== oldName) return;
 
       console.log(
-        `[Propagate Map] Updated droptable "${droptable.result}" Map: ${oldName} -> ${newName}`
+        `[Propagate Map] Updated droptable "${droptable.mapName}" Map: ${oldName} -> ${newName}`
       );
       droptable.mapName = newName;
     });
@@ -284,17 +284,19 @@ export class ModService {
     });
 
     mod.drops.forEach((droptable) => {
-      if (droptable.result !== oldName) return;
+      droptable.drops.forEach((drop) => {
+        if (drop.result !== oldName) return;
 
-      console.log(
-        `[Propagate Item] Updated droptable for "${
-          droptable.mapName ||
-          droptable.regionName ||
-          (droptable.isGlobal ? 'global' : '')
-        }" item: ${oldName} -> ${newName}`
-      );
+        console.log(
+          `[Propagate Item] Updated droptable for "${
+            droptable.mapName ||
+            droptable.regionName ||
+            (droptable.isGlobal ? 'global' : '')
+          }" item: ${oldName} -> ${newName}`
+        );
 
-      droptable.result = newName;
+        drop.result = newName;
+      });
     });
 
     mod.quests.forEach((quest) => {

@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { IDroptable, IItemDefinition } from '../../../../interfaces';
+import { Holiday, IDroptable, IItemDefinition } from '../../../../interfaces';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
@@ -13,9 +13,39 @@ export class DroptablesEditorComponent extends EditorBaseComponent<IDroptable> {
   public canSave = computed(() => {
     const data = this.editing();
     return (
-      (data.mapName || data.regionName || data.isGlobal) &&
-      data.maxChance > 0 &&
-      data.result
+      (data.isGlobal || data.mapName || data.regionName) &&
+      data.drops.length > 0
     );
   });
+
+  public addItem(item: IItemDefinition | undefined) {
+    if (!item) return;
+
+    this.editing.update((droptable) => ({
+      ...droptable,
+      drops: [
+        ...droptable.drops,
+        {
+          chance: 1,
+          maxChance: 100,
+          result: item.name,
+          noLuckBonus: true,
+          requireHoliday: undefined as unknown as Holiday,
+        },
+      ],
+    }));
+  }
+
+  public removeItem(item: string) {
+    this.editing.update((npc) => {
+      const newNpc = { ...npc };
+      newNpc.drops = newNpc.drops.filter((d) => d.result !== item);
+      return newNpc;
+    });
+  }
+
+  public hasItem(item: IItemDefinition | undefined) {
+    if (!item) return false;
+    return this.editing().drops.some((d) => d.result === item.name);
+  }
 }

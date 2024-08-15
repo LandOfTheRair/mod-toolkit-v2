@@ -4,7 +4,6 @@ import { ColDef } from 'ag-grid-community';
 import { IDroptable, IModKit } from '../../../interfaces';
 import { defaultDroptable } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
-import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
 import { HeaderButtonsComponent } from '../../shared/components/header-buttons/header-buttons.component';
 
@@ -27,29 +26,6 @@ export class DroptablesComponent extends EditorBaseTableComponent<EditingType> {
   );
   public tableItems = computed(() => this.modService.mod().drops);
   public tableColumns: ColDef[] = [
-    {
-      field: 'sprite',
-      headerName: '',
-      resizable: false,
-      sortable: false,
-      width: 100,
-      cellRenderer: CellSpriteComponent,
-      cellRendererParams: { type: 'items', fromResult: true },
-    },
-    {
-      field: 'result',
-      headerName: 'Item',
-      flex: 1,
-      cellDataType: 'text',
-      filter: 'agTextColumnFilter',
-    },
-    {
-      field: 'maxChance',
-      flex: 1,
-      cellDataType: 'number',
-      filter: 'agNumberColumnFilter',
-      valueFormatter: (v) => `1/${v.value}`,
-    },
     {
       field: 'mapName',
       flex: 1,
