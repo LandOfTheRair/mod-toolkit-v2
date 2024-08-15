@@ -8,45 +8,6 @@ import { formatNPCs } from '../export';
 import { npcSchema } from '../schemas';
 import { validateSchema } from '../schemas/_helpers';
 
-export function checkMapNPCDialogs(mod: IModKit): ValidationMessageGroup {
-  // check npc dialog refs, make sure they exist
-  const mapDialogValidations: ValidationMessageGroup = {
-    header: `Unused NPC Scripts`,
-    messages: [],
-  };
-
-  const foundDialogs: Record<string, number> = {};
-
-  const addDialogCount = (item: string) => {
-    foundDialogs[item] ??= 0;
-    foundDialogs[item]++;
-  };
-
-  mod.maps.forEach((map) => {
-    map.map.layers[9].objects.forEach((npc: any) => {
-      addDialogCount(npc.properties.tag as string);
-    });
-  });
-
-  mod.dialogs.forEach((dia) => {
-    if (foundDialogs[dia.tag]) return;
-
-    mapDialogValidations.messages.push({
-      type: 'warning',
-      message: `${dia.tag} is unused.`,
-    });
-  });
-
-  if (mapDialogValidations.messages.length === 0) {
-    mapDialogValidations.messages.push({
-      type: 'good',
-      message: 'No abnormalities!',
-    });
-  }
-
-  return mapDialogValidations;
-}
-
 export function checkNPCUsages(mod: IModKit) {
   const npcValidations: ValidationMessageGroup = {
     header: `Unused NPCs`,
@@ -105,7 +66,7 @@ export function checkNPCUsages(mod: IModKit) {
   return npcValidations;
 }
 
-export function checkNPCSprites(mod: IModKit) {
+export function checkNPCs(mod: IModKit) {
   const npcValidations: ValidationMessageGroup = {
     header: `NPCs`,
     messages: [],
@@ -120,6 +81,13 @@ export function checkNPCSprites(mod: IModKit) {
         message: `NPC ${item.npcId} has an invalid sprite: ${sprite} - it should be modulo 5.`,
       });
     });
+
+    if (item.forceAI) {
+      npcValidations.messages.push({
+        type: 'warning',
+        message: `NPC ${item.npcId} sets forceAI to ${item.forceAI}.`,
+      });
+    }
   });
 
   if (npcValidations.messages.length === 0) {

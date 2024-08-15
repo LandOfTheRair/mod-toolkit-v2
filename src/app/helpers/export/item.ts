@@ -194,6 +194,7 @@ export function formatItems(items: IItemDefinition[]): IItemDefinition[] {
     if (item.containedItems && !item.containedItems.length)
       delete item.containedItems;
     if (item.trait && !item.trait.name) delete item.trait;
+    if (!item.notUsableAfterHours) delete item.notUsableAfterHours;
     if (item.randomTrait && item.randomTrait.name.length === 0)
       delete item.randomTrait;
     if (item.useEffect && !item.useEffect.name) delete item.useEffect;
