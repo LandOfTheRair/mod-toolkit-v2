@@ -354,6 +354,16 @@
       </div>
       }
 
+      @if(baseEffect.name === 'Mood') {
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Enrage Timer (ms)</app-input-floating-label>
+          <input [(ngModel)]="baseEffect.extra.enrageTimer" min="0" type="number" placeholder="Choose timer..."
+            class="form-input" />
+        </div>
+      </div>
+      }
+
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Potency</app-input-floating-label>

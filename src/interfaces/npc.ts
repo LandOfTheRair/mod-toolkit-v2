@@ -59,6 +59,7 @@ export interface INPCDefinition extends HasIdentification {
     extra: {
       potency: number;
       damageType?: DamageClassType;
+      enrageTimer?: number;
     };
   }>;
 
