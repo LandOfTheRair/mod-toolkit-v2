@@ -250,7 +250,7 @@ export const typePropSets: Record<string, string[]> = {
   Book: ['bookPages', 'bookItemFilter', 'bookFindablePages'],
   Trap: ['trapUses'],
   Rock: ['canUpgradeWith'],
-  Scroll: ['bookPage'],
+  Scroll: ['bookPage', 'recipe'],
   Twig: ['type'],
 };
 

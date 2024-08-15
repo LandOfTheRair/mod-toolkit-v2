@@ -54,6 +54,7 @@ export class ItemsEditorComponent
       | 'damageClass'
       | 'succorInfo'
       | 'containedItems'
+      | 'recipe'
     >
   > = {
     tier: 'number',
@@ -66,6 +67,7 @@ export class ItemsEditorComponent
     returnsOnThrow: 'boolean',
     canShoot: 'boolean',
     ounces: 'number',
+    bookPage: 'number',
     bookPages: 'number',
     bookFindablePages: 'number',
     bookItemFilter: 'string',
@@ -74,6 +76,7 @@ export class ItemsEditorComponent
     damageClass: 'damageClass',
     succorInfo: 'succorInfo',
     containedItems: 'containedItems',
+    recipe: 'recipe',
   };
 
   public currentItem = signal<IItemDefinition | undefined>(undefined);
@@ -179,9 +182,12 @@ export class ItemsEditorComponent
     const extraPropSets = typePropSets[newItemClass];
     if (extraPropSets) {
       extraPropSets.forEach((prop) => {
+        if (prop === 'recipe') return;
+
         if (prop === 'containedItems') {
           return;
         }
+
         if (prop === 'succorInfo') {
           if (this.editing().succorInfo) return;
 
@@ -191,6 +197,7 @@ export class ItemsEditorComponent
           }));
           return;
         }
+
         if (prop === 'stats') {
           Object.keys(typePropDefaults[newItemClass].stats).forEach(
             (statKey) => {
