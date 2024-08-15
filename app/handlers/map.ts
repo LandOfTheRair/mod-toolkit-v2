@@ -107,3 +107,29 @@ export function editMapSpawnerNames(oldName: string, newName: string) {
     }
   );
 }
+
+export function editMapCreatureNames(oldName: string, newName: string) {
+  fs.readdirSync(`${baseUrl}/resources/maps/src/content/maps/custom`).forEach(
+    (file) => {
+      const path = `${baseUrl}/resources/maps/src/content/maps/custom/${file}`;
+      const json = fs.readJSONSync(path);
+
+      let didWrite = false;
+
+      json.layers[10].objects.forEach((spawner: any) => {
+        if (spawner.properties.lairName !== oldName) return;
+
+        console.log(
+          `[Propagate NPC] Updated lair name "${oldName}" in map "${file}": ${oldName} -> ${newName}`
+        );
+
+        spawner.properties.lairName = newName;
+        didWrite = true;
+      });
+
+      if (didWrite) {
+        fs.writeJSONSync(path, json);
+      }
+    }
+  );
+}

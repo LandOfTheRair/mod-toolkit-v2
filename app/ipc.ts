@@ -120,9 +120,16 @@ export function setupIPC(sendToUI: SendToUI) {
 
   ipcMain.on('EDIT_MAP_SPAWNER', async (e: any, data: any) => {
     const { oldName, newName } = data;
-    if (!oldName || !newName) return;
+    if (!oldName || !newName || oldName === newName) return;
 
     handlers.editMapSpawnerNames(oldName, newName);
+  });
+
+  ipcMain.on('EDIT_MAP_CREATURE', async (e: any, data: any) => {
+    const { oldName, newName } = data;
+    if (!oldName || !newName || oldName === newName) return;
+
+    handlers.editMapCreatureNames(oldName, newName);
   });
 
   ipcMain.on('JSON', async (e: any, data: any) => {

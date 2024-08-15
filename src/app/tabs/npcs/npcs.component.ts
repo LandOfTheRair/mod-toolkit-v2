@@ -1,8 +1,9 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IModKit, INPCDefinition } from '../../../interfaces';
 import { defaultNPC, id } from '../../helpers';
+import { ElectronService } from '../../services/electron.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -16,6 +17,8 @@ type EditingType = INPCDefinition;
   styleUrl: './npcs.component.scss',
 })
 export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
+  private electronService = inject(ElectronService);
+
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'npcs';
 
   public defaultData = defaultNPC;
@@ -103,5 +106,9 @@ export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
 
   protected dataEdited(oldItem: EditingType, newItem: EditingType) {
     this.modService.updateNPCIdAcrossMod(oldItem.npcId, newItem.npcId);
+    this.electronService.send('EDIT_MAP_CREATURE', {
+      oldName: oldItem.npcId,
+      newName: newItem.npcId,
+    });
   }
 }
