@@ -516,7 +516,13 @@
   </div>
 
   <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Not Usable After Hours</app-input-floating-label>
+      <input [(ngModel)]="editingData.notUsableAfterHours" min="0" type="number"
+        placeholder="Disables the item after X hours. Used for daily quests to prevent hoarding." class="form-input" />
+    </div>
   </div>
+
   <div class="form-column">
   </div>
 </div>
