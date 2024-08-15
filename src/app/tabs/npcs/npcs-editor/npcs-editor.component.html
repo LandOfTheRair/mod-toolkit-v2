@@ -433,7 +433,7 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-item (change)="editingData.items.equipment[slot][eqSlot].result = $event"
+          <app-input-item (change)="editingData.items.equipment[slot][eqSlot].result = $event" [allowNone]="true"
             [defaultValue]="editingData.items.equipment[slot][eqSlot].result"></app-input-item>
         </div>
       </div>

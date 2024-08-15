@@ -23,18 +23,24 @@ export class InputItemComponent implements OnInit {
   public item = model<IItemDefinition | undefined>();
   public label = input<string>('Item');
   public defaultValue = input<string>();
+  public allowNone = input<boolean>(false);
   public change = output<string>();
 
   public values = computed(() => {
     const mod = this.modService.mod();
 
     return [
+      this.allowNone()
+        ? { category: 'Default', data: { name: 'none' }, value: 'none' }
+        : undefined,
       ...mod.items.map((i) => ({
         category: 'My Mod Items',
         data: i,
         value: i.name,
       })),
-    ];
+    ]
+      .flat()
+      .filter(Boolean) as ItemModel[];
   });
 
   ngOnInit() {

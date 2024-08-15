@@ -112,8 +112,8 @@ export class ItemsEditorComponent
   });
 
   ngOnInit() {
-    this.extractStats(this.editing());
     this.resetProps(this.editing());
+    this.extractStats(this.editing());
     this.addItemClassMissingProps(this.editing().itemClass);
 
     super.ngOnInit();
@@ -126,6 +126,8 @@ export class ItemsEditorComponent
     item.breakEffect ??= { name: '', potency: 0 };
     item.requirements ??= { baseClass: undefined, level: 0 };
     item.cosmetic ??= { name: '', isPermanent: false };
+    item.trait ??= { name: '', level: 0 };
+    item.randomTrait ??= { name: [], level: { min: 0, max: 0 } };
 
     this.editing.set(item);
   }
