@@ -61,7 +61,7 @@ export interface IGear {
   stats: StatBlock;
 
   // the trait on the item
-  trait?: IItemTrait;
+  trait: IItemTrait;
 }
 
 export interface IWeapon {

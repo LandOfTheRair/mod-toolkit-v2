@@ -325,13 +325,83 @@
 <div class="flex flex-row gap-2">
   <div class="form-column">
     <div class="form-row">
-      <app-input-trait [(trait)]="editingData.trait!.name" label="Trait"></app-input-trait>
-    </div>
+      <div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+        @for(tab of traitSettings; let i = $index; track tab.name) {
+        <a role="tab" class="tab" [class.tab-active]="currentTraitTab() === tab.type"
+          (click)="changeTraitTab(tab.type)">
+          {{ tab.name }}
+        </a>
+        }
+      </div>
 
-    <div class="form-row">
-      <app-input-floating-label>Trait Level</app-input-floating-label>
-      <input [(ngModel)]="editingData.trait!.level" type="number" min="0" placeholder="Enter level..."
-        class="form-input" />
+      @switch(currentTraitTab()) {
+      @case ('static') {
+      <div class="form-row">
+        <app-input-floating-label>Trait Level</app-input-floating-label>
+        <input [(ngModel)]="editingData.trait.level" type="number" min="0" placeholder="Enter level..."
+          class="form-input" />
+      </div>
+
+      <div class="form-row">
+        <app-input-trait [(trait)]="editingData.trait.name" label="Trait"></app-input-trait>
+      </div>
+      }
+
+      @case ('random') {
+      <div class="form-row split">
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-floating-label>Min Random Trait Level</app-input-floating-label>
+            <input [(ngModel)]="editingData.randomTrait.level.min" type="number" min="0" placeholder="Enter level..."
+              class="form-input" />
+          </div>
+        </div>
+
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-floating-label>Max Random Trait Level</app-input-floating-label>
+            <input [(ngModel)]="editingData.randomTrait.level.max" min="0" type="number" placeholder="Enter level..."
+              class="form-input" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row split">
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-trait [(trait)]="currentTrait"></app-input-trait>
+          </div>
+        </div>
+
+        <div class="form-column button-column">
+          <div class="form-row w-full flex justify-end">
+            <button class="btn btn-accent btn-sm" [disabled]="!currentTrait() || hasTrait(currentTrait())"
+              (click)="addTrait(currentTrait())">
+              <ng-icon name="heroPlus"></ng-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      @for(traitName of editingData.randomTrait.name; track $index) {
+      <div class="form-row split">
+        <div class="form-column">
+          <div class="form-row">
+            {{ traitName }}
+          </div>
+        </div>
+
+        <div class="form-column button-column">
+          <div class="form-row w-full flex justify-end">
+            <button class="ml-1 btn btn-error btn-sm" (click)="removeTrait($index)">
+              <ng-icon name="heroMinus"></ng-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+      }
+      }
     </div>
 
   </div>

@@ -21,6 +21,8 @@ type StatEdit = {
   set: number;
 };
 
+type TraitSetting = 'none' | 'static' | 'random';
+
 @Component({
   selector: 'app-items-editor',
   templateUrl: './items-editor.component.html',
@@ -35,6 +37,12 @@ export class ItemsEditorComponent
     { name: 'Core Stats' },
     { name: 'Traits, Effects & Requirements' },
     { name: 'Miscellaneous' },
+  ];
+
+  public readonly traitSettings: Array<{ name: string; type: TraitSetting }> = [
+    { name: 'No Trait', type: 'none' },
+    { name: 'Single Trait', type: 'static' },
+    { name: 'Random Trait', type: 'random' },
   ];
 
   public readonly propTypes: Partial<
@@ -69,6 +77,8 @@ export class ItemsEditorComponent
 
   public currentItem = signal<IItemDefinition | undefined>(undefined);
   public currentStat = signal<StatType>('agi');
+  public currentTraitTab = signal<TraitSetting>('none');
+  public currentTrait = signal<string | undefined>(undefined);
   public allStatEdits = signal<StatEdit[]>([]);
 
   public canSave = computed(() => {
@@ -232,6 +242,14 @@ export class ItemsEditorComponent
         { stat, type: 'minmax', set: 0, ...value },
       ]);
     });
+
+    if (item.trait.name) {
+      this.currentTraitTab.set('static');
+    }
+
+    if (item.randomTrait.name.length > 0) {
+      this.currentTraitTab.set('random');
+    }
   }
 
   private extractSetStats(stats: StatBlock) {
@@ -328,6 +346,48 @@ export class ItemsEditorComponent
     if (item.cosmetic && !item.cosmetic.name) {
       delete item.cosmetic;
     }
+  }
+
+  changeTraitTab(newTraitSetting: TraitSetting) {
+    this.currentTraitTab.set(newTraitSetting);
+
+    const item = this.editing();
+
+    if (newTraitSetting !== 'random') {
+      item.randomTrait = {
+        name: [],
+        level: { min: 0, max: 0 },
+      };
+    }
+
+    if (newTraitSetting !== 'static') {
+      item.trait = {
+        name: undefined as unknown as string,
+        level: 0,
+      };
+    }
+  }
+
+  addTrait(trait: string | undefined) {
+    if (!trait) return;
+
+    const item = this.editing();
+    item.randomTrait.name.push(trait);
+
+    this.editing.set(item);
+  }
+
+  hasTrait(trait: string | undefined) {
+    if (!trait) return false;
+
+    return this.editing().randomTrait.name.includes(trait);
+  }
+
+  removeTrait(index: number) {
+    const item = this.editing();
+    item.randomTrait.name.splice(index, 1);
+
+    this.editing.set(item);
   }
 
   public doSave() {
