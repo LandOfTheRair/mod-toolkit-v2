@@ -1,23 +1,5 @@
 import { isNumber, isString, isUndefined } from 'lodash';
-import { IItemDefinition, SkillType } from '../../src/interfaces';
-
-const ValidItemTypes = [
-  'Mace',
-  'Axe',
-  'Dagger',
-  'Wand',
-  'Sword',
-  'Twohanded',
-  'Polearm',
-  'Ranged',
-  'Martial',
-  'Staff',
-  'Restoration',
-  'Conjuration',
-  'Throwing',
-  'Thievery',
-  'Shortsword',
-];
+import { IItemDefinition, SkillType } from '../../../interfaces';
 
 const WeaponClasses = [
   'Axe',
@@ -46,58 +28,10 @@ const WeaponClasses = [
 ];
 
 const AmmoClasses = ['Arrow'];
-
-const SharpWeaponClasses = [
-  'Axe',
-  'Blunderbuss',
-  'Broadsword',
-  'Crossbow',
-  'Dagger',
-  'Greataxe',
-  'Greatsword',
-  'Halberd',
-  'Longbow',
-  'Longsword',
-  'Shortbow',
-  'Shortsword',
-  'Spear',
-];
-
 const ShieldClasses = ['Shield', 'Saucer'];
-
 const ArmorClasses = ['Tunic', 'Breastplate', 'Fur', 'Fullplate', 'Scaleplate'];
-
-const RobeClasses = ['Cloak', 'Robe'];
-
-const HeadClasses = ['Hat', 'Helm', 'Skull', 'Saucer'];
-
-const NeckClasses = ['Amulet'];
-
-const WaistClasses = ['Sash'];
-
-const WristsClasses = ['Bracers'];
-
-const RingClasses = ['Ring'];
-
-const FeetClasses = ['Boots'];
-
-const HandsClasses = ['Gloves', 'Claws'];
-
-const EarClasses = ['Earring'];
-
 const SackableWeaponClasses = ['Axe', 'Dagger', 'Hammer', 'Saucer'];
-
 const SackableArmorClasses = ['Tunic', 'Fur'];
-
-const EquippableItemClasses = HeadClasses.concat(NeckClasses)
-  .concat(WaistClasses)
-  .concat(WristsClasses)
-  .concat(RingClasses)
-  .concat(FeetClasses)
-  .concat(HandsClasses)
-  .concat(ArmorClasses)
-  .concat(RobeClasses)
-  .concat(EarClasses);
 
 const isWeapon = (item: IItemDefinition) =>
   WeaponClasses.includes(item.itemClass);
@@ -240,11 +174,39 @@ const conditionallyAddInformation = (item: IItemDefinition) => {
     item.secondaryType = item.secondaryType.toLowerCase() as SkillType;
 };
 
-export function fillInItemProperties(itemData: IItemDefinition) {
+function fillInItemProperties(itemData: IItemDefinition) {
   itemData.type ??= 'martial';
   if (!itemData.stats) itemData.stats = {};
 
   conditionallyAddInformation(itemData);
 
   return itemData;
+}
+
+export function formatItems(items: IItemDefinition[]): IItemDefinition[] {
+  return items.map((item: any) => {
+    if (!item.sellValue) delete item.sellValue;
+    if (!item.maxUpgrades) delete item.maxUpgrades;
+    if (!item.secondaryType) delete item.secondaryType;
+    if (!item.quality) delete item.quality;
+    if (item.succorInfo && !item.succorInfo.map) delete item.succorInfo;
+    if (item.cosmetic && !item.cosmetic.name) delete item.cosmetic;
+    if (item.containedItems && !item.containedItems.length)
+      delete item.containedItems;
+    if (!item.trait.name) delete item.trait;
+    if (item.randomTrait.name.length === 0) delete item.randomTrait;
+    if (item.useEffect && !item.useEffect.name) delete item.useEffect;
+    if (item.strikeEffect && !item.strikeEffect.name) delete item.strikeEffect;
+    if (item.breakEffect && !item.breakEffect.name) delete item.breakEffect;
+    if (item.equipEffect && !item.equipEffect.name) delete item.equipEffect;
+
+    if (item.requirements) {
+      if (!item.requirements.baseClass) delete item.requirements.baseClass;
+      if (!item.requirements.level) delete item.requirements.level;
+      if (!item.requirements.baseClass && !item.requirements.level)
+        delete item.requirements;
+    }
+
+    return fillInItemProperties(item as IItemDefinition);
+  });
 }

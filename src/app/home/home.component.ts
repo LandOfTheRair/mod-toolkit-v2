@@ -9,6 +9,7 @@ import {
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { LocalStorageService } from 'ngx-webstorage';
 import { numErrorsForMod } from '../helpers';
+import { formatMod } from '../helpers/exporter';
 import { DebugService } from '../services/debug.service';
 import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
@@ -78,7 +79,7 @@ export class HomeComponent {
     const saveMod = () => {
       this.electronService.send('SAVE_MOD', {
         shouldExport: true,
-        modData: this.modService.mod(),
+        modData: formatMod(this.modService.mod()),
       });
     };
 

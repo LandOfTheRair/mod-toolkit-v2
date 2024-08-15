@@ -170,7 +170,7 @@ export function setupIPC(sendToUI: SendToUI) {
     if (!res) return;
 
     try {
-      const fullMod = shouldExport ? handlers.formatMod(modData) : modData;
+      const fullMod = modData;
 
       fs.writeJSONSync(res, fullMod, { spaces: 2 });
       sendToUI('notify', { type: 'info', text: `Saved ${res}!` });

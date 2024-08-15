@@ -2,9 +2,10 @@ import { isNumber, isString } from 'lodash';
 import {
   AllegianceType,
   INPCDefinition,
+  ItemSlot,
   Skill,
   SkillType,
-} from '../../src/interfaces';
+} from '../../../interfaces';
 
 const allSkills = Object.values(Skill);
 
@@ -162,9 +163,35 @@ const conditionallyAddInformation = (npc: INPCDefinition) => {
     });
 };
 
-export function fillInNPCProperties(npc: INPCDefinition) {
+function fillInNPCProperties(npc: INPCDefinition): INPCDefinition {
   conditionallyAddInformation(npc);
   assignReputations(npc);
 
   return npc;
+}
+
+export function formatNPCs(npcs: INPCDefinition[]): INPCDefinition[] {
+  return npcs.map((npc: any) => {
+    delete npc.hp;
+    delete npc.mp;
+    delete npc.giveXp;
+    delete npc.gold;
+
+    npc.repMod = npc.repMod.filter((rep: any) => rep.delta !== 0);
+
+    if (npc.drops.length === 0) delete npc.drops;
+    if (npc.copyDrops.length === 0) delete npc.copyDrops;
+    if (npc.dropPool.items.length === 0) delete npc.dropPool;
+
+    Object.values(ItemSlot).forEach((slot) => {
+      if (npc.items.equipment[slot]?.length > 0) return;
+      delete npc.items.equipment[slot];
+    });
+
+    npc.triggers.leash.messages = npc.triggers.leash.messages.filter(Boolean);
+    npc.triggers.spawn.messages = npc.triggers.spawn.messages.filter(Boolean);
+    npc.triggers.leash.messages = npc.triggers.leash.messages.filter(Boolean);
+
+    return fillInNPCProperties(npc as INPCDefinition);
+  });
 }
