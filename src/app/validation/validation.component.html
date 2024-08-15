@@ -13,12 +13,10 @@
 </div>
 
 <div class="message-container">
-  @for(message of tabOrder[activeValidationTab()].messages(); track $index) {
-  @if(message.header) {
-  <h1 class="text-2xl my-2">{{ message.header }}</h1>
-  } @else if(message.subheader) {
-  <h2 class="text-xl my-2">{{ message.subheader }}</h2>
-  } @else {
+  @for(container of tabOrder[activeValidationTab()].messages(); track $index) {
+  <h1 class="text-2xl my-2">{{ container.header }}</h1>
+
+  @for(message of container.messages; track $index) {
   <div>
     <span>
       @if(message.type === 'error') {

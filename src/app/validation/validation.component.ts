@@ -15,49 +15,55 @@ export class ValidationComponent {
   public activeValidationTab = signal<number>(0);
   public exit = output();
 
-  public validationMessages = computed(() => {
+  public validationMessageContainers = computed(() => {
     const mod = this.modService.mod();
     return validationMessagesForMod(mod);
   });
 
+  public onlyValidationMessages = computed(() => {
+    return this.validationMessageContainers()
+      .map((m) => m.messages)
+      .flat();
+  });
+
   public tabImportant = computed(() => {
-    return this.validationMessages().filter(
-      (t) => ['error', 'good'].includes(t.type ?? '') || t.header || t.subheader
+    return this.validationMessageContainers().filter((m) =>
+      m.messages.some((t) => t.type === 'error' || t.type === 'good')
     );
   });
 
   public tabAll = computed(() => {
-    return this.validationMessages();
+    return this.validationMessageContainers();
   });
 
   public tabErrors = computed(() => {
-    return this.validationMessages().filter(
-      (t) => t.type === 'error' || t.header || t.subheader
+    return this.validationMessageContainers().filter((m) =>
+      m.messages.some((t) => t.type === 'error')
     );
   });
 
   public tabWarnings = computed(() => {
-    return this.validationMessages().filter(
-      (t) => t.type === 'warning' || t.header || t.subheader
+    return this.validationMessageContainers().filter((m) =>
+      m.messages.some((t) => t.type === 'warning')
     );
   });
 
   public tabSuccesses = computed(() => {
-    return this.validationMessages().filter(
-      (t) => t.type === 'good' || t.header || t.subheader
+    return this.validationMessageContainers().filter((m) =>
+      m.messages.some((t) => t.type === 'good')
     );
   });
 
   public allErrors = computed(() => {
-    return this.validationMessages().filter((t) => t.type === 'error');
+    return this.onlyValidationMessages().filter((t) => t.type === 'error');
   });
 
   public allWarnings = computed(() => {
-    return this.validationMessages().filter((t) => t.type === 'warning');
+    return this.onlyValidationMessages().filter((t) => t.type === 'warning');
   });
 
   public allSuccesses = computed(() => {
-    return this.validationMessages().filter((t) => t.type === 'good');
+    return this.onlyValidationMessages().filter((t) => t.type === 'good');
   });
 
   public tabOrder = [
@@ -72,7 +78,7 @@ export class ValidationComponent {
       icon: '📜',
       messages: this.tabAll,
       count: computed(
-        () => this.validationMessages().filter((t) => t.type).length
+        () => this.onlyValidationMessages().filter((t) => t.type).length
       ),
     },
     {
