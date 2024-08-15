@@ -128,7 +128,7 @@ export class ItemsEditorComponent
     item.useEffect ??= { name: '', potency: 0, duration: 0 };
     item.equipEffect ??= { name: '', potency: 0 };
     item.breakEffect ??= { name: '', potency: 0 };
-    item.requirements ??= { baseClass: undefined, level: 0 };
+    item.requirements ??= { baseClass: undefined, level: 0, quest: undefined };
     item.cosmetic ??= { name: '', isPermanent: false };
     item.trait ??= { name: '', level: 0 };
     item.randomTrait ??= { name: [], level: { min: 0, max: 0 } };
@@ -348,7 +348,8 @@ export class ItemsEditorComponent
     if (
       item.requirements &&
       !item.requirements.baseClass &&
-      !item.requirements.level
+      !item.requirements.level &&
+      !item.requirements.quest
     ) {
       delete item.requirements;
     }

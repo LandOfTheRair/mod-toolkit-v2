@@ -500,6 +500,11 @@
       <input [(ngModel)]="editingData.requirements!.level" type="number" min="0" placeholder="Enter required level..."
         class="form-input" />
     </div>
+
+    <div class="form-row">
+      <app-input-quest (change)="editingData.requirements!.quest = $event"
+        [defaultValue]="editingData.requirements!.quest" label="Required Quest"></app-input-quest>
+    </div>
   </div>
 </div>
 }
