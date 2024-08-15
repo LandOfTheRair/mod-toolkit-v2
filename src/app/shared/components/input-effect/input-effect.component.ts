@@ -4,6 +4,7 @@ import {
   inject,
   input,
   model,
+  OnInit,
   output,
 } from '@angular/core';
 import { ElectronService } from '../../../services/electron.service';
@@ -14,12 +15,13 @@ import { ModService } from '../../../services/mod.service';
   templateUrl: './input-effect.component.html',
   styleUrl: './input-effect.component.scss',
 })
-export class InputEffectComponent {
+export class InputEffectComponent implements OnInit {
   private electronService = inject(ElectronService);
   private modService = inject(ModService);
 
-  public effect = model.required<string>();
+  public effect = model<string | undefined>();
   public label = input<string>('Effect');
+  public defaultValue = input<string>();
   public change = output<string>();
 
   public values = computed(() => {
@@ -50,6 +52,14 @@ export class InputEffectComponent {
 
   constructor() {
     this.electronService.requestJSON('effect-data');
+  }
+
+  ngOnInit() {
+    const defaultItem = this.defaultValue();
+    if (defaultItem) {
+      const foundItem = this.values().find((i) => i.value === defaultItem);
+      this.effect.set(foundItem as unknown as string);
+    }
   }
 
   public itemCompare(

@@ -415,10 +415,11 @@
 
   <div class="form-column">
     <div class="form-row">
-      <app-input-effect [effect]="editingData.useEffect!.name" (change)="editingData.useEffect!.name = $event"
+      <app-input-effect [defaultValue]="editingData.useEffect!.name" (change)="editingData.useEffect!.name = $event"
         label="Use Effect"></app-input-effect>
     </div>
 
+    @if(editingData.useEffect!.name) {
     <div class="form-row">
       <app-input-floating-label>Use Potency</app-input-floating-label>
       <input [(ngModel)]="editingData.useEffect!.potency" type="number" min="0" placeholder="Enter potency..."
@@ -437,14 +438,16 @@
         <span class="label-text">Can Apply Use Effect Via Thief Apply</span>
       </label>
     </div>
+    }
 
     <hr class="my-4">
 
     <div class="form-row">
-      <app-input-effect [effect]="editingData.strikeEffect!.name" (change)="editingData.strikeEffect!.name = $event"
-        label="Strike Effect"></app-input-effect>
+      <app-input-effect [defaultValue]="editingData.strikeEffect!.name"
+        (change)="editingData.strikeEffect!.name = $event" label="Strike Effect"></app-input-effect>
     </div>
 
+    @if(editingData.strikeEffect!.name) {
     <div class="form-row">
       <app-input-floating-label>Strike Potency</app-input-floating-label>
       <input [(ngModel)]="editingData.strikeEffect!.potency" type="number" min="0" placeholder="Enter potency..."
@@ -462,32 +465,37 @@
       <input [(ngModel)]="editingData.strikeEffect!.chance" type="number" min="0" max="100"
         placeholder="Enter chance..." class="form-input" />
     </div>
+    }
 
     <hr class="my-4">
 
     <div class="form-row">
-      <app-input-effect [effect]="editingData.equipEffect!.name" (change)="editingData.equipEffect!.name = $event"
+      <app-input-effect [defaultValue]="editingData.equipEffect!.name" (change)="editingData.equipEffect!.name = $event"
         label="Equip Effect"></app-input-effect>
     </div>
 
+    @if(editingData.equipEffect!.name) {
     <div class="form-row">
       <app-input-floating-label>Equip Potency</app-input-floating-label>
       <input [(ngModel)]="editingData.equipEffect!.potency" type="number" min="0" placeholder="Enter potency..."
         class="form-input" />
     </div>
+    }
 
     <hr class="my-4">
 
     <div class="form-row">
-      <app-input-effect [effect]="editingData.breakEffect!.name" (change)="editingData.breakEffect!.name = $event"
+      <app-input-effect [defaultValue]="editingData.breakEffect!.name" (change)="editingData.breakEffect!.name = $event"
         label="Break Effect"></app-input-effect>
     </div>
 
+    @if(editingData.breakEffect!.name) {
     <div class="form-row">
       <app-input-floating-label>Break Potency</app-input-floating-label>
       <input [(ngModel)]="editingData.breakEffect!.potency" type="number" min="0" placeholder="Enter potency..."
         class="form-input" />
     </div>
+    }
   </div>
 
   <div class="form-column">
