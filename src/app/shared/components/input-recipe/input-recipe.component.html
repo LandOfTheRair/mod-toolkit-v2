@@ -1,0 +1,20 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values()" bindValue="data" groupBy="category" [(ngModel)]="recipe"
+    placeholder="Select recipe..." (change)="change.emit($event?.value)" [compareWith]="recipeCompare"
+    [searchFn]="search">
+
+    <ng-template ng-label-tmp let-item="item">
+      <div class="text-white">
+        {{ item.data.name }}
+      </div>
+    </ng-template>
+
+    <ng-template ng-option-tmp let-item="item">
+      <div class="text-white">
+        {{ item.data.name }}
+      </div>
+    </ng-template>
+  </ng-select>
+
+  <app-input-floating-label>{{ label() }}</app-input-floating-label>
+</div>
