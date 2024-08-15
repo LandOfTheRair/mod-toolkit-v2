@@ -1,9 +1,14 @@
 import { get } from 'lodash';
 import {
+  IItemDefinition,
   IModKit,
   ItemSlotType,
+  ValidationMessage,
   ValidationMessageGroup,
 } from '../../../interfaces';
+import { formatItems } from '../export';
+import { itemSchema } from '../schemas';
+import { validateSchema } from '../schemas/_helpers';
 
 export function checkItemStats(mod: IModKit): ValidationMessageGroup {
   const itemValidations: ValidationMessageGroup = {
@@ -113,6 +118,30 @@ export function checkItemUses(mod: IModKit): ValidationMessageGroup {
       message: 'No abnormalities!',
     });
   }
+
+  return itemValidations;
+}
+
+export function validateItems(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Invalid Items',
+    messages: [],
+  };
+
+  const formattedItems = formatItems(mod.items);
+
+  formattedItems.forEach((item) => {
+    const failures = validateSchema<IItemDefinition>(
+      item.name,
+      item,
+      itemSchema
+    );
+    const validationFailures: ValidationMessage[] = failures.map((f) => ({
+      type: 'error',
+      message: f,
+    }));
+    itemValidations.messages.push(...validationFailures);
+  });
 
   return itemValidations;
 }

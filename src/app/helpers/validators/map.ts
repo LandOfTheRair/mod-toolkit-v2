@@ -27,6 +27,13 @@ export function checkMapProperties(mod: IModKit): ValidationMessageGroup[] {
       });
     });
 
+    if (map.map.version > 1.1) {
+      mapValidations.messages.push({
+        type: 'error',
+        message: `${map.name} is version >1.1. It must be 1.1 - the json2 format is not supported by the game.`,
+      });
+    }
+
     groups.push(mapValidations);
   });
 

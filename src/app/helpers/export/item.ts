@@ -184,7 +184,7 @@ function fillInItemProperties(itemData: IItemDefinition) {
 }
 
 export function formatItems(items: IItemDefinition[]): IItemDefinition[] {
-  return items.map((item: any) => {
+  return structuredClone(items).map((item: any) => {
     if (!item.sellValue) delete item.sellValue;
     if (!item.maxUpgrades) delete item.maxUpgrades;
     if (!item.secondaryType) delete item.secondaryType;
@@ -193,8 +193,9 @@ export function formatItems(items: IItemDefinition[]): IItemDefinition[] {
     if (item.cosmetic && !item.cosmetic.name) delete item.cosmetic;
     if (item.containedItems && !item.containedItems.length)
       delete item.containedItems;
-    if (!item.trait.name) delete item.trait;
-    if (item.randomTrait.name.length === 0) delete item.randomTrait;
+    if (item.trait && !item.trait.name) delete item.trait;
+    if (item.randomTrait && item.randomTrait.name.length === 0)
+      delete item.randomTrait;
     if (item.useEffect && !item.useEffect.name) delete item.useEffect;
     if (item.strikeEffect && !item.strikeEffect.name) delete item.strikeEffect;
     if (item.breakEffect && !item.breakEffect.name) delete item.breakEffect;

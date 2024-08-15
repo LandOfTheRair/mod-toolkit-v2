@@ -1,4 +1,12 @@
-import { IModKit, ValidationMessageGroup } from '../../../interfaces';
+import {
+  IModKit,
+  INPCDefinition,
+  ValidationMessage,
+  ValidationMessageGroup,
+} from '../../../interfaces';
+import { formatNPCs } from '../export';
+import { npcSchema } from '../schemas';
+import { validateSchema } from '../schemas/_helpers';
 
 export function checkMapNPCDialogs(mod: IModKit): ValidationMessageGroup {
   // check npc dialog refs, make sure they exist
@@ -122,4 +130,28 @@ export function checkNPCSprites(mod: IModKit) {
   }
 
   return npcValidations;
+}
+
+export function validateNPCs(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Invalid NPCs',
+    messages: [],
+  };
+
+  const formattedNPCs = formatNPCs(mod.npcs);
+
+  formattedNPCs.forEach((item) => {
+    const failures = validateSchema<INPCDefinition>(
+      item.npcId,
+      item,
+      npcSchema
+    );
+    const validationFailures: ValidationMessage[] = failures.map((f) => ({
+      type: 'error',
+      message: f,
+    }));
+    itemValidations.messages.push(...validationFailures);
+  });
+
+  return itemValidations;
 }

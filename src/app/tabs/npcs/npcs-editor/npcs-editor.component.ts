@@ -78,22 +78,22 @@ export class NpcsEditorComponent
 
   public statsInOrder = computed(() => {
     const npc = this.editing();
-    return Object.keys(npc.otherStats).sort() as StatType[];
+    return Object.keys(npc.otherStats ?? {}).sort() as StatType[];
   });
 
   public summonStatsInOrder = computed(() => {
     const npc = this.editing();
-    return Object.keys(npc.summonStatModifiers).sort() as StatType[];
+    return Object.keys(npc.summonStatModifiers ?? {}).sort() as StatType[];
   });
 
   public summonSkillsInOrder = computed(() => {
     const npc = this.editing();
-    return Object.keys(npc.summonSkillModifiers).sort() as SkillType[];
+    return Object.keys(npc.summonSkillModifiers ?? {}).sort() as SkillType[];
   });
 
   public traitsInOrder = computed(() => {
     const npc = this.editing();
-    return Object.keys(npc.traitLevels).sort();
+    return Object.keys(npc.traitLevels ?? {}).sort();
   });
 
   public linkStats = signal<boolean>(true);

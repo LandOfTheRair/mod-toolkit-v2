@@ -1,4 +1,11 @@
-import { IModKit, ValidationMessageGroup } from '../../../interfaces';
+import {
+  IModKit,
+  ISpawnerData,
+  ValidationMessage,
+  ValidationMessageGroup,
+} from '../../../interfaces';
+import { spawnerSchema } from '../schemas';
+import { validateSchema } from '../schemas/_helpers';
 
 export function checkSpawners(mod: IModKit): ValidationMessageGroup {
   const itemValidations: ValidationMessageGroup = {
@@ -28,6 +35,28 @@ export function checkSpawners(mod: IModKit): ValidationMessageGroup {
       message: 'No abnormalities!',
     });
   }
+
+  return itemValidations;
+}
+
+export function validateSpawners(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Invalid Spawners',
+    messages: [],
+  };
+
+  mod.spawners.forEach((item) => {
+    const failures = validateSchema<ISpawnerData>(
+      item.tag,
+      item,
+      spawnerSchema
+    );
+    const validationFailures: ValidationMessage[] = failures.map((f) => ({
+      type: 'error',
+      message: f,
+    }));
+    itemValidations.messages.push(...validationFailures);
+  });
 
   return itemValidations;
 }

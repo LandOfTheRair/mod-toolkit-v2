@@ -1,7 +1,6 @@
 export * from './dialog';
 export * from './droptable';
 export * from './item';
-export * from './map';
 export * from './npc';
 export * from './quest';
 export * from './recipe';

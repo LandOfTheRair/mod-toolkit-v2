@@ -171,7 +171,7 @@ function fillInNPCProperties(npc: INPCDefinition): INPCDefinition {
 }
 
 export function formatNPCs(npcs: INPCDefinition[]): INPCDefinition[] {
-  return npcs.map((npc: any) => {
+  return structuredClone(npcs).map((npc: any) => {
     delete npc.hp;
     delete npc.mp;
     delete npc.giveXp;

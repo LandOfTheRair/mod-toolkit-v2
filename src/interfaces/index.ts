@@ -12,5 +12,6 @@ export * from './npc';
 export * from './npcscript';
 export * from './quest';
 export * from './recipe';
+export * from './schema';
 export * from './spawner';
 export * from './validation';

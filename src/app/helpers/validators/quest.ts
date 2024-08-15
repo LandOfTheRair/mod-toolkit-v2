@@ -1,4 +1,11 @@
-import { IModKit, ValidationMessageGroup } from '../../../interfaces';
+import {
+  IModKit,
+  IQuest,
+  ValidationMessage,
+  ValidationMessageGroup,
+} from '../../../interfaces';
+import { questSchema } from '../schemas';
+import { validateSchema } from '../schemas/_helpers';
 
 export function checkQuests(mod: IModKit): ValidationMessageGroup {
   const itemValidations: ValidationMessageGroup = {
@@ -21,6 +28,24 @@ export function checkQuests(mod: IModKit): ValidationMessageGroup {
       message: 'No abnormalities!',
     });
   }
+
+  return itemValidations;
+}
+
+export function validateQuests(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Invalid Quests',
+    messages: [],
+  };
+
+  mod.quests.forEach((item) => {
+    const failures = validateSchema<IQuest>(item.name, item, questSchema);
+    const validationFailures: ValidationMessage[] = failures.map((f) => ({
+      type: 'error',
+      message: f,
+    }));
+    itemValidations.messages.push(...validationFailures);
+  });
 
   return itemValidations;
 }

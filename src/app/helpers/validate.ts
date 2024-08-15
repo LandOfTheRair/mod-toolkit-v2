@@ -11,6 +11,13 @@ import {
   checkQuests,
   checkRecipes,
   checkSpawners,
+  validateDialogs,
+  validateDroptables,
+  validateItems,
+  validateNPCs,
+  validateQuests,
+  validateRecipes,
+  validateSpawners,
 } from './validators';
 
 export function validationMessagesForMod(
@@ -27,6 +34,13 @@ export function validationMessagesForMod(
     checkQuests(mod),
     ...checkMapProperties(mod),
     ...checkMapSpawners(mod),
+    validateDialogs(mod),
+    validateItems(mod),
+    validateDroptables(mod),
+    validateNPCs(mod),
+    validateQuests(mod),
+    validateRecipes(mod),
+    validateSpawners(mod),
   ].filter((c) => c.messages.length > 0);
 
   return sortBy(validationContainer, 'header');

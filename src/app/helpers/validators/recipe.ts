@@ -1,4 +1,11 @@
-import { IModKit, ValidationMessageGroup } from '../../../interfaces';
+import {
+  IModKit,
+  IRecipe,
+  ValidationMessage,
+  ValidationMessageGroup,
+} from '../../../interfaces';
+import { recipeSchema } from '../schemas';
+import { validateSchema } from '../schemas/_helpers';
 
 export function checkRecipes(mod: IModKit): ValidationMessageGroup {
   const itemValidations: ValidationMessageGroup = {
@@ -38,6 +45,24 @@ export function checkRecipes(mod: IModKit): ValidationMessageGroup {
       message: 'No abnormalities!',
     });
   }
+
+  return itemValidations;
+}
+
+export function validateRecipes(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Invalid Recipes',
+    messages: [],
+  };
+
+  mod.recipes.forEach((item) => {
+    const failures = validateSchema<IRecipe>(item.name, item, recipeSchema);
+    const validationFailures: ValidationMessage[] = failures.map((f) => ({
+      type: 'error',
+      message: f,
+    }));
+    itemValidations.messages.push(...validationFailures);
+  });
 
   return itemValidations;
 }
