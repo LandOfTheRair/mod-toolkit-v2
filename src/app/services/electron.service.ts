@@ -1,6 +1,7 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 
 import { IEditorMap, IModKit } from '../../interfaces';
+import { importMod } from '../helpers/importer';
 import { ModService } from './mod.service';
 import { NotifyService } from './notify.service';
 
@@ -75,7 +76,8 @@ export class ElectronService {
 
     // import the mod raw from the backup.
     window.api.receive('importmod', (mod: IModKit) => {
-      this.modService.updateMod(mod.meta._backup as IModKit);
+      const importedMod = importMod(mod.meta._backup as IModKit);
+      this.modService.updateMod(importedMod);
     });
 
     this.send('READY_CHECK');
