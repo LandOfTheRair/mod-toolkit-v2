@@ -1,6 +1,6 @@
 <div class="relative">
   <ng-select class="form-control" [items]="values()" [(ngModel)]="effect" placeholder="Select effect..."
-    (change)="change.emit($event?.value)">
+    (change)="change.emit($event?.value)" [compareWith]="itemCompare" [searchFn]="search">
 
     <ng-template ng-option-tmp let-item="item">
       <div class="relative">

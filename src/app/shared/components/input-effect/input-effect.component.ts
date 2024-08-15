@@ -38,4 +38,15 @@ export class InputEffectComponent {
   constructor() {
     this.electronService.requestJSON('effect-data');
   }
+
+  public itemCompare(
+    itemA: { value: string; desc: string },
+    itemB: { value: string; desc: string }
+  ): boolean {
+    return itemA.value === itemB.value;
+  }
+
+  public search(term: string, item: { value: string }) {
+    return item.value.toLowerCase().includes(term.toLowerCase());
+  }
 }
