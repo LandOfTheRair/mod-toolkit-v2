@@ -27,12 +27,25 @@ export class InputEffectComponent {
       string,
       any
     >;
-    return Object.keys(effectObj ?? {})
-      .sort()
-      .map((t) => ({
-        value: t,
-        desc: effectObj[t].tooltip?.desc ?? 'No description',
-      }));
+    return [
+      ...[
+        {
+          value: 'Attribute',
+          desc: 'Default attributes, like resistances or weaknesses',
+        },
+        {
+          value: 'Mood',
+          desc: 'Mood fluctuates based on NPC health. NPC enrages after a certain time period.',
+        },
+      ],
+      ...Object.keys(effectObj ?? {})
+        .sort()
+        .filter((x) => !['Attribute', 'Mood'].includes(x))
+        .map((t) => ({
+          value: t,
+          desc: effectObj[t].tooltip?.desc ?? 'No description',
+        })),
+    ];
   });
 
   constructor() {
