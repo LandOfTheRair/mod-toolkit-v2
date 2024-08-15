@@ -79,12 +79,14 @@ function stripIds(modData: IModKit) {
 }
 
 export function formatMod(modData: IModKit): IModKit {
+  const backup = structuredClone(modData);
+
   stripIds(modData);
 
   const exported: IModKit = {
     meta: {
       ...structuredClone(modData.meta),
-      _backup: structuredClone(modData),
+      _backup: backup,
     },
 
     npcs: formatNPCs(modData.npcs),
