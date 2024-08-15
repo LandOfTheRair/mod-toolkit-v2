@@ -20,7 +20,7 @@
             <li><a (click)="closeMenu()" [swal]="changeModAuthor">Change Mod Author</a></li>
 
             <li class="menu-title"><a>Mod I/O</a></li>
-            <li><a (click)="closeMenu(); electronService.send('IMPORT_MOD')">Load/Import
+            <li><a (click)="closeMenu(); electronService.send('LOAD_MOD')">Load/Import
                 Mod</a></li>
             <li><a (click)="closeMenu(); attemptExport();">Export
                 Mod</a></li>

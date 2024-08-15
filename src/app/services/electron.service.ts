@@ -68,10 +68,12 @@ export class ElectronService {
       this.modService.setJSON(jsonData.name as string, jsonData.data);
     });
 
+    // the mod has no backup, which means it was a clean export. it might need some reformatting to get it back in
     window.api.receive('loadmod', (mod: IModKit) => {
-      this.modService.updateMod(mod);
+      // this.modService.updateMod(mod);
     });
 
+    // import the mod raw from the backup.
     window.api.receive('importmod', (mod: IModKit) => {
       this.modService.updateMod(mod.meta._backup as IModKit);
     });
