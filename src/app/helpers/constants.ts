@@ -249,6 +249,7 @@ export const typePropSets: Record<string, string[]> = {
   Gem: ['maxEncrusts'],
   Book: ['bookPages', 'bookItemFilter', 'bookFindablePages'],
   Trap: ['trapUses'],
+  Rock: ['canUpgradeWith'],
   Scroll: ['bookPage'],
   Twig: ['type'],
 };

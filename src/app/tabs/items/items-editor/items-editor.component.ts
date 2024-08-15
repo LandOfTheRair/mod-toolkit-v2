@@ -70,6 +70,7 @@ export class ItemsEditorComponent
     bookFindablePages: 'number',
     bookItemFilter: 'string',
     trapUses: 'number',
+    canUpgradeWith: 'boolean',
     damageClass: 'damageClass',
     succorInfo: 'succorInfo',
     containedItems: 'containedItems',
