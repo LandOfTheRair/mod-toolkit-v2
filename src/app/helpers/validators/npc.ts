@@ -96,3 +96,30 @@ export function checkNPCUsages(mod: IModKit) {
 
   return npcValidations;
 }
+
+export function checkNPCSprites(mod: IModKit) {
+  const npcValidations: ValidationMessageGroup = {
+    header: `NPCs`,
+    messages: [],
+  };
+
+  mod.npcs.forEach((item) => {
+    item.sprite.forEach((sprite) => {
+      if (sprite % 5 === 0) return;
+
+      npcValidations.messages.push({
+        type: 'error',
+        message: `NPC ${item.npcId} has an invalid sprite: ${sprite} - it should be modulo 5.`,
+      });
+    });
+  });
+
+  if (npcValidations.messages.length === 0) {
+    npcValidations.messages.push({
+      type: 'good',
+      message: 'No abnormalities!',
+    });
+  }
+
+  return npcValidations;
+}
