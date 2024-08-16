@@ -110,6 +110,9 @@ export class ModService {
   ) {
     const mod = this.mod();
     const arr = mod[key] as unknown as T[];
+
+    console.log(`[ENTRY:NEW]`, data);
+
     arr.push(data);
     this.updateMod(mod);
   }
@@ -121,6 +124,8 @@ export class ModService {
   ) {
     const mod = this.mod();
     const arr = mod[key] as unknown as T[];
+
+    console.log(`[ENTRY:EDIT]`, oldData, newData);
 
     const foundItemIdx = arr.findIndex((i) => i._id === oldData._id);
     if (foundItemIdx === -1) return;
@@ -136,6 +141,8 @@ export class ModService {
   ) {
     const mod = this.mod();
     const arr = mod[key] as unknown as T[];
+
+    console.log(`[ENTRY:DELETE]`, data);
 
     (mod[key] as unknown as T[]) = arr.filter((i) => i._id !== data._id);
 

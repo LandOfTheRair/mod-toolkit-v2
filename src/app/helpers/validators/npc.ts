@@ -1,3 +1,4 @@
+import { groupBy } from 'lodash';
 import {
   IModKit,
   INPCDefinition,
@@ -56,13 +57,6 @@ export function checkNPCUsages(mod: IModKit) {
     });
   });
 
-  if (npcValidations.messages.length === 0) {
-    npcValidations.messages.push({
-      type: 'good',
-      message: 'No abnormalities!',
-    });
-  }
-
   return npcValidations;
 }
 
@@ -90,13 +84,6 @@ export function checkNPCs(mod: IModKit) {
     }
   });
 
-  if (npcValidations.messages.length === 0) {
-    npcValidations.messages.push({
-      type: 'good',
-      message: 'No abnormalities!',
-    });
-  }
-
   return npcValidations;
 }
 
@@ -119,6 +106,39 @@ export function validateNPCs(mod: IModKit): ValidationMessageGroup {
       message: f,
     }));
     itemValidations.messages.push(...validationFailures);
+  });
+
+  return itemValidations;
+}
+
+export function nonexistentNPCs(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Non-Existent NPCs',
+    messages: [],
+  };
+
+  const allNPCIds = groupBy(mod.npcs, 'npcId');
+
+  mod.spawners.forEach((spawner) => {
+    spawner.npcIds.forEach((checkRollable) => {
+      if (allNPCIds[checkRollable.result]) return;
+
+      itemValidations.messages.push({
+        type: 'error',
+        message: `${checkRollable.result} ([spawner] ${spawner.tag} -> npcIds) does not exist.`,
+      });
+    });
+  });
+
+  mod.quests.forEach((quest) => {
+    quest.requirements.npcIds.forEach((npcId) => {
+      if (allNPCIds[npcId]) return;
+
+      itemValidations.messages.push({
+        type: 'error',
+        message: `${npcId} ([quest] ${quest.name} -> requirements.npcIds) does not exist.`,
+      });
+    });
   });
 
   return itemValidations;

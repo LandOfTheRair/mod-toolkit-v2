@@ -11,6 +11,9 @@ import {
   checkQuests,
   checkRecipes,
   checkSpawners,
+  nonexistentItems,
+  nonexistentNPCs,
+  nonexistentRecipes,
   validateDialogs,
   validateDroptables,
   validateItems,
@@ -41,7 +44,19 @@ export function validationMessagesForMod(
     validateQuests(mod),
     validateRecipes(mod),
     validateSpawners(mod),
-  ].filter((c) => c.messages.length > 0);
+    nonexistentItems(mod),
+    nonexistentNPCs(mod),
+    nonexistentRecipes(mod),
+  ];
+
+  validationContainer.forEach((v) => {
+    if (v.messages.length !== 0) return;
+
+    v.messages.push({
+      type: 'good',
+      message: 'No abnormalities!',
+    });
+  });
 
   return sortBy(validationContainer, 'header');
 }

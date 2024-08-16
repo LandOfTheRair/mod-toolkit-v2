@@ -36,13 +36,6 @@ export function checkMapNPCDialogs(mod: IModKit): ValidationMessageGroup {
     });
   });
 
-  if (mapDialogValidations.messages.length === 0) {
-    mapDialogValidations.messages.push({
-      type: 'good',
-      message: 'No abnormalities!',
-    });
-  }
-
   return mapDialogValidations;
 }
 

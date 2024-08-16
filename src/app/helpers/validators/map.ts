@@ -88,13 +88,6 @@ export function checkMapSpawners(mod: IModKit): ValidationMessageGroup[] {
     });
   });
 
-  if (modSpawnerValidations.messages.length === 0) {
-    modSpawnerValidations.messages.push({
-      type: 'good',
-      message: 'No abnormalities!',
-    });
-  }
-
   groups.push(modSpawnerValidations);
 
   // calculate map spawners
@@ -113,13 +106,6 @@ export function checkMapSpawners(mod: IModKit): ValidationMessageGroup[] {
     });
   });
 
-  if (mapSpawnerValidations.messages.length === 0) {
-    mapSpawnerValidations.messages.push({
-      type: 'good',
-      message: 'No abnormalities!',
-    });
-  }
-
   groups.push(mapSpawnerValidations);
 
   // calculate boss validations
@@ -136,13 +122,6 @@ export function checkMapSpawners(mod: IModKit): ValidationMessageGroup[] {
       message: `${boss} is not a valid lair.`,
     });
   });
-
-  if (mapLairValidations.messages.length === 0) {
-    mapLairValidations.messages.push({
-      type: 'good',
-      message: 'No abnormalities!',
-    });
-  }
 
   groups.push(mapLairValidations);
 

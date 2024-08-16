@@ -1,3 +1,4 @@
+import { groupBy } from 'lodash';
 import {
   IModKit,
   IRecipe,
@@ -39,13 +40,6 @@ export function checkRecipes(mod: IModKit): ValidationMessageGroup {
     }
   });
 
-  if (itemValidations.messages.length === 0) {
-    itemValidations.messages.push({
-      type: 'good',
-      message: 'No abnormalities!',
-    });
-  }
-
   return itemValidations;
 }
 
@@ -62,6 +56,27 @@ export function validateRecipes(mod: IModKit): ValidationMessageGroup {
       message: f,
     }));
     itemValidations.messages.push(...validationFailures);
+  });
+
+  return itemValidations;
+}
+
+export function nonexistentRecipes(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Non-Existent Recipes',
+    messages: [],
+  };
+
+  const allRecipes = groupBy(mod.recipes, 'name');
+
+  mod.items.forEach((item) => {
+    if (!item.recipe) return;
+    if (item.recipe && allRecipes[item.recipe]) return;
+
+    itemValidations.messages.push({
+      type: 'error',
+      message: `${item.recipe} ([item] ${item.name} -> recipe) does not exist.`,
+    });
   });
 
   return itemValidations;

@@ -29,13 +29,6 @@ export function checkSpawners(mod: IModKit): ValidationMessageGroup {
     }
   });
 
-  if (itemValidations.messages.length === 0) {
-    itemValidations.messages.push({
-      type: 'good',
-      message: 'No abnormalities!',
-    });
-  }
-
   return itemValidations;
 }
 
