@@ -440,6 +440,58 @@
     </div>
     }
 
+    @if(editingData.useEffect!.name === 'Nourishment') {
+    <div class="form-row">
+      <app-input-floating-label>Nourishment Tooltip</app-input-floating-label>
+      <input [(ngModel)]="editingData.useEffect!.extra!.tooltip" type="text" placeholder="Enter tooltip..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Nourishment Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.useEffect!.extra!.message" type="text" placeholder="Enter message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stat [(stat)]="currentNourishmentStat"></app-input-stat>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm"
+            [disabled]="!currentNourishmentStat() || doesItemHaveCurrentNourishmentStat()"
+            (click)="addNourishmentStat(currentNourishmentStat())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(stat of nourishmentStatsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ stat }}</app-input-floating-label>
+          <input [(ngModel)]="editingData.useEffect!.extra!.statChanges![stat]" type="number"
+            placeholder="Choose value..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeNourishmentStat(stat)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+    }
+
     <hr class="my-4">
 
     <div class="form-row">
@@ -572,7 +624,6 @@
     }
 
     <div class="form-row split">
-
       <div class="form-column">
         <div class="form-row">
           <app-input-stat [(stat)]="currentEncrustStat"></app-input-stat>

@@ -1,10 +1,10 @@
 import {
   Component,
   computed,
+  effect,
   inject,
   input,
   model,
-  OnInit,
   output,
 } from '@angular/core';
 import { ElectronService } from '../../../services/electron.service';
@@ -15,7 +15,7 @@ import { ModService } from '../../../services/mod.service';
   templateUrl: './input-effect.component.html',
   styleUrl: './input-effect.component.scss',
 })
-export class InputEffectComponent implements OnInit {
+export class InputEffectComponent {
   private electronService = inject(ElectronService);
   private modService = inject(ModService);
 
@@ -52,14 +52,19 @@ export class InputEffectComponent implements OnInit {
 
   constructor() {
     this.electronService.requestJSON('effect-data');
-  }
 
-  ngOnInit() {
-    const defaultItem = this.defaultValue();
-    if (defaultItem) {
-      const foundItem = this.values().find((i) => i.value === defaultItem);
-      this.effect.set(foundItem as unknown as string);
-    }
+    effect(
+      () => {
+        this.modService.json();
+
+        const defaultItem = this.defaultValue();
+        if (defaultItem) {
+          const foundItem = this.values().find((i) => i.value === defaultItem);
+          this.effect.set(foundItem as unknown as string);
+        }
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   public itemCompare(

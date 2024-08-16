@@ -82,6 +82,7 @@ export class ItemsEditorComponent
   public currentItem = signal<IItemDefinition | undefined>(undefined);
   public currentStat = signal<StatType>('agi');
   public currentEncrustStat = signal<StatType>('agi');
+  public currentNourishmentStat = signal<StatType>('agi');
   public currentTraitTab = signal<TraitSetting>('none');
   public currentTrait = signal<string | undefined>(undefined);
   public allStatEdits = signal<StatEdit[]>([]);
@@ -111,6 +112,11 @@ export class ItemsEditorComponent
     return isNumber(this.editing().encrustGive?.stats[current]);
   });
 
+  public doesItemHaveCurrentNourishmentStat = computed(() => {
+    const current = this.currentNourishmentStat();
+    return isNumber(this.editing().useEffect?.extra?.statChanges?.[current]);
+  });
+
   public statsInOrder = computed(() => {
     return sortBy(this.allStatEdits(), 'stat');
   });
@@ -118,6 +124,13 @@ export class ItemsEditorComponent
   public encrustStatsInOrder = computed(() => {
     const item = this.editing();
     return Object.keys(item.encrustGive?.stats ?? {}).sort() as StatType[];
+  });
+
+  public nourishmentStatsInOrder = computed(() => {
+    const item = this.editing();
+    return Object.keys(
+      item.useEffect?.extra?.statChanges ?? {}
+    ).sort() as StatType[];
   });
 
   public extraProps: Signal<(keyof IItemDefinition)[]> = computed(() => {
@@ -136,7 +149,12 @@ export class ItemsEditorComponent
 
   private resetProps(item: IItemDefinition) {
     item.strikeEffect ??= { name: '', potency: 0, duration: 0, chance: 0 };
-    item.useEffect ??= { name: '', potency: 0, duration: 0 };
+    item.useEffect ??= {
+      name: '',
+      potency: 0,
+      duration: 0,
+    };
+    item.useEffect.extra ??= { tooltip: '', message: '', statChanges: {} };
     item.equipEffect ??= { name: '', potency: 0 };
     item.breakEffect ??= { name: '', potency: 0 };
     item.trapEffect ??= {
@@ -144,8 +162,8 @@ export class ItemsEditorComponent
       potency: 0,
       uses: 1,
       range: 0,
-      extra: { isPositive: false },
     };
+    item.trapEffect.extra ??= { isPositive: false };
 
     item.requirements ??= { baseClass: undefined, level: 0, quest: undefined };
     item.cosmetic ??= { name: '', isPermanent: false };
@@ -301,7 +319,43 @@ export class ItemsEditorComponent
   }
 
   private hasEncrustStat(stat: StatType) {
-    return this.allStatEdits().find((s) => s.stat === stat);
+    return this.editing().encrustGive?.stats?.[stat];
+  }
+
+  public addNourishmentStat(stat: StatType, value = 0) {
+    if (this.hasNourishmentStat(stat)) return;
+
+    this.editing.update((s) => {
+      if (!s.useEffect) return s;
+
+      return {
+        ...s,
+        useEffect: {
+          ...s.useEffect,
+          extra: {
+            ...s.useEffect.extra,
+            statChanges: {
+              ...(s.useEffect.extra?.statChanges ?? {}),
+              [stat]: value,
+            },
+          },
+        },
+      };
+    });
+  }
+
+  public removeNourishmentStat(stat: StatType) {
+    this.editing.update((s) => {
+      if (!s.encrustGive) return s;
+
+      delete s.encrustGive.stats[stat];
+
+      return s;
+    });
+  }
+
+  private hasNourishmentStat(stat: StatType) {
+    return this.editing().useEffect?.extra?.statChanges?.[stat];
   }
 
   private extractStats(item: IItemDefinition) {
@@ -394,6 +448,22 @@ export class ItemsEditorComponent
 
     if (item.strikeEffect && !item.strikeEffect.name) {
       delete item.strikeEffect;
+    }
+
+    if (
+      item.useEffect &&
+      item.useEffect.extra &&
+      !item.useEffect.extra.tooltip
+    ) {
+      delete item.useEffect.extra;
+    }
+
+    if (
+      item.useEffect &&
+      item.useEffect.extra &&
+      !item.useEffect.extra.tooltip
+    ) {
+      delete item.useEffect.extra;
     }
 
     if (item.useEffect && !item.useEffect.name) {
