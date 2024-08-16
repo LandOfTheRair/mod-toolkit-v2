@@ -271,6 +271,24 @@ export class ModService {
     this.mod.set(mod);
   }
 
+  // quest functions
+  public updateQuestNameAcrossMod(oldName: string, newName: string) {
+    if (oldName === newName) return;
+
+    const mod = this.mod();
+
+    mod.items.forEach((item) => {
+      if (item.requirements?.quest !== oldName) return;
+
+      console.log(
+        `[Propagate Quest] Updated requirements.quest for "${item.name}" item: ${oldName} -> ${newName}`
+      );
+      item.requirements.quest = newName;
+    });
+
+    this.mod.set(mod);
+  }
+
   // item functions
   public updateItemNameAcrossMod(oldName: string, newName: string) {
     if (oldName === newName) return;

@@ -93,4 +93,8 @@ export class QuestsComponent extends EditorBaseTableComponent<EditingType> {
       },
     },
   ];
+
+  protected dataEdited(oldItem: EditingType, newItem: EditingType) {
+    this.modService.updateQuestNameAcrossMod(oldItem.name, newItem.name);
+  }
 }
