@@ -26,7 +26,7 @@ export class EditorBaseTableComponent<T extends HasIdentification> {
   public editExisting(data: T) {
     this.isEditing.set(true);
     this.oldData.set(structuredClone(data));
-    this.editingData.set(data);
+    this.editingData.set(structuredClone(data));
   }
 
   public cancelEditing() {
