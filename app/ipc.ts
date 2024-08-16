@@ -174,10 +174,31 @@ export function setupIPC(sendToUI: SendToUI) {
 
       fs.writeJSONSync(res, fullMod, { spaces: 2 });
       sendToUI('notify', { type: 'info', text: `Saved ${res}!` });
+      sendToUI('updatesetting', { setting: 'autosaveFilePath', value: res });
     } catch {
       sendToUI('notify', { type: 'error', text: `Failed to save ${res}!` });
     }
   });
+
+  ipcMain.on(
+    'SAVE_MOD_WITH_BACKUP',
+    (e: any, { modData, quicksaveFilepath }: any) => {
+      if (!quicksaveFilepath || !modData) return;
+
+      if (!fs.existsSync(quicksaveFilepath)) return;
+
+      try {
+        const fullMod = modData;
+        const backupPath = `${baseUrl}/resources/backup.rairmod`;
+
+        fs.writeJSONSync(backupPath, fullMod, { spaces: 2 });
+        fs.moveSync(backupPath, quicksaveFilepath, { overwrite: true });
+      } catch (e) {
+        console.error('Could not quick save?');
+        console.error(e);
+      }
+    }
+  );
 
   ipcMain.on('LOAD_MOD', () => {
     const res = dialog.showOpenDialogSync(null, {

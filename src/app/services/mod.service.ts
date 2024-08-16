@@ -7,10 +7,13 @@ import {
   IModKit,
   ItemSlotType,
 } from '../../interfaces';
+import { id } from '../helpers';
+import { SettingsService } from './settings.service';
 
 export function defaultModKit(): IModKit {
   return {
     meta: {
+      id: id(),
       author: 'Anonymous',
       name: 'Unnamed Mod',
       savedAt: 0,
@@ -33,6 +36,7 @@ export function defaultModKit(): IModKit {
 })
 export class ModService {
   private localStorage = inject(LocalStorageService);
+  private settingsService = inject(SettingsService);
 
   public mod = signal<IModKit>(defaultModKit());
   public modName = computed(() => this.mod().meta.name);
@@ -50,10 +54,14 @@ export class ModService {
       this.updateMod(oldModData);
     }
 
-    effect(() => {
-      const newModData = this.mod();
-      this.localStorage.store('mod', newModData);
-    });
+    effect(
+      () => {
+        const newModData = this.mod();
+        this.settingsService.createSettingsForMod(newModData.meta.id);
+        this.localStorage.store('mod', newModData);
+      },
+      { allowSignalWrites: true }
+    );
 
     this.ensureMapsExist();
   }
@@ -81,8 +89,8 @@ export class ModService {
     mod.meta.savedAt = Date.now();
 
     mod.maps.forEach(({ map }) => {
-      map.properties = map.properties || {};
-      map.propertytypes = map.propertytypes || {};
+      map.properties ??= {};
+      map.propertytypes ??= {};
 
       map.properties.creator = mod.meta.author || 'Unknown';
       map.propertytypes.creator = 'string';

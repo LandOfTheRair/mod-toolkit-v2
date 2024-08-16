@@ -9,6 +9,7 @@ import { ISpawnerData } from './spawner';
 
 export interface IModKit {
   meta: {
+    id: string;
     name: string;
     author: string;
     version: number;

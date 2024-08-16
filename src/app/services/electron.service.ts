@@ -4,6 +4,7 @@ import { IEditorMap, IModKit } from '../../interfaces';
 import { importMod } from '../helpers/importer';
 import { ModService } from './mod.service';
 import { NotifyService } from './notify.service';
+import { ModSettings, SettingsService } from './settings.service';
 
 declare global {
   interface Window {
@@ -24,6 +25,7 @@ export class ElectronService {
 
   private modService = inject(ModService);
   private notifyService = inject(NotifyService);
+  private settingsService = inject(SettingsService);
 
   constructor() {
     this.watchIPC();
@@ -31,6 +33,14 @@ export class ElectronService {
     effect(() => {
       const mod = this.modService.mod();
       this.send('BACKUP_MOD', mod);
+
+      const settings = this.settingsService.allSettings()[mod.meta.id];
+      if (settings.autosaveFilePath) {
+        this.send('SAVE_MOD_WITH_BACKUP', {
+          modData: mod,
+          quicksaveFilepath: settings.autosaveFilePath,
+        });
+      }
     });
   }
 
@@ -79,6 +89,17 @@ export class ElectronService {
       const importedMod = importMod(mod.meta._backup as IModKit);
       this.modService.updateMod(importedMod);
     });
+
+    window.api.receive(
+      'updatesetting',
+      (settingsData: { setting: keyof ModSettings; value: any }) => {
+        this.settingsService.setSettingForMod(
+          this.modService.mod().meta.id,
+          settingsData.setting,
+          settingsData.value
+        );
+      }
+    );
 
     this.send('READY_CHECK');
   }
