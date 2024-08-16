@@ -20,10 +20,8 @@
             <li><a (click)="closeMenu()" [swal]="changeModAuthor">Change Mod Author</a></li>
 
             <li class="menu-title"><a>Mod I/O</a></li>
-            <li><a (click)="closeMenu(); electronService.send('LOAD_MOD')">Load/Import
-                Mod</a></li>
-            <li><a (click)="closeMenu(); attemptExport();">Export
-                Mod</a></li>
+            <li><a (click)="closeMenu(); electronService.send('LOAD_MOD')">Load/Import Mod</a></li>
+            <li><a (click)="closeMenu(); attemptExport();">Export Mod</a></li>
             <li><a (click)="closeMenu(); toggleModValidation()">Validate Mod</a></li>
 
             <li class="menu-title"><a>Mod Testing</a></li>
@@ -34,7 +32,7 @@
             </li>
             <li><a (click)="closeMenu(); electronService.send('DOWNLOAD_MONGO')">Install MongoDB...</a></li>
             <li><a (click)="closeMenu(); electronService.send('DOWNLOAD_RAIR')">Install Rair Server...</a></li>
-            <li><a (click)="closeMenu()">Test Mod!</a></li>
+            <li><a (click)="closeMenu(); toggleTester()">Test Mod!</a></li>
 
             <li class="menu-title"><a>Updates</a></li>
             <li><a (click)="closeMenu(); electronService.send('UPDATE_RESOURCES')">Update Resources</a></li>
@@ -154,3 +152,7 @@
   text="Your mod has errors. Are you sure you want to export it? It may fail. You can view errors by going to Actions > Validate Mod."
   confirmButtonText="Yes, export" [showDenyButton]="true" denyButtonText="View errors" icon="warning"
   [showCancelButton]="true" [focusCancel]="true"></swal>
+
+<dialog #tester class="modal">
+  <app-test-view class="modal-box w-11/12 max-w-5xl overflow-x-hidden"></app-test-view>
+</dialog>

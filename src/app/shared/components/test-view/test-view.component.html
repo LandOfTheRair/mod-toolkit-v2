@@ -1,0 +1,62 @@
+<h1 class="text-2xl font-bold mb-2">Test Mod</h1>
+
+<div class="relative flex">
+  <div class="flex-1 m-2">
+    <h2 class="text-xl font-bold mb-2">Useful Character Settings</h2>
+
+    <div class="form-row">
+      <app-input-floating-label>Character Level</app-input-floating-label>
+      <input [(ngModel)]="settings.level" min="1" type="number" class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Map</app-input-floating-label>
+      <input [(ngModel)]="settings.map" type="text" placeholder="The map to spawn on" class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Map X</app-input-floating-label>
+      <input [(ngModel)]="settings.x" min="0" type="number" class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Map Y</app-input-floating-label>
+      <input [(ngModel)]="settings.y" min="0" type="number" class="form-input" />
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Whether or not to open the game client.">
+        <input type="checkbox" [(ngModel)]="settings.openClient" class="checkbox" />
+        <span class="label-text">Open Client?</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="flex-1 m-2">
+    <h2 class="text-xl font-bold mb-2">
+      Extra Character Settings
+
+      <span
+        floatUi="If this JSON is not valid, you can't test the mod. If you're having trouble, reach out to someone to help, or reset this to: {}">
+        {{ isValidJSON() ? '✅' : '❌' }}
+      </span>
+    </h2>
+
+    <ngs-code-editor class="editor-container" [theme]="'vs-dark'" [codeModel]="dialogModel"
+      (valueChanged)="onSettingsChanged($event)"></ngs-code-editor>
+  </div>
+</div>
+
+<div class="modal-action mt-2 flex">
+  <div class="flex-1">
+    <button class="btn btn-sm btn-primary" (click)="testMod()"
+      [disabled]="!settings.map || !settings.x || !settings.y || !isValidJSON()">Test Mod!</button>
+    <button class="ml-1 btn btn-sm btn-error" (click)="killMod()">Kill LotR/MongoDB</button>
+  </div>
+
+  <div class="flex-1 flex justify-end">
+    <form method="dialog">
+      <button class="btn btn-sm">Close</button>
+    </form>
+  </div>
+</div>

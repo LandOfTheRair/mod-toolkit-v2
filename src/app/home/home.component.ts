@@ -27,6 +27,7 @@ export class HomeComponent {
 
   public exportWarnSwal = viewChild<SwalComponent>('exportWarnSwal');
   public menuRef = viewChild<ElementRef<HTMLElement>>('menu');
+  public tester = viewChild<ElementRef<HTMLDialogElement>>('tester');
 
   public activeTab = signal<number>(0);
   public isValidating = signal<boolean>(false);
@@ -106,5 +107,9 @@ export class HomeComponent {
 
   toggleModValidation() {
     this.isValidating.set(!this.isValidating());
+  }
+
+  toggleTester() {
+    this.tester()?.nativeElement.showModal();
   }
 }
