@@ -1,0 +1,6 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values" [(ngModel)]="itemSlots" [multiple]="true"
+    placeholder="Select item slots..." (change)="change.emit($event)"></ng-select>
+
+  <app-input-floating-label>Encrust Item Slots</app-input-floating-label>
+</div>

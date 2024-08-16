@@ -1,5 +1,5 @@
 import { Component, computed, OnInit, Signal, signal } from '@angular/core';
-import { sortBy } from 'lodash';
+import { isNumber, sortBy } from 'lodash';
 import {
   IItemDefinition,
   ItemClassType,
@@ -81,6 +81,7 @@ export class ItemsEditorComponent
 
   public currentItem = signal<IItemDefinition | undefined>(undefined);
   public currentStat = signal<StatType>('agi');
+  public currentEncrustStat = signal<StatType>('agi');
   public currentTraitTab = signal<TraitSetting>('none');
   public currentTrait = signal<string | undefined>(undefined);
   public allStatEdits = signal<StatEdit[]>([]);
@@ -105,8 +106,18 @@ export class ItemsEditorComponent
     return this.allStatEdits().find((s) => s.stat === current);
   });
 
+  public doesItemHaveCurrentEncrustStat = computed(() => {
+    const current = this.currentEncrustStat();
+    return isNumber(this.editing().encrustGive?.stats[current]);
+  });
+
   public statsInOrder = computed(() => {
     return sortBy(this.allStatEdits(), 'stat');
+  });
+
+  public encrustStatsInOrder = computed(() => {
+    const item = this.editing();
+    return Object.keys(item.encrustGive?.stats ?? {}).sort() as StatType[];
   });
 
   public extraProps: Signal<(keyof IItemDefinition)[]> = computed(() => {
@@ -140,6 +151,17 @@ export class ItemsEditorComponent
     item.cosmetic ??= { name: '', isPermanent: false };
     item.trait ??= { name: '', level: 0 };
     item.randomTrait ??= { name: [], level: { min: 0, max: 0 } };
+
+    item.encrustGive ??= {
+      slots: [],
+      stats: {},
+    };
+
+    item.encrustGive.strikeEffect ??= {
+      name: '',
+      potency: 0,
+      chance: 0,
+    };
 
     this.editing.set(item);
   }
@@ -246,6 +268,39 @@ export class ItemsEditorComponent
   }
 
   private hasStat(stat: StatType) {
+    return this.allStatEdits().find((s) => s.stat === stat);
+  }
+
+  public addEncrustStat(stat: StatType, value = 0) {
+    if (this.hasEncrustStat(stat)) return;
+
+    this.editing.update((s) => {
+      if (!s.encrustGive) return s;
+
+      return {
+        ...s,
+        encrustGive: {
+          ...s.encrustGive,
+          stats: {
+            ...s.encrustGive.stats,
+            [stat]: value,
+          },
+        },
+      };
+    });
+  }
+
+  public removeEncrustStat(stat: StatType) {
+    this.editing.update((s) => {
+      if (!s.encrustGive) return s;
+
+      delete s.encrustGive.stats[stat];
+
+      return s;
+    });
+  }
+
+  private hasEncrustStat(stat: StatType) {
     return this.allStatEdits().find((s) => s.stat === stat);
   }
 
@@ -368,6 +423,16 @@ export class ItemsEditorComponent
 
     if (item.cosmetic && !item.cosmetic.name) {
       delete item.cosmetic;
+    }
+
+    if (item.encrustGive) {
+      if (!item.encrustGive.strikeEffect?.name) {
+        delete item.encrustGive.strikeEffect;
+      }
+
+      if (item.encrustGive.slots.length === 0) {
+        delete item.encrustGive;
+      }
     }
   }
 

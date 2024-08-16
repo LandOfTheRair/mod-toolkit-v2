@@ -8,6 +8,16 @@
 }
 
 .ng-select {
+  &.ng-select-multiple {
+    .ng-value {
+      color: oklch(var(--inc));
+      background-color: var(
+        --fallback-in,
+        oklch(var(--in) / var(--tw-bg-opacity))
+      ) !important;
+    }
+  }
+
   .ng-select-container,
   .ng-dropdown-panel {
     background-color: var(

@@ -46,6 +46,7 @@ import { InputMapnpcComponent } from './components/input-mapnpc/input-mapnpc.com
 import { SpriteWithInlineNameComponent } from './components/sprite-with-inline-name/sprite-with-inline-name.component';
 import { InputRecipeComponent } from './components/input-recipe/input-recipe.component';
 import { InputQuestComponent } from './components/input-quest/input-quest.component';
+import { InputItemslotEncrustComponent } from './components/input-itemslot-encrust/input-itemslot-encrust.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { InputQuestComponent } from './components/input-quest/input-quest.compon
     SpriteWithInlineNameComponent,
     InputRecipeComponent,
     InputQuestComponent,
+    InputItemslotEncrustComponent,
   ],
   imports: [
     CommonModule,
@@ -138,6 +140,7 @@ import { InputQuestComponent } from './components/input-quest/input-quest.compon
     SpriteWithInlineNameComponent,
     InputRecipeComponent,
     InputQuestComponent,
+    InputItemslotEncrustComponent,
   ],
 })
 export class SharedModule {}

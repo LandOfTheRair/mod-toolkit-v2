@@ -544,6 +544,72 @@
         [defaultValue]="editingData.requirements!.quest" label="Required Quest"></app-input-quest>
     </div>
   </div>
+
+  @if(editingData.itemClass === 'Gem') {
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-itemslot-encrust [(itemSlots)]="editingData.encrustGive!.slots"></app-input-itemslot-encrust>
+    </div>
+
+    <div class="form-row">
+      <app-input-effect [defaultValue]="editingData.encrustGive!.strikeEffect!.name"
+        (change)="editingData.encrustGive!.strikeEffect!.name = $event"
+        label="Encrust Strike Effect"></app-input-effect>
+    </div>
+
+    @if(editingData.encrustGive!.strikeEffect!.name) {
+    <div class="form-row">
+      <app-input-floating-label>Encrust Strike Potency</app-input-floating-label>
+      <input [(ngModel)]="editingData.encrustGive!.strikeEffect!.potency" type="number" min="0"
+        placeholder="Enter potency..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Encrust Strike Chance</app-input-floating-label>
+      <input [(ngModel)]="editingData.encrustGive!.strikeEffect!.chance" type="number" min="0" max="100"
+        placeholder="Enter chance..." class="form-input" />
+    </div>
+    }
+
+    <div class="form-row split">
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stat [(stat)]="currentEncrustStat"></app-input-stat>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" [disabled]="!currentEncrustStat() || doesItemHaveCurrentEncrustStat()"
+            (click)="addEncrustStat(currentEncrustStat())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(stat of encrustStatsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ stat }}</app-input-floating-label>
+          <input [(ngModel)]="editingData.encrustGive!.stats[stat]" type="number" placeholder="Choose value..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeEncrustStat(stat)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  }
 </div>
 }
 
