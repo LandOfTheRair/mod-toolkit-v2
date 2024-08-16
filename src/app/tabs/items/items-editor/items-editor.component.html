@@ -496,6 +496,36 @@
         class="form-input" />
     </div>
     }
+
+    @if(editingData.itemClass === 'Trap') {
+    <hr class="my-4">
+
+    <div class="form-row">
+      <app-input-effect [defaultValue]="editingData.trapEffect!.name" (change)="editingData.trapEffect!.name = $event"
+        label="Trap Effect"></app-input-effect>
+    </div>
+    }
+
+    @if(editingData.trapEffect!.name) {
+    <div class="form-row">
+      <app-input-floating-label>Trap Potency</app-input-floating-label>
+      <input [(ngModel)]="editingData.trapEffect!.potency" type="number" min="0" placeholder="Enter potency..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Trap Range</app-input-floating-label>
+      <input [(ngModel)]="editingData.trapEffect!.range" type="number" min="0" placeholder="Enter range..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Positive effects apply to friendly creatures only.">
+        <input type="checkbox" [(ngModel)]="editingData.trapEffect!.extra!.isPositive" class="checkbox" />
+        <span class="label-text">Only hits friendly targets</span>
+      </label>
+    </div>
+    }
   </div>
 
   <div class="form-column">

@@ -128,6 +128,14 @@ export class ItemsEditorComponent
     item.useEffect ??= { name: '', potency: 0, duration: 0 };
     item.equipEffect ??= { name: '', potency: 0 };
     item.breakEffect ??= { name: '', potency: 0 };
+    item.trapEffect ??= {
+      name: '',
+      potency: 0,
+      uses: 1,
+      range: 0,
+      extra: { isPositive: false },
+    };
+
     item.requirements ??= { baseClass: undefined, level: 0, quest: undefined };
     item.cosmetic ??= { name: '', isPermanent: false };
     item.trait ??= { name: '', level: 0 };
@@ -343,6 +351,10 @@ export class ItemsEditorComponent
 
     if (item.breakEffect && !item.breakEffect.name) {
       delete item.breakEffect;
+    }
+
+    if (item.trapEffect && !item.trapEffect.name) {
+      delete item.trapEffect;
     }
 
     if (
