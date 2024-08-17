@@ -620,6 +620,12 @@
       <input [(ngModel)]="editingData.triggers.spawn.sfx.maxChance" min="0" max="100" type="number"
         placeholder="Choose value..." class="form-input" />
     </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Spawn SFX Radius</app-input-floating-label>
+      <input [(ngModel)]="editingData.triggers.spawn.sfx.radius" min="0" max="20" type="number"
+        placeholder="Choose value..." class="form-input" />
+    </div>
   </div>
 
   <div class="form-column">
@@ -636,6 +642,12 @@
     <div class="form-row">
       <app-input-floating-label>Leash SFX %</app-input-floating-label>
       <input [(ngModel)]="editingData.triggers.leash.sfx.maxChance" min="0" max="100" type="number"
+        placeholder="Choose value..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Leash SFX Radius</app-input-floating-label>
+      <input [(ngModel)]="editingData.triggers.spawn.sfx.radius" min="0" max="20" type="number"
         placeholder="Choose value..." class="form-input" />
     </div>
   </div>

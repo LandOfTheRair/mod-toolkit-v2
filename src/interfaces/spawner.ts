@@ -28,5 +28,8 @@ export interface ISpawnerData extends HasIdentification {
   npcAISettings: string[];
   respectKnowledge?: boolean;
   isDangerous?: boolean;
+  maxSpawn?: number;
+  requireEvent?: string;
+  shouldBeActive?: boolean;
   _paths?: string;
 }

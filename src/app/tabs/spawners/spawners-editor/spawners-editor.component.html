@@ -72,10 +72,29 @@
             class="form-input" />
         </div>
       </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Max Monsters Total</app-input-floating-label>
+          <input [(ngModel)]="editingData.maxSpawn" type="number" min="0" placeholder="Enter total #..."
+            class="form-input" />
+        </div>
+      </div>
     </div>
 
     <div class="form-row">
-      <app-input-holiday [(holiday)]="editingData.requireHoliday"></app-input-holiday>
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Required Event</app-input-floating-label>
+          <input [(ngModel)]="editingData.requireEvent" type="text" placeholder="Enter in-game event required..."
+            class="form-input" />
+        </div>
+      </div>
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-holiday [(holiday)]="editingData.requireHoliday"></app-input-holiday>
+        </div>
+      </div>
     </div>
 
     <div class="form-row split">
@@ -119,6 +138,14 @@
           </label>
         </div>
       </div>
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer"
+        floatUi="Whether or not this spawner should always be active. Should only be set for spawners used in specific boss fights in instanced content.">
+        <input type="checkbox" [(ngModel)]="editingData.shouldBeActive" class="checkbox" />
+        <span class="label-text">Should Be Active</span>
+      </label>
     </div>
 
     <div class="form-row">

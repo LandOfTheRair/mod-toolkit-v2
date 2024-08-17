@@ -63,6 +63,8 @@ export class RecipesEditorComponent
     item.ozIngredients ??= [];
     item.ozIngredients[0] ??= { filter: '', display: '', ounces: 0 };
     item.ozIngredients[1] ??= { filter: '', display: '', ounces: 0 };
+    item.ozIngredients[2] ??= { filter: '', display: '', ounces: 0 };
+    item.ozIngredients[3] ??= { filter: '', display: '', ounces: 0 };
   }
 
   private assignProps(item: IRecipe) {

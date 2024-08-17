@@ -62,6 +62,7 @@ export const defaultNPC: () => INPCDefinition = () => ({
       messages: [''],
       sfx: {
         name: undefined as unknown as string,
+        radius: 6,
         maxChance: 0,
       },
     },
@@ -69,6 +70,7 @@ export const defaultNPC: () => INPCDefinition = () => ({
       messages: [''],
       sfx: {
         name: undefined as unknown as string,
+        radius: 6,
         maxChance: 0,
       },
     },
@@ -76,6 +78,7 @@ export const defaultNPC: () => INPCDefinition = () => ({
       messages: [],
       sfx: {
         name: undefined as unknown as string,
+        radius: 6,
         maxChance: 0,
       },
     },

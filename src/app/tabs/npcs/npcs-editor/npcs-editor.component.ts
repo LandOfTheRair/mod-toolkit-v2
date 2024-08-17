@@ -147,6 +147,7 @@ export class NpcsEditorComponent
         messages: [''],
         sfx: {
           name: undefined as unknown as string,
+          radius: 6,
           maxChance: 0,
         },
       };
@@ -155,6 +156,7 @@ export class NpcsEditorComponent
 
       npc.triggers[triggerType].sfx ??= {
         name: undefined as unknown as string,
+        radius: 6,
         maxChance: 0,
       };
 

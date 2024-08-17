@@ -42,6 +42,7 @@ const triggerValidators: SchemaProperty[] = ['leash', 'spawn', 'combat']
       isObjectWithFailure(['name', 'maxChance']),
     ],
     [`triggers.${triggerType}.sfx.name`, false, isString],
+    [`triggers.${triggerType}.sfx.radius`, false, isNumber],
     [`triggers.${triggerType}.sfx.maxChance`, false, isNumber],
   ])
   .flat() as SchemaProperty[];
@@ -74,7 +75,12 @@ export const npcSchema: Schema = [
   ['dropPool', false, isDropPool],
   ['drops', false, isArrayOf(isRollable)],
   ['forceAI', false, isString],
-  ['items', false, isObjectWith(['equipment', 'sack', 'belt'])],
+  [
+    'items',
+    false,
+    isObjectWithSome(['equipment', 'sack', 'belt']),
+    isObjectWithSomeFailure(['equipment', 'sack', 'belt']),
+  ],
   [
     'items.equipment',
     false,

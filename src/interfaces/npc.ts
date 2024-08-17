@@ -160,6 +160,7 @@ export interface INPCDefinition extends HasIdentification {
       messages: string[];
       sfx: {
         name: string;
+        radius: number;
         maxChance: number;
       };
     }

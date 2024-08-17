@@ -17,6 +17,7 @@ export const spawnerSchema: Schema = [
   ['shouldSerialize', false, isBoolean],
   ['alwaysSpawn', false, isBoolean],
   ['requireHoliday', false, isString],
+  ['requireEvent', false, isString],
   ['requireDeadToRespawn', false, isBoolean],
   ['canSlowDown', false, isBoolean],
 
@@ -31,6 +32,9 @@ export const spawnerSchema: Schema = [
   ['attributeAddChance', false, isNumber],
   ['eliteTickCap', false, isNumber],
   ['npcAISettings', false, isArrayOf(isString)],
+
+  ['maxSpawn', false, isNumber],
+  ['shouldBeActive', false, isBoolean],
 
   ['respectKnowledge', false, isBoolean],
   ['isDangerous', false, isBoolean],

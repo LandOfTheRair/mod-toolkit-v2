@@ -28,6 +28,9 @@ export const defaultSpawner: () => ISpawnerData = () => ({
   stripOnSpawner: false,
   respectKnowledge: true,
   attributeAddChance: 0,
+  shouldBeActive: false,
+  requireEvent: '',
+  maxSpawn: undefined,
   requireHoliday: undefined as unknown as string,
   _paths: '',
 });

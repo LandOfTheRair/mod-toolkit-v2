@@ -3,7 +3,6 @@ import { Schema } from '../../../interfaces';
 import {
   isArrayOf,
   isItemSlot,
-  isObjectWith,
   isObjectWithSome,
   isObjectWithSomeFailure,
   isQuestReward,
@@ -32,7 +31,14 @@ export const questSchema: Schema = [
   [
     'messages',
     false,
-    isObjectWith([
+    isObjectWithSome([
+      'kill',
+      'complete',
+      'incomplete',
+      'alreadyHas',
+      'permComplete',
+    ]),
+    isObjectWithSomeFailure([
       'kill',
       'complete',
       'incomplete',

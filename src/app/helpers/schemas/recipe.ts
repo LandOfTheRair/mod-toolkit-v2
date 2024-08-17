@@ -24,8 +24,8 @@ export const recipeSchema: Schema = [
   [
     'ozIngredients',
     false,
-    isArrayOfAtMostLength(2),
-    () => 'ozIngredients must not have more than 2 elements',
+    isArrayOfAtMostLength(4),
+    () => 'ozIngredients must not have more than 4 elements',
   ],
   ['potencyScalar', false, isNumber],
   ['requireClass', false, isArrayOf(isString)],

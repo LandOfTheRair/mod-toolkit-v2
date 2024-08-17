@@ -1,6 +1,7 @@
 import { difference, get, isNumber, isString, isUndefined } from 'lodash';
 import {
   Allegiance,
+  DamageClass,
   HasIdentification,
   ItemSlot,
   QuestRewardType,
@@ -127,6 +128,11 @@ export function isStat(val: any): boolean {
   return Object.values(Stat).includes(val);
 }
 
+export function isDamageType(val: any): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  return Object.values(DamageClass).includes(val);
+}
+
 export function isAllegiance(val: any): boolean {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return Object.values(Allegiance).includes(val);
@@ -159,11 +165,14 @@ export function isRandomTraitObject(val: any): boolean {
 }
 
 export function isNPCEffect(val: any): boolean {
-  return (
-    val.endsAt === -1 &&
+  return val.endsAt === -1 &&
     isString(val.name) &&
-    isObjectWithSome(['potency', 'damageType', 'enrageTimer'])(val.extra)
-  );
+    isObjectWithSome(['potency', 'damageType', 'enrageTimer'])(val.extra) &&
+    val.extra
+    ? isNumber(val.extra?.potency) &&
+        isDamageType(val.extra?.damageType) &&
+        isNumber(val.extra?.enrageTimer)
+    : true;
 }
 
 export function isQuestReward(val: any): boolean {
