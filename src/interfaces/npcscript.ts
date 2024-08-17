@@ -11,6 +11,7 @@ import {
 } from './building-blocks';
 import { HasIdentification } from './identified';
 import { ISimpleItem } from './item';
+import { INPCEffect } from './npc';
 
 export enum BehaviorType {
   Trainer = 'trainer',
@@ -224,4 +225,9 @@ export interface INPCScript extends HasIdentification {
   allegiance: AllegianceType;
   alignment: AlignmentType;
   behaviors: IBehavior[];
+
+  maxWanderRandomlyDistance: number;
+  noLeash: boolean;
+
+  baseEffects: INPCEffect[];
 }

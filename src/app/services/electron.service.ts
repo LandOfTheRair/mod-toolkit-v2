@@ -80,8 +80,9 @@ export class ElectronService {
     });
 
     // the mod has no backup, which means it was a clean export. it might need some reformatting to get it back in
-    window.api.receive('loadmod', () => {
-      // this.modService.updateMod(mod);
+    window.api.receive('loadmod', (mod: IModKit) => {
+      const importedMod = importMod(mod);
+      this.modService.updateMod(importedMod);
     });
 
     // import the mod raw from the backup.

@@ -35,7 +35,7 @@ export function checkNPCUsages(mod: IModKit) {
   });
 
   mod.quests.forEach((quest) => {
-    quest.requirements.npcIds.forEach((npcId) => {
+    quest.requirements.npcIds?.forEach((npcId) => {
       addItemCount(npcId);
     });
   });
@@ -131,7 +131,7 @@ export function nonexistentNPCs(mod: IModKit): ValidationMessageGroup {
   });
 
   mod.quests.forEach((quest) => {
-    quest.requirements.npcIds.forEach((npcId) => {
+    quest.requirements.npcIds?.forEach((npcId) => {
       if (allNPCIds[npcId]) return;
 
       itemValidations.messages.push({

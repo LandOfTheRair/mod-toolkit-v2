@@ -22,6 +22,16 @@ export enum NPCTriggerType {
   Combat = 'combat',
 }
 
+export interface INPCEffect {
+  name: string;
+  endsAt: number;
+  extra: {
+    potency: number;
+    damageType?: DamageClassType;
+    enrageTimer?: number;
+  };
+}
+
 export interface INPCDefinition extends HasIdentification {
   npcId: string;
 
@@ -53,15 +63,7 @@ export interface INPCDefinition extends HasIdentification {
   baseClass?: BaseClassType;
 
   // the base effects given to the creature (usually attributes/truesight/etc)
-  baseEffects: Array<{
-    name: string;
-    endsAt: number;
-    extra: {
-      potency: number;
-      damageType?: DamageClassType;
-      enrageTimer?: number;
-    };
-  }>;
+  baseEffects: INPCEffect[];
 
   // the drop chance for copying items that are already equipped
   copyDrops: Rollable[];

@@ -73,11 +73,11 @@ export function checkItemUses(mod: IModKit): ValidationMessageGroup {
   });
 
   mod.npcs.forEach((npc) => {
-    npc.items.sack.forEach((item) => {
+    npc.items?.sack?.forEach((item) => {
       addItemCount(item.result);
     });
 
-    Object.keys(npc.items.equipment || {}).forEach((slot) => {
+    Object.keys(npc.items?.equipment ?? {}).forEach((slot) => {
       (npc.items.equipment[slot as ItemSlotType] || []).forEach((item) => {
         addItemCount(item.result);
       });
@@ -87,11 +87,11 @@ export function checkItemUses(mod: IModKit): ValidationMessageGroup {
       addItemCount(npc.tansFor);
     }
 
-    npc.drops.forEach((item) => {
+    npc.drops?.forEach((item) => {
       addItemCount(item.result);
     });
 
-    npc.dropPool.items.forEach((item) => {
+    npc.dropPool?.items.forEach((item) => {
       addItemCount(item.result);
     });
   });
@@ -153,7 +153,7 @@ export function nonexistentItems(mod: IModKit): ValidationMessageGroup {
   });
 
   mod.npcs.forEach((npc) => {
-    npc.items.sack.forEach((checkRollable) => {
+    npc.items?.sack?.forEach((checkRollable) => {
       if (allItemNames[checkRollable.result]) return;
 
       itemValidations.messages.push({
@@ -162,7 +162,7 @@ export function nonexistentItems(mod: IModKit): ValidationMessageGroup {
       });
     });
 
-    Object.keys(npc.items.equipment).forEach((itemslot) => {
+    Object.keys(npc.items?.equipment ?? {}).forEach((itemslot) => {
       npc.items.equipment[itemslot as ItemSlotType]?.forEach(
         (checkRollable) => {
           if (allItemNames[checkRollable.result]) return;
@@ -175,7 +175,7 @@ export function nonexistentItems(mod: IModKit): ValidationMessageGroup {
       );
     });
 
-    npc.drops.forEach((checkRollable) => {
+    npc.drops?.forEach((checkRollable) => {
       if (allItemNames[checkRollable.result]) return;
 
       itemValidations.messages.push({
@@ -184,7 +184,7 @@ export function nonexistentItems(mod: IModKit): ValidationMessageGroup {
       });
     });
 
-    npc.dropPool.items.forEach((checkRollable) => {
+    npc.dropPool?.items?.forEach((checkRollable) => {
       if (allItemNames[checkRollable.result]) return;
 
       itemValidations.messages.push({

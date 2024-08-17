@@ -20,6 +20,8 @@ export const defaultNPCScript: () => INPCScript = () => ({
   },
   otherStats: {},
   usableSkills: [],
+  maxWanderRandomlyDistance: 0,
+  noLeash: false,
   items: {
     equipment: {
       rightHand: undefined as unknown as string,
@@ -44,5 +46,6 @@ export const defaultNPCScript: () => INPCScript = () => ({
   dialog: {
     keyword: {},
   },
+  baseEffects: [],
   behaviors: [],
 });

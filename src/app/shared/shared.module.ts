@@ -49,6 +49,7 @@ import { SpriteWithInlineNameComponent } from './components/sprite-with-inline-n
 import { SpriteComponent } from './components/sprite/sprite.component';
 import { TestViewComponent } from './components/test-view/test-view.component';
 import { WebviewDirective } from './directives/';
+import { EditBaseeffectComponent } from './components/edit-baseeffect/edit-baseeffect.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { WebviewDirective } from './directives/';
     InputQuestComponent,
     InputItemslotEncrustComponent,
     TestViewComponent,
+    EditBaseeffectComponent,
   ],
   imports: [
     CommonModule,
@@ -146,6 +148,7 @@ import { WebviewDirective } from './directives/';
     InputQuestComponent,
     InputItemslotEncrustComponent,
     TestViewComponent,
+    EditBaseeffectComponent,
   ],
 })
 export class SharedModule {}

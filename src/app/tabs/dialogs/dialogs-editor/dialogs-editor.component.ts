@@ -56,7 +56,7 @@ export class DialogsEditorComponent
 
   public statsInOrder = computed(() => {
     const npc = this.editing();
-    return Object.keys(npc.otherStats).sort() as StatType[];
+    return Object.keys(npc.otherStats ?? {}).sort() as StatType[];
   });
 
   public behaviorError = computed(() => {
@@ -80,18 +80,20 @@ export class DialogsEditorComponent
   ngOnInit(): void {
     const npc = this.editing();
 
-    if (npc.behaviors.length > 0) {
+    if (npc.behaviors?.length > 0) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       this.behaviorText.set(yaml.dump(npc.behaviors));
       this.behaviorModel.value = this.behaviorText();
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    if (Object.keys(npc.dialog.keyword ?? {}).length > 0) {
+    if (Object.keys(npc.dialog?.keyword ?? {}).length > 0) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       this.dialogText.set(yaml.dump(npc.dialog));
       this.dialogModel.value = this.dialogText();
     }
+
+    npc.baseEffects ??= [];
 
     super.ngOnInit();
   }
@@ -136,6 +138,26 @@ export class DialogsEditorComponent
 
   public onDialogChanged(dialogText: string) {
     this.dialogText.set(dialogText);
+  }
+
+  public addBaseEffect() {
+    const npc = this.editing();
+    npc.baseEffects.push({
+      endsAt: -1,
+      name: undefined as unknown as string,
+      extra: {
+        potency: 1,
+        damageType: undefined,
+        enrageTimer: undefined,
+      },
+    });
+    this.editing.set(npc);
+  }
+
+  public removeBaseEffect(index: number) {
+    const npc = this.editing();
+    npc.baseEffects.splice(index, 1);
+    this.editing.set(npc);
   }
 
   doSave() {

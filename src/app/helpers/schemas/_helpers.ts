@@ -11,6 +11,15 @@ import {
   Stat,
 } from '../../../interfaces';
 
+const itemSlots = [
+  'weapon',
+  'armor',
+  'shield',
+  'ring',
+  'robe',
+  ...Object.values(ItemSlot),
+] as ItemSlot[];
+
 export function isArrayOf(validator: SchemaValidator): SchemaValidator {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return (val: any) => val.every(validator);
@@ -49,7 +58,7 @@ export function isObjectWithFailure(keys: string[]): SchemaValidatorMessage {
 export function isObjectWithSome(keys: string[]): SchemaValidator {
   return (val: any) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return Object.keys(val).every((k) => keys.includes(k));
+    return Object.keys(val ?? {}).every((k) => keys.includes(k));
   };
 }
 
@@ -68,7 +77,7 @@ export function isObjectWithSomeFailure(
 export function isPartialObjectOf<T>(possibleVals: T[]): SchemaValidator {
   return (val: any) =>
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    Object.keys(val).every((k) => possibleVals.includes(k as T));
+    Object.keys(val ?? {}).every((k) => possibleVals.includes(k as T));
 }
 
 export function isPartialObjectOfFailure<T>(
@@ -94,17 +103,9 @@ export const isPartialSkillObjectFailure = isPartialObjectOfFailure<Skill>(
   Object.values(Skill)
 );
 
-export const isPartialEquipmentObject = isPartialObjectOf<ItemSlot>([
-  'weapon',
-  'armor',
-  ...Object.values(ItemSlot),
-] as ItemSlot[]);
+export const isPartialEquipmentObject = isPartialObjectOf<ItemSlot>(itemSlots);
 export const isPartialEquipmentObjectFailure =
-  isPartialObjectOfFailure<ItemSlot>([
-    'weapon',
-    'armor',
-    ...Object.values(ItemSlot),
-  ] as ItemSlot[]);
+  isPartialObjectOfFailure<ItemSlot>(itemSlots);
 
 export const isPartialReputationObject = isPartialObjectOf<Allegiance>(
   Object.values(Allegiance)
@@ -113,9 +114,7 @@ export const isPartialReputationObjectFailure =
   isPartialObjectOfFailure<Allegiance>(Object.values(Allegiance));
 
 export function isItemSlot(val: any): boolean {
-  return (
-    ['weapon', 'armor', ...Object.values(ItemSlot)] as ItemSlot[]
-  ).includes(val as ItemSlot);
+  return itemSlots.includes(val as ItemSlot);
 }
 
 export function isTraitObject(val: any): boolean {

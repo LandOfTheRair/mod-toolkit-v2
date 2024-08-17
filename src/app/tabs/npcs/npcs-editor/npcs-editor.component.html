@@ -345,47 +345,7 @@
     </div>
 
     @for(baseEffect of editingData.baseEffects; track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-effect [defaultValue]="baseEffect.name" (change)="baseEffect.name = $event"></app-input-effect>
-        </div>
-      </div>
-
-      @if(baseEffect.name === 'Attribute') {
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-damageclass [(damageClass)]="baseEffect.extra.damageType"></app-input-damageclass>
-        </div>
-      </div>
-      }
-
-      @if(baseEffect.name === 'Mood') {
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Enrage Timer (ms)</app-input-floating-label>
-          <input [(ngModel)]="baseEffect.extra.enrageTimer" min="0" type="number" placeholder="Choose timer..."
-            class="form-input" />
-        </div>
-      </div>
-      }
-
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Potency</app-input-floating-label>
-          <input [(ngModel)]="baseEffect.extra.potency" type="number" placeholder="Choose value..."
-            class="form-input" />
-        </div>
-      </div>
-
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeBaseEffect($index)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
+    <app-edit-baseeffect [baseEffect]="baseEffect" (remove)="removeBaseEffect($index)"></app-edit-baseeffect>
     }
   </div>
 </div>

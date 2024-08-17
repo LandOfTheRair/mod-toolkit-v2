@@ -179,14 +179,16 @@ export function formatNPCs(npcs: INPCDefinition[]): INPCDefinition[] {
 
     npc.repMod = npc.repMod.filter((rep: any) => rep.delta !== 0);
 
-    if (npc.drops.length === 0) delete npc.drops;
-    if (npc.copyDrops.length === 0) delete npc.copyDrops;
-    if (npc.dropPool.items.length === 0) delete npc.dropPool;
+    if (!npc.drops || npc.drops.length === 0) delete npc.drops;
+    if (!npc.copyDrops || npc.copyDrops.length === 0) delete npc.copyDrops;
+    if (!npc.dropPool || npc.dropPool.items.length === 0) delete npc.dropPool;
 
-    Object.values(ItemSlot).forEach((slot) => {
-      if (npc.items.equipment[slot]?.length > 0) return;
-      delete npc.items.equipment[slot];
-    });
+    if (npc.items?.equipment) {
+      Object.values(ItemSlot).forEach((slot) => {
+        if (npc.items.equipment[slot]?.length > 0) return;
+        delete npc.items.equipment[slot];
+      });
+    }
 
     ['leash', 'spawn', 'combat'].forEach((triggerType) => {
       if (!npc.triggers?.[triggerType]?.messages) return;
