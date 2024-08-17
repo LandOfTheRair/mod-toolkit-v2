@@ -269,7 +269,7 @@ export const typePropDefaults: Record<
   Bottle: { ounces: 1 },
   Food: { ounces: 1 },
   Gem: {},
-  Book: { bookPages: [], bookItemFilter: '', bookFindablePages: '' },
+  Book: { bookPages: [], bookItemFilter: '', bookFindablePages: 0 },
   Trap: { trapUses: 1 },
   Twig: { type: 'Staff' },
 };

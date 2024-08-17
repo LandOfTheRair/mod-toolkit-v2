@@ -182,6 +182,8 @@ export class ItemsEditorComponent
       chance: 0,
     };
 
+    item.bookPages ??= [];
+
     this.editing.set(item);
   }
 
@@ -505,6 +507,10 @@ export class ItemsEditorComponent
         delete item.encrustGive;
       }
     }
+
+    if (!item.bookPages?.length) {
+      delete item.bookPages;
+    }
   }
 
   changeTraitTab(newTraitSetting: TraitSetting) {
@@ -545,6 +551,20 @@ export class ItemsEditorComponent
   removeTrait(index: number) {
     const item = this.editing();
     item.randomTrait.name.splice(index, 1);
+
+    this.editing.set(item);
+  }
+
+  public addBookPage() {
+    const item = this.editing();
+    item.bookPages?.push({ id: '', text: '' });
+
+    this.editing.set(item);
+  }
+
+  public removeBookPage(index: number) {
+    const item = this.editing();
+    item.bookPages?.splice(index, 1);
 
     this.editing.set(item);
   }

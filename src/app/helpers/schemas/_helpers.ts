@@ -94,11 +94,17 @@ export const isPartialSkillObjectFailure = isPartialObjectOfFailure<Skill>(
   Object.values(Skill)
 );
 
-export const isPartialEquipmentObject = isPartialObjectOf<ItemSlot>(
-  Object.values(ItemSlot)
-);
+export const isPartialEquipmentObject = isPartialObjectOf<ItemSlot>([
+  'weapon',
+  'armor',
+  ...Object.values(ItemSlot),
+] as ItemSlot[]);
 export const isPartialEquipmentObjectFailure =
-  isPartialObjectOfFailure<ItemSlot>(Object.values(ItemSlot));
+  isPartialObjectOfFailure<ItemSlot>([
+    'weapon',
+    'armor',
+    ...Object.values(ItemSlot),
+  ] as ItemSlot[]);
 
 export const isPartialReputationObject = isPartialObjectOf<Allegiance>(
   Object.values(Allegiance)
@@ -107,7 +113,9 @@ export const isPartialReputationObjectFailure =
   isPartialObjectOfFailure<Allegiance>(Object.values(Allegiance));
 
 export function isItemSlot(val: any): boolean {
-  return Object.values(ItemSlot).includes(val as ItemSlot);
+  return (
+    ['weapon', 'armor', ...Object.values(ItemSlot)] as ItemSlot[]
+  ).includes(val as ItemSlot);
 }
 
 export function isTraitObject(val: any): boolean {
@@ -202,10 +210,6 @@ export function isIntegerBetween(min: any, max: any): SchemaValidator {
 
 export function isEffect(eff: any): boolean {
   return eff.name && isNumber(eff.potency);
-}
-
-export function isEncrust(enc: any): boolean {
-  return !!(enc.stats || enc.equipEffect || enc.strikeEffect);
 }
 
 export function isBookPage(val: any): boolean {

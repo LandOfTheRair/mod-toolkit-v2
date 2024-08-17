@@ -319,6 +319,33 @@
     </div>
     }
 
+    @case('bookPages') {
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addBookPage()">
+        Add book page
+      </button>
+    </div>
+
+    @for(item of editingData.bookPages; track item) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Page Text</app-input-floating-label>
+          <input [(ngModel)]="item.text" type="text" placeholder="Enter page text..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeBookPage($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+    }
+
     @default {
     {{ prop }} ({{ propTypes[prop] }}) has no editor.
     }
