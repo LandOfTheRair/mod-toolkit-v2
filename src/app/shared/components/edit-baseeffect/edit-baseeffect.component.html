@@ -1,0 +1,42 @@
+@let effect = baseEffect();
+
+<div class="form-row split">
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-effect [defaultValue]="effect.name" (change)="effect.name = $event"></app-input-effect>
+    </div>
+  </div>
+
+  @if(effect.name === 'Attribute') {
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-damageclass [(damageClass)]="effect.extra.damageType"></app-input-damageclass>
+    </div>
+  </div>
+  }
+
+  @if(effect.name === 'Mood') {
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Enrage Timer (ms)</app-input-floating-label>
+      <input [(ngModel)]="effect.extra.enrageTimer" min="0" type="number" placeholder="Choose timer..."
+        class="form-input" />
+    </div>
+  </div>
+  }
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Potency</app-input-floating-label>
+      <input [(ngModel)]="effect.extra.potency" type="number" placeholder="Choose value..." class="form-input" />
+    </div>
+  </div>
+
+  <div class="form-column button-column">
+    <div class="form-row w-full flex justify-end">
+      <button class="ml-1 btn btn-error btn-sm" (click)="remove.emit()">
+        <ng-icon name="heroMinus"></ng-icon>
+      </button>
+    </div>
+  </div>
+</div>
