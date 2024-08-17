@@ -61,7 +61,7 @@ export const defaultNPC: () => INPCDefinition = () => ({
     leash: {
       messages: [''],
       sfx: {
-        name: '',
+        name: undefined as unknown as string,
         maxChance: 0,
       },
     },

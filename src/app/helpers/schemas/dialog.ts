@@ -1,6 +1,14 @@
-import { isArray, isNumber, isObject, isString } from 'lodash';
+import { isNumber, isObject, isString } from 'lodash';
 import { Schema } from '../../../interfaces';
-import { isRandomNumber } from './_helpers';
+import {
+  isArrayOf,
+  isObjectWith,
+  isPartialEquipmentObject,
+  isPartialEquipmentObjectFailure,
+  isPartialStatObject,
+  isPartialStatObjectFailure,
+  isRandomNumber,
+} from './_helpers';
 
 export const dialogSchema: Schema = [
   ['tag', true, isString],
@@ -14,10 +22,15 @@ export const dialogSchema: Schema = [
   ['hp', false, isRandomNumber],
   ['mp', false, isRandomNumber],
 
-  ['otherStats', false, isObject],
-  ['usableSkills', false, isArray],
-  ['items', false, isObject],
-  ['items.equipment', false, isObject],
-  ['dialog', false, isObject],
-  ['behaviors', false, isArray],
+  ['otherStats', false, isPartialStatObject, isPartialStatObjectFailure],
+  ['usableSkills', false, isArrayOf(isString)],
+  ['items', false, isObjectWith(['equipment'])],
+  [
+    'items.equipment',
+    false,
+    isPartialEquipmentObject,
+    isPartialEquipmentObjectFailure,
+  ],
+  ['dialog', false, isObjectWith(['keyword'])],
+  ['behaviors', false, isArrayOf(isObject)],
 ];

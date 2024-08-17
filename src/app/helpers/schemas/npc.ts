@@ -1,15 +1,54 @@
-import { isArray, isBoolean, isInteger, isObject, isString } from 'lodash';
-import { Schema } from '../../../interfaces';
+import { isBoolean, isInteger, isNumber, isString } from 'lodash';
+import { ItemSlot, Schema, SchemaProperty } from '../../../interfaces';
 import {
+  isArrayOf,
   isDropPool,
-  isOptionalRollable,
+  isNPCEffect,
+  isObjectWith,
+  isObjectWithFailure,
+  isObjectWithSome,
+  isObjectWithSomeFailure,
+  isPartialEquipmentObject,
+  isPartialEquipmentObjectFailure,
+  isPartialReputationObject,
+  isPartialReputationObjectFailure,
+  isPartialSkillObject,
+  isPartialSkillObjectFailure,
+  isPartialStatObject,
+  isPartialStatObjectFailure,
   isRandomNumber,
+  isRepMod,
   isRollable,
+  isTraitObject,
 } from './_helpers';
+
+const equipmentValidators: SchemaProperty[] = Object.values(ItemSlot).map(
+  (slot) => [`items.equipment.${slot}`, false, isArrayOf(isRollable)]
+);
+
+const triggerValidators: SchemaProperty[] = ['leash', 'spawn', 'combat']
+  .map((triggerType) => [
+    [
+      `triggers.${triggerType}`,
+      false,
+      isObjectWithSome(['messages', 'sfx']),
+      isObjectWithSomeFailure(['messages', 'sfx']),
+    ],
+    [`triggers.${triggerType}.messages`, false, isArrayOf(isString)],
+    [
+      `triggers.${triggerType}.sfx`,
+      false,
+      isObjectWith(['name', 'maxChance']),
+      isObjectWithFailure(['name', 'maxChance']),
+    ],
+    [`triggers.${triggerType}.sfx.name`, false, isString],
+    [`triggers.${triggerType}.sfx.maxChance`, false, isNumber],
+  ])
+  .flat() as SchemaProperty[];
 
 export const npcSchema: Schema = [
   ['npcId', true, isString],
-  ['sprite', true, isArray],
+  ['sprite', true, isArrayOf(isInteger)],
   ['cr', true, isInteger],
   ['hp', true, isRandomNumber],
   ['mp', false, isRandomNumber],
@@ -17,22 +56,35 @@ export const npcSchema: Schema = [
   ['gold', true, isRandomNumber],
   ['skillOnKill', true, isInteger],
 
-  ['name', false, isArray],
+  ['name', false, isArrayOf(isString)],
   ['alignment', false, isString],
   ['affiliation', false, isString],
   ['allegiance', false, isString],
-  ['allegianceReputation', false, isObject],
+  [
+    'allegianceReputation',
+    false,
+    isPartialReputationObject,
+    isPartialReputationObjectFailure,
+  ],
   ['aquaticOnly', false, isBoolean],
   ['avoidWater', false, isBoolean],
   ['baseClass', false, isString],
-  ['baseEffects', false, isArray],
-  ['copyDrops', false, isRollable],
+  ['baseEffects', false, isArrayOf(isNPCEffect)],
+  ['copyDrops', false, isArrayOf(isRollable)],
   ['dropPool', false, isDropPool],
-  ['drops', false, isRollable],
+  ['drops', false, isArrayOf(isRollable)],
   ['forceAI', false, isString],
-  ['items', false, isObject],
-  ['items.equipment', false, isObject],
-  ['items.sack', false, isOptionalRollable],
+  ['items', false, isObjectWith(['equipment', 'sack', 'belt'])],
+  [
+    'items.equipment',
+    false,
+    isPartialEquipmentObject,
+    isPartialEquipmentObjectFailure,
+  ],
+  ...equipmentValidators,
+
+  ['items.sack', false, isArrayOf(isRollable)],
+  ['items.belt', false, isArrayOf(isRollable)],
 
   ['level', true, isInteger],
   ['hpMult', false, isInteger],
@@ -42,18 +94,35 @@ export const npcSchema: Schema = [
   ['hostility', false, isString],
   ['noCorpseDrop', false, isBoolean],
   ['noItemDrop', false, isBoolean],
-  ['repMod', false, isArray],
+  ['repMod', false, isArrayOf(isRepMod)],
 
-  ['stats', true, isObject],
-  ['skills', true, isObject],
+  ['stats', true, isPartialStatObject, isPartialStatObjectFailure],
+  ['skills', true, isPartialSkillObject, isPartialSkillObjectFailure],
 
-  ['summonStatModifiers', false, isObject],
-  ['summonSkillModifiers', false, isObject],
+  [
+    'summonStatModifiers',
+    false,
+    isPartialStatObject,
+    isPartialStatObjectFailure,
+  ],
+  [
+    'summonSkillModifiers',
+    false,
+    isPartialSkillObject,
+    isPartialSkillObjectFailure,
+  ],
 
   ['tanSkillRequired', false, isInteger],
   ['tansFor', false, isString],
-  ['traitLevels', false, isObject],
-  ['triggers', false, isObject],
+  ['traitLevels', false, isTraitObject],
+  [
+    'triggers',
+    false,
+    isObjectWithSome(['leash', 'spawn', 'combat']),
+    isObjectWithSomeFailure(['leash', 'spawn', 'combat']),
+  ],
 
-  ['usableSkills', false, isArray],
+  ...triggerValidators,
+
+  ['usableSkills', false, isArrayOf(isRollable)],
 ];

@@ -55,6 +55,7 @@ export class ItemsEditorComponent
       | 'succorInfo'
       | 'containedItems'
       | 'recipe'
+      | 'bookPages'
     >
   > = {
     tier: 'number',
@@ -68,7 +69,7 @@ export class ItemsEditorComponent
     canShoot: 'boolean',
     ounces: 'number',
     bookPage: 'number',
-    bookPages: 'number',
+    bookPages: 'bookPages',
     bookFindablePages: 'number',
     bookItemFilter: 'string',
     trapUses: 'number',

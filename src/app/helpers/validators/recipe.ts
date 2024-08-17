@@ -38,6 +38,13 @@ export function checkRecipes(mod: IModKit): ValidationMessageGroup {
         message: `Recipe ${recipe.name} (${recipe.category}) has copySkillToPotency set, but no potency scalar.`,
       });
     }
+
+    if (!recipe.ingredients?.length && !recipe.ozIngredients?.length) {
+      itemValidations.messages.push({
+        type: 'error',
+        message: `Recipe ${recipe.name} (${recipe.category}) has no ingredients or ozIngredients.`,
+      });
+    }
   });
 
   return itemValidations;

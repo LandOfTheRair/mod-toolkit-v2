@@ -1,5 +1,6 @@
-import { isArray, isBoolean, isNumber, isString } from 'lodash';
+import { isBoolean, isNumber, isString } from 'lodash';
 import { Schema } from '../../../interfaces';
+import { isArrayOf, isArrayOfAtMostLength, isOzIngredient } from './_helpers';
 
 export const recipeSchema: Schema = [
   ['category', true, isString],
@@ -12,10 +13,22 @@ export const recipeSchema: Schema = [
   ['skillGained', false, isNumber],
   ['xpGained', false, isNumber],
   ['copySkillToPotency', false, isBoolean],
-  ['ingredients', false, isArray],
-  ['ozIngredients', false, isArray],
+  ['ingredients', false, isArrayOf(isString)],
+  [
+    'ingredients',
+    false,
+    isArrayOfAtMostLength(8),
+    () => 'ingredients must not have more than 8 elements',
+  ],
+  ['ozIngredients', false, isArrayOf(isOzIngredient)],
+  [
+    'ozIngredients',
+    false,
+    isArrayOfAtMostLength(2),
+    () => 'ozIngredients must not have more than 2 elements',
+  ],
   ['potencyScalar', false, isNumber],
-  ['requireClass', false, isArray],
+  ['requireClass', false, isArrayOf(isString)],
   ['requireLearn', false, isBoolean],
   ['requireSpell', false, isString],
   ['transferOwnerFrom', false, isString],

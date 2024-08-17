@@ -1,10 +1,16 @@
-import { isArray, isBoolean, isInteger, isObject, isString } from 'lodash';
+import { isBoolean, isInteger, isString } from 'lodash';
 import { Schema } from '../../../interfaces';
 import {
+  isArrayOf,
+  isBookPage,
   isCosmetic,
   isEffect,
   isEncrust,
   isIntegerBetween,
+  isPartialStatObject,
+  isPartialStatObjectFailure,
+  isRandomStatObject,
+  isRandomTraitObject,
   isRequirement,
   isRollable,
   isSuccor,
@@ -27,7 +33,7 @@ export const itemSchema: Schema = [
   ['isSackable', false, isBoolean],
   ['isHeavy', false, isBoolean],
   ['secondaryType', false, isString],
-  ['stats', false, isObject],
+  ['stats', false, isPartialStatObject, isPartialStatObjectFailure],
   ['maxUpgrades', false, isInteger],
   ['canUpgradeWith', false, isBoolean],
   ['recipe', false, isString],
@@ -68,13 +74,12 @@ export const itemSchema: Schema = [
   ['trapEffect.potency', false, isInteger],
   ['trapEffect.duration', false, isInteger],
   ['trapEffect.uses', false, isInteger],
+  ['trapEffect.isPositive', false, isBoolean],
   ['trapEffect.range', false, isIntegerBetween(0, 5)],
 
   ['breakEffect', false, isEffect],
   ['breakEffect.name', false, isString],
   ['breakEffect.potency', false, isInteger],
-
-  ['effect.extra', false, isObject],
 
   ['encrustGive', false, isEncrust],
 
@@ -92,7 +97,7 @@ export const itemSchema: Schema = [
 
   ['trapUses', false, isInteger],
 
-  ['containedItems', false, isRollable],
+  ['containedItems', false, isArrayOf(isRollable)],
 
   ['succorInfo', false, isSuccor],
   ['succorInfo.map', false, isString],
@@ -107,7 +112,7 @@ export const itemSchema: Schema = [
   ['bookItemFilter', false, isString],
   ['bookPage', false, isInteger],
   ['bookCurrentPage', false, isInteger],
-  ['bookPages', false, isArray],
+  ['bookPages', false, isArrayOf(isBookPage)],
 
   ['ounces', false, isInteger],
   ['notUsableAfterHours', false, isInteger],
@@ -115,6 +120,6 @@ export const itemSchema: Schema = [
   ['quality', false, isInteger],
   ['sellValue', false, isInteger],
 
-  ['randomStats', false, isObject],
-  ['randomTrait', false, isObject],
+  ['randomStats', false, isRandomStatObject],
+  ['randomTrait', false, isRandomTraitObject],
 ];

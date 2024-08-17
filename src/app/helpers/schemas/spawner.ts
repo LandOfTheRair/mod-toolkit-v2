@@ -1,12 +1,12 @@
-import { isArray, isBoolean, isNumber, isString } from 'lodash';
+import { isBoolean, isNumber, isString } from 'lodash';
 import { Schema } from '../../../interfaces';
-import { isRollable } from './_helpers';
+import { isArrayOf, isRollable } from './_helpers';
 
 export const spawnerSchema: Schema = [
-  ['npcIds', true, isRollable],
+  ['npcIds', true, isArrayOf(isRollable)],
   ['tag', true, isString],
 
-  ['paths', false, isArray],
+  ['paths', false, isArrayOf(isString)],
   ['respawnRate', false, isNumber],
   ['initialSpawn', false, isNumber],
   ['maxCreatures', false, isNumber],
@@ -30,7 +30,7 @@ export const spawnerSchema: Schema = [
   ['doInitialSpawnImmediately', false, isBoolean],
   ['attributeAddChance', false, isNumber],
   ['eliteTickCap', false, isNumber],
-  ['npcAISettings', false, isArray],
+  ['npcAISettings', false, isArrayOf(isString)],
 
   ['respectKnowledge', false, isBoolean],
   ['isDangerous', false, isBoolean],

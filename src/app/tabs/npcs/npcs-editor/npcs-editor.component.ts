@@ -138,6 +138,32 @@ export class NpcsEditorComponent
       delta: reps.find((r) => r.allegiance === allegiance)?.delta ?? 0,
     }));
 
+    if (!npc.triggers) (npc as any).triggers = {};
+
+    ['leash', 'spawn', 'combat'].forEach((type) => {
+      const triggerType = type as keyof INPCDefinition['triggers'];
+
+      npc.triggers[triggerType] ??= {
+        messages: [''],
+        sfx: {
+          name: undefined as unknown as string,
+          maxChance: 0,
+        },
+      };
+
+      npc.triggers[triggerType].messages ??= [''];
+
+      npc.triggers[triggerType].sfx ??= {
+        name: undefined as unknown as string,
+        maxChance: 0,
+      };
+
+      if (type === 'combat') {
+        npc.triggers[triggerType].messages =
+          npc.triggers[triggerType].messages.filter(Boolean);
+      }
+    });
+
     this.editing.set(npc);
 
     super.ngOnInit();
@@ -265,6 +291,7 @@ export class NpcsEditorComponent
       extra: {
         potency: 1,
         damageType: undefined,
+        enrageTimer: undefined,
       },
     });
     this.editing.set(npc);
@@ -424,9 +451,33 @@ export class NpcsEditorComponent
     npc.copyDrops = npc.copyDrops.filter((d) => d.result);
     npc.dropPool.items = npc.dropPool.items.filter((d) => d.result);
 
-    npc.triggers.combat.messages = npc.triggers.combat.messages.filter(Boolean);
-
     npc.repMod = npc.repMod.filter((r) => r.delta);
+
+    ['leash', 'spawn', 'combat'].forEach((type) => {
+      const triggerType = type as keyof INPCDefinition['triggers'];
+
+      npc.triggers[triggerType].messages =
+        npc.triggers[triggerType].messages.filter(Boolean);
+
+      if (!npc.triggers[triggerType].sfx.name) {
+        delete (npc.triggers[triggerType] as any).sfx;
+      }
+
+      if (!npc.triggers[triggerType].messages.length) {
+        delete (npc.triggers[triggerType] as any).messages;
+      }
+
+      if (
+        !npc.triggers[triggerType].messages &&
+        !npc.triggers[triggerType].sfx
+      ) {
+        delete (npc.triggers as any)[triggerType];
+      }
+    });
+
+    if (Object.keys(npc.triggers ?? {}).length === 0) {
+      delete (npc as any).triggers;
+    }
 
     this.editing.set(npc);
 

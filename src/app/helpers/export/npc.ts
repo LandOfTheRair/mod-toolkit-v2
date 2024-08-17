@@ -188,9 +188,11 @@ export function formatNPCs(npcs: INPCDefinition[]): INPCDefinition[] {
       delete npc.items.equipment[slot];
     });
 
-    npc.triggers.leash.messages = npc.triggers.leash.messages.filter(Boolean);
-    npc.triggers.spawn.messages = npc.triggers.spawn.messages.filter(Boolean);
-    npc.triggers.leash.messages = npc.triggers.leash.messages.filter(Boolean);
+    ['leash', 'spawn', 'combat'].forEach((triggerType) => {
+      if (!npc.triggers?.[triggerType]?.messages) return;
+      npc.triggers[triggerType].messages =
+        npc.triggers[triggerType].messages.filter(Boolean);
+    });
 
     return fillInNPCProperties(npc as INPCDefinition);
   });

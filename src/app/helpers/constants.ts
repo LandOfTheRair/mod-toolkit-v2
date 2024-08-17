@@ -256,13 +256,20 @@ export const typePropSets: Record<string, string[]> = {
 
 export const typePropDefaults: Record<
   string,
-  Record<string, number | string | boolean | Partial<StatBlock>>
+  Record<
+    string,
+    | number
+    | string
+    | boolean
+    | Partial<StatBlock>
+    | Array<{ id: string; text: string }>
+  >
 > = {
   Arrow: { shots: 1000, tier: 1, damageClass: 'physical' },
   Bottle: { ounces: 1 },
   Food: { ounces: 1 },
   Gem: {},
-  Book: { bookPages: 1, bookItemFilter: '', bookFindablePages: '' },
+  Book: { bookPages: [], bookItemFilter: '', bookFindablePages: '' },
   Trap: { trapUses: 1 },
   Twig: { type: 'Staff' },
 };
