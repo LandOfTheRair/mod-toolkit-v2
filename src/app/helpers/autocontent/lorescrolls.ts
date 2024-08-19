@@ -81,8 +81,8 @@ export function cleanOldLoreScrolls(mod: IModKit): void {
   mod.items = mod.items.filter((item) => !item.name.includes(LORE_PREFIX));
 
   mod.drops.forEach((droptable) => {
-    droptable.drops = droptable.drops.filter((item) =>
-      item.result.includes(LORE_PREFIX)
+    droptable.drops = droptable.drops.filter(
+      (item) => !item.result.includes(LORE_PREFIX)
     );
   });
 }

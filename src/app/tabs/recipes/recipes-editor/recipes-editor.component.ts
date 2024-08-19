@@ -22,7 +22,7 @@ export class RecipesEditorComponent
   public ingredients = Array(8)
     .fill(undefined)
     .map(() => signal<IItemDefinition | undefined>(undefined));
-  public ozIngredients = Array(2)
+  public ozIngredients = Array(4)
     .fill(undefined)
     .map(() => signal<IItemDefinition | undefined>(undefined));
 
@@ -59,6 +59,8 @@ export class RecipesEditorComponent
   private extractProps(item: IRecipe) {
     this.requiredClass.set(item.requireClass?.[0]);
     this.currentItem.set(this.modService.findItemByName(item.item));
+
+    item.ingredients ??= [];
 
     item.ozIngredients ??= [];
     item.ozIngredients[0] ??= { filter: '', display: '', ounces: 0 };
