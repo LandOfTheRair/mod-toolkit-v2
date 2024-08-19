@@ -1,6 +1,7 @@
 <div class="relative">
   <ng-select class="form-control" [items]="values()" bindValue="data" groupBy="category" [(ngModel)]="item"
-    placeholder="Select item..." (change)="change.emit($event?.value)" [compareWith]="itemCompare" [searchFn]="search">
+    [virtualScroll]="true" placeholder="Select item..." (change)="change.emit($event?.value)"
+    [compareWith]="itemCompare" [searchFn]="search">
 
     <ng-template ng-label-tmp let-item="item">
       <div class="relative">

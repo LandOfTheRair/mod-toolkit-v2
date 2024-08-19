@@ -7,6 +7,10 @@
   color: #000;
 }
 
+.ng-dropdown-panel {
+  min-width: 400px !important;
+}
+
 .ng-select {
   &.ng-select-multiple {
     .ng-value {
@@ -90,6 +94,10 @@ ag-grid-angular {
   &.split {
     @apply flex;
     @apply gap-2;
+
+    .form-column {
+      @apply min-w-[50px];
+    }
 
     .form-row {
       @apply m-0;

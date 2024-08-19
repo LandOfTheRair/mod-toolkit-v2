@@ -4,7 +4,7 @@
 
   <div class="relative flex">
     <app-input-floating-label>Sprite</app-input-floating-label>
-    <input class="flex-1" [(ngModel)]="sprite" min="0" [step]="step()" type="number" placeholder="Choose sprite..."
+    <input class="flex-1" [(ngModel)]="sprite" min="-1" [step]="step()" type="number" placeholder="Choose sprite..."
       class="input input-sm input-bordered w-full max-w-xs" />
 
     <button class="ml-1 btn btn-secondary btn-sm" (click)="changeIcon()">

@@ -12,7 +12,9 @@ import {
   AllegianceType,
   IItemDefinition,
   INPCDefinition,
+  ItemSlot,
   ItemSlotType,
+  Rollable,
   SkillType,
   StatType,
 } from '../../../../interfaces';
@@ -164,6 +166,27 @@ export class NpcsEditorComponent
         npc.triggers[triggerType].messages =
           npc.triggers[triggerType].messages.filter(Boolean);
       }
+    });
+
+    npc.items ??= {
+      belt: [],
+      sack: [],
+      equipment: Object.values(ItemSlot).reduce(
+        (prev, cur) => ({ ...prev, [cur]: [] }),
+        {}
+      ) as Record<ItemSlot, Rollable[]>,
+    };
+
+    npc.dropPool ??= {
+      choose: { min: 0, max: 0 },
+      items: [],
+      replace: false,
+    };
+
+    npc.baseEffects?.forEach((eff) => (eff.extra ??= { potency: 0 }));
+
+    this.coreProps.forEach((prop) => {
+      (npc as any)[prop.prop] ??= { min: 0, max: 0 };
     });
 
     this.editing.set(npc);

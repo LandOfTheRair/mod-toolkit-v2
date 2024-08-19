@@ -1,13 +1,15 @@
-@if(!isEditing()) {
+@let editing = isEditing();
+
 @if(!canEdit()) {
 <div class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl">
   Add an item and an NPC first.
 </div>
 } @else {
-<app-editor-view-table [dataType]="'quests'" [tableColumns]="tableColumns" [tableItems]="tableItems()"
-  (create)="createNew()"></app-editor-view-table>
+<app-editor-view-table [class.hidden]="editing" [dataType]="'quests'" [tableColumns]="tableColumns"
+  [tableItems]="tableItems()" (create)="createNew()"></app-editor-view-table>
 }
-} @else {
+
+@if(editing) {
 <app-quests-editor class="h-full w-full" [editing]="editingData()" (goBack)="cancelEditing()"
   (save)="saveNewData($event)"></app-quests-editor>
 }

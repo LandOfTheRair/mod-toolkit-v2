@@ -31,6 +31,8 @@ export type AlignmentType = `${Alignment}`;
 
 export enum DamageClass {
   Physical = 'physical',
+  Magical = 'magical',
+
   Necrotic = 'necrotic',
   Energy = 'energy',
   Disease = 'disease',

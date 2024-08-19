@@ -1,7 +1,9 @@
-@if(!isEditing()) {
-<app-editor-view-table [dataType]="'NPCs'" [tableColumns]="tableColumns" [tableItems]="tableItems()"
-  (create)="createNew()"></app-editor-view-table>
-} @else {
+@let editing = isEditing();
+
+<app-editor-view-table [class.hidden]="editing" [dataType]="'NPCs'" [tableColumns]="tableColumns"
+  [tableItems]="tableItems()" (create)="createNew()"></app-editor-view-table>
+
+@if(editing) {
 <app-npcs-editor class="h-full w-full" [editing]="editingData()" (goBack)="cancelEditing()"
   (save)="saveNewData($event)"></app-npcs-editor>
 }

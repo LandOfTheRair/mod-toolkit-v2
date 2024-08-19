@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
+import { isArray } from 'lodash';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
@@ -25,7 +26,11 @@ export class CellSpriteComponent implements ICellRendererAngularComp {
       );
     }
 
-    return this.params.data.sprite as number;
+    return (
+      isArray(this.params.data.sprite)
+        ? this.params.data.sprite[0]
+        : this.params.data.sprite
+    ) as number;
   });
 
   public params!: any;

@@ -169,9 +169,9 @@ export function isNPCEffect(val: any): boolean {
     isString(val.name) &&
     isObjectWithSome(['potency', 'damageType', 'enrageTimer'])(val.extra) &&
     val.extra
-    ? isNumber(val.extra?.potency) &&
-        isDamageType(val.extra?.damageType) &&
-        isNumber(val.extra?.enrageTimer)
+    ? (val.extra?.potency ? isNumber(val.extra?.potency) : true) &&
+        (val.extra?.damageType ? isDamageType(val.extra?.damageType) : true) &&
+        (val.extra?.enrageTimer ? isNumber(val.extra?.enrageTimer) : true)
     : true;
 }
 
