@@ -35,6 +35,7 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
       field: 'name',
       flex: 1,
       cellDataType: 'text',
+      cellClass: 'leading-4 whitespace-break-spaces',
       filter: 'agTextColumnFilter',
       sort: 'asc',
     },

@@ -122,6 +122,7 @@ export const itemSchema: Schema = [
   ['trait', false, isTrait],
   ['trait.name', false, isString],
   ['trait.level', false, isInteger],
+  ['trait.restrict', false, isArrayOf(isString)],
 
   ['bookFindablePages', false, isInteger],
   ['bookItemFilter', false, isString],

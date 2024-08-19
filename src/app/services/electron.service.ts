@@ -102,6 +102,17 @@ export class ElectronService {
       }
     );
 
+    [
+      'effect-data',
+      'holidaydescs',
+      'spells',
+      'traits',
+      'challenge',
+      'trait-trees',
+    ].forEach((neededJSON) => {
+      this.requestJSON(neededJSON);
+    });
+
     this.send('READY_CHECK');
   }
 

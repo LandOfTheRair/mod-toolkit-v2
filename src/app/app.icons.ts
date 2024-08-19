@@ -7,6 +7,7 @@ import {
   heroDocumentText,
   heroFaceFrown,
   heroFaceSmile,
+  heroInformationCircle,
   heroMinus,
   heroPencil,
   heroPlus,
@@ -26,4 +27,5 @@ export const appIcons = {
   heroFaceSmile,
   heroArrowPathRoundedSquare,
   heroArrowTopRightOnSquare,
+  heroInformationCircle,
 };

@@ -73,6 +73,7 @@ export async function updateResources(sendToUI: SendToUI) {
       'spawners',
       'spells',
       'traits',
+      'trait-trees',
     ];
 
     for await (let json of jsons) {
