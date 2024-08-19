@@ -478,8 +478,11 @@ export class ModService {
       message: `Created and updated ${loreItems.length} lore scrolls.`,
     });
 
-    console.log(this.json()['trait-trees']);
-    const runeItems = generateTraitScrolls(mod, this.json()['trait-trees']);
+    const runeItems = generateTraitScrolls(
+      mod,
+      this.json()['traits'],
+      this.json()['trait-trees']
+    );
     cleanOldTraitScrolls(mod);
     applyTraitScrolls(mod, runeItems);
 

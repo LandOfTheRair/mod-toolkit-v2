@@ -15,16 +15,26 @@ const romans: Record<number, string> = {
   5: 'V',
 };
 
-const TRAIT_PREFIX = `Rune Scroll - `;
+const TRAIT_PREFIX = `Rune Scroll -`;
 
 export function generateTraitScrolls(
   mod: IModKit,
+  allTraits: any = {},
   allTraitTrees: any = {}
 ): IItemDefinition[] {
   const scrollToClass: Record<string, string[]> = {};
   const allRuneScrolls = new Set<string>();
 
   const returnedRuneScrolls: IItemDefinition[] = [];
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  Object.keys(allTraits).forEach((traitName) => {
+    const traitData = allTraits[traitName];
+
+    if (traitData.spellGiven) return;
+
+    allRuneScrolls.add(traitName);
+  });
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   Object.keys(allTraitTrees).forEach((classTree) => {
@@ -38,7 +48,11 @@ export function generateTraitScrolls(
 
       tree.forEach(({ traits }: any) => {
         traits.forEach(({ name, maxLevel }: any) => {
-          if (!name || maxLevel <= 1) return;
+          if (!name) return;
+          if (maxLevel <= 1) {
+            allRuneScrolls.delete(name as string);
+            return;
+          }
 
           scrollToClass[name] ??= [];
 
