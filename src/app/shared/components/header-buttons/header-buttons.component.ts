@@ -25,4 +25,8 @@ export class HeaderButtonsComponent implements IHeaderAngularComp {
     this.params = params;
     return true;
   }
+
+  resetTableFilters() {
+    this.params.api.setFilterModel(null);
+  }
 }

@@ -1,5 +1,6 @@
 <app-editor-view-table [dataType]="'maps'" [tableColumns]="tableColumns" [tableItems]="tableItems()" [showImport]="true"
-  (create)="createNewDialog()" (import)="importDialog()"></app-editor-view-table>
+  (create)="createNewDialog()" (import)="importDialog()" (filterChanged)="filterChanged($event)"
+  [defaultFilterState]="tableFilterState()"></app-editor-view-table>
 
 <input #mapUpload type="file" multiple (change)="importMaps($event)" accept="application/json" class="hidden" />
 

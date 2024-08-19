@@ -14,6 +14,7 @@
 } @else {
 <div>
   <ag-grid-angular class="ag-theme-quartz-dark -m-6" [rowHeight]="70" [rowData]="allData" [columnDefs]="tableColumns()"
-    [pagination]="true" [paginationPageSize]="20"></ag-grid-angular>
+    [pagination]="true" [paginationPageSize]="20" (filterChanged)="filterChanged.emit($event)"
+    (gridReady)="onInitialize($event)"></ag-grid-angular>
 </div>
 }

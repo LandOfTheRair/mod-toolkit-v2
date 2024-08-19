@@ -6,7 +6,8 @@
 </div>
 } @else {
 <app-editor-view-table [class.hidden]="editing" [dataType]="'quests'" [tableColumns]="tableColumns"
-  [tableItems]="tableItems()" (create)="createNew()"></app-editor-view-table>
+  [tableItems]="tableItems()" (create)="createNew()" (filterChanged)="filterChanged($event)"
+  [defaultFilterState]="tableFilterState()"></app-editor-view-table>
 }
 
 @if(editing) {

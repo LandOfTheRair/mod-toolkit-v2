@@ -1,5 +1,10 @@
 import { Component, input, output } from '@angular/core';
-import { ColDef } from 'ag-grid-community';
+import {
+  ColDef,
+  FilterChangedEvent,
+  FilterModel,
+  GridReadyEvent,
+} from 'ag-grid-community';
 
 @Component({
   selector: 'app-editor-view-table',
@@ -11,7 +16,13 @@ export class EditorViewTableComponent {
   public dataType = input<string>('');
   public tableColumns = input<ColDef[]>([]);
   public showImport = input<boolean>(false);
+  public defaultFilterState = input<FilterModel | undefined>();
 
   public create = output<void>();
   public import = output<void>();
+  public filterChanged = output<FilterChangedEvent>();
+
+  onInitialize($event: GridReadyEvent) {
+    $event.api.setFilterModel(this.defaultFilterState() ?? {});
+  }
 }

@@ -1,4 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { FilterChangedEvent, FilterModel } from 'ag-grid-community';
+import { LocalStorageService } from 'ngx-webstorage';
 import { HasIdentification, IModKit } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
@@ -7,16 +9,30 @@ import { ModService } from '../../../services/mod.service';
   templateUrl: './editor-base-table.component.html',
   styleUrl: './editor-base-table.component.scss',
 })
-export class EditorBaseTableComponent<T extends HasIdentification> {
+export class EditorBaseTableComponent<T extends HasIdentification>
+  implements OnInit
+{
+  private localStorage = inject(LocalStorageService);
   protected modService = inject(ModService);
 
   protected dataKey!: keyof Omit<IModKit, 'meta'>;
 
   protected defaultData = () => ({} as T);
 
+  protected tableFilterState = signal<FilterModel | undefined>(undefined);
+
   public isEditing = signal<boolean>(false);
   public oldData = signal<T | undefined>(undefined);
   public editingData = signal<T>(this.defaultData());
+
+  ngOnInit(): void {
+    const state = this.localStorage.retrieve(
+      `${this.dataKey}-tablefilters`
+    ) as FilterModel;
+    if (state) {
+      this.tableFilterState.set(state);
+    }
+  }
 
   public createNew() {
     this.isEditing.set(true);
@@ -61,4 +77,13 @@ export class EditorBaseTableComponent<T extends HasIdentification> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected dataEdited(oldItem: T, newItem: T) {}
+
+  public filterChanged($event: FilterChangedEvent) {
+    this.tableFilterState.set($event.api.getFilterModel());
+
+    this.localStorage.store(
+      `${this.dataKey}-tablefilters`,
+      this.tableFilterState()
+    );
+  }
 }
