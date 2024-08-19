@@ -21,7 +21,10 @@ export function checkSpawners(mod: IModKit): ValidationMessageGroup {
       });
     }
 
-    if (!spawner.npcAISettings?.includes('default')) {
+    if (
+      spawner.npcAISettings?.length > 0 &&
+      !spawner.npcAISettings?.includes('default')
+    ) {
       itemValidations.messages.push({
         type: 'warning',
         message: `Spawner ${spawner.tag} does not have the default AI setting.`,

@@ -50,6 +50,10 @@ export function validationMessagesForMod(
   ];
 
   validationContainer.forEach((v) => {
+    v.messages = sortBy(v.messages, 'message');
+  });
+
+  validationContainer.forEach((v) => {
     if (v.messages.length !== 0) return;
 
     v.messages.push({
