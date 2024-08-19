@@ -1,20 +1,8 @@
 import { IModKit } from '../../interfaces';
 import { formatItems, formatNPCs, formatSpawners } from './export';
 
-function stripIds(modData: IModKit) {
-  Object.keys(modData).forEach((modKey) => {
-    const key = modKey as keyof IModKit;
-
-    if (key === 'meta') return;
-
-    modData[key].forEach((ident: any) => delete ident._id);
-  });
-}
-
 export function formatMod(modData: IModKit): IModKit {
   const backup = structuredClone(modData);
-
-  stripIds(modData);
 
   const exported: IModKit = {
     meta: {
