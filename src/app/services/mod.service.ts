@@ -104,7 +104,8 @@ export class ModService {
       map.properties ??= {};
       map.propertytypes ??= {};
 
-      map.properties.creator = mod.meta.author || 'Unknown';
+      map.properties.creator =
+        map.properties.creator || mod.meta.author || 'Unknown';
       map.propertytypes.creator = 'string';
     });
   }
@@ -200,10 +201,12 @@ export class ModService {
 
     const existingMap = mod.maps.findIndex((x) => x.name === incomingMap.name);
     if (existingMap !== -1) {
-      mod.maps.splice(existingMap, 1, incomingMap);
+      mod.maps[existingMap] = incomingMap;
     } else {
       mod.maps.push(incomingMap);
     }
+
+    console.log(incomingMap);
 
     this.updateMod(mod);
   }

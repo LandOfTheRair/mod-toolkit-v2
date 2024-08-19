@@ -30,6 +30,10 @@ export function watchMaps(sendToUI: SendToUI) {
   };
 
   watcher.on('change', (filePath: string) => {
+    console.log(
+      `[Map Update]`,
+      `${filePath} has changed. Sending update to client...`
+    );
     const map = path.basename(filePath, '.json');
     updateMap(map);
   });

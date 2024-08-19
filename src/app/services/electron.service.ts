@@ -61,6 +61,7 @@ export class ElectronService {
     });
 
     window.api.receive('newmap', (mapData: IEditorMap) => {
+      console.log('pre', mapData);
       this.modService.addMap(mapData);
     });
 
