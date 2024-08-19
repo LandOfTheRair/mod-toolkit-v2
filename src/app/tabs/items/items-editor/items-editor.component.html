@@ -286,7 +286,7 @@
       </div>
     </div>
 
-    @for(item of editingData.containedItems; track $index) {
+    @for(item of sortContainedItems(editingData.containedItems || []); track $index) {
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row pl-1">
@@ -417,7 +417,7 @@
         </div>
       </div>
 
-      @for(traitName of editingData.randomTrait.name; track $index) {
+      @for(traitName of sortRandomTraits(editingData.randomTrait.name); track $index) {
       <div class="form-row split">
         <div class="form-column">
           <div class="form-row">

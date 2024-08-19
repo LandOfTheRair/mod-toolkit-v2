@@ -1,5 +1,6 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
-import { INPCDefinition, ISpawnerData } from '../../../../interfaces';
+import { sortBy } from 'lodash';
+import { INPCDefinition, ISpawnerData, Rollable } from '../../../../interfaces';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
@@ -31,7 +32,8 @@ export class SpawnersEditorComponent
   ngOnInit(): void {
     const spawner = this.editing();
 
-    spawner._paths = spawner.paths.join('\n');
+    spawner.npcAISettings ??= [];
+    spawner._paths = spawner.paths?.join('\n') ?? '';
 
     this.editing.set(spawner);
 
@@ -73,6 +75,10 @@ export class SpawnersEditorComponent
     spawner.attributeAddChance = 30;
 
     this.editing.set(spawner);
+  }
+
+  public sortNPCIds(npcIds: Rollable[]): Rollable[] {
+    return sortBy(npcIds, 'result');
   }
 
   public doSave() {

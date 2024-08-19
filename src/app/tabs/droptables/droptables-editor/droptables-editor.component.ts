@@ -1,5 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
-import { Holiday, IDroptable, IItemDefinition } from '../../../../interfaces';
+import { sortBy } from 'lodash';
+import {
+  Holiday,
+  IDroptable,
+  IItemDefinition,
+  Rollable,
+} from '../../../../interfaces';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
@@ -47,5 +53,9 @@ export class DroptablesEditorComponent extends EditorBaseComponent<IDroptable> {
   public hasItem(item: IItemDefinition | undefined) {
     if (!item) return false;
     return this.editing().drops.some((d) => d.result === item.name);
+  }
+
+  public sortDrops(drops: Rollable[]): Rollable[] {
+    return sortBy(drops, 'result');
   }
 }

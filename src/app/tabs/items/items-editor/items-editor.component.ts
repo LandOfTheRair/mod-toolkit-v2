@@ -3,6 +3,7 @@ import { isNumber, sortBy } from 'lodash';
 import {
   IItemDefinition,
   ItemClassType,
+  Rollable,
   StatBlock,
   StatType,
 } from '../../../../interfaces';
@@ -364,7 +365,7 @@ export class ItemsEditorComponent
   private extractStats(item: IItemDefinition) {
     this.extractSetStats(item.stats);
 
-    Object.keys(item.randomStats).forEach((statKey) => {
+    Object.keys(item.randomStats ?? {}).forEach((statKey) => {
       const stat = statKey as StatType;
       const value = item.randomStats?.[stat] ?? { min: 0, max: 0 };
       this.allStatEdits.update((s) => [
@@ -380,6 +381,8 @@ export class ItemsEditorComponent
     if (item.randomTrait.name.length > 0) {
       this.currentTraitTab.set('random');
     }
+
+    console.log(item, item.randomTrait, item.trait);
   }
 
   private extractSetStats(stats: StatBlock) {
@@ -567,6 +570,14 @@ export class ItemsEditorComponent
     item.bookPages?.splice(index, 1);
 
     this.editing.set(item);
+  }
+
+  public sortContainedItems(items: Rollable[]): Rollable[] {
+    return sortBy(items, 'result');
+  }
+
+  public sortRandomTraits(items: string[]): string[] {
+    return sortBy(items);
   }
 
   public doSave() {
