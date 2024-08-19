@@ -57,6 +57,18 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
       filter: 'agTextColumnFilter',
     },
     {
+      field: 'requirements.level',
+      flex: 1,
+      cellDataType: 'number',
+      filter: 'agNumberColumnFilter',
+    },
+    {
+      field: 'requirements.baseClass',
+      flex: 1,
+      cellDataType: 'text',
+      filter: 'agTextColumnFilter',
+    },
+    {
       field: '',
       width: 200,
       sortable: false,

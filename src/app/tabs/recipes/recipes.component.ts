@@ -62,6 +62,7 @@ export class RecipesComponent extends EditorBaseTableComponent<EditingType> {
       field: 'ingredients',
       flex: 1,
       cellDataType: 'text',
+      cellClass: 'leading-4 whitespace-break-spaces',
       sortable: false,
       filter: 'agTextColumnFilter',
       cellRenderer: (v: any) => {
