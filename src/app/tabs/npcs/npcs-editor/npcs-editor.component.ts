@@ -176,6 +176,12 @@ export class NpcsEditorComponent
       ) as Record<ItemSlot, Rollable[]>,
     };
 
+    npc.items.sack ??= [];
+    npc.items.equipment ??= Object.values(ItemSlot).reduce(
+      (prev, cur) => ({ ...prev, [cur]: [] }),
+      {}
+    ) as Record<ItemSlot, Rollable[]>;
+
     npc.dropPool ??= {
       choose: { min: 0, max: 0 },
       items: [],
@@ -465,7 +471,7 @@ export class NpcsEditorComponent
 
     (this.equipmentColumns.flat(Infinity) as ItemSlotType[]).forEach(
       (slot: ItemSlotType) => {
-        npc.items.equipment[slot] = npc.items.equipment[slot].filter(
+        npc.items.equipment[slot] = npc.items.equipment[slot]?.filter(
           (f) => f.result
         );
       }

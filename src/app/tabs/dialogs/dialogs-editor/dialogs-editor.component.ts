@@ -95,6 +95,9 @@ export class DialogsEditorComponent
 
     npc.baseEffects ??= [];
 
+    npc.hp ??= { min: 1, max: 1 };
+    npc.mp ??= { min: 1, max: 1 };
+
     super.ngOnInit();
   }
 

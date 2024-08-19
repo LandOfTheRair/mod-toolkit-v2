@@ -59,6 +59,8 @@ export class EditorBaseComponent<T extends HasIdentification>
       editing._id = id();
     }
 
+    console.log(`[EDIT BEGIN]`, editing);
+
     this.editing.set(editing);
   }
 

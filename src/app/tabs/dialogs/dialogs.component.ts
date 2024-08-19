@@ -2,6 +2,7 @@ import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IModKit, INPCScript } from '../../../interfaces';
+import { id } from '../../helpers';
 import { defaultNPCScript } from '../../helpers/dialog';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -58,6 +59,13 @@ export class DialogsComponent extends EditorBaseTableComponent<EditingType> {
       cellRenderer: CellButtonsComponent,
       cellClass: 'no-adjust',
       cellRendererParams: {
+        showCopyButton: true,
+        copyCallback: (item: EditingType) => {
+          const newItem = structuredClone(item);
+          newItem.name = `${newItem.name} (copy)`;
+          newItem._id = id();
+          this.saveNewData(newItem);
+        },
         showEditButton: true,
         editCallback: (item: EditingType) => this.editExisting(item),
         showDeleteButton: true,

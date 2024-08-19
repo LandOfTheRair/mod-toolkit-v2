@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IModKit, ISpawnerData } from '../../../interfaces';
-import { defaultSpawner } from '../../helpers';
+import { defaultSpawner, id } from '../../helpers';
 import { ElectronService } from '../../services/electron.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -77,7 +77,13 @@ export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
       cellRenderer: CellButtonsComponent,
       cellClass: 'no-adjust',
       cellRendererParams: {
-        showCopyButton: false,
+        showCopyButton: true,
+        copyCallback: (item: EditingType) => {
+          const newItem = structuredClone(item);
+          newItem.tag = `${newItem.tag} (copy)`;
+          newItem._id = id();
+          this.saveNewData(newItem);
+        },
         showEditButton: true,
         editCallback: (item: EditingType) => this.editExisting(item),
         showDeleteButton: true,

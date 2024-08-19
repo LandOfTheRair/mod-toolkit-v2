@@ -2,7 +2,7 @@ import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IModKit, IRecipe } from '../../../interfaces';
-import { defaultRecipe } from '../../helpers';
+import { defaultRecipe, id } from '../../helpers';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -88,7 +88,13 @@ export class RecipesComponent extends EditorBaseTableComponent<EditingType> {
       cellRenderer: CellButtonsComponent,
       cellClass: 'no-adjust',
       cellRendererParams: {
-        showCopyButton: false,
+        showCopyButton: true,
+        copyCallback: (item: EditingType) => {
+          const newItem = structuredClone(item);
+          newItem.name = `${newItem.name} (copy)`;
+          newItem._id = id();
+          this.saveNewData(newItem);
+        },
         showEditButton: true,
         editCallback: (item: EditingType) => this.editExisting(item),
         showDeleteButton: true,
