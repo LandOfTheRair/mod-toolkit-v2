@@ -7,6 +7,7 @@ import {
   OnInit,
   output,
 } from '@angular/core';
+import { sortBy } from 'lodash';
 import { INPCDefinition } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
@@ -29,11 +30,14 @@ export class InputNpcComponent implements OnInit {
     const mod = this.modService.mod();
 
     return [
-      ...mod.npcs.map((i) => ({
-        category: 'My Mod NPCs',
-        data: i,
-        value: i.npcId,
-      })),
+      ...sortBy(
+        mod.npcs.map((i) => ({
+          category: 'My Mod NPCs',
+          data: i,
+          value: i.npcId,
+        })),
+        'value'
+      ),
     ];
   });
 

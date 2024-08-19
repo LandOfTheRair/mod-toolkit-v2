@@ -7,6 +7,7 @@ import {
   OnInit,
   output,
 } from '@angular/core';
+import { sortBy } from 'lodash';
 import { IItemDefinition } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
@@ -33,11 +34,14 @@ export class InputItemComponent implements OnInit {
       this.allowNone()
         ? { category: 'Default', data: { name: 'none' }, value: 'none' }
         : undefined,
-      ...mod.items.map((i) => ({
-        category: 'My Mod Items',
-        data: i,
-        value: i.name,
-      })),
+      ...sortBy(
+        mod.items.map((i) => ({
+          category: 'My Mod Items',
+          data: i,
+          value: i.name,
+        })),
+        'value'
+      ),
     ]
       .flat()
       .filter(Boolean) as ItemModel[];
