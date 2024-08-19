@@ -69,6 +69,11 @@ ag-grid-angular {
   }
 }
 
+.ag-checkbox-input-wrapper.ag-checked.ag-disabled {
+  --ag-checkbox-unchecked-color: var(--ag-active-color);
+  opacity: 1;
+}
+
 .ngxp__inner {
   min-width: 250px;
   padding: 4px;
