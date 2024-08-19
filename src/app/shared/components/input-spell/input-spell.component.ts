@@ -27,10 +27,6 @@ export class InputSpellComponent {
     return Object.keys(spellObj ?? {}).sort();
   });
 
-  constructor() {
-    this.electronService.requestJSON('spells');
-  }
-
   public search(term: string, item: { value: string }) {
     return item.value.toLowerCase().includes(term.toLowerCase());
   }

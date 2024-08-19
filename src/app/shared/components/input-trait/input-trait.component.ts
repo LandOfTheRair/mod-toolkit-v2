@@ -30,8 +30,4 @@ export class InputTraitComponent {
       .sort()
       .map((t) => ({ value: t, desc: traitObj[t].desc ?? 'No description' }));
   });
-
-  constructor() {
-    this.electronService.requestJSON('traits');
-  }
 }

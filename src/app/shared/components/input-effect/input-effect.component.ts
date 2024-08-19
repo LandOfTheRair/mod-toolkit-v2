@@ -51,8 +51,6 @@ export class InputEffectComponent {
   });
 
   constructor() {
-    this.electronService.requestJSON('effect-data');
-
     effect(
       () => {
         this.modService.json();

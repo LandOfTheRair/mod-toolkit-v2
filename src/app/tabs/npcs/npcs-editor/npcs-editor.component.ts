@@ -120,7 +120,6 @@ export class NpcsEditorComponent
 
   constructor() {
     super();
-    this.electronService.requestJSON('challenge');
 
     effect(() => {
       const data = this.challengeData();
