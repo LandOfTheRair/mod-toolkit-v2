@@ -35,7 +35,7 @@ export class DroptablesEditorComponent extends EditorBaseComponent<IDroptable> {
           chance: 1,
           maxChance: 100,
           result: item.name,
-          noLuckBonus: true,
+          noLuckBonus: false,
           requireHoliday: undefined as unknown as Holiday,
         },
       ],
