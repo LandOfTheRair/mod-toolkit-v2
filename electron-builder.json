@@ -17,9 +17,10 @@
       "filter": ["**/*"]
     }
   ],
+  "artifactName": "LandOfTheRairModdingTools.${ext}",
   "win": {
     "icon": "dist/assets/icons",
-    "target": ["portable"]
+    "target": ["zip"]
   },
   "portable": {
     "splashImage": "dist/assets/icons/electron.bmp"
