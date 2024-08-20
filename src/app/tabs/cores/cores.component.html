@@ -1,0 +1,10 @@
+@let editing = isEditing();
+
+<app-editor-view-table [class.hidden]="editing" [dataType]="'core content items'" [tableColumns]="tableColumns"
+  [tableItems]="tableItems()" (create)="createNew()" (filterChanged)="filterChanged($event)"
+  [defaultFilterState]="tableFilterState()"></app-editor-view-table>
+
+@if(editing) {
+<app-cores-editor class="h-full w-full" [editing]="editingData()" (goBack)="cancelEditing()"
+  (save)="saveNewData($event)"></app-cores-editor>
+}

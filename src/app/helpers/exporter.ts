@@ -18,6 +18,7 @@ export function formatMod(modData: IModKit): IModKit {
     quests: modData.quests,
     recipes: modData.recipes,
     spawners: formatSpawners(modData.spawners),
+    cores: modData.cores,
   };
 
   return exported;

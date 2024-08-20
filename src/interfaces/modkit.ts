@@ -1,3 +1,4 @@
+import { ICoreContent } from './core';
 import { IDroptable } from './droptable';
 import { IItemDefinition } from './item';
 import { IEditorMap } from './map';
@@ -25,4 +26,5 @@ export interface IModKit {
   maps: IEditorMap[];
   quests: IQuest[];
   dialogs: INPCScript[];
+  cores: ICoreContent[];
 }

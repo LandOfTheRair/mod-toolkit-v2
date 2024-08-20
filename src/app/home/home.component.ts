@@ -52,12 +52,16 @@ export class HomeComponent {
       count: computed(() => this.modService.mod().spawners.length),
     },
     {
-      name: 'NPC Scripts/Dialogs',
+      name: 'NPC Scripts',
       count: computed(() => this.modService.mod().dialogs.length),
     },
     {
       name: 'Quests',
       count: computed(() => this.modService.mod().quests.length),
+    },
+    {
+      name: 'Cores',
+      count: computed(() => this.modService.mod().cores.length),
     },
   ];
 

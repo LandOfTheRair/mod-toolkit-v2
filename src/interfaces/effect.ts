@@ -1,41 +1,45 @@
-import { StatBlock } from './building-blocks';
+import { IStatusEffectInfo } from './mod-stripped';
 
-export interface IItemEffectExtra {
-  // the tooltip to be displayed (food)
-  tooltip?: string;
-
-  // the message to be sent (food)
-  message?: string;
-
-  // the stats given (food)
-  statChanges?: StatBlock;
-
-  // if the effect is positive
-  isPositive?: boolean;
+export enum BuffType {
+  Buff = 'buff',
+  Debuff = 'debuff',
+  Incoming = 'incoming',
+  Outgoing = 'outgoing',
+  UseOnly = 'useonly',
 }
 
-export interface IItemEffect {
-  name: string;
-  potency: number;
+export type BuffTypeType = `${BuffType}`;
 
-  // if true, effect can be applied to a weapon via Apply
-  canApply?: boolean;
+export interface IEffectTooltip {
+  name?: string;
+  color?: string;
+  bgColor?: string;
+  desc?: string;
+  icon?: string;
+}
 
-  // if exists, the % chance the effect will be applied
-  chance?: number;
+export interface IEffectEffect {
+  type: BuffType;
+  duration: number;
+  extra: IStatusEffectInfo;
+}
 
-  // if exists, the number of charges the spell will have
-  charges?: number;
+export interface IEffectMeta {
+  effectRef?: string;
+  recentlyRef?: string;
 
-  // the number of seconds the ability lasts
-  duration?: number;
+  castMessage?: string;
+  applyMessage?: string;
+  unapplyMesage?: string;
 
-  // the number of uses the ability has left before the item breaks (-1 = infinite)
-  uses?: number;
+  castSfx?: string;
+  applySfx?: string;
 
-  // the number of tiles for the AoE effect to go (0 = current tile only)
-  range?: number;
+  noStack?: boolean;
+}
 
-  // extra data that is used by different items
-  extra?: IItemEffectExtra;
+export interface IEffect {
+  tooltip: IEffectTooltip;
+  effect: IEffectEffect;
+  effectMeta: IEffectMeta;
 }

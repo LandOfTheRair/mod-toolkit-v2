@@ -1,4 +1,5 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { isUndefined } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import {
   HasIdentification,
@@ -38,6 +39,7 @@ export function defaultModKit(): IModKit {
     quests: [],
     recipes: [],
     spawners: [],
+    cores: [],
   };
 }
 
@@ -63,6 +65,7 @@ export class ModService {
     const oldModData: IModKit = this.localStorage.retrieve('mod');
     if (oldModData) {
       ensureIds(oldModData);
+      this.migrateMod(oldModData);
       this.updateMod(oldModData);
     }
 
@@ -79,6 +82,17 @@ export class ModService {
   }
 
   // mod functions
+  private migrateMod(mod: IModKit) {
+    const check = defaultModKit();
+    Object.keys(check).forEach((checkKeyString) => {
+      const checkKey = checkKeyString as keyof IModKit;
+
+      if (!isUndefined(mod[checkKey])) return;
+
+      mod[checkKey] = structuredClone(check[checkKey]) as unknown as any;
+    });
+  }
+
   public resetMod(): void {
     this.updateMod(defaultModKit());
   }

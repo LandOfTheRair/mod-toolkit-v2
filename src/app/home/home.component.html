@@ -61,11 +61,11 @@
 
 } @else {
 <div class="root-body">
-  <div role="tablist" class="tabs tabs-boxed rounded-none">
+  <div role="tablist" class="tabs tabs-boxed rounded-none flex flex-wrap">
 
     @for(tab of tabOrder; track tab.name; let i = $index) {
-    <a role="tab" class="tab" [class.tab-disabled]="!electronService.isLoaded()" [class.tab-active]="activeTab() === i"
-      (click)="changeTab(i)">{{ tab.name
+    <a role="tab" class="tab flex-1 min-w-[150px]" [class.tab-disabled]="!electronService.isLoaded()"
+      [class.tab-active]="activeTab() === i" (click)="changeTab(i)">{{ tab.name
       }} ({{ tab.count() }})</a>
     }
 
@@ -116,6 +116,10 @@
 
         @case (7) {
         <app-quests class="h-full"></app-quests>
+        }
+
+        @case (8) {
+        <app-cores class="h-full"></app-cores>
         }
 
         }

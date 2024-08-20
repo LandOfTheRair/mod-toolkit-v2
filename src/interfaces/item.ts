@@ -12,8 +12,8 @@ import {
   Stat,
   StatBlock,
 } from './building-blocks';
-import { IItemEffect } from './effect';
 import { HasIdentification } from './identified';
+import { IItemEffect } from './itemeffect';
 import { ItemClassType } from './itemtypes';
 
 export enum ItemQuality {
