@@ -5,4 +5,5 @@ export const defaultCore: () => ICoreContent = () => ({
   _id: id(),
   name: '',
   yaml: '',
+  json: undefined,
 });

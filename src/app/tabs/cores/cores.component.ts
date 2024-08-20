@@ -15,30 +15,17 @@ type EditingType = ICoreContent;
   styleUrl: './cores.component.scss',
 })
 export class CoresComponent extends EditorBaseTableComponent<EditingType> {
-  protected dataKey: keyof Omit<IModKit, 'meta'> = 'drops';
+  protected dataKey: keyof Omit<IModKit, 'meta'> = 'cores';
 
   public defaultData = defaultCore;
 
   public tableItems = computed(() => this.modService.mod().cores);
   public tableColumns: ColDef[] = [
     {
-      field: 'mapName',
+      field: 'name',
       flex: 1,
       cellDataType: 'text',
       filter: 'agTextColumnFilter',
-      sort: 'asc',
-    },
-    {
-      field: 'regionName',
-      flex: 1,
-      cellDataType: 'text',
-      filter: 'agTextColumnFilter',
-      sort: 'asc',
-    },
-    {
-      field: 'isGlobal',
-      flex: 1,
-      cellDataType: 'boolean',
       sort: 'asc',
     },
     {

@@ -1,4 +1,7 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
+import { CodeModel } from '@ngstack/code-editor';
+import * as yaml from 'js-yaml';
+
 import { ICoreContent } from '../../../../interfaces';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
@@ -7,11 +10,65 @@ import { EditorBaseComponent } from '../../../shared/components/editor-base/edit
   templateUrl: './cores-editor.component.html',
   styleUrl: './cores-editor.component.scss',
 })
-export class CoresEditorComponent extends EditorBaseComponent<ICoreContent> {
+export class CoresEditorComponent
+  extends EditorBaseComponent<ICoreContent>
+  implements OnInit
+{
   public currentItem = signal<ICoreContent | undefined>(undefined);
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.yaml;
+    return data.name && this.yamlText() && !this.yamlError();
   });
+
+  public satisfiesUnique = computed(() => {
+    const data = this.editing();
+    return !this.modService.doesExistDuplicate<ICoreContent>(
+      'cores',
+      'name',
+      data.name,
+      data._id
+    );
+  });
+
+  public yamlText = signal<string>('');
+
+  public yamlError = computed(() => {
+    const text = this.yamlText();
+    try {
+      yaml.load(text);
+    } catch (e: unknown) {
+      return (e as Error).message;
+    }
+  });
+
+  public readonly fileModel: CodeModel = {
+    language: 'yaml',
+    uri: 'code.yml',
+    value: '',
+  };
+
+  ngOnInit(): void {
+    const core = this.editing();
+
+    if (core.yaml) {
+      this.yamlText.set(core.yaml);
+      this.fileModel.value = this.yamlText();
+    }
+  }
+
+  public onYamlChanged(newYaml: string) {
+    this.yamlText.set(newYaml);
+  }
+
+  doSave() {
+    const core = this.editing();
+
+    core.yaml = this.yamlText();
+    core.json = yaml.load(this.yamlText());
+
+    this.editing.set(core);
+
+    super.doSave();
+  }
 }

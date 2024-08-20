@@ -13,6 +13,18 @@
   <div class="form-column">
 
     <div class="form-row">
+      <app-input-floating-label>File Name</app-input-floating-label>
+      <input [ngModel]="editingData.name" type="text" placeholder="Enter file name (no extension)..." class="form-input"
+        (ngModelChange)="update('name', $event)" [class.has-error]="!satisfiesUnique()" />
+    </div>
+
+    <div class="form-row">
+      <ngs-code-editor class="editor-container" [theme]="'vs-dark'" [codeModel]="fileModel"
+        [options]="{ contextmenu: true }" (valueChanged)="onYamlChanged($event)"></ngs-code-editor>
+    </div>
+
+    <div class="form-row form-error">
+      {{ yamlError() }}
     </div>
   </div>
 </div>
