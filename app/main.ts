@@ -7,7 +7,7 @@ import { baseUrl } from './helpers';
 import { setupIPC, watchMaps } from './ipc';
 import { SendToUI } from './types';
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const isDevelopment = !app.isPackaged;
 
 console.log(`Starting in ${isDevelopment ? 'dev' : 'prod'} mode...`);
 
@@ -62,6 +62,8 @@ const handleSetup = async () => {
 };
 
 async function createWindow(): Promise<BrowserWindow> {
+  await app.whenReady();
+
   const opts = {
     show: false,
     icon: __dirname + '/favicon.ico',
@@ -85,7 +87,6 @@ async function createWindow(): Promise<BrowserWindow> {
   opts.height += 25;
   */
 
-  // Create the browser window.
   win = new BrowserWindow({
     ...opts,
     minWidth: 1300,
@@ -107,8 +108,9 @@ async function createWindow(): Promise<BrowserWindow> {
   });
 
   // load intercepter for image loading
-  protocol.interceptFileProtocol('file', (req, callback) => {
+  protocol.interceptFileProtocol('lotr', (req, callback) => {
     const url = req.url.substr(7);
+    console.log(path.normalize(app.getAppPath() + url));
     callback({ path: path.normalize(app.getAppPath() + url) });
   });
 
@@ -121,64 +123,42 @@ async function createWindow(): Promise<BrowserWindow> {
     config.set('winBounds', win?.getBounds());
   });
 
+  win.on('closed', () => {
+    win = null;
+  });
+
   if (serve) {
     const debug = require('electron-debug');
     debug();
 
     require('electron-reloader')(module);
-    win.loadURL('http://localhost:4200');
+    await win.loadURL('http://localhost:4200');
   } else {
-    // Path when running electron executable
-    let pathIndex = './index.html';
-
-    if (fs.existsSync(path.join(__dirname, '../dist/index.html'))) {
-      // Path when running electron in local folder
-      pathIndex = '../dist/index.html';
-    }
-
-    const url = new URL(path.join('file:', __dirname, pathIndex));
-    win.loadURL(url.href);
+    const url = new URL(path.join('file:', __dirname, 'index.html'));
+    await win.loadURL(url.href);
   }
 
   if (isDevelopment) {
     win.webContents.openDevTools();
   }
 
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store window
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null;
-  });
-
   return win;
 }
 
 try {
-  // This method will be called when Electron has finished
-  // initialization and is ready to create browser windows.
-  // Some APIs can only be used after this event occurs.
-  // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-  app.on('ready', () => setTimeout(createWindow, 400));
+  app.on('ready', createWindow);
 
-  // Quit when all windows are closed.
   app.on('window-all-closed', () => {
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
       app.quit();
     }
   });
 
   app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
     if (win === null) {
       createWindow();
     }
   });
 } catch (e) {
-  // Catch Error
-  // throw e;
+  throw e;
 }
