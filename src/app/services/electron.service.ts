@@ -84,12 +84,14 @@ export class ElectronService {
     window.api.receive('loadmod', (mod: IModKit) => {
       const importedMod = importMod(mod);
       this.modService.updateMod(importedMod);
+      this.modService.ensureMapsExist();
     });
 
     // import the mod raw from the backup.
     window.api.receive('importmod', (mod: IModKit) => {
       const importedMod = importMod(mod.meta._backup as IModKit);
       this.modService.updateMod(importedMod);
+      this.modService.ensureMapsExist();
     });
 
     window.api.receive(

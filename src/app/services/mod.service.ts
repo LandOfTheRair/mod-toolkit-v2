@@ -196,7 +196,7 @@ export class ModService {
   }
 
   // map functions
-  private ensureMapsExist() {
+  public ensureMapsExist() {
     this.mod().maps.forEach((map) => {
       window.api.send('ENSURE_MAP', { ...map });
     });
