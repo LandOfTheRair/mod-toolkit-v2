@@ -55,6 +55,8 @@ export class CoresEditorComponent
       this.yamlText.set(core.yaml);
       this.fileModel.value = this.yamlText();
     }
+
+    super.ngOnInit();
   }
 
   public onYamlChanged(newYaml: string) {

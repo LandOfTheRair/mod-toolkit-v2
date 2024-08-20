@@ -47,6 +47,7 @@ export class EditorBaseTableComponent<T extends HasIdentification>
 
   public cancelEditing() {
     this.isEditing.set(false);
+    this.oldData.set(undefined);
   }
 
   public saveNewData(data: T) {
