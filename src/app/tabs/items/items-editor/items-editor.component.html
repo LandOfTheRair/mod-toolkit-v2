@@ -31,12 +31,6 @@
     </div>
 
     <div class="form-row">
-      <app-input-floating-label>Animation</app-input-floating-label>
-      <input [(ngModel)]="editingData.animation" type="number" min="0" max="24" placeholder="Choose animation..."
-        class="form-input" />
-    </div>
-
-    <div class="form-row">
       <app-input-floating-label>Name</app-input-floating-label>
       <input [ngModel]="editingData.name" type="text" placeholder="Choose name..." class="form-input"
         (ngModelChange)="update('name', $event)" [class.has-error]="!satisfiesUnique()" />
@@ -731,6 +725,11 @@
   </div>
 
   <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Animation</app-input-floating-label>
+      <input [(ngModel)]="editingData.animation" type="number" min="0" max="24" placeholder="Choose animation..."
+        class="form-input" />
+    </div>
   </div>
 </div>
 }
