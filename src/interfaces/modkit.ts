@@ -7,6 +7,7 @@ import { INPCScript } from './npcscript';
 import { IQuest } from './quest';
 import { IRecipe } from './recipe';
 import { ISpawnerData } from './spawner';
+import { ISTEM } from './stem';
 
 export interface IModKit {
   meta: {
@@ -27,4 +28,5 @@ export interface IModKit {
   quests: IQuest[];
   dialogs: INPCScript[];
   cores: ICoreContent[];
+  stems: ISTEM[];
 }

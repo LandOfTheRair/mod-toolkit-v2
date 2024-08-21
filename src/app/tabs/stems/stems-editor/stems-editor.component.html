@@ -1,1 +1,694 @@
-<p>stems-editor works!</p>
+@let editingData = editing();
+
+<div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+
+  @for(tab of tabs; let i = $index; track tab.name) {
+  <a role="tab" class="tab" [class.hidden]="!tab.visibleIf()" [class.tab-active]="activeTab() === i"
+    (click)="changeTab(i)">
+    {{ tab.name }}
+  </a>
+  }
+
+  <div class="tab flex flex-row justify-end">
+    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
+    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()">Save</button>
+  </div>
+
+</div>
+
+@switch (activeTab()) {
+@case (0) {
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+
+    <div class="form-row">
+      <app-input-icon [(icon)]="editingData.all.icon" [color]="editingData.all.color"
+        [bgColor]="editingData.all.bgColor"></app-input-icon>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Name</app-input-floating-label>
+      <input [ngModel]="editingData.name" type="text" placeholder="Enter STEM name..." class="form-input"
+        (ngModelChange)="checkAndUpdateGameId($event); update('name', $event);"
+        [class.has-error]="!satisfiesUniqueName()" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Game Id</app-input-floating-label>
+      <input [(ngModel)]="editingData._gameId" type="text" placeholder="Enter game id..." class="form-input"
+        [class.has-error]="!satisfiesUniqueGameId()" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Description</app-input-floating-label>
+      <input [(ngModel)]="editingData.all.desc" type="text" placeholder="Enter STEM desc..." class="form-input" />
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Icon Color</app-input-floating-label>
+          <input [(colorPicker)]="editingData.all.color" [(ngModel)]="editingData.all.color"
+            [style.background]="editingData.all.color" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
+            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.all.color = ''">
+            <ng-icon name="heroFire"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Background Color</app-input-floating-label>
+          <input [(colorPicker)]="editingData.all.bgColor" [(ngModel)]="editingData.all.bgColor"
+            [style.background]="editingData.all.bgColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
+            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.all.bgColor = ''">
+            <ng-icon name="heroFire"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="form-column">
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Whether or not this STEM has a Spell.">
+        <input type="checkbox" [ngModel]="editingData._hasSpell" (ngModelChange)="update('_hasSpell', $event)"
+          class="checkbox" />
+        <span class="label-text">Has Spell</span>
+      </label>
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Whether or not this STEM has a Trait.">
+        <input type="checkbox" [ngModel]="editingData._hasTrait" (ngModelChange)="update('_hasTrait', $event)"
+          class="checkbox" />
+        <span class="label-text">Has Trait</span>
+      </label>
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Whether or not this STEM has a Effect.">
+        <input type="checkbox" [ngModel]="editingData._hasEffect" (ngModelChange)="update('_hasEffect', $event)"
+          class="checkbox" />
+        <span class="label-text">Has Effect</span>
+      </label>
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Whether or not this STEM has a Macro.">
+        <input type="checkbox" [ngModel]="editingData._hasMacro" (ngModelChange)="update('_hasMacro', $event)"
+          class="checkbox" />
+        <span class="label-text">Has Macro</span>
+      </label>
+    </div>
+
+  </div>
+
+  <div class="form-column">
+  </div>
+</div>
+}
+
+@case (1) {
+<ng-container *ngTemplateOutlet="defaults"></ng-container>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+  </div>
+
+
+  <div class="form-column">
+  </div>
+
+
+  <div class="form-column">
+  </div>
+</div>
+}
+
+@case (2) {
+<ng-container *ngTemplateOutlet="defaults"></ng-container>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+
+    <div class="form-row">
+      <app-input-floating-label>Name</app-input-floating-label>
+      <input [(ngModel)]="editingData.trait.name" type="text" [placeholder]="'Defaults to ' + editingData.name"
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Tooltip Description</app-input-floating-label>
+      <input [(ngModel)]="editingData.trait.desc" type="text" [placeholder]="'Defaults to ' + editingData.all.desc"
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-icon [(icon)]="editingData.trait.icon" [color]="editingData.trait.iconColor || editingData.all.color"
+        [bgColor]="editingData.trait.iconBgColor || editingData.all.bgColor"
+        [borderColor]="editingData.trait.borderColor"></app-input-icon>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Icon Color</app-input-floating-label>
+          <input [(colorPicker)]="editingData.trait.iconColor" [(ngModel)]="editingData.trait.iconColor"
+            [style.background]="editingData.trait.iconColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
+            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.trait.iconColor = ''">
+            <ng-icon name="heroFire"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Icon Background Color</app-input-floating-label>
+          <input [(colorPicker)]="editingData.trait.iconBgColor" [(ngModel)]="editingData.trait.iconBgColor"
+            [cpDisabled]="!!editingData.trait.isAncient" [disabled]="!!editingData.trait.isAncient"
+            [style.background]="editingData.trait.iconBgColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
+            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.trait.iconBgColor = ''">
+            <ng-icon name="heroFire"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Border Color</app-input-floating-label>
+          <input [(colorPicker)]="editingData.trait.borderColor" [(ngModel)]="editingData.trait.borderColor"
+            [style.background]="editingData.trait.borderColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
+            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.trait.borderColor = ''">
+            <ng-icon name="heroFire"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Value Per Tier</app-input-floating-label>
+      <input [(ngModel)]="editingData.trait.valuePerTier" type="number" min="0" placeholder="Enter value per tier..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Spell Given</app-input-floating-label>
+      <input [(ngModel)]="editingData.trait.spellGiven" type="text"
+        [placeholder]="'Defaults to ' + editingData._gameId + ' (if Spell entry exists)'" class="form-input" />
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer"
+        floatUi="Whether or not the trait is an ancient trait. Has some special implications">
+        <input type="checkbox" [(ngModel)]="editingData.trait.isAncient" (ngModelChange)="toggleAncient()"
+          class="checkbox" />
+        <span class="label-text">Is Ancient</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-column">
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stat [(stat)]="currentTraitStat" [allowCore]="true"></app-input-stat>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" [disabled]="!currentTraitStat() || doesItemHaveCurrentTraitStat()"
+            (click)="addTraitStat(currentTraitStat())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(stat of traitStatsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ stat }}</app-input-floating-label>
+          <input [(ngModel)]="editingData.trait.statsGiven![stat]" type="number" placeholder="Choose value..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeTraitStat(stat)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+}
+
+@case (3) {
+<ng-container *ngTemplateOutlet="defaults"></ng-container>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+
+    <div class="form-row">
+      <app-input-floating-label>Name</app-input-floating-label>
+      <input [(ngModel)]="editingData.effect.tooltip.name" type="text" [placeholder]="'Defaults to ' + editingData.name"
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Tooltip Description</app-input-floating-label>
+      <input [(ngModel)]="editingData.effect.tooltip.desc" type="text"
+        [placeholder]="'Defaults to ' + editingData.all.desc" class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-icon [(icon)]="editingData.effect.tooltip.icon"
+        [color]="editingData.effect.tooltip.color || editingData.all.color"
+        [bgColor]="editingData.effect.tooltip.bgColor || editingData.all.bgColor"></app-input-icon>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Icon Color</app-input-floating-label>
+          <input [(colorPicker)]="editingData.effect.tooltip.color" [(ngModel)]="editingData.effect.tooltip.color"
+            [style.background]="editingData.effect.tooltip.color" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
+            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.effect.tooltip.color = ''">
+            <ng-icon name="heroFire"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Background Color</app-input-floating-label>
+          <input [(colorPicker)]="editingData.effect.tooltip.bgColor" [(ngModel)]="editingData.effect.tooltip.bgColor"
+            [style.background]="editingData.effect.tooltip.bgColor" [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'" [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.effect.tooltip.bgColor = ''">
+            <ng-icon name="heroFire"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-bufftype [(buffType)]="editingData.effect.effect.type"
+        (buffTypeChange)="changeBuffType($event)"></app-input-bufftype>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Duration</app-input-floating-label>
+      <input [(ngModel)]="editingData.effect.effect.duration" type="number" min="0"
+        placeholder="Enter duration (ticks)..." class="form-input" />
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Potency</app-input-floating-label>
+          <input [(ngModel)]="editingData.effect.effect.extra.potency" type="number" min="0"
+            placeholder="Enter potency..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Charges</app-input-floating-label>
+          <input [(ngModel)]="editingData.effect.effect.extra.charges" type="number" min="0"
+            placeholder="Enter charges..." class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not you should be able to right-click remove this effect.">
+            <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.canRemove" class="checkbox" />
+            <span class="label-text">Can Remove Effect</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the effect itself should tick on a timer. Most often, this is not an option you want to set.">
+            <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.doesTick" class="checkbox" />
+            <span class="label-text">Does Tick</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the effect should persist through death.">
+            <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.persistThroughDeath" class="checkbox" />
+            <span class="label-text">Persists Through Death</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not you can overlap with an effect if this is from equipping.">
+            <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.canOverlapUniqueIfEquipped"
+              class="checkbox" />
+            <span class="label-text">Can Overlap Unique If Equipped</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+        @for(tab of effectUniqueTabs; let i = $index; track tab.name) {
+        <a role="tab" class="tab" [class.tab-active]="effectUniqueType() === tab.type"
+          (click)="changeUniqueType(tab.setTo)">
+          {{ tab.name }}
+        </a>
+        }
+      </div>
+    </div>
+
+    @switch(effectUniqueType()) {
+    @case ('boolean') {
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer"
+        floatUi="Whether or not this effect is unique, which means it will not be applied multiple times to a creature.">
+        <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.unique" class="checkbox" />
+        <span class="label-text">Is Unique</span>
+      </label>
+    </div>
+    }
+
+    @case ('string') {
+    <div class="form-row">
+      <app-input-floating-label>Unique Spell Class</app-input-floating-label>
+      <input [(ngModel)]="editingData.effect.effect.extra.unique" type="text" placeholder="Enter spell class..."
+        class="form-input" />
+    </div>
+    }
+    }
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stat [(stat)]="currentEffectStat" [allowCore]="true"></app-input-stat>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" [disabled]="!currentEffectStat() || doesItemHaveCurrentEffectStat()"
+            (click)="addEffectStat(currentEffectStat())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(stat of effectStatsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>{{ stat }}</app-input-floating-label>
+          <input [(ngModel)]="editingData.effect.effect.extra.statChanges![stat]" type="number"
+            placeholder="Choose value..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeEffectStat(stat)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-effect [(effect)]="editingData.effect.effectMeta.effectRef" label="Effect Ref"></app-input-effect>
+    </div>
+
+    <div class="form-row">
+      <app-input-effect [(effect)]="editingData.effect.effectMeta.recentlyRef" label="Recently Ref"></app-input-effect>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Cast Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.effect.effectMeta.castMessage" type="text" placeholder="Enter cast message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Apply Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.effect.effectMeta.applyMessage" type="text" placeholder="Enter apply message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Unapply Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.effect.effectMeta.unapplyMesage" type="text"
+        placeholder="Enter unapply message..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-sfx [(sfx)]="editingData.effect.effectMeta.castSfx" label="Cast SFX"></app-input-sfx>
+    </div>
+
+    <div class="form-row">
+      <app-input-sfx [(sfx)]="editingData.effect.effectMeta.applySfx" label="Apply SFX"></app-input-sfx>
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Whether or not the effect can be stacked on a creature.">
+        <input type="checkbox" [(ngModel)]="editingData.effect.effectMeta.noStack" class="checkbox" />
+        <span class="label-text">No Effect Stacking</span>
+      </label>
+    </div>
+  </div>
+</div>
+}
+
+@case (4) {
+<ng-container *ngTemplateOutlet="defaults"></ng-container>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+
+    <div class="form-row">
+      <app-input-floating-label>Name</app-input-floating-label>
+      <input [(ngModel)]="editingData.macro.name" type="text" [placeholder]="'Defaults to ' + editingData.name"
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Tooltip Description</app-input-floating-label>
+      <input [(ngModel)]="editingData.macro.tooltipDesc" type="text"
+        [placeholder]="'Defaults to ' + editingData.all.desc" class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-icon [(icon)]="editingData.macro.icon" [color]="editingData.macro.color || editingData.all.color"
+        [bgColor]="editingData.macro.bgColor || editingData.all.bgColor"></app-input-icon>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Icon Color</app-input-floating-label>
+          <input [(colorPicker)]="editingData.macro.color" [(ngModel)]="editingData.macro.color"
+            [style.background]="editingData.macro.color" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
+            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.macro.color = ''">
+            <ng-icon name="heroFire"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Background Color</app-input-floating-label>
+          <input [(colorPicker)]="editingData.macro.bgColor" [(ngModel)]="editingData.macro.bgColor"
+            [style.background]="editingData.macro.bgColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
+            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.macro.bgColor = ''">
+            <ng-icon name="heroFire"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-column">
+
+    <div class="form-row">
+      <app-input-floating-label>Macro</app-input-floating-label>
+      <input [(ngModel)]="editingData.macro.macro" type="text" placeholder="Enter macro command..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-macrotype [(macroType)]="editingData.macro.mode"></app-input-macrotype>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Key</app-input-floating-label>
+      <input [(ngModel)]="editingData.macro.key" type="text" placeholder="Enter macro key..." class="form-input" />
+    </div>
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer"
+        floatUi="Whether or not the item is a default macro (shows up in system list).">
+        <input type="checkbox" [(ngModel)]="editingData.macro.isDefault" class="checkbox" />
+        <span class="label-text">Is Default Macro</span>
+      </label>
+    </div>
+
+  </div>
+
+  <div class="form-column">
+
+  </div>
+
+</div>
+}
+}
+
+<ng-template #defaults>
+  <div class="flex flex-row gap-2">
+    <h1 class="text-2xl font-bold mb-2 text-center">Default Settings</h1>
+  </div>
+
+  <div class="flex flex-row gap-2">
+    <div class="form-column">
+      <app-icon class="w-17 min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]" [icon]="editingData.all.icon"
+        [color]="editingData.all.color || '#000'" [bgColor]="editingData.all.bgColor || '#9ca3af'"
+        [borderColor]="editingData.trait.borderColor || ''"></app-icon>
+    </div>
+
+    <div class="form-column">
+      <div class="form-row">
+        <app-input-floating-label>Game Id</app-input-floating-label>
+        <input [(ngModel)]="editingData._gameId" [disabled]="true" type="text" placeholder="Enter game id..."
+          class="form-input" [class.has-error]="!satisfiesUniqueGameId()" />
+      </div>
+    </div>
+
+    <div class="form-column">
+      <div class="form-row">
+        <app-input-floating-label>Description</app-input-floating-label>
+        <input [(ngModel)]="editingData.all.desc" [disabled]="true" type="text" placeholder="Enter STEM desc..."
+          class="form-input" />
+      </div>
+    </div>
+
+    <div class="form-column">
+      <div class="form-row">
+        <app-input-floating-label>Icon Color</app-input-floating-label>
+        <input [(colorPicker)]="editingData.all.color" [disabled]="true" [cpDisabled]="true"
+          [(ngModel)]="editingData.all.color" [style.background]="editingData.all.color" [cpAlphaChannel]="'disabled'"
+          [cpOutputFormat]="'hex'" [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+      </div>
+    </div>
+
+    <div class="form-column">
+      <div class="form-row">
+        <app-input-floating-label>Background Color</app-input-floating-label>
+        <input [(colorPicker)]="editingData.all.bgColor" [disabled]="true" [cpDisabled]="true"
+          [(ngModel)]="editingData.all.bgColor" [style.background]="editingData.all.bgColor"
+          [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'" [cpOKButton]="true" [cpCancelButton]="true"
+          class="form-input" />
+      </div>
+    </div>
+  </div>
+
+  <hr class="my-2">
+</ng-template>
+
+<app-debug-view>
+  {{ editingData | json }}
+</app-debug-view>

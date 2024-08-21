@@ -40,6 +40,7 @@ export function defaultModKit(): IModKit {
     recipes: [],
     spawners: [],
     cores: [],
+    stems: [],
   };
 }
 
@@ -219,8 +220,6 @@ export class ModService {
     } else {
       mod.maps.push(incomingMap);
     }
-
-    console.log(incomingMap);
 
     this.updateMod(mod);
   }

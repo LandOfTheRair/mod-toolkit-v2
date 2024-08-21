@@ -167,11 +167,27 @@ export async function updateResources(sendToUI: SendToUI) {
     );
   };
 
+  const assets = async () => {
+    sendToUI('notify', { type: 'info', text: 'Downloading assets...' });
+    dlgit('LandOfTheRair/Assets', `${baseUrl}/resources/assets`, async () => {
+      const allSfx = fs
+        .readdirSync(`${baseUrl}/resources/assets/sfx`)
+        .map((f) => f.split('.mp3')[0]);
+      const allIcon = fs
+        .readdirSync(`${baseUrl}/resources/assets/macicons`)
+        .map((f) => f.split('.svg')[0]);
+
+      fs.writeJSONSync(`${baseUrl}/resources/json/sfx.json`, allSfx);
+      fs.writeJSONSync(`${baseUrl}/resources/json/macicons.json`, allIcon);
+    });
+  };
+
   await sheets();
   await json();
   await template();
   await tiled();
   await validators();
+  await assets();
 
   fs.writeFileSync(`${baseUrl}/resources/.loaded`, '');
 

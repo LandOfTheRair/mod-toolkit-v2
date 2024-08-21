@@ -1,20 +1,22 @@
-export enum IMacroActivation {
+export enum MacroActivation {
   AutoActivate = 'autoActivate',
   LockActivation = 'lockActivation',
   ClickToTarget = 'clickToTarget',
   AutoTarget = 'autoTarget',
 }
 
-export type IMacroActivationType = `${IMacroActivation}`;
+export type MacroActivationType = `${MacroActivation}`;
 
 export interface IMacro {
   name: string;
+  tooltipDesc: string;
   macro: string;
+
   icon: string;
   color: string;
-  bgColor?: string;
-  mode: IMacroActivationType;
+  bgColor: string;
+
+  mode: MacroActivationType;
   key: string;
-  tooltipDesc: string;
   isDefault?: boolean;
 }

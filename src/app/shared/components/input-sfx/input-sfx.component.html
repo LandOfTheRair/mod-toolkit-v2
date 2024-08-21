@@ -1,5 +1,5 @@
 <div class="relative">
-  <ng-select class="form-control" [items]="values" [(ngModel)]="sfx" placeholder="Select SFX..."
+  <ng-select class="form-control" [items]="values()" [(ngModel)]="sfx" placeholder="Select SFX..."
     (change)="change.emit($event)"></ng-select>
 
   <app-input-floating-label>{{ label() }}</app-input-floating-label>

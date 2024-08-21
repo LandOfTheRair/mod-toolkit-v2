@@ -50,6 +50,12 @@ export class ElectronService {
     window.api.receive('ready', () => {
       this.isLoaded.set(true);
       this.isFirstLoad.set(false);
+
+      this.requestAllJSON();
+    });
+
+    window.api.receive('resourcedone', () => {
+      this.requestAllJSON();
     });
 
     window.api.receive('firstload', () => {
@@ -61,7 +67,6 @@ export class ElectronService {
     });
 
     window.api.receive('newmap', (mapData: IEditorMap) => {
-      console.log('pre', mapData);
       this.modService.addMap(mapData);
     });
 
@@ -105,6 +110,10 @@ export class ElectronService {
       }
     );
 
+    this.send('READY_CHECK');
+  }
+
+  private requestAllJSON() {
     [
       'effect-data',
       'holidaydescs',
@@ -112,11 +121,11 @@ export class ElectronService {
       'traits',
       'challenge',
       'trait-trees',
+      'sfx',
+      'macicons',
     ].forEach((neededJSON) => {
       this.requestJSON(neededJSON);
     });
-
-    this.send('READY_CHECK');
   }
 
   requestJSON(key: string) {

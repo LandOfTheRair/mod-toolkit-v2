@@ -2,9 +2,10 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SharedModule } from './shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +28,7 @@ import {
 } from 'ngx-webstorage';
 import { AppComponent } from './app.component';
 import { appIcons } from './app.icons';
+import { AssetsService } from './services/assets.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,6 +39,7 @@ import { appIcons } from './app.icons';
     SharedModule,
     HomeModule,
     AppRoutingModule,
+    AngularSvgIconModule.forRoot(),
     NgxFloatUiModule.forRoot({
       trigger: NgxFloatUiTriggers.hover,
       showDelay: 500,
@@ -52,6 +55,15 @@ import { appIcons } from './app.icons';
     CodeEditorModule.forRoot(),
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (assetsService: AssetsService) => async () => {
+        await assetsService.load();
+        return assetsService;
+      },
+      deps: [AssetsService],
+      multi: true,
+    },
     provideHttpClient(withInterceptorsFromDi()),
     provideHotToastConfig(),
     provideNgxWebstorage(

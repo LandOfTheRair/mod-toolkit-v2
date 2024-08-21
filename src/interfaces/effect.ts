@@ -1,4 +1,4 @@
-import { IStatusEffectInfo } from './mod-stripped';
+import { StatType } from './building-blocks';
 
 export enum BuffType {
   Buff = 'buff',
@@ -10,10 +10,21 @@ export enum BuffType {
 
 export type BuffTypeType = `${BuffType}`;
 
+export interface IStatusEffectInfo {
+  potency: number;
+  canRemove?: boolean;
+  doesTick?: boolean;
+  unique?: boolean | string;
+  persistThroughDeath?: boolean;
+  canOverlapUniqueIfEquipped?: boolean;
+  charges?: number;
+  statChanges?: Partial<Record<StatType, number>>;
+}
+
 export interface IEffectTooltip {
   name?: string;
-  color?: string;
-  bgColor?: string;
+  color: string;
+  bgColor: string;
   desc?: string;
   icon?: string;
 }

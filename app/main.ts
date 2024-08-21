@@ -110,7 +110,6 @@ async function createWindow(): Promise<BrowserWindow> {
   // load intercepter for image loading
   protocol.interceptFileProtocol('lotr', (req, callback) => {
     const url = req.url.substr(7);
-    console.log(path.normalize(app.getAppPath() + url));
     callback({ path: path.normalize(app.getAppPath() + url) });
   });
 
@@ -146,6 +145,10 @@ async function createWindow(): Promise<BrowserWindow> {
 }
 
 try {
+  protocol.registerSchemesAsPrivileged([
+    { scheme: 'lotr', privileges: { bypassCSP: true, supportFetchAPI: true } },
+  ]);
+
   app.on('ready', createWindow);
 
   app.on('window-all-closed', () => {

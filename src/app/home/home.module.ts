@@ -7,7 +7,9 @@ import { NgIconsModule } from '@ng-icons/core';
 import { CodeEditorModule } from '@ngstack/code-editor';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AgGridModule } from 'ag-grid-angular';
+import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxFloatUiModule } from 'ngx-float-ui';
+
 import { SharedModule } from '../shared/shared.module';
 import { CoresEditorComponent } from '../tabs/cores/cores-editor/cores-editor.component';
 import { CoresComponent } from '../tabs/cores/cores.component';
@@ -68,6 +70,7 @@ import { HomeComponent } from './home.component';
     NgxFloatUiModule,
     NgIconsModule,
     CodeEditorModule,
+    ColorPickerModule,
   ],
   exports: [
     ValidationComponent,

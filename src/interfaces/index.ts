@@ -8,7 +8,6 @@ export * from './item';
 export * from './itemtypes';
 export * from './macro';
 export * from './map';
-export * from './mod-stripped';
 export * from './modkit';
 export * from './npc';
 export * from './npcscript';

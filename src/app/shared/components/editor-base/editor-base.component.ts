@@ -4,6 +4,7 @@ import {
   model,
   OnInit,
   output,
+  Signal,
   signal,
 } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -11,7 +12,7 @@ import { HasIdentification } from '../../../../interfaces';
 import { id } from '../../../helpers/id';
 import { ModService } from '../../../services/mod.service';
 
-type Tab = { name: string };
+type Tab = { name: string; visibleIf?: Signal<boolean> };
 
 @Component({
   selector: 'app-editor-base',
@@ -66,7 +67,7 @@ export class EditorBaseComponent<T extends HasIdentification>
 
   private initTabs() {
     const oldTab = +this.localStorage.retrieve(`${this.key}-tabs`);
-    if (oldTab) {
+    if (oldTab && this.tabs[oldTab]?.visibleIf?.()) {
       this.activeTab.set(oldTab);
     }
   }

@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, computed, effect, OnInit, signal } from '@angular/core';
 import { isNumber } from 'lodash';
 import {
   Allegiance,
@@ -18,7 +11,6 @@ import {
   SkillType,
   StatType,
 } from '../../../../interfaces';
-import { ElectronService } from '../../../services/electron.service';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
@@ -30,8 +22,6 @@ export class NpcsEditorComponent
   extends EditorBaseComponent<INPCDefinition>
   implements OnInit
 {
-  private electronService = inject(ElectronService);
-
   public readonly key = 'npcs';
   public readonly tabs = [
     { name: 'Core Stats' },

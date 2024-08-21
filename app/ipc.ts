@@ -51,6 +51,7 @@ export function setupIPC(sendToUI: SendToUI) {
         type: 'success',
         text: 'Spritesheets and game data have been updated.',
       });
+      sendToUI('resourcedone');
     } catch (e: any) {
       sendToUI('notify', { type: 'error', text: e.message });
     }
