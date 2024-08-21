@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (prefers-color-scheme: light) {
+  html {
+    color-scheme: dark;
+  }
+}
+
 .swal2-input {
   color: #000;
 }
