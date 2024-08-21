@@ -6,7 +6,6 @@ import {
   model,
   output,
 } from '@angular/core';
-import { ElectronService } from '../../../services/electron.service';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
@@ -15,7 +14,6 @@ import { ModService } from '../../../services/mod.service';
   styleUrl: './input-holiday.component.scss',
 })
 export class InputHolidayComponent {
-  private electronService = inject(ElectronService);
   private modService = inject(ModService);
 
   public holiday = model.required<string | undefined>();
@@ -23,6 +21,23 @@ export class InputHolidayComponent {
   public change = output<string>();
 
   public values = computed(() => {
+    const holidayObj = this.modService
+      .mod()
+      .cores.find((c) => c.name === 'holidaydescs')?.json as Record<
+      string,
+      any
+    >;
+    if (!holidayObj) return this.fallbackValues();
+
+    return Object.keys(holidayObj ?? {})
+      .sort()
+      .map((t) => ({
+        value: t,
+        desc: holidayObj[t].duration ?? 'No description',
+      }));
+  });
+
+  public fallbackValues = computed(() => {
     const holidayObj = this.modService.json()['holidaydescs'] as Record<
       string,
       any

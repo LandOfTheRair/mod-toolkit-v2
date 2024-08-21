@@ -115,8 +115,15 @@ export class NpcsEditorComponent
     );
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  private challengeData = computed(() => this.modService.json()['challenge']);
+  private challengeData = computed(() => {
+    const modChallenge = this.modService
+      .mod()
+      .cores.find((c) => c.name === 'challenge')?.json as Record<string, any>;
+    if (modChallenge) return modChallenge;
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.modService.json()['challenge'];
+  });
 
   constructor() {
     super();
