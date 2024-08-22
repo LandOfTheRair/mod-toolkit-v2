@@ -58,6 +58,7 @@ import { WebviewDirective } from './directives/';
 import { CellIconComponent } from './components/cell-icon/cell-icon.component';
 import { InputMacrotypeComponent } from './components/input-macrotype/input-macrotype.component';
 import { InputBufftypeComponent } from './components/input-bufftype/input-bufftype.component';
+import { EditStatobjectComponent } from './components/edit-statobject/edit-statobject.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { InputBufftypeComponent } from './components/input-bufftype/input-buffty
     CellIconComponent,
     InputMacrotypeComponent,
     InputBufftypeComponent,
+    EditStatobjectComponent,
   ],
   imports: [
     CommonModule,
@@ -169,6 +171,7 @@ import { InputBufftypeComponent } from './components/input-bufftype/input-buffty
     CellIconComponent,
     InputMacrotypeComponent,
     InputBufftypeComponent,
+    EditStatobjectComponent,
   ],
 })
 export class SharedModule {}

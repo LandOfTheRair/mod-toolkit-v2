@@ -487,43 +487,7 @@
         class="form-input" />
     </div>
 
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-stat [(stat)]="currentNourishmentStat"></app-input-stat>
-        </div>
-      </div>
-
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="btn btn-accent btn-sm"
-            [disabled]="!currentNourishmentStat() || doesItemHaveCurrentNourishmentStat()"
-            (click)="addNourishmentStat(currentNourishmentStat())">
-            <ng-icon name="heroPlus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    @for(stat of nourishmentStatsInOrder(); track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>{{ stat }}</app-input-floating-label>
-          <input [(ngModel)]="editingData.useEffect!.extra!.statChanges![stat]" type="number"
-            placeholder="Choose value..." class="form-input" />
-        </div>
-      </div>
-
-      <div class="form-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeNourishmentStat(stat)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-    }
+    <app-edit-statobject [(statObject)]="editingData.useEffect!.extra!.statChanges!"></app-edit-statobject>
     }
 
     <hr class="my-4">
@@ -657,42 +621,9 @@
     </div>
     }
 
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-stat [(stat)]="currentEncrustStat"></app-input-stat>
-        </div>
-      </div>
 
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="btn btn-accent btn-sm" [disabled]="!currentEncrustStat() || doesItemHaveCurrentEncrustStat()"
-            (click)="addEncrustStat(currentEncrustStat())">
-            <ng-icon name="heroPlus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
+    <app-edit-statobject [(statObject)]="editingData.encrustGive!.stats"></app-edit-statobject>
 
-    @for(stat of encrustStatsInOrder(); track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>{{ stat }}</app-input-floating-label>
-          <input [(ngModel)]="editingData.encrustGive!.stats[stat]" type="number" placeholder="Choose value..."
-            class="form-input" />
-        </div>
-      </div>
-
-      <div class="form-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeEncrustStat(stat)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-    }
   </div>
   }
 </div>

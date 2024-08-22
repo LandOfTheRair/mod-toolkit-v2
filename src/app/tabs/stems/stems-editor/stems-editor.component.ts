@@ -1,5 +1,5 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
-import { isBoolean, isNumber, isString } from 'lodash';
+import { isBoolean, isString } from 'lodash';
 import { StatType } from '../../../../interfaces';
 import { ISTEM } from '../../../../interfaces/stem';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
@@ -70,7 +70,6 @@ export class StemsEditorComponent
 
   public currentItem = signal<ISTEM | undefined>(undefined);
   public currentTraitStat = signal<StatType>('agi');
-  public currentEffectStat = signal<StatType>('agi');
 
   public canSave = computed(() => {
     const data = this.editing();
@@ -101,28 +100,6 @@ export class StemsEditorComponent
       data._gameId,
       data._id
     );
-  });
-
-  public traitStatsInOrder = computed(() => {
-    const item = this.editing();
-    return Object.keys(item.trait?.statsGiven ?? {}).sort() as StatType[];
-  });
-
-  public doesItemHaveCurrentTraitStat = computed(() => {
-    const current = this.currentTraitStat();
-    return isNumber(this.editing().trait.statsGiven?.[current]);
-  });
-
-  public effectStatsInOrder = computed(() => {
-    const item = this.editing();
-    return Object.keys(
-      item.effect.effect.extra?.statChanges ?? {}
-    ).sort() as StatType[];
-  });
-
-  public doesItemHaveCurrentEffectStat = computed(() => {
-    const current = this.currentEffectStat();
-    return isNumber(this.editing().effect.effect.extra?.statChanges?.[current]);
   });
 
   public effectUniqueType = computed(() => {
@@ -158,35 +135,6 @@ export class StemsEditorComponent
     });
   }
 
-  addTraitStat(stat: StatType, value = 0) {
-    if (this.hasTraitStat(stat)) return;
-
-    this.editing.update((s) => {
-      return {
-        ...s,
-        trait: {
-          ...s.trait,
-          statsGiven: {
-            ...s.trait.statsGiven,
-            [stat]: value,
-          },
-        },
-      };
-    });
-  }
-
-  removeTraitStat(stat: StatType) {
-    this.editing.update((s) => {
-      delete s.trait.statsGiven?.[stat];
-
-      return s;
-    });
-  }
-
-  hasTraitStat(stat: StatType) {
-    return this.editing().trait.statsGiven?.[stat];
-  }
-
   // effect functions
   changeBuffType($event: string | undefined) {
     if (!$event) return;
@@ -214,41 +162,6 @@ export class StemsEditorComponent
         },
       };
     });
-  }
-
-  addEffectStat(stat: StatType, value = 0) {
-    if (this.hasEffectStat(stat)) return;
-
-    this.editing.update((editing) => {
-      return {
-        ...editing,
-        effect: {
-          ...editing.effect,
-          effect: {
-            ...editing.effect.effect,
-            extra: {
-              ...editing.effect.effect.extra,
-              statChanges: {
-                ...editing.effect.effect.extra.statChanges,
-                [stat]: value,
-              },
-            },
-          },
-        },
-      };
-    });
-  }
-
-  removeEffectStat(stat: StatType) {
-    this.editing.update((s) => {
-      delete s.effect.effect.extra.statChanges?.[stat];
-
-      return s;
-    });
-  }
-
-  hasEffectStat(stat: StatType) {
-    return this.editing().effect.effect.extra.statChanges?.[stat];
   }
 
   doSave() {

@@ -18,7 +18,7 @@ export interface IStatusEffectInfo {
   persistThroughDeath?: boolean;
   canOverlapUniqueIfEquipped?: boolean;
   charges?: number;
-  statChanges?: Partial<Record<StatType, number>>;
+  statChanges: Partial<Record<StatType, number>>;
 }
 
 export interface IEffectTooltip {

@@ -1,5 +1,5 @@
 import { Component, computed, OnInit, Signal, signal } from '@angular/core';
-import { isNumber, sortBy } from 'lodash';
+import { sortBy } from 'lodash';
 import {
   IItemDefinition,
   ItemClassType,
@@ -83,8 +83,6 @@ export class ItemsEditorComponent
 
   public currentItem = signal<IItemDefinition | undefined>(undefined);
   public currentStat = signal<StatType>('agi');
-  public currentEncrustStat = signal<StatType>('agi');
-  public currentNourishmentStat = signal<StatType>('agi');
   public currentTraitTab = signal<TraitSetting>('none');
   public currentTrait = signal<string | undefined>(undefined);
   public allStatEdits = signal<StatEdit[]>([]);
@@ -118,30 +116,8 @@ export class ItemsEditorComponent
     return this.allStatEdits().find((s) => s.stat === current);
   });
 
-  public doesItemHaveCurrentEncrustStat = computed(() => {
-    const current = this.currentEncrustStat();
-    return isNumber(this.editing().encrustGive?.stats[current]);
-  });
-
-  public doesItemHaveCurrentNourishmentStat = computed(() => {
-    const current = this.currentNourishmentStat();
-    return isNumber(this.editing().useEffect?.extra?.statChanges?.[current]);
-  });
-
   public statsInOrder = computed(() => {
     return sortBy(this.allStatEdits(), 'stat');
-  });
-
-  public encrustStatsInOrder = computed(() => {
-    const item = this.editing();
-    return Object.keys(item.encrustGive?.stats ?? {}).sort() as StatType[];
-  });
-
-  public nourishmentStatsInOrder = computed(() => {
-    const item = this.editing();
-    return Object.keys(
-      item.useEffect?.extra?.statChanges ?? {}
-    ).sort() as StatType[];
   });
 
   public extraProps: Signal<(keyof IItemDefinition)[]> = computed(() => {
@@ -301,75 +277,6 @@ export class ItemsEditorComponent
 
   private hasStat(stat: StatType) {
     return this.allStatEdits().find((s) => s.stat === stat);
-  }
-
-  public addEncrustStat(stat: StatType, value = 0) {
-    if (this.hasEncrustStat(stat)) return;
-
-    this.editing.update((s) => {
-      if (!s.encrustGive) return s;
-
-      return {
-        ...s,
-        encrustGive: {
-          ...s.encrustGive,
-          stats: {
-            ...s.encrustGive.stats,
-            [stat]: value,
-          },
-        },
-      };
-    });
-  }
-
-  public removeEncrustStat(stat: StatType) {
-    this.editing.update((s) => {
-      if (!s.encrustGive) return s;
-
-      delete s.encrustGive.stats[stat];
-
-      return s;
-    });
-  }
-
-  private hasEncrustStat(stat: StatType) {
-    return this.editing().encrustGive?.stats?.[stat];
-  }
-
-  public addNourishmentStat(stat: StatType, value = 0) {
-    if (this.hasNourishmentStat(stat)) return;
-
-    this.editing.update((s) => {
-      if (!s.useEffect) return s;
-
-      return {
-        ...s,
-        useEffect: {
-          ...s.useEffect,
-          extra: {
-            ...s.useEffect.extra,
-            statChanges: {
-              ...(s.useEffect.extra?.statChanges ?? {}),
-              [stat]: value,
-            },
-          },
-        },
-      };
-    });
-  }
-
-  public removeNourishmentStat(stat: StatType) {
-    this.editing.update((s) => {
-      if (!s.encrustGive) return s;
-
-      delete s.encrustGive.stats[stat];
-
-      return s;
-    });
-  }
-
-  private hasNourishmentStat(stat: StatType) {
-    return this.editing().useEffect?.extra?.statChanges?.[stat];
   }
 
   private extractStats(item: IItemDefinition) {

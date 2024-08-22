@@ -248,44 +248,11 @@
     </div>
   </div>
 
+
   <div class="form-column">
 
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-stat [(stat)]="currentTraitStat" [allowCore]="true"></app-input-stat>
-        </div>
-      </div>
+    <app-edit-statobject [(statObject)]="editingData.trait.statsGiven!"></app-edit-statobject>
 
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="btn btn-accent btn-sm" [disabled]="!currentTraitStat() || doesItemHaveCurrentTraitStat()"
-            (click)="addTraitStat(currentTraitStat())">
-            <ng-icon name="heroPlus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    @for(stat of traitStatsInOrder(); track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>{{ stat }}</app-input-floating-label>
-          <input [(ngModel)]="editingData.trait.statsGiven![stat]" type="number" placeholder="Choose value..."
-            class="form-input" />
-        </div>
-      </div>
-
-      <div class="form-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeTraitStat(stat)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-    }
   </div>
 </div>
 }
@@ -458,42 +425,7 @@
     }
     }
 
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-stat [(stat)]="currentEffectStat" [allowCore]="true"></app-input-stat>
-        </div>
-      </div>
-
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="btn btn-accent btn-sm" [disabled]="!currentEffectStat() || doesItemHaveCurrentEffectStat()"
-            (click)="addEffectStat(currentEffectStat())">
-            <ng-icon name="heroPlus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    @for(stat of effectStatsInOrder(); track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>{{ stat }}</app-input-floating-label>
-          <input [(ngModel)]="editingData.effect.effect.extra.statChanges![stat]" type="number"
-            placeholder="Choose value..." class="form-input" />
-        </div>
-      </div>
-
-      <div class="form-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeEffectStat(stat)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-    }
+    <app-edit-statobject [(statObject)]="editingData.effect.effect.extra.statChanges"></app-edit-statobject>
   </div>
 
   <div class="form-column">
