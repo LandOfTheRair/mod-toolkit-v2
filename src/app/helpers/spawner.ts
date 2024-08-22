@@ -29,7 +29,7 @@ export const defaultSpawner: () => ISpawnerData = () => ({
   respectKnowledge: true,
   attributeAddChance: 0,
   shouldBeActive: false,
-  requireEvent: '',
+  requireEvent: undefined as unknown as string,
   maxSpawn: undefined,
   requireHoliday: undefined as unknown as string,
   _paths: '',

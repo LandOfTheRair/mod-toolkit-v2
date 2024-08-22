@@ -85,9 +85,7 @@
     <div class="form-row">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label>Required Event</app-input-floating-label>
-          <input [(ngModel)]="editingData.requireEvent" type="text" placeholder="Enter in-game event required..."
-            class="form-input" />
+          <app-input-gameevent [(gameEvent)]="editingData.requireEvent"></app-input-gameevent>
         </div>
       </div>
       <div class="form-column">

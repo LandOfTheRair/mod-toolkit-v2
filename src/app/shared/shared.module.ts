@@ -59,6 +59,7 @@ import { CellIconComponent } from './components/cell-icon/cell-icon.component';
 import { InputMacrotypeComponent } from './components/input-macrotype/input-macrotype.component';
 import { InputBufftypeComponent } from './components/input-bufftype/input-bufftype.component';
 import { EditStatobjectComponent } from './components/edit-statobject/edit-statobject.component';
+import { InputGameeventComponent } from './components/input-gameevent/input-gameevent.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { EditStatobjectComponent } from './components/edit-statobject/edit-stato
     InputMacrotypeComponent,
     InputBufftypeComponent,
     EditStatobjectComponent,
+    InputGameeventComponent,
   ],
   imports: [
     CommonModule,
@@ -172,6 +174,7 @@ import { EditStatobjectComponent } from './components/edit-statobject/edit-stato
     InputMacrotypeComponent,
     InputBufftypeComponent,
     EditStatobjectComponent,
+    InputGameeventComponent,
   ],
 })
 export class SharedModule {}
