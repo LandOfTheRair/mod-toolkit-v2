@@ -19,12 +19,13 @@
   }
 
   @if(params.showDeleteButton) {
-  <button class="ml-2 btn btn-sm btn-warning" [swal]="deleteItem" floatUi="Delete">
+  <button class="ml-2 btn btn-sm btn-warning" (click)="attemptDelete($event)" floatUi="Delete">
     <ng-icon name="heroTrash"></ng-icon>
   </button>
 
-  <swal #deleteItem title="Delete This?" text="This cannot be undone." icon="warning" [showCancelButton]="true"
-    confirmButtonText="Yes, delete" [focusCancel]="true" (confirm)="params.deleteCallback?.(params.data)">
+  <swal #deleteItem title="Delete This?" text="This cannot be undone. You can hold shift to bypass this warning."
+    icon="warning" [showCancelButton]="true" confirmButtonText="Yes, delete" [focusCancel]="true"
+    (confirm)="params.deleteCallback?.(params.data)">
   </swal>
   }
 </div>
