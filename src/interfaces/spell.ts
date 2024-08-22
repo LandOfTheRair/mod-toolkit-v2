@@ -13,7 +13,7 @@ export interface ISpell {
   potencyMultiplier?: number; // the overall multiplier to the potency of the skill
   bonusRollsMin?: number; // the number of bonus rolls this spell will roll at minimum (default 0)
   bonusRollsMax?: number; // the number of bonus rolls this spell will roll at maximum (default 0)
-  skillMultiplierChanges?: number[][]; // the skill multiplier buffs when you reach a certain skill threshold
+  skillMultiplierChanges: number[][]; // the skill multiplier buffs when you reach a certain skill threshold
 
   spellMeta: {
     aoe?: boolean; // whether or not this spell is an aoe
@@ -23,7 +23,7 @@ export interface ISpell {
     canBeResisted?: boolean; // whether or not the spell can be resisted outright
     noReflect?: boolean; // whether or not the spell can NOT be reflected (useful for cures, etc)
     staticPotency?: boolean; // whether or not the potency for this spell should be static (buffs should be consistent)
-    creatureSummoned?: string[]; // if this spell summons a creature, this is the npc id
+    creatureSummoned: string[]; // if this spell summons a creature, this is the npc id
     doesHeal?: boolean; // if the spell does a heal (inverse attack), it calls this first
     doesAttack?: boolean; // if the spell does an attack, it calls this first
     doesOvertime?: boolean; // if the spell has an over-time component, it is applied automatically
@@ -38,8 +38,7 @@ export interface ISpell {
     targetsParty?: boolean; // if the spell targets the entire casters party (aka, powerwords)
     range?: number; // if the spell is an aoe, this is the default range from the center it targets (default 0)
     resistLowerTrait?: string; // if the spell canBeResisted, this trait will improve the chance of the spell cast going through
-    spellRef: string; // the reference to the spell for casting purposes
     useSkillAsPotency?: boolean; // if true, the spell will use only the casters skill as the potency (unless there is already a potency set)
-    fizzledBy?: string[]; // if set, the spell will not take hold on any target if they contain an effect listed in this array
+    fizzledBy: string[]; // if set, the spell will not take hold on any target if they contain an effect listed in this array
   };
 }

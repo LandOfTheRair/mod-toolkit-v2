@@ -128,16 +128,418 @@
 @case (1) {
 <ng-container *ngTemplateOutlet="defaults"></ng-container>
 
+<!--
+  ------------
+  skillmultiplierchanges
+  creaturesummoned
+  fizzledby
+-->
+
 <div class="flex flex-row gap-2">
   <div class="form-column">
+
+    <div class="form-row">
+      <app-input-floating-label>Spell Name</app-input-floating-label>
+      <input [(ngModel)]="editingData.spell.spellName" type="text"
+        [placeholder]="'Enter spell name (defaults to ' + editingData._gameId + ')'" class="form-input" />
+    </div>
+
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Max Skill For Gains</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.maxSkillForGain" type="number" min="0" placeholder="Enter max skill..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Bonus Agro On Cast</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.spellMeta.bonusAgro" type="number" min="0"
+            placeholder="Enter bonus agro..." class="form-input" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>MP Cost</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.mpCost" type="number" min="0" placeholder="Enter MP cost..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Cast Time</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.castTime" type="number" min="0" placeholder="Enter cast time..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Cooldown</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.cooldown" type="number" min="0" placeholder="Enter cooldown..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-damageclass [(damageClass)]="editingData.spell.damageClass"
+        label="Damage Class"></app-input-damageclass>
+    </div>
+
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the spell damages the target.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.doesAttack"
+              (ngModelChange)="setSpellAttack($event)" class="checkbox" />
+            <span class="label-text">Is Attack</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the spell heals the target.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.doesHeal"
+              (ngModelChange)="setSpellHeal($event)" class="checkbox" />
+            <span class="label-text">Is Heal</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the spell is an over-time effect.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.doesOvertime"
+              (ngModelChange)="setSpellOvertime($event)" class="checkbox" />
+            <span class="label-text">Is Overtime</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the spell targets the party of the caster.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.targetsParty" class="checkbox" />
+            <span class="label-text">Targets Party</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the spell can target hostile targets.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.noHostileTarget" class="checkbox" />
+            <span class="label-text">No Hostile Targets</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the spell can be reflected back to the caster.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.noReflect" class="checkbox" />
+            <span class="label-text">No Reflect</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Potency Multiplier</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.potencyMultiplier" type="number" min="0"
+            placeholder="Enter multiplier..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the spell potency is determined solely by the skill of the caster (normally, this also factors in stats and other information).">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.useSkillAsPotency" class="checkbox" />
+            <span class="label-text">Skill -> Potency</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the spell potency should be static (useful for buffs, so they always cast with the same duration).">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.staticPotency" class="checkbox" />
+            <span class="label-text">Static Potency</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Bonus Rolls Min</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.bonusRollsMin" type="number" min="0" placeholder="Enter min rolls..."
+            class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Bonus Rolls Max</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.bonusRollsMax" type="number" min="0" placeholder="Enter max rolls..."
+            class="form-input" />
+        </div>
+      </div>
+    </div>
+
   </div>
 
-
   <div class="form-column">
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the spell is an AoE.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.aoe" class="checkbox" />
+            <span class="label-text">Is AoE</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        @if(editingData.spell.spellMeta.aoe) {
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not the spell can be cast directionally from the current tile.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.allowDirectional" class="checkbox" />
+            <span class="label-text">Allow Directional Casting</span>
+          </label>
+        </div>
+        }
+      </div>
+    </div>
+
+    @if(editingData.spell.spellMeta.aoe) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>AoE Range</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.spellMeta.range" type="number" min="0" max="5"
+            placeholder="Enter range..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-trait [(trait)]="editingData.spell.spellMeta.aoeRangeTrait"
+            label="AoE Range Trait"></app-input-trait>
+        </div>
+      </div>
+    </div>
+    }
+
+    @if(editingData.spell.spellMeta.doesAttack || editingData.spell.spellMeta.doesOvertime) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Will Save Threshold</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.willSaveThreshold" type="number" min="0"
+            placeholder="Enter threshold..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Will Save %</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.willSaveThreshold" type="number" min="0" max="100"
+            placeholder="Enter save chance %..." class="form-input" />
+        </div>
+      </div>
+    </div>
+    }
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer" floatUi="Whether or not the spell can be resisted (no damage).">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.canBeResisted" class="checkbox" />
+            <span class="label-text">Can Be Resisted</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        @if(editingData.spell.spellMeta.canBeResisted) {
+        <div class="form-row">
+          <app-input-trait [(trait)]="editingData.spell.spellMeta.resistLowerTrait" label="Resist Lower Trait"
+            floatUi="This trait lowers the resist of the opponent, making it more likely to hit."></app-input-trait>
+        </div>
+        }
+      </div>
+    </div>
+
+    @if(editingData.spell.spellMeta.doesAttack) {
+    <div class="form-row">
+      <app-input-trait [(trait)]="editingData.spell.spellMeta.extraAttackTrait" label="Extra Attack Trait"
+        floatUi="This trait increases the number of attacks a spell does."></app-input-trait>
+    </div>
+    }
+
   </div>
 
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Caster Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.spell.spellMeta.casterMessage" type="text" placeholder="Enter caster message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Caster Attack Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.spell.spellMeta.casterAttackMessage" type="text"
+        placeholder="Enter caster attack message..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-sfx [(sfx)]="editingData.spell.spellMeta.casterSfx" label="Caster SFX"></app-input-sfx>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Target Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.spell.spellMeta.targetMessage" type="text" placeholder="Enter target message..."
+        class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Target Attack Message</app-input-floating-label>
+      <input [(ngModel)]="editingData.spell.spellMeta.targetAttackMessage" type="text"
+        placeholder="Enter target attack message..." class="form-input" />
+    </div>
+
+    <div class="form-row">
+      <app-input-sfx [(sfx)]="editingData.spell.spellMeta.targetSfx" label="Target SFX"></app-input-sfx>
+    </div>
+  </div>
 
   <div class="form-column">
+    <div class="form-row">
+      <button class="btn btn-accent btn-sm w-full" (click)="addSpellPotencyMultiplier()">
+        Add spell multiplier
+      </button>
+    </div>
+
+    @for(item of editingData.spell.skillMultiplierChanges; track item) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Caster Skill</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.skillMultiplierChanges[$index][0]" min="0" type="number"
+            placeholder="Choose skill..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Potency</app-input-floating-label>
+          <input [(ngModel)]="editingData.spell.skillMultiplierChanges[$index][1]" min="0" type="number"
+            placeholder="Choose potency..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeSpellPotencyMultiplier($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+
+    <div class="form-row split">
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-npc [(npc)]="currentSpellNPC" label="Add Summonable NPC"></app-input-npc>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm" [disabled]="!currentSpellNPC() || hasSpellSummonNPC(currentSpellNPC())"
+            (click)="addSpellSummonNPC(currentSpellNPC())">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(npc of sortSpellSummonNPCs(editingData.spell.spellMeta.creatureSummoned); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-sprite-with-inline-name [name]="npc" type="creatures"></app-sprite-with-inline-name>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeSpellSummonNPC($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-effect [(effect)]="currentSpellFizzleEffect" label="Add Fizzle Effect"></app-input-effect>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="btn btn-accent btn-sm"
+            [disabled]="!currentSpellFizzleEffect() || hasSpellFizzleEffect(currentSpellFizzleEffect()?.value)"
+            (click)="addSpellFizzleEffect(currentSpellFizzleEffect()?.value)">
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(effect of sortSpellFizzleEffects(editingData.spell.spellMeta.fizzledBy); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          {{ effect }}
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeSpellFizzleEffect($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
   </div>
 </div>
 }
@@ -430,11 +832,13 @@
 
   <div class="form-column">
     <div class="form-row">
-      <app-input-effect [(effect)]="editingData.effect.effectMeta.effectRef" label="Effect Ref"></app-input-effect>
+      <app-input-effect [defaultValue]="editingData.effect.effectMeta.effectRef"
+        (change)="editingData.effect.effectMeta.effectRef = $event" label="Effect Ref"></app-input-effect>
     </div>
 
     <div class="form-row">
-      <app-input-effect [(effect)]="editingData.effect.effectMeta.recentlyRef" label="Recently Ref"></app-input-effect>
+      <app-input-effect [defaultValue]="editingData.effect.effectMeta.recentlyRef"
+        (change)="editingData.effect.effectMeta.recentlyRef = $event" label="Recently Ref"></app-input-effect>
     </div>
 
     <div class="form-row">

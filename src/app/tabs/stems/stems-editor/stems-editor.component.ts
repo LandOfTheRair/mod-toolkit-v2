@@ -1,6 +1,6 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { isBoolean, isString } from 'lodash';
-import { StatType } from '../../../../interfaces';
+import { INPCDefinition, StatType } from '../../../../interfaces';
 import { ISTEM } from '../../../../interfaces/stem';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
@@ -70,6 +70,10 @@ export class StemsEditorComponent
 
   public currentItem = signal<ISTEM | undefined>(undefined);
   public currentTraitStat = signal<StatType>('agi');
+  public currentSpellNPC = signal<INPCDefinition | undefined>(undefined);
+  public currentSpellFizzleEffect = signal<{ value: string } | undefined>(
+    undefined
+  );
 
   public canSave = computed(() => {
     const data = this.editing();
@@ -162,6 +166,114 @@ export class StemsEditorComponent
         },
       };
     });
+  }
+
+  setSpellAttack($event: boolean) {
+    if (!$event) return;
+
+    const editing = this.editing();
+    editing.spell = {
+      ...editing.spell,
+      spellMeta: {
+        ...editing.spell.spellMeta,
+        doesOvertime: false,
+        doesHeal: false,
+      },
+    };
+
+    this.editing.set(editing);
+  }
+
+  setSpellHeal($event: boolean) {
+    if (!$event) return;
+
+    const editing = this.editing();
+    editing.spell = {
+      ...editing.spell,
+      spellMeta: {
+        ...editing.spell.spellMeta,
+        doesOvertime: false,
+        doesAttack: false,
+        noHostileTarget: true,
+        noReflect: true,
+      },
+    };
+
+    this.editing.set(editing);
+  }
+
+  setSpellOvertime($event: boolean) {
+    if (!$event) return;
+
+    const editing = this.editing();
+    editing.spell = {
+      ...editing.spell,
+      spellMeta: {
+        ...editing.spell.spellMeta,
+        doesAttack: false,
+        doesHeal: false,
+      },
+    };
+
+    this.editing.set(editing);
+  }
+
+  addSpellPotencyMultiplier() {
+    const editing = this.editing();
+    editing.spell.skillMultiplierChanges.push([]);
+    this.editing.set(editing);
+  }
+
+  removeSpellPotencyMultiplier(index: number) {
+    const editing = this.editing();
+    editing.spell.skillMultiplierChanges.splice(index, 1);
+    this.editing.set(editing);
+  }
+
+  addSpellSummonNPC(npc: INPCDefinition | undefined) {
+    if (!npc) return;
+
+    const editing = this.editing();
+    editing.spell.spellMeta.creatureSummoned.push(npc.npcId);
+    this.editing.set(editing);
+  }
+
+  removeSpellSummonNPC(index: number) {
+    const editing = this.editing();
+    editing.spell.spellMeta.creatureSummoned.splice(index, 1);
+    this.editing.set(editing);
+  }
+
+  hasSpellSummonNPC(npc: INPCDefinition | undefined): boolean {
+    if (!npc) return false;
+    return this.editing().spell.spellMeta.creatureSummoned.includes(npc.npcId);
+  }
+
+  sortSpellSummonNPCs(npcs: string[]): string[] {
+    return npcs.sort();
+  }
+
+  addSpellFizzleEffect(effect: string | undefined) {
+    if (!effect) return;
+
+    const editing = this.editing();
+    editing.spell.spellMeta.fizzledBy.push(effect);
+    this.editing.set(editing);
+  }
+
+  removeSpellFizzleEffect(index: number) {
+    const editing = this.editing();
+    editing.spell.spellMeta.fizzledBy.splice(index, 1);
+    this.editing.set(editing);
+  }
+
+  hasSpellFizzleEffect(effect: string | undefined): boolean {
+    if (!effect) return false;
+    return this.editing().spell.spellMeta.fizzledBy.includes(effect);
+  }
+
+  sortSpellFizzleEffects(effects: string[]): string[] {
+    return effects.sort();
   }
 
   doSave() {

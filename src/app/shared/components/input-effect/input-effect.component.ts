@@ -7,7 +7,6 @@ import {
   model,
   output,
 } from '@angular/core';
-import { ElectronService } from '../../../services/electron.service';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
@@ -16,10 +15,9 @@ import { ModService } from '../../../services/mod.service';
   styleUrl: './input-effect.component.scss',
 })
 export class InputEffectComponent {
-  private electronService = inject(ElectronService);
   private modService = inject(ModService);
 
-  public effect = model<string | undefined>();
+  public effect = model<{ value: string } | undefined>();
   public label = input<string>('Effect');
   public defaultValue = input<string>();
   public change = output<string>();
@@ -58,7 +56,7 @@ export class InputEffectComponent {
         const defaultItem = this.defaultValue();
         if (defaultItem) {
           const foundItem = this.values().find((i) => i.value === defaultItem);
-          this.effect.set(foundItem as unknown as string);
+          this.effect.set(foundItem as unknown as { value: string });
         }
       },
       { allowSignalWrites: true }
