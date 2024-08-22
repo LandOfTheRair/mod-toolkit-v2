@@ -29,6 +29,14 @@ export class CoresComponent extends EditorBaseTableComponent<EditingType> {
       sort: 'asc',
     },
     {
+      field: 'desc',
+      flex: 5,
+      cellDataType: 'text',
+      filter: 'agTextColumnFilter',
+      cellClass: 'leading-4 whitespace-break-spaces',
+      sortable: false,
+    },
+    {
       field: '',
       width: 200,
       sortable: false,

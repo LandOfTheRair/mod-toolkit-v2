@@ -19,6 +19,11 @@
     </div>
 
     <div class="form-row">
+      <app-input-floating-label>Description</app-input-floating-label>
+      <input [(ngModel)]="editingData.desc" type="text" placeholder="Enter description..." class="form-input" />
+    </div>
+
+    <div class="form-row">
       <ngs-code-editor class="editor-container" [theme]="'vs-dark'" [codeModel]="fileModel"
         [options]="{ contextmenu: true }" (valueChanged)="onYamlChanged($event)"></ngs-code-editor>
     </div>
