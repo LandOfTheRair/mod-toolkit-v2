@@ -6,7 +6,7 @@ import {
   model,
   output,
 } from '@angular/core';
-import { ElectronService } from '../../../services/electron.service';
+import { sortBy } from 'lodash';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
@@ -15,7 +15,6 @@ import { ModService } from '../../../services/mod.service';
   styleUrl: './input-trait.component.scss',
 })
 export class InputTraitComponent {
-  private electronService = inject(ElectronService);
   private modService = inject(ModService);
 
   public trait = model.required<string | undefined>();
@@ -23,6 +22,21 @@ export class InputTraitComponent {
   public change = output<string>();
 
   public values = computed(() => {
+    const baseTraits = this.modService
+      .mod()
+      .stems.filter((s) => s._hasTrait && !s._hasSpell);
+    if (baseTraits.length === 0) return this.fallbackValues();
+
+    return sortBy(
+      baseTraits.map((t) => ({
+        value: t.name,
+        desc: t.all.desc,
+      })),
+      'value'
+    );
+  });
+
+  public fallbackValues = computed(() => {
     const traitObj = this.modService.json()['traits'] as Record<string, any>;
 
     return Object.keys(traitObj ?? {})

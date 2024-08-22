@@ -7,7 +7,19 @@ import {
   model,
   output,
 } from '@angular/core';
+import { sortBy } from 'lodash';
 import { ModService } from '../../../services/mod.service';
+
+const baseEffectList = [
+  {
+    value: 'Attribute',
+    desc: 'Default attributes, like resistances or weaknesses',
+  },
+  {
+    value: 'Mood',
+    desc: 'Mood fluctuates based on NPC health. NPC enrages after a certain time period.',
+  },
+];
 
 @Component({
   selector: 'app-input-effect',
@@ -23,21 +35,33 @@ export class InputEffectComponent {
   public change = output<string>();
 
   public values = computed(() => {
+    const baseEffects = this.modService
+      .mod()
+      .stems.filter(
+        (s) => s._hasEffect && !['Attribute', 'Mood'].includes(s.name)
+      );
+
+    if (baseEffects.length === 0) return this.fallbackValues();
+
+    return sortBy(
+      [
+        ...baseEffectList,
+        ...baseEffects.map((e) => ({
+          value: e._gameId,
+          desc: e.all.desc,
+        })),
+      ],
+      'value'
+    );
+  });
+
+  public fallbackValues = computed(() => {
     const effectObj = this.modService.json()['effect-data'] as Record<
       string,
       any
     >;
     return [
-      ...[
-        {
-          value: 'Attribute',
-          desc: 'Default attributes, like resistances or weaknesses',
-        },
-        {
-          value: 'Mood',
-          desc: 'Mood fluctuates based on NPC health. NPC enrages after a certain time period.',
-        },
-      ],
+      ...baseEffectList,
       ...Object.keys(effectObj ?? {})
         .sort()
         .filter((x) => !['Attribute', 'Mood'].includes(x))

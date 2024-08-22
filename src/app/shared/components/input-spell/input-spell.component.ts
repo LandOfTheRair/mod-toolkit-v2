@@ -6,7 +6,6 @@ import {
   model,
   output,
 } from '@angular/core';
-import { ElectronService } from '../../../services/electron.service';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
@@ -15,7 +14,6 @@ import { ModService } from '../../../services/mod.service';
   styleUrl: './input-spell.component.scss',
 })
 export class InputSpellComponent {
-  private electronService = inject(ElectronService);
   private modService = inject(ModService);
 
   public spell = model.required<string | undefined>();
@@ -23,6 +21,16 @@ export class InputSpellComponent {
   public change = output<string>();
 
   public values = computed(() => {
+    const baseSpells = this.modService
+      .mod()
+      .stems.filter((s) => s._hasSpell)
+      .map((s) => s._gameId);
+    if (baseSpells.length === 0) return this.fallbackValues();
+
+    return baseSpells.sort();
+  });
+
+  public fallbackValues = computed(() => {
     const spellObj = this.modService.json()['spells'] as Record<string, any>;
     return Object.keys(spellObj ?? {}).sort();
   });
