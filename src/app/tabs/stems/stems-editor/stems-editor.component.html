@@ -943,7 +943,8 @@
 
     <div class="form-row">
       <app-input-floating-label>Macro</app-input-floating-label>
-      <input [(ngModel)]="editingData.macro.macro" type="text" placeholder="Enter macro command..."
+      <input [(ngModel)]="editingData.macro.macro" type="text"
+        [placeholder]="'Enter macro command (defaults to cast ' + editingData._gameId.toLowerCase() + ')...'"
         class="form-input" />
     </div>
 

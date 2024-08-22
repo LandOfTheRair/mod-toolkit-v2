@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FilterChangedEvent, FilterModel } from 'ag-grid-community';
+import { merge } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import { HasIdentification, IModKit } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
@@ -42,7 +43,12 @@ export class EditorBaseTableComponent<T extends HasIdentification>
   public editExisting(data: T) {
     this.isEditing.set(true);
     this.oldData.set(structuredClone(data));
-    this.editingData.set(structuredClone(data));
+
+    const defaultContent = this.defaultData();
+    const clonedContent = structuredClone(data);
+
+    const finalItem = merge(defaultContent, clonedContent);
+    this.editingData.set(finalItem);
   }
 
   public cancelEditing() {
