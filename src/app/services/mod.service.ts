@@ -80,6 +80,8 @@ export class ModService {
     );
 
     this.ensureMapsExist();
+
+    (window as any).modService = this;
   }
 
   // mod functions

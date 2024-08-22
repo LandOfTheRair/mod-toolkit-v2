@@ -32,7 +32,6 @@ export class ElectronService {
 
     effect(() => {
       const mod = this.modService.mod();
-      this.send('BACKUP_MOD', mod);
 
       const settings = this.settingsService.allSettings()[mod.meta.id];
       if (settings.autosaveFilePath) {
@@ -40,6 +39,8 @@ export class ElectronService {
           modData: mod,
           quicksaveFilepath: settings.autosaveFilePath,
         });
+      } else {
+        this.send('BACKUP_MOD', mod);
       }
     });
   }

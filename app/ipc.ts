@@ -145,9 +145,10 @@ export function setupIPC(sendToUI: SendToUI) {
     sendToUI('json', { name: json, data: jsonData });
   });
 
-  ipcMain.on('BACKUP_MOD', (e: any, mod: any) => {
+  ipcMain.on('BACKUP_MOD', async (e: any, mod: any) => {
     fs.ensureDirSync(`${baseUrl}/resources/modbackup`);
-    fs.writeJSONSync(
+
+    await fs.writeJSON(
       `${baseUrl}/resources/modbackup/${mod.meta.name}.rairdevmod.bak`,
       mod,
       { spaces: 2 }
@@ -187,7 +188,7 @@ export function setupIPC(sendToUI: SendToUI) {
 
   ipcMain.on(
     'SAVE_MOD_WITH_BACKUP',
-    (e: any, { modData, quicksaveFilepath }: any) => {
+    async (e: any, { modData, quicksaveFilepath }: any) => {
       if (!quicksaveFilepath || !modData) return;
 
       if (!fs.existsSync(quicksaveFilepath)) return;
@@ -196,8 +197,8 @@ export function setupIPC(sendToUI: SendToUI) {
         const fullMod = modData;
         const backupPath = `${baseUrl}/resources/backup.rairmod`;
 
-        fs.writeJSONSync(backupPath, fullMod, { spaces: 2 });
-        fs.moveSync(backupPath, quicksaveFilepath, { overwrite: true });
+        await fs.writeJSON(backupPath, fullMod, { spaces: 2 });
+        await fs.move(backupPath, quicksaveFilepath, { overwrite: true });
       } catch (e) {
         console.error('Could not quick save?');
         console.error(e);

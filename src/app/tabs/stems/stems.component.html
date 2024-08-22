@@ -8,3 +8,6 @@
 <app-stems-editor class="h-full w-full" [editing]="editingData()" (goBack)="cancelEditing()"
   (save)="saveNewData($event)"></app-stems-editor>
 }
+
+<input #stemUpload type="file" multiple (change)="importPartialSTEMs($event)" accept="application/json"
+  class="hidden" />
