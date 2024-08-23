@@ -31,7 +31,7 @@ export function generateTraitScrolls(
   Object.keys(allTraits).forEach((traitName) => {
     const traitData = allTraits[traitName];
 
-    if (traitData.spellGiven) return;
+    if (traitData.spellGiven || traitData.isAncient) return;
 
     allRuneScrolls.add(traitName);
   });
