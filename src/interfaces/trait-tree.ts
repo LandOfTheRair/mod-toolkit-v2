@@ -1,4 +1,9 @@
-export type ITraitTree = Record<string, ITraitTreeData>;
+import { HasIdentification } from './identified';
+
+export interface ITraitTree extends HasIdentification {
+  name: string;
+  data: ITraitTreeData;
+}
 
 export interface ITraitTreeData {
   treeOrder: string[];
@@ -19,4 +24,5 @@ export interface ITraitTreeRowTrait {
   name: string;
   maxLevel: number;
   requires?: string;
+  isAncient?: boolean;
 }

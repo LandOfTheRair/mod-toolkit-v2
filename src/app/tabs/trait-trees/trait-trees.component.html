@@ -1,1 +1,10 @@
-<p>trait-trees works!</p>
+@let editing = isEditing();
+
+<app-editor-view-table [class.hidden]="editing" [dataType]="'trait trees'" [tableColumns]="tableColumns"
+  [tableItems]="tableItems()" (create)="createNew()" (filterChanged)="filterChanged($event)"
+  [defaultFilterState]="tableFilterState()"></app-editor-view-table>
+
+@if(editing) {
+<app-trait-trees-editor class="h-full w-full" [editing]="editingData()" (goBack)="cancelEditing()"
+  (save)="saveNewData($event)"></app-trait-trees-editor>
+}

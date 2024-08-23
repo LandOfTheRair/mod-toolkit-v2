@@ -67,6 +67,10 @@ export class HomeComponent {
       name: 'STEMs',
       count: computed(() => this.modService.mod().stems.length),
     },
+    {
+      name: 'Trait Trees',
+      count: computed(() => this.modService.mod().traitTrees.length),
+    },
   ];
 
   constructor() {

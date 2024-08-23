@@ -41,6 +41,7 @@ export function defaultModKit(): IModKit {
     spawners: [],
     cores: [],
     stems: [],
+    traitTrees: [],
   };
 }
 

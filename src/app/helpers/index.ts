@@ -11,4 +11,5 @@ export * from './quest';
 export * from './recipe';
 export * from './spawner';
 export * from './stem';
+export * from './traittree';
 export * from './validate';

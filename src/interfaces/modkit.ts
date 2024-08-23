@@ -8,6 +8,7 @@ import { IQuest } from './quest';
 import { IRecipe } from './recipe';
 import { ISpawnerData } from './spawner';
 import { ISTEM } from './stem';
+import { ITraitTree } from './trait-tree';
 
 export interface IModKit {
   meta: {
@@ -29,4 +30,5 @@ export interface IModKit {
   dialogs: INPCScript[];
   cores: ICoreContent[];
   stems: ISTEM[];
+  traitTrees: ITraitTree[];
 }

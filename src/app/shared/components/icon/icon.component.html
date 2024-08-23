@@ -1,5 +1,4 @@
 @if(icon(); as icon) {
 <svg-icon [src]="'lotr://./resources/assets/macicons/' + icon + '.svg'" class="icon"
-  [svgStyle]="{ 'background-color': bgColor(), 'outline-color': borderColor() }"
-  [style.--svg-color]="color()"></svg-icon>
+  [svgStyle]="{ 'background-color': bgColor() }" [style.--svg-color]="color()"></svg-icon>
 }

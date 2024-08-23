@@ -3,6 +3,8 @@ import {
   heroArrowPathRoundedSquare,
   heroArrowsRightLeft,
   heroArrowTopRightOnSquare,
+  heroArrowTurnLeftUp,
+  heroArrowTurnRightDown,
   heroDocumentDuplicate,
   heroDocumentText,
   heroFaceFrown,
@@ -30,4 +32,6 @@ export const appIcons = {
   heroArrowTopRightOnSquare,
   heroInformationCircle,
   heroFire,
+  heroArrowTurnLeftUp,
+  heroArrowTurnRightDown,
 };

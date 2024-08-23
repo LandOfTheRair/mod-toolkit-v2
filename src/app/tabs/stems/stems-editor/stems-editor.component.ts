@@ -4,46 +4,6 @@ import { INPCDefinition, StatType } from '../../../../interfaces';
 import { ISTEM } from '../../../../interfaces/stem';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
-/**
- * TODO: rules
- *
- * spell:
- * - spell.spellName = spellName || stemKey
- * - spell.spellMeta ??= {}
- * - spell.spellMeta.spellRef = spell.spellMeta.spellRef || stemKey
- * - spell.mpCost ??= 0
- * - spell.maxSkillForGain ??= 1;
- *
- * trait:
- * - trait.spellGiven = spellGiven || stemKey
- * - trait.name = trait.name || all.name
- * - trait.icon = trait.icon || all.icon
- * - trait.desc = trait.desc || all.desc
- * - trait.iconColor = trait.iconColor || all.iconColor
- * - trait.iconBgColor = trait.iconBgColor || all.bgColor
- * - ancient traits have set iconbgcolor to #aa5c39
- *
- * effect:
- * - effect.tooltip.icon = icon || all.icon
- * - effect.tooltip.color = color || all.color
- * - effect.tooltip.bgColor = bgColor || all.bgColor
- * - effect.tooltip.desc = desc || all.desc
- * - effect.effectMeta ??= {}
- * - effect.tooltip ??= {}
- * - effect.extra ??= {}
- * - effect.extra.potency ??= 0
- * - effect.duration ??= 0
- *
- * macro:
- * - macro.name = name || stemKey
- * - macro.for = for || stemKey
- * - macro.macro = macro || cast stemKey.toLowerCase()
- * - macro.icon = icon || all.icon
- * - macro.color = color || all.color
- * - macro.bgColor = bgColor || all.bgColor
- * - macro.tooltipDesc = tooltipDesc || all.desc
- */
-
 @Component({
   selector: 'app-stems-editor',
   templateUrl: './stems-editor.component.html',

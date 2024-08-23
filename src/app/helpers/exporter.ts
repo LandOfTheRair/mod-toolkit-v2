@@ -20,6 +20,7 @@ export function formatMod(modData: IModKit): IModKit {
     spawners: formatSpawners(modData.spawners),
     cores: modData.cores,
     stems: modData.stems,
+    traitTrees: modData.traitTrees,
   };
 
   return exported;

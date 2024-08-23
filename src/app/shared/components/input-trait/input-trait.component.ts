@@ -20,16 +20,19 @@ export class InputTraitComponent {
   public trait = model.required<string | undefined>();
   public label = input<string>('Trait');
   public change = output<string>();
+  public allowSpells = input<boolean>(false);
 
   public values = computed(() => {
+    const allowSpells = this.allowSpells();
+
     const baseTraits = this.modService
       .mod()
-      .stems.filter((s) => s._hasTrait && !s._hasSpell);
+      .stems.filter((s) => (s._hasTrait && allowSpells ? true : !s._hasSpell));
     if (baseTraits.length === 0) return this.fallbackValues();
 
     return sortBy(
       baseTraits.map((t) => ({
-        value: t.name,
+        value: t._gameId,
         desc: t.all.desc,
       })),
       'value'
