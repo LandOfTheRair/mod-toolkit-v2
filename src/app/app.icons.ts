@@ -11,6 +11,7 @@ import {
   heroFaceSmile,
   heroFire,
   heroInformationCircle,
+  heroMagnifyingGlass,
   heroMinus,
   heroPencil,
   heroPlus,
@@ -34,4 +35,5 @@ export const appIcons = {
   heroFire,
   heroArrowTurnLeftUp,
   heroArrowTurnRightDown,
+  heroMagnifyingGlass,
 };

@@ -1,0 +1,24 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values()" bindValue="data" groupBy="category" [(ngModel)]="spawner"
+    [virtualScroll]="true" placeholder="Select spawner..." (change)="change.emit($event?.value)"
+    [compareWith]="itemCompare" [searchFn]="search">
+
+    <ng-template ng-label-tmp let-item="item">
+      <div class="relative">
+        <div class="text-white">
+          {{ item.data.tag }}
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template ng-option-tmp let-item="item">
+      <div class="relative">
+        <div class="text-white">
+          {{ item.data.tag }}
+        </div>
+      </div>
+    </ng-template>
+  </ng-select>
+
+  <app-input-floating-label>{{ label() }}</app-input-floating-label>
+</div>

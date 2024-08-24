@@ -4,6 +4,7 @@ import { ColDef } from 'ag-grid-community';
 import { IModKit, INPCDefinition } from '../../../interfaces';
 import { defaultNPC, id } from '../../helpers';
 import { ElectronService } from '../../services/electron.service';
+import { PinpointService } from '../../services/pinpoint.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -18,6 +19,7 @@ type EditingType = INPCDefinition;
 })
 export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
   private electronService = inject(ElectronService);
+  private pinpointService = inject(PinpointService);
 
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'npcs';
 
@@ -78,7 +80,7 @@ export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
     },
     {
       field: '',
-      width: 200,
+      width: 250,
       sortable: false,
       suppressMovable: true,
       headerComponent: HeaderButtonsComponent,
@@ -89,6 +91,10 @@ export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
       cellRenderer: CellButtonsComponent,
       cellClass: 'no-adjust',
       cellRendererParams: {
+        showPinpointButton: true,
+        pinpointCallback: (item: EditingType) => {
+          this.pinpointService.searchNPC(item.npcId);
+        },
         showCopyButton: true,
         copyCallback: (item: EditingType) => {
           const newItem = structuredClone(item);

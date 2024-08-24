@@ -8,37 +8,33 @@ import {
   output,
 } from '@angular/core';
 import { sortBy } from 'lodash';
-import { IItemDefinition } from '../../../../interfaces';
+import { ISpawnerData } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
-type ItemModel = { category: string; data: IItemDefinition; value: string };
+type ItemModel = { category: string; data: ISpawnerData; value: string };
 
 @Component({
-  selector: 'app-input-item',
-  templateUrl: './input-item.component.html',
-  styleUrl: './input-item.component.scss',
+  selector: 'app-input-spawner',
+  templateUrl: './input-spawner.component.html',
+  styleUrl: './input-spawner.component.scss',
 })
-export class InputItemComponent implements OnInit {
+export class InputSpawnerComponent implements OnInit {
   private modService = inject(ModService);
 
-  public item = model<ItemModel | undefined>();
-  public label = input<string>('Item');
+  public spawner = model<ISpawnerData | undefined>();
+  public label = input<string>('Spawner');
   public defaultValue = input<string>();
-  public allowNone = input<boolean>(false);
   public change = output<string>();
 
   public values = computed(() => {
     const mod = this.modService.mod();
 
     return [
-      this.allowNone()
-        ? { category: 'Default', data: { name: 'none' }, value: 'none' }
-        : undefined,
       ...sortBy(
-        mod.items.map((i) => ({
-          category: 'My Mod Items',
+        mod.spawners.map((i) => ({
+          category: 'My Mod Spawners',
           data: i,
-          value: i.name,
+          value: i.tag,
         })),
         'value'
       ),
@@ -51,7 +47,7 @@ export class InputItemComponent implements OnInit {
     const defaultItem = this.defaultValue();
     if (defaultItem) {
       const foundItem = this.values().find((i) => i.value === defaultItem);
-      this.item.set(foundItem);
+      this.spawner.set(foundItem as unknown as ISpawnerData);
     }
   }
 

@@ -1,8 +1,9 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IItemDefinition, IModKit } from '../../../interfaces';
 import { defaultItem, id } from '../../helpers';
+import { PinpointService } from '../../services/pinpoint.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -16,6 +17,8 @@ type EditingType = IItemDefinition;
   styleUrl: './items.component.scss',
 })
 export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
+  private pinpointService = inject(PinpointService);
+
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'items';
 
   public defaultData = defaultItem;
@@ -71,7 +74,7 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
     },
     {
       field: '',
-      width: 200,
+      width: 250,
       sortable: false,
       suppressMovable: true,
       headerComponent: HeaderButtonsComponent,
@@ -82,6 +85,10 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
       cellRenderer: CellButtonsComponent,
       cellClass: 'no-adjust',
       cellRendererParams: {
+        showPinpointButton: true,
+        pinpointCallback: (item: EditingType) => {
+          this.pinpointService.searchItem(item.name);
+        },
         showCopyButton: true,
         copyCallback: (item: EditingType) => {
           const newItem = structuredClone(item);

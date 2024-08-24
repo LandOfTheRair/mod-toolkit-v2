@@ -60,6 +60,7 @@ import { InputMacrotypeComponent } from './components/input-macrotype/input-macr
 import { InputBufftypeComponent } from './components/input-bufftype/input-bufftype.component';
 import { EditStatobjectComponent } from './components/edit-statobject/edit-statobject.component';
 import { InputGameeventComponent } from './components/input-gameevent/input-gameevent.component';
+import { InputSpawnerComponent } from './components/input-spawner/input-spawner.component';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { InputGameeventComponent } from './components/input-gameevent/input-game
     InputBufftypeComponent,
     EditStatobjectComponent,
     InputGameeventComponent,
+    InputSpawnerComponent,
   ],
   imports: [
     CommonModule,
@@ -175,6 +177,7 @@ import { InputGameeventComponent } from './components/input-gameevent/input-game
     InputBufftypeComponent,
     EditStatobjectComponent,
     InputGameeventComponent,
+    InputSpawnerComponent,
   ],
 })
 export class SharedModule {}

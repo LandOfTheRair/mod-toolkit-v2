@@ -10,6 +10,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxFloatUiModule } from 'ngx-float-ui';
 
+import { PinpointComponent } from '../pinpoint/pinpoint.component';
 import { SharedModule } from '../shared/shared.module';
 import { CoresEditorComponent } from '../tabs/cores/cores-editor/cores-editor.component';
 import { CoresComponent } from '../tabs/cores/cores.component';
@@ -60,6 +61,7 @@ import { HomeComponent } from './home.component';
     TraitTreesEditorComponent,
     StemsComponent,
     StemsEditorComponent,
+    PinpointComponent,
   ],
   imports: [
     CommonModule,
@@ -80,6 +82,7 @@ import { HomeComponent } from './home.component';
     TraitTreesEditorComponent,
     StemsComponent,
     StemsEditorComponent,
+    PinpointComponent,
   ],
 })
 export class HomeModule {}

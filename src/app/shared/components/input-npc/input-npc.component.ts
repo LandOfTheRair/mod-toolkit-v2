@@ -21,7 +21,7 @@ type NPCModel = { category: string; data: INPCDefinition; value: string };
 export class InputNpcComponent implements OnInit {
   private modService = inject(ModService);
 
-  public npc = model.required<INPCDefinition | undefined>();
+  public npc = model<INPCDefinition | undefined>();
   public label = input<string>('NPC');
   public defaultValue = input<string>();
   public change = output<string>();

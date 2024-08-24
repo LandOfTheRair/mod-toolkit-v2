@@ -13,6 +13,7 @@ import { formatMod } from '../helpers/exporter';
 import { DebugService } from '../services/debug.service';
 import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
+import { PinpointService } from '../services/pinpoint.service';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ import { ModService } from '../services/mod.service';
 })
 export class HomeComponent {
   private localStorage = inject(LocalStorageService);
+  public pinpointService = inject(PinpointService);
   public debugService = inject(DebugService);
   public electronService = inject(ElectronService);
   public modService = inject(ModService);

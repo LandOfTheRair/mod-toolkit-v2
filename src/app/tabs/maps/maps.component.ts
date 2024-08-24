@@ -11,6 +11,7 @@ import { IEditorMap } from '../../../interfaces/map';
 import { id } from '../../helpers';
 import { ElectronService } from '../../services/electron.service';
 import { NotifyService } from '../../services/notify.service';
+import { PinpointService } from '../../services/pinpoint.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
 import { HeaderButtonsComponent } from '../../shared/components/header-buttons/header-buttons.component';
@@ -25,6 +26,7 @@ type EditingType = IEditorMap;
 export class MapsComponent extends EditorBaseTableComponent<EditingType> {
   private notifyService = inject(NotifyService);
   private electronService = inject(ElectronService);
+  private pinpointService = inject(PinpointService);
 
   public newSwal = viewChild<SwalComponent>('newSwal');
   public renameSwal = viewChild<SwalComponent>('renameSwal');
@@ -83,7 +85,7 @@ export class MapsComponent extends EditorBaseTableComponent<EditingType> {
     },
     {
       field: '',
-      width: 250,
+      width: 300,
       sortable: false,
       suppressMovable: true,
       headerComponent: HeaderButtonsComponent,
@@ -96,6 +98,10 @@ export class MapsComponent extends EditorBaseTableComponent<EditingType> {
       cellRenderer: CellButtonsComponent,
       cellClass: 'no-adjust',
       cellRendererParams: {
+        showPinpointButton: true,
+        pinpointCallback: (item: EditingType) => {
+          this.pinpointService.searchMap(item.name);
+        },
         showCopyButton: true,
         copyCallback: (item: EditingType) => this.copyMap(item.name),
         showRenameButton: true,
