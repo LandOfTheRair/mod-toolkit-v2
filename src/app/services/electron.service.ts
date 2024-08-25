@@ -1,4 +1,4 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 
 import { IEditorMap, IModKit } from '../../interfaces';
 import { importMod } from '../helpers/importer';
@@ -22,10 +22,18 @@ declare global {
 export class ElectronService {
   public isLoaded = signal<boolean>(false);
   public isFirstLoad = signal<boolean>(false);
+  private needsLoadForReadyCheck = signal<boolean>(false);
+  private shouldEnsureMaps = signal<boolean>(true);
 
   private modService = inject(ModService);
   private notifyService = inject(NotifyService);
   private settingsService = inject(SettingsService);
+
+  private quicksaveFilepath = computed(() => {
+    const mod = this.modService.mod();
+    const settings = this.settingsService.allSettings()[mod.meta.id];
+    return settings.autosaveFilePath;
+  });
 
   constructor() {
     this.watchIPC();
@@ -33,11 +41,11 @@ export class ElectronService {
     effect(() => {
       const mod = this.modService.mod();
 
-      const settings = this.settingsService.allSettings()[mod.meta.id];
-      if (settings.autosaveFilePath) {
+      const quicksaveFilepath = this.quicksaveFilepath();
+      if (quicksaveFilepath) {
         this.send('SAVE_MOD_WITH_BACKUP', {
           modData: mod,
-          quicksaveFilepath: settings.autosaveFilePath,
+          quicksaveFilepath,
         });
       } else {
         this.send('BACKUP_MOD', mod);
@@ -48,11 +56,26 @@ export class ElectronService {
   private watchIPC() {
     window.api.reset();
 
+    const tryToReady = () => {
+      if (!this.needsLoadForReadyCheck()) return;
+      this.send('READY_CHECK');
+    };
+
+    const tryEnsureMaps = () => {
+      if (!this.shouldEnsureMaps()) return;
+      this.shouldEnsureMaps.set(false);
+
+      this.modService.ensureMapsExist();
+    };
+
     window.api.receive('ready', () => {
+      if (this.isLoaded()) return;
+
       this.isLoaded.set(true);
       this.isFirstLoad.set(false);
 
       this.requestAllJSON();
+      tryEnsureMaps();
     });
 
     window.api.receive('resourcedone', () => {
@@ -90,14 +113,18 @@ export class ElectronService {
     window.api.receive('loadmod', (mod: IModKit) => {
       const importedMod = importMod(mod);
       this.modService.updateMod(importedMod);
-      this.modService.ensureMapsExist();
+      tryEnsureMaps();
+
+      tryToReady();
     });
 
     // import the mod raw from the backup.
     window.api.receive('importmod', (mod: IModKit) => {
       const importedMod = importMod(mod.meta._backup as IModKit);
       this.modService.updateMod(importedMod);
-      this.modService.ensureMapsExist();
+      tryEnsureMaps();
+
+      tryToReady();
     });
 
     window.api.receive(
@@ -110,6 +137,13 @@ export class ElectronService {
         );
       }
     );
+
+    const quicksaveFilepath = this.quicksaveFilepath();
+    if (quicksaveFilepath) {
+      this.needsLoadForReadyCheck.set(true);
+      this.send('LOAD_MOD_QUIETLY', { path: quicksaveFilepath });
+      return;
+    }
 
     this.send('READY_CHECK');
   }

@@ -12,9 +12,12 @@
     "download-github-repo": "^0.1.4",
     "electron-config": "^2.0.0",
     "electron-log": "^5.1.7",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "md5-file": "^5.0.0",
+    "recursive-readdir": "^2.2.3"
   },
   "devDependencies": {
-    "@types/adm-zip": "^0.5.5"
+    "@types/adm-zip": "^0.5.5",
+    "@types/recursive-readdir": "^2.2.4"
   }
 }

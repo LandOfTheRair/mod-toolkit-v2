@@ -1,6 +1,9 @@
 import * as chokidar from 'chokidar';
 import { dialog, ipcMain } from 'electron';
 import * as fs from 'fs-extra';
+import * as md5File from 'md5-file';
+import * as recursiveReaddir from 'recursive-readdir';
+
 import * as path from 'path';
 
 import * as handlers from './handlers';
@@ -11,9 +14,19 @@ import { SendToUI } from './types';
 
 let watcher: any = null;
 
-export function watchMaps(sendToUI: SendToUI) {
+const fileHashes: Record<string, string> = {};
+
+export async function watchMaps(sendToUI: SendToUI) {
   if (!fs.existsSync(`${baseUrl}/resources/.loaded`)) return;
   if (watcher) return;
+
+  const allFiles = await recursiveReaddir(
+    `${baseUrl}/resources/maps/src/content/maps/custom`
+  );
+  const allFilesToHash = allFiles.map((f) => path.resolve(f));
+  allFilesToHash.forEach(async (f) => {
+    fileHashes[f] = await md5File(f);
+  });
 
   watcher = chokidar.watch(
     `${baseUrl}/resources/maps/src/content/maps/custom/*.json`,
@@ -29,10 +42,18 @@ export function watchMaps(sendToUI: SendToUI) {
     sendToUI('newmap', { name, map });
   };
 
-  watcher.on('change', (filePath: string) => {
+  watcher.on('change', async (filePath: string) => {
+    const pathToHash = path.resolve(filePath);
+    const newHash = await md5File(pathToHash);
+
+    if (fileHashes[pathToHash] === newHash) {
+      console.log(`Ignoring file update; contents unchanged.`);
+      return;
+    }
+
     console.log(
       `[Map Update]`,
-      `${filePath} has changed. Sending update to client...`
+      `${pathToHash} has changed. Sending update to client...`
     );
     const map = path.basename(filePath, '.json');
     updateMap(map);
@@ -114,10 +135,11 @@ export function setupIPC(sendToUI: SendToUI) {
 
   ipcMain.on('EDIT_MAP', async (e: any, data: any) => {
     const name = data.name;
-    if (!name) return;
+    const map = data.map;
+    if (!name || !map) return;
 
     try {
-      handlers.editMap(name);
+      handlers.editMap(name, map);
     } catch (e) {
       sendToUI('notify', { type: 'error', text: 'Tiled is not installed.' });
     }
@@ -205,6 +227,20 @@ export function setupIPC(sendToUI: SendToUI) {
       }
     }
   );
+
+  ipcMain.on('LOAD_MOD_QUIETLY', (e: any, { path }: any) => {
+    try {
+      const json = fs.readJSONSync(path);
+
+      const shouldImport = !!json.meta._backup;
+
+      if (shouldImport) {
+        sendToUI('importmod', json);
+      } else {
+        sendToUI('loadmod', json);
+      }
+    } catch {}
+  });
 
   ipcMain.on('LOAD_MOD', () => {
     const res = dialog.showOpenDialogSync(null, {

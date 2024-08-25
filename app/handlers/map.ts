@@ -32,9 +32,7 @@ export function newMap(mapName: string, mapAuthor: string) {
   json.properties.creator = mapAuthor;
   json.propertytypes.creator = 'string';
 
-  fs.writeJSONSync(path, json);
-
-  editMap(fileName);
+  editMap(fileName, json);
 
   return json;
 }
@@ -68,14 +66,15 @@ export function removeMap(mapName: string) {
   fs.moveSync(oldPath, newPath, { overwrite: true });
 }
 
-export function editMap(mapName: string) {
+// TODO: for some reason, when editing a map, it gets an old version instead of using the one in memory - maybe EDIT_MAP also needs to send the map contents?
+export function editMap(mapName: string, map: any) {
   if (!fs.existsSync(`${baseUrl}/resources/Tiled`)) {
     throw new Error('Tiled is not installed.');
   }
 
   const path = `${baseUrl}/resources/maps/src/content/maps/custom/${mapName}.json`;
 
-  const map = fs.readJsonSync(path);
+  // const map = fs.readJsonSync(path);
   fixTiledMapPaths(map);
   fs.writeJsonSync(path, map);
 

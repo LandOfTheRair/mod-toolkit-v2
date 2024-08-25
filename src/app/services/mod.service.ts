@@ -80,8 +80,6 @@ export class ModService {
       { allowSignalWrites: true }
     );
 
-    this.ensureMapsExist();
-
     (window as any).modService = this;
   }
 
