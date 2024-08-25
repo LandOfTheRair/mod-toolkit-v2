@@ -190,7 +190,7 @@ export class MapsComponent extends EditorBaseTableComponent<EditingType> {
   }
 
   public editExisting(data: EditingType) {
-    this.electronService.send('EDIT_MAP', { name: data.name, map: data.map });
+    this.electronService.send('EDIT_MAP', data);
   }
 
   public deleteData(data: EditingType) {

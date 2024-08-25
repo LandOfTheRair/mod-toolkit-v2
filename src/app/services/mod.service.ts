@@ -215,9 +215,9 @@ export class ModService {
     const mod = this.mod();
     if (!mod.meta.name) mod.meta.name = incomingMap.name;
 
-    const existingMap = mod.maps.findIndex((x) => x.name === incomingMap.name);
-    if (existingMap !== -1) {
-      mod.maps[existingMap] = incomingMap;
+    const existingMap = mod.maps.find((x) => x.name === incomingMap.name);
+    if (existingMap) {
+      existingMap.map = incomingMap.map;
     } else {
       mod.maps.push(incomingMap);
     }
