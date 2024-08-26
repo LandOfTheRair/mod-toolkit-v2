@@ -10,6 +10,7 @@ import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { LocalStorageService } from 'ngx-webstorage';
 import { numErrorsForMod } from '../helpers';
 import { formatMod } from '../helpers/exporter';
+import { AnalysisService } from '../services/analysis.service';
 import { DebugService } from '../services/debug.service';
 import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
@@ -23,6 +24,7 @@ import { PinpointService } from '../services/pinpoint.service';
 export class HomeComponent {
   private localStorage = inject(LocalStorageService);
   public pinpointService = inject(PinpointService);
+  public analysisService = inject(AnalysisService);
   public debugService = inject(DebugService);
   public electronService = inject(ElectronService);
   public modService = inject(ModService);
@@ -121,6 +123,20 @@ export class HomeComponent {
 
   toggleModValidation() {
     this.isValidating.set(!this.isValidating());
+    this.pinpointService.togglePinpointing(false);
+    this.analysisService.toggleAnalyzing(false);
+  }
+
+  togglePinpointing() {
+    this.pinpointService.togglePinpointing(true);
+    this.isValidating.set(false);
+    this.analysisService.toggleAnalyzing(false);
+  }
+
+  toggleAnalyzing() {
+    this.analysisService.toggleAnalyzing(true);
+    this.isValidating.set(false);
+    this.pinpointService.togglePinpointing(false);
   }
 
   toggleTester() {

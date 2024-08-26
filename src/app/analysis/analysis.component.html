@@ -1,0 +1,97 @@
+<div role="tablist" class="tabs tabs-boxed rounded-none">
+
+  <div class="tab flex flex-row justify-end">
+    <button class="btn-sm btn btn-success mr-3" (click)="analysisService.toggleAnalyzing()">Done</button>
+  </div>
+
+</div>
+
+<div class="flex flex-row gap-2 mb-3">
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-analysis-report [(report)]="report" (change)="updateReport($event)"></app-input-analysis-report>
+    </div>
+  </div>
+</div>
+
+@let fullReport = reportData();
+@if(fullReport) {
+<div class="flex flex-row gap-2 mb-3">
+  <div class="form-column">
+
+    @for(entry of fullReport.entries; track $index) {
+    @switch(entry.type) {
+    @case ('list') {
+    <div class="form-row">
+      <h1 class="ml-1 text-2xl font-bold mb-2">{{ entry.list.title }}</h1>
+    </div>
+
+    @for(row of entry.list.rows; track $index) {
+    <div class="form-row flex">
+      @if(row.pretext) {
+      <span class="ml-1">{{ row.pretext }}</span>
+      }
+
+      @if(row.itemName) {
+      <app-sprite-with-inline-name class="ml-1" [type]="'items'" [name]="row.itemName"></app-sprite-with-inline-name>
+      }
+
+      @if(row.posttext) {
+      <span class="ml-1">{{ row.posttext }}</span>
+      }
+    </div>
+    }
+    }
+
+    @case ('table') {
+    <div class="form-row">
+      <h1 class="ml-1 text-2xl font-bold mb-2">{{ entry.table.title }}</h1>
+    </div>
+
+    <div class="form-row">
+      <table class="table table-zebra">
+        <thead>
+          <tr>
+            @for(header of entry.table.headers; track $index) {
+            <th>{{ header }}</th>
+            }
+          </tr>
+        </thead>
+
+        <tbody>
+          @for(row of entry.table.rows; track $index) {
+          <tr>
+            @for(col of row; track $index) {
+            <td>
+              <div class="flex" [floatUi]="col.tooltip" [disabled]="!col.tooltip">
+                @if(col.pretext) {
+                <span class="ml-1">{{ col.pretext }}</span>
+                }
+
+                @if(col.itemName) {
+                <app-sprite-with-inline-name class="ml-1" [type]="'items'"
+                  [name]="col.itemName"></app-sprite-with-inline-name>
+                }
+
+                @if(col.posttext) {
+                <span class="ml-1">{{ col.posttext }}</span>
+                }
+              </div>
+            </td>
+            }
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+    }
+
+    }
+  </div>
+</div>
+}
+
+<app-debug-view>
+  {{ fullReport | json }}
+</app-debug-view>

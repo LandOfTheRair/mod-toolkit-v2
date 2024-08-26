@@ -27,9 +27,19 @@ const WeaponClasses = [
   'Wand',
 ];
 
+export const ArmorClasses = [
+  'Tunic',
+  'Breastplate',
+  'Fur',
+  'Fullplate',
+  'Scaleplate',
+];
+export const ShieldClasses = ['Shield', 'Saucer'];
+export const HeadClasses = ['Hat', 'Helm', 'Skull', 'Saucer'];
+export const HandClasses = ['Gloves', 'Claws', 'Hands'];
+export const RobeClasses = ['Cloak', 'Robe'];
+
 const AmmoClasses = ['Arrow'];
-const ShieldClasses = ['Shield', 'Saucer'];
-const ArmorClasses = ['Tunic', 'Breastplate', 'Fur', 'Fullplate', 'Scaleplate'];
 const SackableWeaponClasses = ['Axe', 'Dagger', 'Hammer', 'Saucer'];
 const SackableArmorClasses = ['Tunic', 'Fur'];
 

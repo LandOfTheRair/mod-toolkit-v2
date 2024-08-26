@@ -62,12 +62,14 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
     },
     {
       field: 'requirements.level',
+      headerName: 'Level Requirement',
       flex: 1,
       cellDataType: 'number',
       filter: 'agNumberColumnFilter',
     },
     {
       field: 'requirements.baseClass',
+      headerName: 'Class Requirement',
       flex: 1,
       cellDataType: 'text',
       filter: 'agTextColumnFilter',

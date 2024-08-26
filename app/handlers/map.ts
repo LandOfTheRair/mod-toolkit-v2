@@ -66,7 +66,6 @@ export function removeMap(mapName: string) {
   fs.moveSync(oldPath, newPath, { overwrite: true });
 }
 
-// TODO: for some reason, when editing a map, it gets an old version instead of using the one in memory - maybe EDIT_MAP also needs to send the map contents?
 export function editMap(mapName: string, map: any) {
   if (!fs.existsSync(`${baseUrl}/resources/Tiled`)) {
     throw new Error('Tiled is not installed.');

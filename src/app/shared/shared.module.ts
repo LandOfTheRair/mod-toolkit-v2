@@ -61,6 +61,7 @@ import { InputBufftypeComponent } from './components/input-bufftype/input-buffty
 import { EditStatobjectComponent } from './components/edit-statobject/edit-statobject.component';
 import { InputGameeventComponent } from './components/input-gameevent/input-gameevent.component';
 import { InputSpawnerComponent } from './components/input-spawner/input-spawner.component';
+import { InputAnalysisReportComponent } from './components/input-analysis-report/input-analysis-report.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { InputSpawnerComponent } from './components/input-spawner/input-spawner.
     EditStatobjectComponent,
     InputGameeventComponent,
     InputSpawnerComponent,
+    InputAnalysisReportComponent,
   ],
   imports: [
     CommonModule,
@@ -178,6 +180,7 @@ import { InputSpawnerComponent } from './components/input-spawner/input-spawner.
     EditStatobjectComponent,
     InputGameeventComponent,
     InputSpawnerComponent,
+    InputAnalysisReportComponent,
   ],
 })
 export class SharedModule {}

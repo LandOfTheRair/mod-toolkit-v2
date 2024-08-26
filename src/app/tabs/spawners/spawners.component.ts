@@ -4,7 +4,6 @@ import { ColDef } from 'ag-grid-community';
 import { IModKit, ISpawnerData } from '../../../interfaces';
 import { defaultSpawner, id } from '../../helpers';
 import { ElectronService } from '../../services/electron.service';
-import { PinpointService } from '../../services/pinpoint.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
 import { HeaderButtonsComponent } from '../../shared/components/header-buttons/header-buttons.component';
@@ -18,7 +17,6 @@ type EditingType = ISpawnerData;
 })
 export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
   private electronService = inject(ElectronService);
-  private pinpointService = inject(PinpointService);
 
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'spawners';
 
@@ -32,6 +30,7 @@ export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
       flex: 1,
       cellDataType: 'text',
       filter: 'agTextColumnFilter',
+      sort: 'asc',
     },
     {
       field: 'respawnRate',

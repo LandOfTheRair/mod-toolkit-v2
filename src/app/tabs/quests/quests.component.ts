@@ -31,6 +31,7 @@ export class QuestsComponent extends EditorBaseTableComponent<EditingType> {
       flex: 1,
       cellDataType: 'text',
       filter: 'agTextColumnFilter',
+      sort: 'asc',
     },
     {
       field: 'giver',

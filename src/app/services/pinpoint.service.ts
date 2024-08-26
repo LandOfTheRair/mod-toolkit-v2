@@ -71,8 +71,7 @@ export class PinpointService {
     };
   });
 
-  public togglePinpointing() {
-    const newSetting = !this.isPinpointing();
+  public togglePinpointing(newSetting = !this.isPinpointing()) {
     this.isPinpointing.set(newSetting);
 
     this.pinpointMap.set(undefined);
