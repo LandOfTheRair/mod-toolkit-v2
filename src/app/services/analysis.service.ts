@@ -257,7 +257,7 @@ export class AnalysisService {
     const report: AnalysisReportDisplay = {
       type: AnalysisDisplayType.Table,
       table: {
-        title: `Global Armor Distribution`,
+        title: `Global Weapon Distribution`,
         headers: [
           'Item Class',
           '# Items',

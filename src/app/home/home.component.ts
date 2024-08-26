@@ -15,6 +15,7 @@ import { DebugService } from '../services/debug.service';
 import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
 import { PinpointService } from '../services/pinpoint.service';
+import { QueryService } from '../services/query.service';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ export class HomeComponent {
   private localStorage = inject(LocalStorageService);
   public pinpointService = inject(PinpointService);
   public analysisService = inject(AnalysisService);
+  public queryService = inject(QueryService);
   public debugService = inject(DebugService);
   public electronService = inject(ElectronService);
   public modService = inject(ModService);
@@ -80,6 +82,7 @@ export class HomeComponent {
   constructor() {
     const lastTab = (this.localStorage.retrieve('lasttab') as number) ?? 0;
     this.activeTab.set(lastTab);
+    this.toggleQuerying();
   }
 
   changeTab(newTab: number) {
@@ -125,18 +128,28 @@ export class HomeComponent {
     this.isValidating.set(!this.isValidating());
     this.pinpointService.togglePinpointing(false);
     this.analysisService.toggleAnalyzing(false);
+    this.queryService.toggleQuerying(false);
   }
 
   togglePinpointing() {
     this.pinpointService.togglePinpointing(true);
     this.isValidating.set(false);
     this.analysisService.toggleAnalyzing(false);
+    this.queryService.toggleQuerying(false);
   }
 
   toggleAnalyzing() {
     this.analysisService.toggleAnalyzing(true);
     this.isValidating.set(false);
     this.pinpointService.togglePinpointing(false);
+    this.queryService.toggleQuerying(false);
+  }
+
+  toggleQuerying() {
+    this.queryService.toggleQuerying(true);
+    this.isValidating.set(false);
+    this.pinpointService.togglePinpointing(false);
+    this.analysisService.toggleAnalyzing(false);
   }
 
   toggleTester() {

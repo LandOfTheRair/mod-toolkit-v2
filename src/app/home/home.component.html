@@ -33,6 +33,7 @@
             <li><a (click)="closeMenu(); toggleModValidation()">Validate Mod</a></li>
             <li><a (click)="closeMenu(); toggleAnalyzing()">Analyze...</a></li>
             <li><a (click)="closeMenu(); togglePinpointing()">Pinpoint...</a></li>
+            <li><a (click)="closeMenu(); toggleQuerying()">Query...</a></li>
             <li>
               <a (click)="closeMenu(); debugService.toggleDebug()">Debug Mode {{ debugService.isDebug() ? '☑' : '☐'
                 }}</a>
@@ -80,6 +81,17 @@
     <div class="card bg-base-100 w-full shadow-xl">
       <div class="card-body">
         <app-analysis></app-analysis>
+      </div>
+    </div>
+  </div>
+</div>
+
+} @else if(queryService.isQuerying()) {
+<div class="root-body">
+  <div class="root-content p-3">
+    <div class="card bg-base-100 w-full shadow-xl">
+      <div class="card-body">
+        <app-query></app-query>
       </div>
     </div>
   </div>

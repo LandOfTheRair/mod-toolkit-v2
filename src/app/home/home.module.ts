@@ -36,6 +36,7 @@ import { TraitTreesEditorComponent } from '../tabs/trait-trees/trait-trees-edito
 import { TraitTreesComponent } from '../tabs/trait-trees/trait-trees.component';
 import { ValidationComponent } from '../validation/validation.component';
 import { HomeComponent } from './home.component';
+import { QueryComponent } from '../query/query.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { HomeComponent } from './home.component';
     StemsEditorComponent,
     PinpointComponent,
     AnalysisComponent,
+    QueryComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +78,8 @@ import { HomeComponent } from './home.component';
     CodeEditorModule,
     ColorPickerModule,
   ],
-  exports: [],
+  exports: [
+    QueryComponent
+  ],
 })
 export class HomeModule {}

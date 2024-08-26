@@ -1,0 +1,76 @@
+<div role="tablist" class="tabs tabs-boxed rounded-none">
+
+  @for(tab of tabOrder; track tab.name; let i = $index) {
+  <a role="tab" class="tab" [class.tab-active]="activeQueryTab() === i" (click)="changeTab(i)">
+    {{ tab.name }}
+  </a>
+  }
+
+  <div class="tab flex flex-row justify-end">
+    @switch (activeQueryTab()) {
+    @case (0) {
+    <button class="btn-sm btn btn-primary mr-3" (click)="updateJSFunction()">Run JS</button>
+    }
+    @case (1) {
+    <button class="btn-sm btn btn-primary mr-3" (click)="updateSQLFunction()">Run SQL</button>
+    }
+    }
+    <button class="btn-sm btn btn-success mr-3" (click)="queryService.toggleQuerying()">Done</button>
+  </div>
+
+</div>
+
+
+@switch (activeQueryTab()) {
+@case (0) {
+<div class="flex flex-row gap-2 mb-3">
+  <div class="form-column">
+    <div class="form-row">
+      <ngs-code-editor class="editor-container" [theme]="'vs-dark'" [codeModel]="jsModel"
+        [options]="{ contextmenu: true }" (valueChanged)="onJSChanged($event)"
+        (keydown.control.s)="$event.preventDefault(); updateJSFunction()"></ngs-code-editor>
+    </div>
+  </div>
+
+  <div class="form-column max-w-[50%] max-h-[70vh] overflow-scroll">
+    <div class="form-row">
+      @if(jsError(); as error) {
+      <div class="error">{{ error }}</div>
+      }
+      @if(jsResult(); as result) {
+      <pre>
+{{ result | json }}
+      </pre>
+      }
+      <pre></pre>
+    </div>
+  </div>
+</div>
+}
+
+@case (1) {
+<div class="flex flex-row gap-2 mb-3">
+  <div class="form-column">
+    <div class="form-row">
+      <ngs-code-editor class="editor-container" [theme]="'vs-dark'" [codeModel]="sqlModel"
+        [options]="{ contextmenu: true }" (valueChanged)="onSQLChanged($event)"
+        (keydown.control.s)="$event.preventDefault(); updateSQLFunction()"></ngs-code-editor>
+    </div>
+  </div>
+
+  <div class="form-column max-w-[50%] max-h-[70vh] overflow-scroll">
+    <div class="form-row">
+      @if(sqlError(); as error) {
+      <div class="error">{{ error }}</div>
+      }
+      @if(sqlResult(); as result) {
+      <pre>
+{{ result | json }}
+      </pre>
+      }
+      <pre></pre>
+    </div>
+  </div>
+</div>
+}
+}
