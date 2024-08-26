@@ -19,8 +19,5 @@ export class PinpointComponent {
     {
       name: 'NPC',
     },
-    {
-      name: 'Spawner',
-    },
   ];
 }
