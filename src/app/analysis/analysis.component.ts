@@ -14,7 +14,9 @@ export class AnalysisComponent {
   public report = signal<ReportModel | undefined>(undefined);
   public reportData = signal<AnalysisReport | undefined>(undefined);
 
-  public updateReport($event: ReportModel) {
+  public updateReport($event: ReportModel | undefined) {
+    if (!$event) return;
+
     let report: AnalysisReport | undefined = undefined;
 
     switch ($event.type) {

@@ -63,7 +63,7 @@
           <tr>
             @for(col of row; track $index) {
             <td>
-              <div class="flex" [floatUi]="col.tooltip" [disabled]="!col.tooltip">
+              <div class="flex" [floatUi]="col.tooltip ?? ''" [disabled]="!col.tooltip">
                 @if(col.pretext) {
                 <span class="ml-1">{{ col.pretext }}</span>
                 }
