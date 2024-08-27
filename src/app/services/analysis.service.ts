@@ -678,7 +678,7 @@ export class AnalysisService {
       }`;
 
       return [
-        { pretext: formattedTraitInfo },
+        { pretext: formattedTraitInfo, tooltip: stem.all.desc },
         {
           pretext: formatEntry(
             usingItems.length + usingNPCs.length + usingTrees.length
