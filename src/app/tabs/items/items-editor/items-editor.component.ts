@@ -250,6 +250,8 @@ export class ItemsEditorComponent
           return;
         }
 
+        if (this.editing()[prop as keyof IItemDefinition]) return;
+
         this.update(
           prop as keyof IItemDefinition,
           typePropDefaults[newItemClass][prop]

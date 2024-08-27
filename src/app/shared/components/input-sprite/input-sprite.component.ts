@@ -23,7 +23,7 @@ export class InputSpriteComponent {
   public iconPicker = viewChild<ElementRef<HTMLDialogElement>>('iconPicker');
 
   public readonly maxSpriteCount = {
-    items: 1057,
+    items: 1059,
     creatures: 1875,
   };
 

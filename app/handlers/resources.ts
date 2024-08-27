@@ -98,7 +98,7 @@ export async function updateResources(sendToUI: SendToUI) {
   const template = async () => {
     sendToUI('notify', {
       type: 'info',
-      text: 'Downloading template & TestArea...',
+      text: 'Downloading map template...',
     });
 
     try {
@@ -114,23 +114,6 @@ export async function updateResources(sendToUI: SendToUI) {
       sendToUI('notify', {
         type: 'error',
         text: `Error downloading Template: ${e}`,
-      });
-      isUpdating = false;
-    }
-
-    try {
-      const templateUrl = 'https://server.rair.land/editor/map?map=TestArea';
-      const templateRes = await fetch(templateUrl);
-      const templateBuffer = Buffer.from(await templateRes.arrayBuffer());
-
-      await fs.writeFile(
-        `${baseUrl}/resources/maps/src/content/maps/custom/TestArea.json`,
-        templateBuffer
-      );
-    } catch (e) {
-      sendToUI('notify', {
-        type: 'error',
-        text: `Error downloading TestArea: ${e}`,
       });
       isUpdating = false;
     }

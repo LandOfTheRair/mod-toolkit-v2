@@ -372,7 +372,7 @@ export class ModService {
     });
 
     mod.dialogs.forEach((npcScript) => {
-      Object.keys(npcScript.items.equipment).forEach((slot) => {
+      Object.keys(npcScript.items?.equipment ?? {}).forEach((slot) => {
         const itemSlot = slot as ItemSlotType;
         if (npcScript.items.equipment[itemSlot] !== oldName) return;
 
