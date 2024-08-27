@@ -616,4 +616,91 @@ export class AnalysisService {
       entries: [statReport, slotReport, unusedStats],
     };
   }
+
+  public generateTraitReport(): AnalysisReport {
+    const items = this.modService.mod().items;
+    const npcs = this.modService.mod().npcs;
+    const stems = this.modService.mod().stems;
+    const trees = this.modService.mod().traitTrees;
+
+    const traitReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: 'All Trait Usages',
+        headers: [
+          'Trait',
+          '# Usages',
+          'Item Usages',
+          'NPC Usages',
+          'Trait Tree Usages',
+        ],
+        rows: [],
+      },
+    };
+
+    traitReport.table.rows = sortBy(
+      stems.filter((s) => s._hasTrait),
+      'name'
+    ).map((stem) => {
+      const traitUsage = stem._gameId;
+
+      const baseTrees = trees.map((t) => ({
+        name: t.name,
+        traits: Object.values(t.data.trees)
+          .map((t) => t.tree.flatMap((t) => t.traits.flatMap((m) => m.name)))
+          .flat(),
+      }));
+
+      const usingItems = items.filter(
+        (i) =>
+          i.trait?.name === traitUsage ||
+          i.randomTrait?.name?.includes(traitUsage) ||
+          i.strikeEffect?.name === traitUsage ||
+          i.useEffect?.name === traitUsage ||
+          i.trapEffect?.name === traitUsage ||
+          i.breakEffect?.name === traitUsage ||
+          i.encrustGive?.strikeEffect?.name === traitUsage
+      );
+      const usingNPCs = npcs.filter(
+        (n) =>
+          n.traitLevels?.[traitUsage] > 0 ||
+          n.usableSkills?.some((s) => s.result === traitUsage)
+      );
+      const usingTrees = baseTrees.filter((t) =>
+        t.traits.some((n) => n === traitUsage)
+      );
+
+      const formatEntry = (entryCount: number) =>
+        `${entryCount} ${entryCount === 0 ? '⚡' : ''}`;
+
+      const formattedTraitInfo = `${traitUsage}${stem._hasSpell ? ' 🔮' : ''}${
+        stem._hasTrait ? ' ✨' : ''
+      }`;
+
+      return [
+        { pretext: formattedTraitInfo },
+        {
+          pretext: formatEntry(
+            usingItems.length + usingNPCs.length + usingTrees.length
+          ),
+        },
+        {
+          pretext: formatEntry(usingItems.length),
+          tooltip: usingItems.map((i) => i.name).join(', '),
+        },
+        {
+          pretext: formatEntry(usingNPCs.length),
+          tooltip: usingNPCs.map((i) => i.npcId).join(', '),
+        },
+        {
+          pretext: formatEntry(usingTrees.length),
+          tooltip: usingTrees.map((i) => i.name).join(', '),
+        },
+      ];
+    });
+
+    return {
+      entries: [traitReport],
+    };
+  }
 }

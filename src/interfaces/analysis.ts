@@ -3,6 +3,7 @@ export enum AnalysisReportType {
   GemStats = 'gemstats', // a list of all gem stats by slot, and a list of stats not used by any slot yet
   ArmorAverage = 'armoraverage', // average armor information by item class
   WeaponAverage = 'weaponaverage', // average weapon information by item class
+  TraitUsage = 'traitusage', // a list of all traits that are used and unused
 }
 
 export enum AnalysisDisplayType {

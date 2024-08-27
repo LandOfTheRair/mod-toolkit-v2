@@ -97,6 +97,13 @@ export class InputAnalysisReportComponent {
           data: {},
           desc: 'A breakdown of each gem stat per item slot.',
         },
+        {
+          category: 'Miscellaneous',
+          value: 'Traits',
+          type: AnalysisReportType.TraitUsage,
+          data: {},
+          desc: 'A breakdown of trait usage, including unused traits.',
+        },
       ],
       ['category', 'value']
     );

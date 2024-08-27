@@ -32,6 +32,11 @@ export class AnalysisComponent {
         break;
       }
 
+      case AnalysisReportType.TraitUsage: {
+        report = this.analysisService.generateTraitReport();
+        break;
+      }
+
       case AnalysisReportType.Progression: {
         report = this.analysisService.generateProgressionReport(
           $event.data.itemClasses ?? []
