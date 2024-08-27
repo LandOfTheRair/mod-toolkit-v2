@@ -82,7 +82,6 @@ export class HomeComponent {
   constructor() {
     const lastTab = (this.localStorage.retrieve('lasttab') as number) ?? 0;
     this.activeTab.set(lastTab);
-    this.toggleAnalyzing();
   }
 
   changeTab(newTab: number) {
