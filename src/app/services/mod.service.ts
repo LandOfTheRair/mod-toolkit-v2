@@ -384,7 +384,7 @@ export class ModService {
     });
 
     mod.npcs.forEach((npc) => {
-      npc.items.sack.forEach((item) => {
+      npc.items?.sack?.forEach((item) => {
         if (item.result !== oldName) return;
 
         console.log(
@@ -394,10 +394,10 @@ export class ModService {
         item.result = newName;
       });
 
-      Object.keys(npc.items.equipment).forEach((slot) => {
+      Object.keys(npc.items?.equipment ?? {}).forEach((slot) => {
         const itemSlot = slot as ItemSlotType;
 
-        npc.items.equipment[itemSlot].forEach((rollable) => {
+        npc.items?.equipment?.[itemSlot].forEach((rollable) => {
           if (rollable.result !== oldName) return;
 
           console.log(
@@ -408,7 +408,7 @@ export class ModService {
         });
       });
 
-      npc.drops.forEach((rollable) => {
+      npc.drops?.forEach((rollable) => {
         if (rollable.result !== oldName) return;
 
         console.log(
@@ -418,7 +418,7 @@ export class ModService {
         rollable.result = newName;
       });
 
-      npc.dropPool.items.forEach((rollable) => {
+      npc.dropPool?.items?.forEach((rollable) => {
         if (rollable.result !== oldName) return;
 
         console.log(
