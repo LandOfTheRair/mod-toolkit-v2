@@ -149,16 +149,7 @@ export class ElectronService {
   }
 
   private requestAllJSON() {
-    [
-      'effect-data',
-      'holidaydescs',
-      'spells',
-      'traits',
-      'challenge',
-      'trait-trees',
-      'sfx',
-      'macicons',
-    ].forEach((neededJSON) => {
+    ['sfx', 'macicons'].forEach((neededJSON) => {
       this.requestJSON(neededJSON);
     });
   }

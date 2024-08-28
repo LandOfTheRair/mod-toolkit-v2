@@ -41,8 +41,6 @@ export class InputEffectComponent {
         (s) => s._hasEffect && !['Attribute', 'Mood'].includes(s.name)
       );
 
-    if (baseEffects.length === 0) return this.fallbackValues();
-
     return sortBy(
       [
         ...baseEffectList,
@@ -55,28 +53,9 @@ export class InputEffectComponent {
     );
   });
 
-  public fallbackValues = computed(() => {
-    const effectObj = this.modService.json()['effect-data'] as Record<
-      string,
-      any
-    >;
-    return [
-      ...baseEffectList,
-      ...Object.keys(effectObj ?? {})
-        .sort()
-        .filter((x) => !['Attribute', 'Mood'].includes(x))
-        .map((t) => ({
-          value: t,
-          desc: effectObj[t].tooltip?.desc ?? 'No description',
-        })),
-    ];
-  });
-
   constructor() {
     effect(
       () => {
-        this.modService.json();
-
         const defaultItem = this.defaultValue();
         if (defaultItem) {
           const foundItem = this.values().find((i) => i.value === defaultItem);

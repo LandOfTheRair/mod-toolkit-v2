@@ -61,14 +61,7 @@ export async function updateResources(sendToUI: SendToUI) {
   };
 
   const json = async () => {
-    const jsons = [
-      'challenge',
-      'effect-data',
-      'holidaydescs',
-      'spells',
-      'traits',
-      'trait-trees',
-    ];
+    const jsons: string[] = [];
 
     for await (let json of jsons) {
       sendToUI('notify', {

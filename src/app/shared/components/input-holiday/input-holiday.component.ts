@@ -27,21 +27,7 @@ export class InputHolidayComponent {
       string,
       any
     >;
-    if (!holidayObj) return this.fallbackValues();
 
-    return Object.keys(holidayObj ?? {})
-      .sort()
-      .map((t) => ({
-        value: t,
-        desc: holidayObj[t].duration ?? 'No description',
-      }));
-  });
-
-  public fallbackValues = computed(() => {
-    const holidayObj = this.modService.json()['holidaydescs'] as Record<
-      string,
-      any
-    >;
     return Object.keys(holidayObj ?? {})
       .sort()
       .map((t) => ({

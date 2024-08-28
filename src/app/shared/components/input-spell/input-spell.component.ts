@@ -25,14 +25,8 @@ export class InputSpellComponent {
       .mod()
       .stems.filter((s) => s._hasSpell)
       .map((s) => s._gameId);
-    if (baseSpells.length === 0) return this.fallbackValues();
 
     return baseSpells.sort();
-  });
-
-  public fallbackValues = computed(() => {
-    const spellObj = this.modService.json()['spells'] as Record<string, any>;
-    return Object.keys(spellObj ?? {}).sort();
   });
 
   public search(term: string, item: { value: string }) {

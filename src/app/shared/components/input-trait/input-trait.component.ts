@@ -28,7 +28,6 @@ export class InputTraitComponent {
     const baseTraits = this.modService
       .mod()
       .stems.filter((s) => (s._hasTrait && allowSpells ? true : !s._hasSpell));
-    if (baseTraits.length === 0) return this.fallbackValues();
 
     return sortBy(
       baseTraits.map((t) => ({
@@ -37,14 +36,5 @@ export class InputTraitComponent {
       })),
       'value'
     );
-  });
-
-  public fallbackValues = computed(() => {
-    const traitObj = this.modService.json()['traits'] as Record<string, any>;
-
-    return Object.keys(traitObj ?? {})
-      .filter((t) => !traitObj[t].spellGiven)
-      .sort()
-      .map((t) => ({ value: t, desc: traitObj[t].desc ?? 'No description' }));
   });
 }
