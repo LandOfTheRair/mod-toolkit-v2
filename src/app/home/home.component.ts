@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { LocalStorageService } from 'ngx-webstorage';
-import { numErrorsForMod } from '../helpers';
+import { numErrorsForMod, validationMessagesForMod } from '../helpers';
 import { formatMod } from '../helpers/exporter';
 import { AnalysisService } from '../services/analysis.service';
 import { DebugService } from '../services/debug.service';
@@ -37,6 +37,15 @@ export class HomeComponent {
 
   public activeTab = signal<number>(0);
   public isValidating = signal<boolean>(false);
+
+  public hasErrors = computed(() => {
+    const mod = this.modService.mod();
+    return (
+      validationMessagesForMod(mod).filter((m) =>
+        m.messages.some((t) => t.type === 'error')
+      ).length > 0
+    );
+  });
 
   public tabOrder = [
     { name: 'Maps', count: computed(() => this.modService.mod().maps.length) },

@@ -199,9 +199,7 @@ export class ModService {
 
   // map functions
   public ensureMapsExist() {
-    this.mod().maps.forEach((map) => {
-      window.api.send('ENSURE_MAP', { ...map });
-    });
+    window.api.send('ENSURE_MAPS', this.mod().maps);
   }
 
   public importMap(incomingMap: IEditorMap) {
@@ -495,11 +493,7 @@ export class ModService {
       message: `Created and updated ${loreItems.length} lore scrolls.`,
     });
 
-    const runeItems = generateTraitScrolls(
-      mod,
-      this.json()['traits'],
-      this.json()['trait-trees']
-    );
+    const runeItems = generateTraitScrolls(mod);
     cleanOldTraitScrolls(mod);
     applyTraitScrolls(mod, runeItems);
 

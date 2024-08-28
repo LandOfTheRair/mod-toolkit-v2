@@ -17,34 +17,29 @@ const romans: Record<number, string> = {
 
 const TRAIT_PREFIX = `Rune Scroll -`;
 
-export function generateTraitScrolls(
-  mod: IModKit,
-  allTraits: any = {},
-  allTraitTrees: any = {}
-): IItemDefinition[] {
+export function generateTraitScrolls(mod: IModKit): IItemDefinition[] {
   const scrollToClass: Record<string, string[]> = {};
   const allRuneScrolls = new Set<string>();
 
   const returnedRuneScrolls: IItemDefinition[] = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  Object.keys(allTraits).forEach((traitName) => {
-    const traitData = allTraits[traitName];
+  mod.stems.forEach((stem) => {
+    if (!stem._hasTrait) return;
+
+    const traitData = stem.trait;
 
     if (traitData.spellGiven || traitData.isAncient) return;
 
-    allRuneScrolls.add(traitName);
+    allRuneScrolls.add(stem._gameId);
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  Object.keys(allTraitTrees).forEach((classTree) => {
-    if (classTree === 'Ancient') return;
+  mod.traitTrees.forEach((classTree) => {
+    if (classTree.name === 'Ancient') return;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    Object.keys(allTraitTrees[classTree].trees).forEach((treeName) => {
+    Object.keys(classTree.data.trees).forEach((treeName) => {
       if (treeName === 'Ancient') return;
 
-      const tree = allTraitTrees[classTree].trees[treeName].tree;
+      const tree = classTree.data.trees[treeName].tree;
 
       tree.forEach(({ traits }: any) => {
         traits.forEach(({ name, maxLevel }: any) => {
@@ -58,8 +53,8 @@ export function generateTraitScrolls(
 
           allRuneScrolls.add(name as string);
 
-          if (classTree !== 'Core' && treeName !== 'Core') {
-            scrollToClass[name].push(classTree);
+          if (classTree.name !== 'Core' && treeName !== 'Core') {
+            scrollToClass[name].push(classTree.name);
           }
         });
       });

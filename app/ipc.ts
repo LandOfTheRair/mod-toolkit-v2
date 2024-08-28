@@ -83,6 +83,13 @@ export function setupIPC(sendToUI: SendToUI) {
     handlers.ensureMap(data.name, data.map);
   });
 
+  ipcMain.on('ENSURE_MAPS', async (e: any, allMaps: any) => {
+    allMaps.forEach((data: any) => {
+      if (!data.name || !data.map) return;
+      handlers.ensureMap(data.name, data.map);
+    });
+  });
+
   ipcMain.on('NEW_MAP', async (e: any, data: any) => {
     const name = data.name;
     if (!name) return;

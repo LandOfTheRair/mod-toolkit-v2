@@ -8,11 +8,13 @@ export const fixTiledMapPaths = (map: any) => {
   });
 };
 
-export function ensureMap(mapName: string, mapData: any) {
+export async function ensureMap(mapName: string, mapData: any) {
   const path = `${baseUrl}/resources/maps/src/content/maps/custom/${mapName}.json`;
-  if (fs.existsSync(path)) return;
 
-  fs.writeFileSync(path, JSON.stringify(mapData));
+  const exists = fs.existsSync(path);
+  if (exists) return;
+
+  await fs.writeFile(path, JSON.stringify(mapData));
 }
 
 export function newMap(mapName: string, mapAuthor: string) {

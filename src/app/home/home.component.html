@@ -13,7 +13,12 @@
     <ul class="menu menu-horizontal px-1">
       <li>
         <details #menu>
-          <summary>Actions</summary>
+          <summary>
+            @if(hasErrors()) {
+            <span floatUiLoose="Your mod currently has errors. You should fix them." loosePlacement="left">❌</span>
+            }
+            Actions
+          </summary>
           <ul class="z-30 top-6 right-1.5 w-72 bg-base-100 rounded-t-none p-2">
             <li class="menu-title"><a>Mod Metadata</a></li>
             <li><a (click)="closeMenu()" [swal]="changeModName">Change Mod Name</a></li>
@@ -30,7 +35,7 @@
 
             <li class="menu-title"><a>ModKit Utilities</a></li>
             <li><a (click)="closeMenu()" target="_blank" href="https://rair.land/docs/modkit/">Help</a></li>
-            <li><a (click)="closeMenu(); toggleModValidation()">Validate Mod</a></li>
+            <li><a (click)="closeMenu(); toggleModValidation()">Validate Mod {{ hasErrors() ? '❌' : '' }}</a></li>
             <li><a (click)="closeMenu(); toggleAnalyzing()">Analyze...</a></li>
             <li><a (click)="closeMenu(); togglePinpointing()">Pinpoint...</a></li>
             <li><a (click)="closeMenu(); toggleQuerying()">Query...</a></li>
