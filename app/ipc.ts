@@ -51,6 +51,8 @@ export async function watchMaps(sendToUI: SendToUI) {
       return;
     }
 
+    fileHashes[pathToHash] = newHash;
+
     console.log(
       `[Map Update]`,
       `${pathToHash} has changed. Sending update to client...`
