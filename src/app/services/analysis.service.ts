@@ -13,6 +13,7 @@ import {
   StatType,
   WeaponClass,
 } from '../../interfaces';
+import { ISTEM } from '../../interfaces/stem';
 import { ModService } from './mod.service';
 
 @Injectable({
@@ -799,6 +800,98 @@ export class AnalysisService {
 
     return {
       entries: [weaponReport, armorReport],
+    };
+  }
+
+  /**
+     *   diceRoll(rolls: number, sides: number, minSidesDivisor = 2): number {
+            const min = sides / minSidesDivisor;
+            const max = sides;
+
+            return rolls * (min + Math.floor(Math.random() * (max - min + 1)));
+          }
+
+     */
+
+  // 5,20 -> [20, 20, 20, 20, 20]
+  private calculateSpellDamage(
+    spell: ISTEM['spell'],
+    skill: number,
+    stat: number
+  ): { min: number; max: number } {
+    const calcSkill = skill + 1;
+    const maxMult = spell.skillMultiplierChanges
+      .filter((m) => m[0] <= skill)
+      .reverse()[0][1];
+
+    const isStatic = spell.spellMeta.staticPotency;
+    const potencyMultiplier = spell.potencyMultiplier ?? 1;
+
+    if (spell.spellMeta.useSkillAsPotency)
+      return {
+        min: calcSkill * potencyMultiplier,
+        max: calcSkill * potencyMultiplier,
+      };
+
+    const bonusRollsMin = isStatic ? 0 : spell.bonusRollsMin ?? 0;
+    const bonusRollsMax = isStatic ? 0 : spell.bonusRollsMax ?? 0;
+
+    // base rolls
+    const baseRollsMin = calcSkill + bonusRollsMin;
+    const baseRollsMax = calcSkill + bonusRollsMax;
+
+    // sides = stat
+    const basePotencyMin = baseRollsMin * (stat / 2);
+    const basePotencyMax = baseRollsMax * (stat / 2 + (stat - stat / 2 + 1));
+
+    const retPotencyMin = basePotencyMin * maxMult * potencyMultiplier;
+    const retPotencyMax = basePotencyMax * maxMult * potencyMultiplier;
+
+    return {
+      min: retPotencyMin,
+      max: retPotencyMax,
+    };
+  }
+
+  public generateSpellReport(spellName: string): AnalysisReport {
+    const spellData = this.modService
+      .mod()
+      .stems.find((s) => s._gameId === spellName);
+    if (!spellData) return { entries: [] };
+
+    const allReports: AnalysisReportDisplay[] = [];
+
+    for (let skill = 1; skill <= 30; skill++) {
+      const spellReport: AnalysisReportDisplay = {
+        type: AnalysisDisplayType.Table,
+        table: {
+          title: `Spell Damage Calculations (Skill ${skill})`,
+          headers: [
+            'Skill Level',
+            'Primary Stat',
+            'Minimum Expected Potency',
+            'Maximum Expected Potency',
+          ],
+          rows: [],
+        },
+      };
+
+      for (let stat = 10; stat <= 50; stat += 5) {
+        const damage = this.calculateSpellDamage(spellData.spell, skill, stat);
+
+        spellReport.table.rows.push([
+          { pretext: skill.toString() },
+          { pretext: stat.toString() },
+          { pretext: damage.min.toFixed(0) },
+          { pretext: damage.max.toFixed(0) },
+        ]);
+      }
+
+      allReports.push(spellReport);
+    }
+
+    return {
+      entries: [...allReports],
     };
   }
 }

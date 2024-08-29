@@ -5,6 +5,7 @@ export enum AnalysisReportType {
   WeaponAverage = 'weaponaverage', // average weapon information by item class
   TraitUsage = 'traitusage', // a list of all traits that are used and unused
   StatUtilization = 'statutilization', // a list of all stats by utilization
+  SpellPotency = 'spellpotency', // a list of all skill/stat combos for spell damage estimation
 }
 
 export enum AnalysisDisplayType {

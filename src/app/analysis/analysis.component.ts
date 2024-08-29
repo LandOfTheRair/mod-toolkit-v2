@@ -37,6 +37,13 @@ export class AnalysisComponent {
         break;
       }
 
+      case AnalysisReportType.SpellPotency: {
+        report = this.analysisService.generateSpellReport(
+          $event.data.spellName ?? ''
+        );
+        break;
+      }
+
       case AnalysisReportType.TraitUsage: {
         report = this.analysisService.generateTraitReport();
         break;

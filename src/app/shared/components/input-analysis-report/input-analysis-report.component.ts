@@ -1,4 +1,11 @@
-import { Component, computed, input, model, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { sortBy } from 'lodash';
 import {
   AnalysisReportType,
@@ -10,11 +17,12 @@ import {
   WeaponClass,
 } from '../../../../interfaces';
 import { armorClasses, weaponClasses } from '../../../helpers';
+import { ModService } from '../../../services/mod.service';
 
 export type ReportModel = {
   category: string;
   type: AnalysisReportType;
-  data: { itemClasses?: ItemClassType[] };
+  data: { itemClasses?: ItemClassType[]; spellName?: string };
   value: string;
 };
 
@@ -24,29 +32,47 @@ export type ReportModel = {
   styleUrl: './input-analysis-report.component.scss',
 })
 export class InputAnalysisReportComponent {
+  private modService = inject(ModService);
+
   public report = model.required<ReportModel | undefined>();
   public label = input<string>('Report');
   public change = output<ReportModel | undefined>();
 
+  private allCalculableSpells = computed(() => {
+    return this.modService
+      .mod()
+      .stems.filter(
+        (s) => s._hasSpell && s.spell.skillMultiplierChanges?.length > 0
+      );
+  });
+
   public values = computed(() => {
+    const allSpells = this.allCalculableSpells();
     return sortBy(
       [
+        ...allSpells.map((spell) => ({
+          category: 'Potency Estimator (Spell)',
+          value: spell._gameId,
+          type: AnalysisReportType.SpellPotency,
+          data: { spellName: spell._gameId },
+          desc: `Level/skill varied damage calculator.`,
+        })),
         ...Object.values(WeaponClass).map((iClass) => ({
-          category: 'Item Progression',
+          category: 'Item Progression (Singular)',
           value: iClass,
           type: AnalysisReportType.Progression,
           data: { itemClasses: [iClass] },
           desc: `Level-by-level progression report.`,
         })),
         ...Object.values(ArmorClass).map((iClass) => ({
-          category: 'Item Progression',
+          category: 'Item Progression (Singular)',
           value: iClass,
           type: AnalysisReportType.Progression,
           data: { itemClasses: [iClass] },
           desc: `Level-by-level progression report.`,
         })),
         {
-          category: 'Aggregate Item Progression',
+          category: 'Item Progression (Aggregate)',
           value: 'Shield',
           type: AnalysisReportType.Progression,
           data: {
@@ -55,7 +81,7 @@ export class InputAnalysisReportComponent {
           desc: `Level-by-level progression report (includes every Shield-adjacent item).`,
         },
         {
-          category: 'Aggregate Item Progression',
+          category: 'Item Progression (Aggregate)',
           value: 'Armor',
           type: AnalysisReportType.Progression,
           data: {
@@ -64,7 +90,7 @@ export class InputAnalysisReportComponent {
           desc: `Level-by-level progression report (includes every Armor-adjacent item).`,
         },
         {
-          category: 'Aggregate Item Progression',
+          category: 'Item Progression (Aggregate)',
           value: 'Robe',
           type: AnalysisReportType.Progression,
           data: {
