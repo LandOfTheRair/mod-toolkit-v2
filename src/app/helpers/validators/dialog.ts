@@ -5,7 +5,10 @@ import {
   ValidationMessage,
   ValidationMessageGroup,
 } from '../../../interfaces';
-import { extractAllItemsFromDialog } from '../data';
+import {
+  extractAllItemsFromBehavior,
+  extractAllItemsFromDialog,
+} from '../data';
 import { dialogSchema } from '../schemas';
 import { validateSchema } from '../schemas/_helpers';
 
@@ -69,14 +72,29 @@ export function validateDialogsItems(
   };
 
   mod.dialogs.forEach((item) => {
-    const extractedItems = extractAllItemsFromDialog(item, validClasses);
+    const extractedItemsFromDialog = extractAllItemsFromDialog(
+      item,
+      validClasses
+    );
 
-    extractedItems.forEach((itemName) => {
+    extractedItemsFromDialog.forEach((itemName) => {
       const itemRef = mod.items.find((i) => i.name.includes(itemName));
       if (!itemRef) {
         itemValidations.messages.push({
           type: 'error',
           message: `Item ${itemName} referenced in dialog ${item.tag} does not exist.`,
+        });
+      }
+    });
+
+    const extractedItemsFromBehaviors = extractAllItemsFromBehavior(item);
+
+    extractedItemsFromBehaviors.forEach((itemName) => {
+      const itemRef = mod.items.find((i) => i.name === itemName);
+      if (!itemRef) {
+        itemValidations.messages.push({
+          type: 'error',
+          message: `Item ${itemName} referenced in behavior ${item.tag} does not exist.`,
         });
       }
     });

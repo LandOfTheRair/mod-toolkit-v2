@@ -48,3 +48,14 @@ export function extractAllItemsFromDialog(
     })
     .flat();
 }
+
+export function extractAllItemsFromBehavior(dialog: INPCScript): string[] {
+  const allDialogItems = (dialog.behaviors ?? [])
+    .flatMap((b) => [
+      ...(b.dailyVendorItems ?? []).map((i) => i.item),
+      ...(b.vendorItems ?? []).map((i) => i.item),
+    ])
+    .filter(Boolean);
+
+  return allDialogItems;
+}

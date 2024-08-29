@@ -1,7 +1,10 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { get, sortBy, uniq, uniqBy } from 'lodash';
 import { BaseClassType, INPCDefinition, Rollable } from '../../interfaces';
-import { extractAllItemsFromDialog } from '../helpers/data';
+import {
+  extractAllItemsFromBehavior,
+  extractAllItemsFromDialog,
+} from '../helpers/data';
 import { ModService } from './mod.service';
 
 interface ItemDropDescriptor {
@@ -326,6 +329,10 @@ export class PinpointService {
       extractAllItemsFromDialog(sc, validClasses).some((s) => s === item)
     );
 
+    const npcBehaviorUses = mod.dialogs.filter((sc) =>
+      extractAllItemsFromBehavior(sc).some((s) => s === item)
+    );
+
     const droptableUses = mod.drops.filter((f) =>
       f.drops.some((d) => d.result === item)
     );
@@ -341,6 +348,18 @@ export class PinpointService {
         };
       })
       .filter((m) => m.helds.length > 0);
+
+    const peddleItemsOnMap = mod.maps
+      .map((map) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return {
+          mapName: map.name,
+          peddles: map.map.layers[9].objects
+            .filter((o: any) => (o.properties?.peddleItem as string) === item)
+            .flat(),
+        };
+      })
+      .filter((m) => m.peddles.length > 0);
 
     // format usages
     const containingItemDescs: ItemUseDescriptor[] = containingItems.map(
@@ -378,6 +397,16 @@ export class PinpointService {
       })
       .flat();
 
+    const peddleDescs: ItemUseDescriptor[] = peddleItemsOnMap
+      .map((m) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return m.peddles.map((h: any) => ({
+          mapAndObjectName: `${m.mapName} (${h.x / 64}, ${h.y / 64 - 1})`,
+          extraDescription: 'PEDDLES',
+        }));
+      })
+      .flat();
+
     const npcScriptDescs: ItemUseDescriptor[] = npcScriptUses.map((sc) => ({
       npcScriptName: sc.tag,
       extraDescription: 'EQUIPMENT',
@@ -386,6 +415,11 @@ export class PinpointService {
     const npcDialogDescs: ItemUseDescriptor[] = npcDialogUses.map((sc) => ({
       npcScriptName: sc.tag,
       extraDescription: 'DIALOG',
+    }));
+
+    const npcBehaviorDescs: ItemUseDescriptor[] = npcBehaviorUses.map((sc) => ({
+      npcScriptName: sc.tag,
+      extraDescription: 'BEHAVIOR',
     }));
 
     const droptableDescs: ItemUseDescriptor[] = droptableUses.map((d) => ({
@@ -400,8 +434,10 @@ export class PinpointService {
       ...npcDescs,
       ...npcScriptDescs,
       ...npcDialogDescs,
+      ...npcBehaviorDescs,
       ...droptableDescs,
       ...heldDescs,
+      ...peddleDescs,
     ] as ItemUseDescriptor[];
   }
 

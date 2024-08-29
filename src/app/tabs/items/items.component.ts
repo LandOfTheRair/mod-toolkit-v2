@@ -117,5 +117,12 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
       layer: 8,
       propName: 'requireHeld',
     });
+
+    this.electronService.send('EDIT_MAP_OBJECTS', {
+      oldName: oldItem.name,
+      newName: newItem.name,
+      layer: 9,
+      propName: 'peddleItem',
+    });
   }
 }
