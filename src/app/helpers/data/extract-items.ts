@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
-import { INPCScript } from '../../../interfaces';
+import { BaseClassType, INPCScript } from '../../../interfaces';
 
 export function getAllNodesFromDialog(dialogEntry: any): any[] {
   const nodes = [dialogEntry];
@@ -19,7 +19,10 @@ export function getAllNodesFromDialog(dialogEntry: any): any[] {
   return nodes.flat(Infinity);
 }
 
-export function extractAllItemsFromDialog(dialog: INPCScript): string[] {
+export function extractAllItemsFromDialog(
+  dialog: INPCScript,
+  validClasses: BaseClassType[]
+): string[] {
   const allDialogWords = Object.keys(dialog.dialog ?? {})
     .flatMap((k) =>
       Object.keys(dialog.dialog[k] ?? {}).map(
@@ -35,5 +38,13 @@ export function extractAllItemsFromDialog(dialog: INPCScript): string[] {
     .map((i) => i.item.name)
     .filter(Boolean);
 
-  return allDialogItemNames;
+  return allDialogItemNames
+    .map((i) => {
+      if (i.includes('${ baseClass }')) {
+        return validClasses.map((c) => i.split('${ baseClass }').join(c));
+      }
+
+      return i;
+    })
+    .flat();
 }

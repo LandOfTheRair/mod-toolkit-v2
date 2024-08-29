@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { get, sortBy, uniq, uniqBy } from 'lodash';
-import { INPCDefinition, Rollable } from '../../interfaces';
+import { BaseClassType, INPCDefinition, Rollable } from '../../interfaces';
+import { extractAllItemsFromDialog } from '../helpers/data';
 import { ModService } from './mod.service';
 
 interface ItemDropDescriptor {
@@ -59,7 +60,7 @@ export class PinpointService {
     const item = this.pinpointItem();
     if (!item) return [];
 
-    return this.getItemUses(item);
+    return this.getItemUses(item, this.modService.availableClasses());
   });
 
   public npcInformation = computed(() => {
@@ -295,7 +296,10 @@ export class PinpointService {
       .flat();
   }
 
-  private getItemUses(item: string): ItemUseDescriptor[] {
+  private getItemUses(
+    item: string,
+    validClasses: BaseClassType[]
+  ): ItemUseDescriptor[] {
     const mod = this.modService.mod();
 
     // gather usages
@@ -318,6 +322,10 @@ export class PinpointService {
       Object.values(sc.items?.equipment ?? {}).some((s) => s === item)
     );
 
+    const npcDialogUses = mod.dialogs.filter((sc) =>
+      extractAllItemsFromDialog(sc, validClasses).some((s) => s === item)
+    );
+
     const droptableUses = mod.drops.filter((f) =>
       f.drops.some((d) => d.result === item)
     );
@@ -333,8 +341,6 @@ export class PinpointService {
         };
       })
       .filter((m) => m.helds.length > 0);
-
-    console.log(heldItemsOnMap);
 
     // format usages
     const containingItemDescs: ItemUseDescriptor[] = containingItems.map(
@@ -377,6 +383,11 @@ export class PinpointService {
       extraDescription: 'EQUIPMENT',
     }));
 
+    const npcDialogDescs: ItemUseDescriptor[] = npcDialogUses.map((sc) => ({
+      npcScriptName: sc.tag,
+      extraDescription: 'DIALOG',
+    }));
+
     const droptableDescs: ItemUseDescriptor[] = droptableUses.map((d) => ({
       droptableName: d.mapName ?? d.regionName ?? 'Global',
       extraDescription: 'DROPTABLE',
@@ -388,6 +399,7 @@ export class PinpointService {
       ...questDescs,
       ...npcDescs,
       ...npcScriptDescs,
+      ...npcDialogDescs,
       ...droptableDescs,
       ...heldDescs,
     ] as ItemUseDescriptor[];

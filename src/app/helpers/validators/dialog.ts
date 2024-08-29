@@ -69,25 +69,9 @@ export function validateDialogsItems(
   };
 
   mod.dialogs.forEach((item) => {
-    const extractedItems = extractAllItemsFromDialog(item);
+    const extractedItems = extractAllItemsFromDialog(item, validClasses);
 
     extractedItems.forEach((itemName) => {
-      if (itemName.includes('${ baseClass }')) {
-        validClasses.forEach((className) => {
-          const formattedName = itemName
-            .split('${ baseClass }')
-            .join(className);
-          const itemRef = mod.items.find((i) => i.name === formattedName);
-          if (!itemRef) {
-            itemValidations.messages.push({
-              type: 'error',
-              message: `Class item ${formattedName} referenced in dialog ${item.tag} does not exist.`,
-            });
-          }
-        });
-        return;
-      }
-
       const itemRef = mod.items.find((i) => i.name.includes(itemName));
       if (!itemRef) {
         itemValidations.messages.push({
