@@ -82,6 +82,41 @@ export function editMap(mapName: string, map: any) {
   childProcess.exec(`${baseUrl}/resources/Tiled/tiled.exe "${path}"`);
 }
 
+export function editMapObjects(
+  oldValue: string,
+  newValue: string,
+  layer: number,
+  propName: string
+) {
+  fs.readdirSync(`${baseUrl}/resources/maps/src/content/maps/custom`).forEach(
+    (file) => {
+      if (file.includes('.bak')) return;
+
+      const path = `${baseUrl}/resources/maps/src/content/maps/custom/${file}`;
+      const json = fs.readJSONSync(path);
+
+      let didWrite = false;
+
+      json.layers?.[layer].objects.forEach((object: any) => {
+        if (object.properties?.[propName] !== oldValue) return;
+
+        console.log(
+          `[Propagate MapObject] Updated map object @ ${object.x / 64},${
+            object.y / 64 - 1
+          } "${oldValue}" in map "${file}": ${oldValue} -> ${newValue}`
+        );
+
+        object.properties[propName] = newValue;
+        didWrite = true;
+      });
+
+      if (didWrite) {
+        fs.writeJSONSync(path, json);
+      }
+    }
+  );
+}
+
 export function editMapSpawnerNames(oldName: string, newName: string) {
   fs.readdirSync(`${baseUrl}/resources/maps/src/content/maps/custom`).forEach(
     (file) => {

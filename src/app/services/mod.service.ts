@@ -7,6 +7,8 @@ import {
   IItemDefinition,
   IModKit,
   ItemSlotType,
+  ModJSON,
+  ModJSONKey,
 } from '../../interfaces';
 import { id } from '../helpers';
 import {
@@ -61,7 +63,11 @@ export class ModService {
   public availableItems = computed(() => this.mod().items);
   public availableMaps = computed(() => this.mod().maps);
 
-  public json = signal<Record<string, any>>({});
+  public json = signal<ModJSON>({
+    bgm: [],
+    sfx: [],
+    macicons: [],
+  });
 
   constructor() {
     const oldModData: IModKit = this.localStorage.retrieve('mod');
@@ -190,7 +196,7 @@ export class ModService {
   }
 
   // json functions
-  public setJSON(key: string, value: any): void {
+  public setJSON(key: ModJSONKey, value: any): void {
     const json = this.json();
     json[key] = value;
 

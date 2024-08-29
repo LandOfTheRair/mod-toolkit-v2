@@ -1,4 +1,4 @@
-import { IModKit, ValidationMessageGroup } from '../../../interfaces';
+import { IModKit, ModJSON, ValidationMessageGroup } from '../../../interfaces';
 
 export function checkMapProperties(mod: IModKit): ValidationMessageGroup[] {
   const groups: ValidationMessageGroup[] = [];
@@ -33,6 +33,50 @@ export function checkMapProperties(mod: IModKit): ValidationMessageGroup[] {
         message: `${map.name} is version >1.1. It must be 1.1 - the json2 format is not supported by the game.`,
       });
     }
+
+    if (map.map.layers.length < 16) {
+      mapValidations.messages.push({
+        type: 'warning',
+        message: `${map.name} has fewer than the normal 16 layers. Some things may not work correctly.`,
+      });
+    }
+
+    groups.push(mapValidations);
+  });
+
+  return groups;
+}
+
+export function checkMapBGMs(
+  mod: IModKit,
+  json: ModJSON
+): ValidationMessageGroup[] {
+  const groups: ValidationMessageGroup[] = [];
+
+  const allBGMs: string[] = json.bgm ?? [];
+  console.log(allBGMs);
+
+  mod.maps.forEach((map) => {
+    const mapValidations: ValidationMessageGroup = {
+      header: `Map BGMs (${map.name})`,
+      messages: [],
+    };
+
+    map.map.layers?.[12].objects.forEach((bgm: { name: string }) => {
+      if (!allBGMs.includes(bgm.name)) {
+        mapValidations.messages.push({
+          type: 'error',
+          message: `${map.name} map has a BGM named ${bgm.name}.`,
+        });
+      }
+
+      if (bgm.name.includes('nostalgia')) {
+        mapValidations.messages.push({
+          type: 'error',
+          message: `${map.name} map forcibly sets BGM ${bgm.name} - it should not set nostalgia directly.`,
+        });
+      }
+    });
 
     groups.push(mapValidations);
   });

@@ -3,6 +3,7 @@ import { ColDef } from 'ag-grid-community';
 
 import { IItemDefinition, IModKit } from '../../../interfaces';
 import { defaultItem, id } from '../../helpers';
+import { ElectronService } from '../../services/electron.service';
 import { PinpointService } from '../../services/pinpoint.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
@@ -18,6 +19,7 @@ type EditingType = IItemDefinition;
 })
 export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
   private pinpointService = inject(PinpointService);
+  private electronService = inject(ElectronService);
 
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'items';
 
@@ -108,5 +110,12 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
 
   protected dataEdited(oldItem: EditingType, newItem: EditingType) {
     this.modService.updateItemNameAcrossMod(oldItem.name, newItem.name);
+
+    this.electronService.send('EDIT_MAP_OBJECTS', {
+      oldName: oldItem.name,
+      newName: newItem.name,
+      layer: 8,
+      propName: 'requireHeld',
+    });
   }
 }

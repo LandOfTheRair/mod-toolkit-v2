@@ -152,6 +152,20 @@ export function setupIPC(sendToUI: SendToUI) {
     }
   });
 
+  ipcMain.on('EDIT_MAP_OBJECTS', async (e: any, data: any) => {
+    const { oldName, newName, layer, propName } = data;
+    if (
+      !oldName ||
+      !newName ||
+      oldName === newName ||
+      data.layer < 0 ||
+      !data.propName
+    )
+      return;
+
+    handlers.editMapObjects(oldName, newName, layer, propName);
+  });
+
   ipcMain.on('EDIT_MAP_SPAWNER', async (e: any, data: any) => {
     const { oldName, newName } = data;
     if (!oldName || !newName || oldName === newName) return;

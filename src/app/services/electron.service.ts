@@ -1,6 +1,6 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 
-import { IEditorMap, IModKit } from '../../interfaces';
+import { IEditorMap, IModKit, ModJSONKey } from '../../interfaces';
 import { importMod } from '../helpers/importer';
 import { ModService } from './mod.service';
 import { NotifyService } from './notify.service';
@@ -106,7 +106,7 @@ export class ElectronService {
     });
 
     window.api.receive('json', (jsonData) => {
-      this.modService.setJSON(jsonData.name as string, jsonData.data);
+      this.modService.setJSON(jsonData.name as ModJSONKey, jsonData.data);
     });
 
     // the mod has no backup, which means it was a clean export. it might need some reformatting to get it back in
@@ -149,12 +149,14 @@ export class ElectronService {
   }
 
   private requestAllJSON() {
-    ['sfx', 'macicons'].forEach((neededJSON) => {
+    const keys: ModJSONKey[] = ['sfx', 'bgm', 'macicons'];
+
+    keys.forEach((neededJSON) => {
       this.requestJSON(neededJSON);
     });
   }
 
-  requestJSON(key: string) {
+  requestJSON(key: ModJSONKey) {
     window.api.send('JSON', { json: key });
   }
 

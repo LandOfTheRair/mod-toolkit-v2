@@ -40,8 +40,9 @@ export class HomeComponent {
 
   public hasErrors = computed(() => {
     const mod = this.modService.mod();
+    const json = this.modService.json();
     return (
-      validationMessagesForMod(mod).filter((m) =>
+      validationMessagesForMod(mod, json).filter((m) =>
         m.messages.some((t) => t.type === 'error')
       ).length > 0
     );
@@ -111,7 +112,10 @@ export class HomeComponent {
       });
     };
 
-    const numErrors = numErrorsForMod(this.modService.mod());
+    const numErrors = numErrorsForMod(
+      this.modService.mod(),
+      this.modService.json()
+    );
     if (numErrors > 0) {
       const res = await this.exportWarnSwal()?.fire();
       if (!res) return;

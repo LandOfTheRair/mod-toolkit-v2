@@ -94,9 +94,11 @@ export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
   ];
 
   protected dataEdited(oldItem: EditingType, newItem: EditingType) {
-    this.electronService.send('EDIT_MAP_SPAWNER', {
+    this.electronService.send('EDIT_MAP_OBJECTS', {
       oldName: oldItem.tag,
       newName: newItem.tag,
+      layer: 10,
+      propName: 'tag',
     });
   }
 }
