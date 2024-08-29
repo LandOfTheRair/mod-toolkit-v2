@@ -4,6 +4,7 @@ export enum AnalysisReportType {
   ArmorAverage = 'armoraverage', // average armor information by item class
   WeaponAverage = 'weaponaverage', // average weapon information by item class
   TraitUsage = 'traitusage', // a list of all traits that are used and unused
+  StatUtilization = 'statutilization', // a list of all stats by utilization
 }
 
 export enum AnalysisDisplayType {

@@ -98,6 +98,13 @@ export class InputAnalysisReportComponent {
           desc: 'A breakdown of each gem stat per item slot.',
         },
         {
+          category: 'Stat Report',
+          value: 'Stat Utilization',
+          type: AnalysisReportType.StatUtilization,
+          data: {},
+          desc: 'A breakdown of each stats utilization across weapons and armors',
+        },
+        {
           category: 'Miscellaneous',
           value: 'Traits',
           type: AnalysisReportType.TraitUsage,

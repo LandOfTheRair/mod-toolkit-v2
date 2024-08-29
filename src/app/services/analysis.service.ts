@@ -1,15 +1,17 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { chunk, difference, get, sortBy, sumBy, uniq } from 'lodash';
+import { chunk, difference, get, sortBy, sum, sumBy, uniq } from 'lodash';
 import {
   AnalysisDisplayRow,
   AnalysisDisplayType,
   AnalysisReport,
   AnalysisReportDisplay,
+  ArmorClass,
   IItemDefinition,
   ItemClass,
   ItemClassType,
   Stat,
   StatType,
+  WeaponClass,
 } from '../../interfaces';
 import { ModService } from './mod.service';
 
@@ -29,6 +31,10 @@ export class AnalysisService {
 
   public toggleAnalyzing(newSetting = !this.isAnalyzing()) {
     this.isAnalyzing.set(newSetting);
+  }
+
+  private formatEntryEmphasizeZero(entryCount: number): string {
+    return `${entryCount} ${entryCount === 0 ? '⚡' : ''}`;
   }
 
   public generateProgressionReport(
@@ -670,9 +676,6 @@ export class AnalysisService {
         t.traits.some((n) => n === traitUsage)
       );
 
-      const formatEntry = (entryCount: number) =>
-        `${entryCount} ${entryCount === 0 ? '⚡' : ''}`;
-
       const formattedTraitInfo = `${traitUsage}${stem._hasSpell ? ' 🔮' : ''}${
         stem._hasTrait ? ' ✨' : ''
       }`;
@@ -680,20 +683,20 @@ export class AnalysisService {
       return [
         { pretext: formattedTraitInfo, tooltip: stem.all.desc },
         {
-          pretext: formatEntry(
+          pretext: this.formatEntryEmphasizeZero(
             usingItems.length + usingNPCs.length + usingTrees.length
           ),
         },
         {
-          pretext: formatEntry(usingItems.length),
+          pretext: this.formatEntryEmphasizeZero(usingItems.length),
           tooltip: usingItems.map((i) => i.name).join(', '),
         },
         {
-          pretext: formatEntry(usingNPCs.length),
+          pretext: this.formatEntryEmphasizeZero(usingNPCs.length),
           tooltip: usingNPCs.map((i) => i.npcId).join(', '),
         },
         {
-          pretext: formatEntry(usingTrees.length),
+          pretext: this.formatEntryEmphasizeZero(usingTrees.length),
           tooltip: usingTrees.map((i) => i.name).join(', '),
         },
       ];
@@ -701,6 +704,101 @@ export class AnalysisService {
 
     return {
       entries: [traitReport],
+    };
+  }
+
+  private countStatUtilizationOnItems(
+    items: IItemDefinition[],
+    stat: StatType
+  ): Record<ItemClassType, number> {
+    return items.reduce(
+      (prev, cur) => ({
+        ...prev,
+        [cur.itemClass]:
+          (prev[cur.itemClass] ?? 0) +
+          (cur.stats?.[stat] || cur.randomStats?.[stat] ? 1 : 0),
+      }),
+      {} as Record<ItemClassType, number>
+    );
+  }
+
+  public generateStatUtilizationReport(): AnalysisReport {
+    const allItems = this.modService.mod().items;
+
+    const weaponClassOrder = Object.values(WeaponClass);
+    const allWeapons = allItems.filter((f) =>
+      weaponClassOrder.includes(f.itemClass as WeaponClass)
+    );
+
+    const weaponReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: `Weapon Stat Utilization (${allWeapons.length} weapons)`,
+        headers: ['Stat', 'Total Uses', ...weaponClassOrder],
+        rows: [],
+      },
+    };
+
+    weaponReport.table.rows = sortBy(
+      Object.values(Stat).map((stat) => {
+        const statUtilization = this.countStatUtilizationOnItems(
+          allWeapons,
+          stat
+        );
+
+        return [
+          { pretext: stat as string },
+          {
+            pretext: this.formatEntryEmphasizeZero(
+              sum(Object.values(statUtilization))
+            ),
+          },
+          ...weaponClassOrder.map((c) => ({
+            pretext: this.formatEntryEmphasizeZero(statUtilization[c] ?? 0),
+          })),
+        ];
+      }),
+      (row) => -row[1].pretext
+    );
+
+    const armorClassOrder = Object.values(ArmorClass);
+    const allArmors = allItems.filter((f) =>
+      armorClassOrder.includes(f.itemClass as ArmorClass)
+    );
+
+    const armorReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: `Armor Stat Utilization (${allArmors.length} armors)`,
+        headers: ['Stat', 'Total Uses', ...armorClassOrder],
+        rows: [],
+      },
+    };
+
+    armorReport.table.rows = sortBy(
+      Object.values(Stat).map((stat) => {
+        const statUtilization = this.countStatUtilizationOnItems(
+          allArmors,
+          stat
+        );
+
+        return [
+          { pretext: stat as string },
+          {
+            pretext: this.formatEntryEmphasizeZero(
+              sum(Object.values(statUtilization))
+            ),
+          },
+          ...armorClassOrder.map((c) => ({
+            pretext: this.formatEntryEmphasizeZero(statUtilization[c] ?? 0),
+          })),
+        ];
+      }),
+      (row) => -row[1].pretext
+    );
+
+    return {
+      entries: [weaponReport, armorReport],
     };
   }
 }

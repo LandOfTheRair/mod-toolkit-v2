@@ -32,6 +32,11 @@ export class AnalysisComponent {
         break;
       }
 
+      case AnalysisReportType.StatUtilization: {
+        report = this.analysisService.generateStatUtilizationReport();
+        break;
+      }
+
       case AnalysisReportType.TraitUsage: {
         report = this.analysisService.generateTraitReport();
         break;
