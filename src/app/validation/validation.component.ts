@@ -17,8 +17,9 @@ export class ValidationComponent {
 
   public validationMessageContainers = computed(() => {
     const mod = this.modService.mod();
+    const classes = this.modService.availableClasses();
     const json = this.modService.json();
-    return validationMessagesForMod(mod, json);
+    return validationMessagesForMod(mod, classes, json);
   });
 
   public onlyValidationMessages = computed(() => {

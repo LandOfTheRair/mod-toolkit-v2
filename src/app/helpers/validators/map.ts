@@ -54,7 +54,6 @@ export function checkMapBGMs(
   const groups: ValidationMessageGroup[] = [];
 
   const allBGMs: string[] = json.bgm ?? [];
-  console.log(allBGMs);
 
   mod.maps.forEach((map) => {
     const mapValidations: ValidationMessageGroup = {

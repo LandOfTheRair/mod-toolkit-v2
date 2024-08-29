@@ -1,5 +1,13 @@
-import { Component, input, model, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { BaseClassType } from '../../../../interfaces';
+import { ModService } from '../../../services/mod.service';
 
 @Component({
   selector: 'app-input-class',
@@ -7,15 +15,13 @@ import { BaseClassType } from '../../../../interfaces';
   styleUrl: './input-class.component.scss',
 })
 export class InputClassComponent {
+  private modService = inject(ModService);
+
   public playerClass = model.required<BaseClassType | undefined>();
   public label = input<string>('Class');
   public change = output<BaseClassType | undefined>();
 
-  public values: BaseClassType[] = [
-    'Mage',
-    'Thief',
-    'Healer',
-    'Warrior',
-    'Traveller',
-  ];
+  public values = computed(() => {
+    return this.modService.availableClasses();
+  });
 }

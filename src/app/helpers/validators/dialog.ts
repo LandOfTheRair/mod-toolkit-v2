@@ -1,9 +1,11 @@
 import {
+  BaseClassType,
   IModKit,
   INPCScript,
   ValidationMessage,
   ValidationMessageGroup,
 } from '../../../interfaces';
+import { extractAllItemsFromDialog } from '../data';
 import { dialogSchema } from '../schemas';
 import { validateSchema } from '../schemas/_helpers';
 
@@ -52,6 +54,48 @@ export function validateDialogs(mod: IModKit): ValidationMessageGroup {
       message: f,
     }));
     itemValidations.messages.push(...validationFailures);
+  });
+
+  return itemValidations;
+}
+
+export function validateDialogsItems(
+  mod: IModKit,
+  validClasses: BaseClassType[]
+): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'NPC Script Broken Item Refs',
+    messages: [],
+  };
+
+  mod.dialogs.forEach((item) => {
+    const extractedItems = extractAllItemsFromDialog(item);
+
+    extractedItems.forEach((itemName) => {
+      if (itemName.includes('${ baseClass }')) {
+        validClasses.forEach((className) => {
+          const formattedName = itemName
+            .split('${ baseClass }')
+            .join(className);
+          const itemRef = mod.items.find((i) => i.name === formattedName);
+          if (!itemRef) {
+            itemValidations.messages.push({
+              type: 'error',
+              message: `Class item ${formattedName} referenced in dialog ${item.tag} does not exist.`,
+            });
+          }
+        });
+        return;
+      }
+
+      const itemRef = mod.items.find((i) => i.name.includes(itemName));
+      if (!itemRef) {
+        itemValidations.messages.push({
+          type: 'error',
+          message: `Item ${itemName} referenced in dialog ${item.tag} does not exist.`,
+        });
+      }
+    });
   });
 
   return itemValidations;

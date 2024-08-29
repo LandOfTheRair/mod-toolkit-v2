@@ -2,6 +2,7 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { isUndefined } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import {
+  BaseClassType,
   HasIdentification,
   IEditorMap,
   IItemDefinition,
@@ -62,6 +63,12 @@ export class ModService {
   public availableNPCs = computed(() => this.mod().npcs);
   public availableItems = computed(() => this.mod().items);
   public availableMaps = computed(() => this.mod().maps);
+
+  public availableClasses = computed(() => {
+    const settingsJson =
+      this.mod().cores.find((f) => f.name === 'settings')?.json ?? {};
+    return (settingsJson.character?.allClasses ?? []).sort() as BaseClassType[];
+  });
 
   public json = signal<ModJSON>({
     bgm: [],

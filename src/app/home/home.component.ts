@@ -40,9 +40,14 @@ export class HomeComponent {
 
   public hasErrors = computed(() => {
     const mod = this.modService.mod();
+    const classes = this.modService.availableClasses();
     const json = this.modService.json();
+
+    if (json.sfx.length === 0 || json.bgm.length === 0 || classes.length === 0)
+      return false;
+
     return (
-      validationMessagesForMod(mod, json).filter((m) =>
+      validationMessagesForMod(mod, classes, json).filter((m) =>
         m.messages.some((t) => t.type === 'error')
       ).length > 0
     );
@@ -114,6 +119,7 @@ export class HomeComponent {
 
     const numErrors = numErrorsForMod(
       this.modService.mod(),
+      this.modService.availableClasses(),
       this.modService.json()
     );
     if (numErrors > 0) {
