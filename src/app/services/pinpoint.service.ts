@@ -20,6 +20,7 @@ interface ItemUseDescriptor {
   containingItemName?: string;
   npcScriptName?: string;
   droptableName?: string;
+  mapAndObjectName?: string;
 
   extraDescription?: string;
 }
@@ -321,6 +322,20 @@ export class PinpointService {
       f.drops.some((d) => d.result === item)
     );
 
+    const heldItemsOnMap = mod.maps
+      .map((map) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return {
+          mapName: map.name,
+          helds: map.map.layers[8].objects
+            .filter((o: any) => (o.properties?.requireHeld as string) === item)
+            .flat(),
+        };
+      })
+      .filter((m) => m.helds.length > 0);
+
+    console.log(heldItemsOnMap);
+
     // format usages
     const containingItemDescs: ItemUseDescriptor[] = containingItems.map(
       (c) => ({
@@ -347,6 +362,16 @@ export class PinpointService {
       'npcName'
     );
 
+    const heldDescs: ItemUseDescriptor[] = heldItemsOnMap
+      .map((m) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+        return m.helds.map((h: any) => ({
+          mapAndObjectName: `${m.mapName} (${h.x / 64}, ${h.y / 64 - 1})`,
+          extraDescription: 'UNLOCKS',
+        }));
+      })
+      .flat();
+
     const npcScriptDescs: ItemUseDescriptor[] = npcScriptUses.map((sc) => ({
       npcScriptName: sc.tag,
       extraDescription: 'EQUIPMENT',
@@ -364,6 +389,7 @@ export class PinpointService {
       ...npcDescs,
       ...npcScriptDescs,
       ...droptableDescs,
+      ...heldDescs,
     ] as ItemUseDescriptor[];
   }
 

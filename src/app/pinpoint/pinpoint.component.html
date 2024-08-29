@@ -73,7 +73,7 @@
 
   @let itemInfo = pinpointService.itemInformation();
 
-  @if(itemInfo.length === 0) {
+  @if(itemInfo.length === 0 && pinpointService.pinpointItem()) {
   <div class="flex flex-row gap-2 flex-wrap w-full">
     <div class="form-column">
       <div class="form-row">
@@ -126,6 +126,12 @@
         </span>
         }
 
+        @if(entry.mapAndObjectName) {
+        <span class="ml-1">
+          MAPOBJECT: {{ entry.mapAndObjectName }}
+        </span>
+        }
+
         <span class="ml-1">
           {{ entry.extraDescription }}
         </span>
@@ -151,7 +157,7 @@
 
   <div class="form-column">
 
-    @if(npcInfo.uses.length === 0) {
+    @if(npcInfo.uses.length === 0 && pinpointService.pinpointNPC()) {
     <div class="flex flex-row gap-2 flex-wrap w-full">
       <div class="form-column">
         <div class="form-row">
