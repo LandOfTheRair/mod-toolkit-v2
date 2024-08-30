@@ -12,7 +12,7 @@ import {
   styleUrl: './input-itemclass.component.scss',
 })
 export class InputItemclassComponent {
-  public itemClass = model.required<ItemClassType>();
+  public itemClass = model<ItemClassType>();
   public label = input<string>('Type');
   public change = output<ItemClassType>();
 

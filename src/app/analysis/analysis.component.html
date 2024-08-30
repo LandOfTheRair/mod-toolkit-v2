@@ -12,6 +12,34 @@
       <app-input-analysis-report [(report)]="report" (change)="updateReport($event)"></app-input-analysis-report>
     </div>
   </div>
+
+  @let reportTypeName = reportType();
+
+  <div class="form-column">
+    <div class="form-row">
+      @if(reportTypeName === 'progressionsingle' || reportTypeName === 'weaponpotency') {
+      <app-input-itemclass [(itemClass)]="itemClassInput"></app-input-itemclass>
+      }
+
+      @if(reportTypeName === 'spellpotency') {
+      <app-input-spell [(spell)]="spellNameInput"></app-input-spell>
+      }
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      @if(reportTypeName === 'weaponpotency') {
+      <app-input-floating-label>Weapon Tier</app-input-floating-label>
+      <input [(ngModel)]="tierInput" min="1" [max]="maxTier()" type="number" placeholder="Choose tier..."
+        class="form-input" />
+      }
+    </div>
+  </div>
+
+  <div class="form-column">
+
+  </div>
 </div>
 
 @let fullReport = reportData();

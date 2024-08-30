@@ -55,7 +55,7 @@ export class AnalysisService {
 
     let baseTitleSuffix = filterItemClasses.join(', ');
     const baseItemFilters: Array<(i: IItemDefinition) => boolean> = [
-      (i) => get(i, 'requirements.level', 1) > 1,
+      (i) => (get(i, 'requirements.level', 1) ?? 1) > 0,
     ];
 
     if (itemClasses.includes('Throwing')) {
@@ -76,11 +76,14 @@ export class AnalysisService {
         baseItemFilters.every((filter) => filter(f))
     );
 
-    const sorted = sortBy(allMatchingItems, (item) => item.requirements?.level);
+    const sorted = sortBy(
+      allMatchingItems,
+      (item) => item.requirements?.level ?? 0
+    );
 
     const dataRows: AnalysisDisplayRow[] = sorted.map((i) => ({
       itemName: i.name,
-      posttext: `(Level ${i.requirements?.level})`,
+      posttext: `(Level ${i.requirements?.level ?? 0})`,
     }));
 
     const report: AnalysisReportDisplay = {
@@ -822,10 +825,10 @@ export class AnalysisService {
       .filter((m) => m[0] <= skill)
       .reverse()[0][1];
 
-    const isStatic = spell.spellMeta.staticPotency;
+    const isStatic = spell.spellMeta?.staticPotency;
     const potencyMultiplier = spell.potencyMultiplier ?? 1;
 
-    if (spell.spellMeta.useSkillAsPotency)
+    if (spell.spellMeta?.useSkillAsPotency)
       return {
         min: calcSkill * potencyMultiplier,
         max: calcSkill * potencyMultiplier,
@@ -863,7 +866,7 @@ export class AnalysisService {
       const spellReport: AnalysisReportDisplay = {
         type: AnalysisDisplayType.Table,
         table: {
-          title: `${spellName} Damage Calculations (Skill ${skill})`,
+          title: `${spellName} Potency Calculations (Skill ${skill})`,
           headers: [
             'Skill Level',
             'Primary Stat',
@@ -1045,8 +1048,8 @@ export class AnalysisService {
   }
 
   public generateWeaponPotencyReport(
-    itemClass: ItemClass | undefined,
-    tier = 3
+    itemClass: ItemClassType | undefined,
+    tier = 1
   ): AnalysisReport {
     if (!itemClass) return { entries: [] };
 
@@ -1058,8 +1061,6 @@ export class AnalysisService {
       .mod()
       .cores.find((c) => c.name === 'statdamagemultipliers')?.json.str;
     if (!weaponTierInfo || !statScaling) return { entries: [] };
-
-    console.log({ weaponTierInfo, statScaling });
 
     const weaponDamageInfo = this.calculateWeaponDamageInfo(
       weaponTierInfo as WeaponTierInfo
