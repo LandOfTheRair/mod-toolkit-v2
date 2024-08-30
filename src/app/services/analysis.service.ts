@@ -16,6 +16,15 @@ import {
 import { ISTEM } from '../../interfaces/stem';
 import { ModService } from './mod.service';
 
+type WeaponTierInfo = {
+  bonus: number[];
+  damage: number[];
+  scaling: number[];
+  strongPercent: number;
+  weakPercent: number;
+  variance: { min: number; max: number };
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -803,17 +812,6 @@ export class AnalysisService {
     };
   }
 
-  /**
-     *   diceRoll(rolls: number, sides: number, minSidesDivisor = 2): number {
-            const min = sides / minSidesDivisor;
-            const max = sides;
-
-            return rolls * (min + Math.floor(Math.random() * (max - min + 1)));
-          }
-
-     */
-
-  // 5,20 -> [20, 20, 20, 20, 20]
   private calculateSpellDamage(
     spell: ISTEM['spell'],
     skill: number,
@@ -853,7 +851,7 @@ export class AnalysisService {
     };
   }
 
-  public generateSpellReport(spellName: string): AnalysisReport {
+  public generateSpellPotencyReport(spellName: string): AnalysisReport {
     const spellData = this.modService
       .mod()
       .stems.find((s) => s._gameId === spellName);
@@ -865,7 +863,7 @@ export class AnalysisService {
       const spellReport: AnalysisReportDisplay = {
         type: AnalysisDisplayType.Table,
         table: {
-          title: `Spell Damage Calculations (Skill ${skill})`,
+          title: `${spellName} Damage Calculations (Skill ${skill})`,
           headers: [
             'Skill Level',
             'Primary Stat',
@@ -888,6 +886,247 @@ export class AnalysisService {
       }
 
       allReports.push(spellReport);
+    }
+
+    return {
+      entries: [...allReports],
+    };
+  }
+
+  private calculateWeaponDamageInfo(weaponTierInfo: WeaponTierInfo): {
+    bonus: string;
+    damage: string;
+    scaling: string;
+    variance: string;
+  } {
+    const ret = {
+      bonus: 'none',
+      damage: 'none',
+      scaling: 'none',
+      variance: 'none',
+    };
+
+    switch (weaponTierInfo.bonus[0]) {
+      case 0: {
+        ret.bonus = 'none';
+        break;
+      }
+      case 1: {
+        ret.bonus = 'low';
+        break;
+      }
+      case 3: {
+        ret.bonus = 'mid';
+        break;
+      }
+      case 5: {
+        ret.bonus = 'high';
+        break;
+      }
+      default: {
+        ret.bonus = 'unknown';
+        break;
+      }
+    }
+
+    switch (weaponTierInfo.damage[0]) {
+      case 1: {
+        ret.damage = 'verylow';
+        break;
+      }
+      case 2: {
+        ret.damage = 'low';
+        break;
+      }
+      case 3: {
+        ret.damage = 'mid-low';
+        break;
+      }
+      case 4: {
+        ret.damage = 'mid';
+        break;
+      }
+      case 5: {
+        ret.damage = 'mid-high';
+        break;
+      }
+      case 6: {
+        ret.damage = 'high';
+        break;
+      }
+      case 7: {
+        ret.damage = 'veryhigh';
+        break;
+      }
+      default: {
+        ret.damage = 'unknown';
+        break;
+      }
+    }
+
+    switch (weaponTierInfo.scaling[1]) {
+      case 1.03: {
+        ret.scaling = 'low';
+        break;
+      }
+      case 1.05: {
+        ret.scaling = 'mid';
+        break;
+      }
+      case 1.07: {
+        ret.scaling = 'high';
+        break;
+      }
+      default: {
+        ret.scaling = 'unknown';
+        break;
+      }
+    }
+
+    if (weaponTierInfo.variance.min === 0 && weaponTierInfo.variance.max === 0)
+      ret.variance = 'none';
+    if (weaponTierInfo.variance.min === 5 && weaponTierInfo.variance.max === 15)
+      ret.variance = 'verylow';
+    if (
+      weaponTierInfo.variance.min === 10 &&
+      weaponTierInfo.variance.max === 20
+    )
+      ret.variance = 'low';
+    if (
+      weaponTierInfo.variance.min === 10 &&
+      weaponTierInfo.variance.max === 30
+    )
+      ret.variance = 'mid-low';
+    if (
+      weaponTierInfo.variance.min === 15 &&
+      weaponTierInfo.variance.max === 25
+    )
+      ret.variance = 'mid';
+    if (
+      weaponTierInfo.variance.min === 20 &&
+      weaponTierInfo.variance.max === 35
+    )
+      ret.variance = 'mid-high';
+    if (weaponTierInfo.variance.min === 5 && weaponTierInfo.variance.max === 35)
+      ret.variance = 'high';
+    if (weaponTierInfo.variance.min === 0 && weaponTierInfo.variance.max === 50)
+      ret.variance = 'veryhigh';
+
+    return ret;
+  }
+
+  private calculateWeaponDamage(
+    weaponTierInfo: WeaponTierInfo,
+    scaleStatValues: number[],
+    tier: number,
+    skill: number,
+    stat: number
+  ): { min: number; max: number } {
+    const scaleStatValue = scaleStatValues[stat - 1];
+    const baseDamage =
+      weaponTierInfo.damage[tier] *
+      weaponTierInfo.scaling[skill] *
+      scaleStatValue;
+
+    const damageMin =
+      baseDamage +
+      (baseDamage * weaponTierInfo.variance.min) / 100 +
+      weaponTierInfo.bonus[skill];
+
+    const damageMax =
+      baseDamage +
+      (baseDamage * weaponTierInfo.variance.max) / 100 +
+      weaponTierInfo.bonus[skill];
+
+    return {
+      min: damageMin,
+      max: damageMax,
+    };
+  }
+
+  public generateWeaponPotencyReport(
+    itemClass: ItemClass | undefined,
+    tier = 3
+  ): AnalysisReport {
+    if (!itemClass) return { entries: [] };
+
+    const weaponTierInfo = this.modService
+      .mod()
+      .cores.find((c) => c.name === 'weapontiers')?.json[itemClass];
+
+    const statScaling = this.modService
+      .mod()
+      .cores.find((c) => c.name === 'statdamagemultipliers')?.json.str;
+    if (!weaponTierInfo || !statScaling) return { entries: [] };
+
+    console.log({ weaponTierInfo, statScaling });
+
+    const weaponDamageInfo = this.calculateWeaponDamageInfo(
+      weaponTierInfo as WeaponTierInfo
+    );
+
+    const allReports: AnalysisReportDisplay[] = [];
+
+    const damageInformationReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: `${itemClass} Damage Information (Tier ${tier})`,
+        headers: [
+          'Base Damage',
+          'Scaling',
+          'Variance',
+          'Bonus Damage',
+          'Weak Hit %',
+          'Strong Hit %',
+        ],
+        rows: [
+          [
+            { pretext: weaponDamageInfo.damage },
+            { pretext: weaponDamageInfo.scaling },
+            { pretext: weaponDamageInfo.variance },
+            { pretext: weaponDamageInfo.bonus },
+            { pretext: weaponTierInfo.weakPercent + '%' },
+            { pretext: weaponTierInfo.strongPercent + '%' },
+          ],
+        ],
+      },
+    };
+
+    allReports.push(damageInformationReport);
+
+    for (let skill = 1; skill <= 30; skill++) {
+      const weaponReport: AnalysisReportDisplay = {
+        type: AnalysisDisplayType.Table,
+        table: {
+          title: `${itemClass} Damage Calculations (Skill ${skill}, Tier ${tier})`,
+          headers: [
+            'Skill Level',
+            'Primary Stat',
+            'Minimum Expected Potency',
+            'Maximum Expected Potency',
+          ],
+          rows: [],
+        },
+      };
+
+      for (let stat = 10; stat <= 50; stat += 5) {
+        const damage = this.calculateWeaponDamage(
+          weaponTierInfo as WeaponTierInfo,
+          statScaling as number[],
+          tier,
+          skill,
+          stat
+        );
+
+        weaponReport.table.rows.push([
+          { pretext: skill.toString() },
+          { pretext: stat.toString() },
+          { pretext: damage.min.toFixed(0) },
+          { pretext: damage.max.toFixed(0) },
+        ]);
+      }
+
+      allReports.push(weaponReport);
     }
 
     return {

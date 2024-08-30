@@ -11,6 +11,7 @@ import {
   AnalysisReportType,
   ArmorClass,
   ArmorClasses,
+  ItemClass,
   ItemClassType,
   RobeClasses,
   ShieldClasses,
@@ -22,7 +23,11 @@ import { ModService } from '../../../services/mod.service';
 export type ReportModel = {
   category: string;
   type: AnalysisReportType;
-  data: { itemClasses?: ItemClassType[]; spellName?: string };
+  data: {
+    itemClasses?: ItemClassType[];
+    itemClass?: ItemClass;
+    spellName?: string;
+  };
   value: string;
 };
 
@@ -55,6 +60,13 @@ export class InputAnalysisReportComponent {
           value: spell._gameId,
           type: AnalysisReportType.SpellPotency,
           data: { spellName: spell._gameId },
+          desc: `Level/skill varied damage calculator.`,
+        })),
+        ...Object.values(WeaponClass).map((iClass) => ({
+          category: 'Potency Estimator (Weapon)',
+          value: iClass,
+          type: AnalysisReportType.WeaponPotency,
+          data: { itemClass: iClass },
           desc: `Level/skill varied damage calculator.`,
         })),
         ...Object.values(WeaponClass).map((iClass) => ({

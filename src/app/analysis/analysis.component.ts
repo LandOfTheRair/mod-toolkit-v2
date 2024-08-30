@@ -38,8 +38,15 @@ export class AnalysisComponent {
       }
 
       case AnalysisReportType.SpellPotency: {
-        report = this.analysisService.generateSpellReport(
+        report = this.analysisService.generateSpellPotencyReport(
           $event.data.spellName ?? ''
+        );
+        break;
+      }
+
+      case AnalysisReportType.WeaponPotency: {
+        report = this.analysisService.generateWeaponPotencyReport(
+          $event.data.itemClass
         );
         break;
       }
