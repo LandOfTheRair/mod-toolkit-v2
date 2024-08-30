@@ -19,7 +19,7 @@ export class IconComponent {
       return 'https://play.rair.land/assets';
     }
 
-    return 'lotr://./resources/maps/__assets';
+    return 'lotr://./resources/assets';
   });
 
   @HostBinding('style.outline-color')
