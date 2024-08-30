@@ -10,6 +10,7 @@ import {
 import { LocalStorageService } from 'ngx-webstorage';
 import { HasIdentification } from '../../../../interfaces';
 import { id } from '../../../helpers/id';
+import { ElectronService } from '../../../services/electron.service';
 import { ModService } from '../../../services/mod.service';
 
 type Tab = { name: string; visibleIf?: Signal<boolean> };
@@ -23,6 +24,7 @@ export class EditorBaseComponent<T extends HasIdentification>
   implements OnInit
 {
   private localStorage = inject(LocalStorageService);
+  public electronService = inject(ElectronService);
   public modService = inject(ModService);
 
   public readonly key: string = '';

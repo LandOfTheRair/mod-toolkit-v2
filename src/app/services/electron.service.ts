@@ -29,6 +29,8 @@ export class ElectronService {
   private notifyService = inject(NotifyService);
   private settingsService = inject(SettingsService);
 
+  public isInElectron = computed(() => !!window.api);
+
   private quicksaveFilepath = computed(() => {
     const mod = this.modService.mod();
     const settings = this.settingsService.allSettings()[mod.meta.id];
@@ -37,6 +39,8 @@ export class ElectronService {
 
   constructor() {
     this.watchIPC();
+
+    void this.tryLoadingOutsideElectron();
 
     effect(() => {
       const mod = this.modService.mod();
@@ -53,7 +57,30 @@ export class ElectronService {
     });
   }
 
+  public async reloadExternalWebMod() {
+    const basegamecontent = await fetch(
+      'https://play.rair.land/assets/content/_output/simplemods/BaseGameContent.rairmod.json'
+    );
+    const contentJson = await basegamecontent.json();
+
+    this.modService.updateMod(contentJson as IModKit);
+  }
+
+  private async tryLoadingOutsideElectron() {
+    if (this.isInElectron()) return;
+
+    const mod = this.modService.mod();
+    if (mod.meta.author === 'Anonymous') {
+      await this.reloadExternalWebMod();
+    }
+
+    this.isLoaded.set(true);
+    this.isFirstLoad.set(false);
+  }
+
   private watchIPC() {
+    if (!this.isInElectron()) return;
+
     window.api.reset();
 
     const tryToReady = () => {
@@ -157,10 +184,12 @@ export class ElectronService {
   }
 
   requestJSON(key: ModJSONKey) {
+    if (!this.isInElectron()) return;
     window.api.send('JSON', { json: key });
   }
 
   send(key: string, value?: any) {
+    if (!this.isInElectron()) return;
     window.api.send(key, value);
   }
 }

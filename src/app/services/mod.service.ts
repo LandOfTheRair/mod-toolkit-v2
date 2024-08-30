@@ -212,12 +212,12 @@ export class ModService {
 
   // map functions
   public ensureMapsExist() {
-    window.api.send('ENSURE_MAPS', this.mod().maps);
+    window.api?.send('ENSURE_MAPS', this.mod().maps);
   }
 
   public importMap(incomingMap: IEditorMap) {
     this.addMap(incomingMap);
-    window.api.send('ENSURE_MAP', { ...incomingMap });
+    window.api?.send('ENSURE_MAP', { ...incomingMap });
   }
 
   public addMap(incomingMap: IEditorMap) {

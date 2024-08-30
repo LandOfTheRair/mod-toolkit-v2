@@ -1,12 +1,14 @@
 <div class="flex justify-end items-center h-full w-full">
   @if(params.showImportButton) {
-  <button class="ml-2 btn btn-sm btn-secondary" (click)="params.importCallback()" floatUi="Import">
+  <button class="ml-2 btn btn-sm btn-secondary" [class.btn-disabled]="!electronService.isInElectron()"
+    (click)="params.importCallback()" floatUi="Import">
     <ng-icon name="heroArrowDownOnSquare"></ng-icon>
   </button>
   }
 
   @if(params.showNewButton) {
-  <button class="ml-2 btn btn-sm btn-secondary" (click)="params.newCallback()" floatUi="New">
+  <button class="ml-2 btn btn-sm btn-secondary" [class.btn-disabled]="!electronService.isInElectron()"
+    (click)="params.newCallback()" floatUi="New">
     <ng-icon name="heroPlus"></ng-icon>
   </button>
   }

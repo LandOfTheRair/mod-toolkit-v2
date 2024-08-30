@@ -4,10 +4,12 @@
 <div class="w-full h-full vh- flex flex-col flex-nowrap justify-center items-center text-center text-3xl">
   You don't have any {{ dataType() }}.
 
-  <button class="mt-4 btn btn-secondary" (click)="create.emit()">Add one</button>
+  <button class="mt-4 btn btn-secondary" (click)="create.emit()"
+    [class.btn-disabled]="!electronService.isInElectron()">Add one</button>
 
   @if(showImport()) {
-  <button class="mt-4 btn btn-secondary" (click)="import.emit()">Import one</button>
+  <button class="mt-4 btn btn-secondary" (click)="import.emit()"
+    [class.btn-disabled]="!electronService.isInElectron()">Import one</button>
   }
 </div>
 

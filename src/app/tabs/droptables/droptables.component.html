@@ -1,6 +1,6 @@
 @let editing = isEditing();
 
-@if(!canEdit()) {
+@if(!canEdit() && tableItems().length === 0) {
 <div class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl">
   Add items and maps first.
 </div>

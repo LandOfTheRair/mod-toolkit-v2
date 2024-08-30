@@ -1,2 +1,2 @@
-<img [src]="'lotr://./resources/maps/__assets/spritesheets/' + type() + '.png'" class="sprite"
-  [style.object-position]="objectPosition()" [style.transform]="'scale(' + scale() + ')'" />
+<img [src]="baseUrl() + '/spritesheets/' + type() + '.png'" class="sprite" [style.object-position]="objectPosition()"
+  [style.transform]="'scale(' + scale() + ')'" />

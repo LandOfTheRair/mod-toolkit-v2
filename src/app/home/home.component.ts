@@ -54,7 +54,11 @@ export class HomeComponent {
   });
 
   public tabOrder = [
-    { name: 'Maps', count: computed(() => this.modService.mod().maps.length) },
+    {
+      name: 'Maps',
+      count: computed(() => this.modService.mod().maps.length),
+      disableOutsideElectron: true,
+    },
     {
       name: 'Items',
       count: computed(() => this.modService.mod().items.length),
@@ -172,5 +176,14 @@ export class HomeComponent {
 
   toggleTester() {
     this.tester()?.nativeElement.showModal();
+  }
+
+  updateResources() {
+    if (this.electronService.isInElectron()) {
+      this.electronService.send('UPDATE_RESOURCES');
+      return;
+    }
+
+    void this.electronService.reloadExternalWebMod();
   }
 }

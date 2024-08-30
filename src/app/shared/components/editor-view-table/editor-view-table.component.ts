@@ -1,10 +1,11 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import {
   ColDef,
   FilterChangedEvent,
   FilterModel,
   GridReadyEvent,
 } from 'ag-grid-community';
+import { ElectronService } from '../../../services/electron.service';
 
 @Component({
   selector: 'app-editor-view-table',
@@ -12,6 +13,8 @@ import {
   styleUrl: './editor-view-table.component.scss',
 })
 export class EditorViewTableComponent {
+  public electronService = inject(ElectronService);
+
   public tableItems = input<any[]>([]);
   public dataType = input<string>('');
   public tableColumns = input<ColDef[]>([]);

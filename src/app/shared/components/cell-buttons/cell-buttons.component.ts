@@ -1,7 +1,8 @@
-import { Component, viewChild } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
+import { ElectronService } from '../../../services/electron.service';
 
 @Component({
   selector: 'app-cell-buttons',
@@ -9,6 +10,8 @@ import { ICellRendererParams } from 'ag-grid-community';
   styleUrl: './cell-buttons.component.scss',
 })
 export class CellButtonsComponent implements ICellRendererAngularComp {
+  public electronService = inject(ElectronService);
+
   public params!: any;
 
   public deleteWarnSwal = viewChild<SwalComponent>('deleteItem');
