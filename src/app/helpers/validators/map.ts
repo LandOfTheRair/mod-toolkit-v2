@@ -83,6 +83,48 @@ export function checkMapBGMs(
   return groups;
 }
 
+export function checkMapItems(mod: IModKit): ValidationMessageGroup[] {
+  const validItemNames = mod.items.map((i) => i.name);
+  const groups: ValidationMessageGroup[] = [];
+
+  mod.maps.forEach((map) => {
+    const mapValidations: ValidationMessageGroup = {
+      header: `Map Items (${map.name})`,
+      messages: [],
+    };
+
+    map.map.layers?.[8].objects.forEach((obj: any) => {
+      if (!obj.properties?.requireHeld) return;
+
+      if (!validItemNames.includes(obj.properties.requireHeld as string)) {
+        mapValidations.messages.push({
+          type: 'error',
+          message: `${obj.properties.requireHeld} is not a valid item (Held|${
+            obj.x / 64
+          },${obj.y / 64 - 1}).`,
+        });
+      }
+    });
+
+    map.map.layers?.[9].objects.forEach((obj: any) => {
+      if (!obj.properties?.peddleItem) return;
+
+      if (!validItemNames.includes(obj.properties.peddleItem as string)) {
+        mapValidations.messages.push({
+          type: 'error',
+          message: `${obj.properties.peddleItem} is not a valid item (Peddler|${
+            obj.x / 64
+          },${obj.y / 64 - 1}).`,
+        });
+      }
+    });
+
+    groups.push(mapValidations);
+  });
+
+  return groups;
+}
+
 export function checkMapSpawners(mod: IModKit): ValidationMessageGroup[] {
   const groups: ValidationMessageGroup[] = [];
 
