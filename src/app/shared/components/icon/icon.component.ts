@@ -26,4 +26,9 @@ export class IconComponent {
   get outlineColor() {
     return this.borderColor();
   }
+
+  @HostBinding('style.outline-style')
+  get outlineStyle() {
+    return this.borderColor() ? 'solid' : '';
+  }
 }
