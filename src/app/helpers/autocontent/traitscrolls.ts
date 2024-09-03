@@ -23,12 +23,20 @@ export function generateTraitScrolls(mod: IModKit): IItemDefinition[] {
 
   const returnedRuneScrolls: IItemDefinition[] = [];
 
+  const banned = ['Unimbued'];
+
   mod.stems.forEach((stem) => {
     if (!stem._hasTrait) return;
 
     const traitData = stem.trait;
 
-    if (traitData.spellGiven || traitData.isAncient) return;
+    if (
+      traitData.spellGiven ||
+      traitData.isAncient ||
+      stem._hasSpell ||
+      banned.includes(stem._gameId)
+    )
+      return;
 
     allRuneScrolls.add(stem._gameId);
   });
