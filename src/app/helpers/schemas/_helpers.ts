@@ -1,9 +1,18 @@
-import { difference, get, isNumber, isString, isUndefined } from 'lodash';
+import {
+  difference,
+  get,
+  isBoolean,
+  isNull,
+  isNumber,
+  isString,
+  isUndefined,
+} from 'lodash';
 import {
   Allegiance,
   DamageClass,
   HasIdentification,
   ItemSlot,
+  ITraitTreeRowTrait,
   QuestRewardType,
   Schema,
   SchemaValidator,
@@ -184,6 +193,31 @@ export function isQuestReward(val: any): boolean {
   );
 }
 
+export function isTraitTreeObject(val: any): boolean {
+  return (
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    Object.keys(val)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      .map((v) => val[v])
+      .every((t) => {
+        return t.tree.every((tab: { traits: ITraitTreeRowTrait[] }) => {
+          return tab.traits.every((trait) =>
+            trait.name ? trait.maxLevel > 0 : true
+          );
+        });
+      })
+  );
+}
+
+export function is2DNumberArray(val: any): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return val.every((v: any[]) => v.every((c: any) => isNumber(c)));
+}
+
+export function isStringOrBoolean(val: any): boolean {
+  return isString(val) || isBoolean(val);
+}
+
 export function isOzIngredient(val: any): boolean {
   return isString(val.filter) && isString(val.display) && isInteger(val.ounces);
 }
@@ -258,7 +292,7 @@ export function validateSchema<T extends HasIdentification>(
       return;
     }
 
-    if (!validator(value))
+    if (!validator(value) && !isNull(value) && !isUndefined(value))
       errors.push(
         `Property '${prop}' does not pass validation for '${label}' (${
           message?.(value) ?? 'no additional information provided'

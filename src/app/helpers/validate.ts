@@ -30,8 +30,10 @@ import {
   validateQuests,
   validateRecipes,
   validateSpawners,
+  validateTraitTreeData,
   validateTraitTrees,
 } from './validators';
+import { validateSTEMProperties, validateSTEMs } from './validators/stem';
 
 export function validationMessagesForMod(
   mod: IModKit,
@@ -53,13 +55,16 @@ export function validationMessagesForMod(
     ...checkMapItems(mod),
     validateDialogs(mod),
     validateDialogsItems(mod, classes),
-    validateTraitTrees(mod, classes),
+    validateTraitTrees(mod),
+    validateTraitTreeData(mod, classes),
     validateItems(mod),
     validateDroptables(mod),
     validateNPCs(mod),
     validateQuests(mod),
     validateRecipes(mod),
     validateSpawners(mod),
+    validateSTEMs(mod),
+    validateSTEMProperties(mod),
     nonexistentItems(mod),
     nonexistentNPCs(mod),
     nonexistentRecipes(mod),

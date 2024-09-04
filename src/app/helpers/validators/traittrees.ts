@@ -1,10 +1,36 @@
 import {
   BaseClassType,
   IModKit,
+  ITraitTree,
+  ValidationMessage,
   ValidationMessageGroup,
 } from '../../../interfaces';
+import { traitTreeSchema } from '../schemas';
+import { validateSchema } from '../schemas/_helpers';
 
-export function validateTraitTrees(
+export function validateTraitTrees(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Invalid Trait Trees',
+    messages: [],
+  };
+
+  mod.traitTrees.forEach((item) => {
+    const failures = validateSchema<ITraitTree>(
+      item.name,
+      item,
+      traitTreeSchema
+    );
+    const validationFailures: ValidationMessage[] = failures.map((f) => ({
+      type: 'error',
+      message: f,
+    }));
+    itemValidations.messages.push(...validationFailures);
+  });
+
+  return itemValidations;
+}
+
+export function validateTraitTreeData(
   mod: IModKit,
   validClasses: BaseClassType[]
 ): ValidationMessageGroup {
