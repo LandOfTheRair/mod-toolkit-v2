@@ -30,6 +30,7 @@ import {
   validateQuests,
   validateRecipes,
   validateSpawners,
+  validateTraitTrees,
 } from './validators';
 
 export function validationMessagesForMod(
@@ -52,6 +53,7 @@ export function validationMessagesForMod(
     ...checkMapItems(mod),
     validateDialogs(mod),
     validateDialogsItems(mod, classes),
+    validateTraitTrees(mod, classes),
     validateItems(mod),
     validateDroptables(mod),
     validateNPCs(mod),
