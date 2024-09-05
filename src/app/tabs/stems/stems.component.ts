@@ -85,6 +85,12 @@ export class StemsComponent extends EditorBaseTableComponent<EditingType> {
       cellDataType: 'boolean',
     },
     {
+      field: '_isNPCOnly',
+      headerName: 'NPC Only?',
+      flex: 1,
+      cellDataType: 'boolean',
+    },
+    {
       field: '',
       width: 200,
       sortable: false,
