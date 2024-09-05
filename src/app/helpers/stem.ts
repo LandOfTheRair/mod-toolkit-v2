@@ -1,4 +1,4 @@
-import { BuffType, MacroActivationType } from '../../interfaces';
+import { BuffType, MacroActivationType, Stat } from '../../interfaces';
 import { ISTEM } from '../../interfaces/stem';
 import { id } from './id';
 
@@ -31,6 +31,8 @@ export const defaultSTEM: () => ISTEM = () => {
       effect: {
         type: undefined as unknown as BuffType,
         duration: 0,
+        durationScaleStat: Stat.INT,
+        durationScaleValue: 100,
         extra: {
           potency: 0,
           canRemove: false,

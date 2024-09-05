@@ -6,6 +6,7 @@ import {
   isDamageType,
   isPartialStatObject,
   isPartialStatObjectFailure,
+  isStat,
   isStringOrBoolean,
 } from './_helpers';
 
@@ -52,6 +53,8 @@ export const stemSchema: Schema = [
   ['spell.spellMeta.doesOvertime', false, isBoolean],
   ['spell.spellMeta.extraAttackTrait', false, isString],
   ['spell.spellMeta.linkedEffectName', false, isString],
+  ['spell.spellMeta.linkedEffectScaleDuration', false, isNumber],
+  ['spell.spellMeta.linkedEffectScaleState', false, isStat],
   ['spell.spellMeta.noHostileTarget', false, isBoolean],
   ['spell.spellMeta.casterMessage', false, isString],
   ['spell.spellMeta.casterAttackMessage', false, isString],
@@ -92,6 +95,8 @@ export const stemSchema: Schema = [
   ['effect.effect', false, isObject],
   ['effect.effect.type', false, isString],
   ['effect.effect.duration', false, isNumber],
+  ['effect.effect.durationScaleValue', false, isNumber],
+  ['effect.effect.durationScaleStat', false, isStat],
 
   ['effect.effect.extra', false, isObject],
   ['effect.effect.extra.potency', false, isNumber],

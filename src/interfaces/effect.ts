@@ -32,6 +32,8 @@ export interface IEffectTooltip {
 export interface IEffectEffect {
   type: BuffType;
   duration: number;
+  durationScaleValue: number;
+  durationScaleStat: StatType;
   extra: IStatusEffectInfo;
 }
 

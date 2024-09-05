@@ -1,4 +1,4 @@
-import { DamageClassType } from './building-blocks';
+import { DamageClassType, StatType } from './building-blocks';
 
 export interface ISpell {
   spellName: string; // the name of the spell
@@ -29,6 +29,9 @@ export interface ISpell {
     doesOvertime?: boolean; // if the spell has an over-time component, it is applied automatically
     extraAttackTrait?: string; // if the spell doesAttack and can get bonus attack procs, this trait is what specifies how many
     linkedEffectName?: string; // if the spell casts a simple effect, it can be linked and looked up so no extra effect data needs to exist
+    linkedEffectDefaultDuration?: number; // if the spell casts a simple effect, this is the default duration if there is no caster
+    linkedEffectScaleDuration?: number; // if the spell casts a simple effect, this is the scaled duration based on this * scaleStat
+    linkedEffectScaleStat?: StatType; // if the spell casts a simple effect, this is the stat used to scale the duration
     noHostileTarget?: boolean; // if the spell heals or buffs, this is set to true so it can't hit enemies
     casterMessage?: string; // if the spell sends a message to the caster, it sends this if the caster is NOT the target
     casterAttackMessage?: string; // if the spell does an attack, this is the unformatted message to send to the caster

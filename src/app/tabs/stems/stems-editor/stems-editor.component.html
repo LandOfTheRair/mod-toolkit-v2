@@ -302,6 +302,11 @@
   </div>
 
   <div class="form-column">
+    <div class="form-row">
+      <app-input-effect floatUi="Only set this if your spell effect is simple and has no tick effects."
+        [defaultValue]="editingData.spell.spellMeta.linkedEffectName"
+        (change)="editingData.spell.spellMeta.linkedEffectName = $event" label="Linked Effect"></app-input-effect>
+    </div>
 
     <div class="form-row split">
       <div class="form-column">
@@ -395,11 +400,6 @@
   </div>
 
   <div class="form-column">
-    <div class="form-row">
-      <app-input-effect floatUi="Only set this if your spell effect is simple and has no tick effects."
-        [defaultValue]="editingData.spell.spellMeta.linkedEffectName"
-        (change)="editingData.spell.spellMeta.linkedEffectName = $event" label="Linked Effect"></app-input-effect>
-    </div>
 
     <div class="form-row">
       <app-input-floating-label>Caster Message</app-input-floating-label>
@@ -728,11 +728,31 @@
         (buffTypeChange)="changeBuffType($event)"></app-input-bufftype>
     </div>
 
-    <div class="form-row">
-      <app-input-floating-label>Duration</app-input-floating-label>
-      <input [(ngModel)]="editingData.effect.effect.duration" type="number" min="0"
-        placeholder="Enter duration (ticks)..." class="form-input" />
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Default Duration</app-input-floating-label>
+          <input [(ngModel)]="editingData.effect.effect.duration" type="number" min="0"
+            placeholder="Enter duration (ticks)..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Scale Duration</app-input-floating-label>
+          <input [(ngModel)]="editingData.effect.effect.durationScaleValue" type="number" min="0"
+            placeholder="Enter duration (ticks)..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stat [(stat)]="editingData.effect.effect.durationScaleStat" [allowCore]="false"
+            label="Scale Stat"></app-input-stat>
+        </div>
+      </div>
     </div>
+
 
     <div class="form-row split">
       <div class="form-column">
