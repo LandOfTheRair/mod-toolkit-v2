@@ -18,6 +18,7 @@ export const stemSchema: Schema = [
   ['_hasTrait', false, isBoolean],
   ['_hasEffect', false, isBoolean],
   ['_hasMacro', false, isBoolean],
+  ['_isNPCOnly', false, isBoolean],
 
   ['all', true, isObject],
   ['all.desc', false, isString],

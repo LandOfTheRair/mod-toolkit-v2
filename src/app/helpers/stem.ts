@@ -9,6 +9,7 @@ export const defaultSTEM: () => ISTEM = () => {
     _hasTrait: false,
     _hasEffect: false,
     _hasMacro: false,
+    _isNPCOnly: false,
 
     name: '',
     _gameId: '',

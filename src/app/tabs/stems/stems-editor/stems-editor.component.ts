@@ -16,10 +16,30 @@ export class StemsEditorComponent
   public readonly key = 'stems';
   public readonly tabs = [
     { name: 'Global Settings', visibleIf: computed(() => true) },
-    { name: '[S]pell', visibleIf: computed(() => this.editing()._hasSpell) },
-    { name: '[T]rait', visibleIf: computed(() => this.editing()._hasTrait) },
-    { name: '[E]ffect', visibleIf: computed(() => this.editing()._hasEffect) },
-    { name: '[M]acro', visibleIf: computed(() => this.editing()._hasMacro) },
+    {
+      name: '[S]pell',
+      visibleIf: computed(
+        () => !this.editing()._isNPCOnly && this.editing()._hasSpell
+      ),
+    },
+    {
+      name: '[T]rait',
+      visibleIf: computed(
+        () => !this.editing()._isNPCOnly && this.editing()._hasTrait
+      ),
+    },
+    {
+      name: '[E]ffect',
+      visibleIf: computed(
+        () => !this.editing()._isNPCOnly && this.editing()._hasEffect
+      ),
+    },
+    {
+      name: '[M]acro',
+      visibleIf: computed(
+        () => !this.editing()._isNPCOnly && this.editing()._hasMacro
+      ),
+    },
   ];
 
   public readonly effectUniqueTabs = [
@@ -42,7 +62,11 @@ export class StemsEditorComponent
       this.satisfiesUniqueName() &&
       data.name &&
       data._gameId &&
-      (data._hasEffect || data._hasMacro || data._hasSpell || data._hasTrait)
+      (data._hasEffect ||
+        data._hasMacro ||
+        data._hasSpell ||
+        data._hasTrait ||
+        data._isNPCOnly)
     );
   });
 

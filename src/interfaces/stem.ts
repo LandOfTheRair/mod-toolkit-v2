@@ -9,6 +9,7 @@ export interface ISTEM extends HasIdentification {
   _hasTrait: boolean;
   _hasEffect: boolean;
   _hasMacro: boolean;
+  _isNPCOnly: boolean;
 
   name: string;
   _gameId: string;
