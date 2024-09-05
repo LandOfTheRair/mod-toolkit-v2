@@ -36,6 +36,18 @@ interface NPCUseDescriptor {
   extraDescription?: string;
 }
 
+interface STEMUseDescriptor {
+  itemTrait?: string;
+  itemRandomTrait?: string;
+  itemEffect?: string;
+
+  npcTrait?: string;
+  npcSkill?: string;
+  npcBaseEffect?: string;
+
+  traitTree?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -48,6 +60,7 @@ export class PinpointService {
   public pinpointMap = signal<string | undefined>(undefined);
   public pinpointItem = signal<string | undefined>(undefined);
   public pinpointNPC = signal<string | undefined>(undefined);
+  public pinpointSTEM = signal<string | undefined>(undefined);
 
   public mapInformation = computed(() => {
     const map = this.pinpointMap();
@@ -76,12 +89,20 @@ export class PinpointService {
     };
   });
 
+  public stemInformation = computed(() => {
+    const stem = this.pinpointSTEM();
+    if (!stem) return [];
+
+    return this.getSTEMUses(stem);
+  });
+
   public togglePinpointing(newSetting = !this.isPinpointing()) {
     this.isPinpointing.set(newSetting);
 
     this.pinpointMap.set(undefined);
     this.pinpointItem.set(undefined);
     this.pinpointNPC.set(undefined);
+    this.pinpointSTEM.set(undefined);
   }
 
   public searchMap(map: string) {
@@ -100,6 +121,12 @@ export class PinpointService {
     this.pinpointNPC.set(npc);
     this.isPinpointing.set(true);
     this.activePinpointTab.set(2);
+  }
+
+  public searchSTEM(stem: string | undefined) {
+    this.pinpointSTEM.set(stem);
+    this.isPinpointing.set(true);
+    this.activePinpointTab.set(3);
   }
 
   private getDroppedItemsFromNPC(ref: INPCDefinition): ItemDropDescriptor[] {
@@ -537,5 +564,98 @@ export class PinpointService {
     ]
       .filter(Boolean)
       .filter((i) => i.result !== 'none');
+  }
+
+  private getSTEMUses(stem: string): STEMUseDescriptor[] {
+    const mod = this.modService.mod();
+
+    const ret: STEMUseDescriptor[] = [];
+
+    mod.items.forEach((item) => {
+      if (item.trait?.name === stem) {
+        ret.push({
+          itemTrait: item.name,
+        });
+      }
+
+      if (item.randomTrait?.name?.includes(stem)) {
+        ret.push({
+          itemRandomTrait: item.name,
+        });
+      }
+
+      if (item.useEffect?.name === stem) {
+        ret.push({
+          itemEffect: item.name,
+        });
+      }
+
+      if (item.breakEffect?.name === stem) {
+        ret.push({
+          itemEffect: item.name,
+        });
+      }
+
+      if (item.equipEffect?.name === stem) {
+        ret.push({
+          itemEffect: item.name,
+        });
+      }
+
+      if (item.trapEffect?.name === stem) {
+        ret.push({
+          itemEffect: item.name,
+        });
+      }
+
+      if (item.strikeEffect?.name === stem) {
+        ret.push({
+          itemEffect: item.name,
+        });
+      }
+
+      if (item.encrustGive?.strikeEffect?.name === stem) {
+        ret.push({
+          itemEffect: item.name,
+        });
+      }
+    });
+
+    mod.npcs.forEach((npc) => {
+      if (npc.traitLevels?.[stem]) {
+        ret.push({
+          npcTrait: npc.npcId,
+        });
+      }
+
+      if (npc.usableSkills?.some((s) => s.result === stem)) {
+        ret.push({
+          npcSkill: npc.npcId,
+        });
+      }
+
+      if (npc.baseEffects?.some((e) => e.name === stem)) {
+        ret.push({
+          npcBaseEffect: npc.npcId,
+        });
+      }
+    });
+
+    mod.traitTrees.forEach((t) => {
+      t.data.treeOrder.forEach((treeName) => {
+        const treeData = t.data.trees[treeName];
+        treeData.tree.forEach((row) => {
+          row.traits.forEach((trait) => {
+            if (trait.name === stem) {
+              ret.push({
+                traitTree: `${treeName} (${t.name})`,
+              });
+            }
+          });
+        });
+      });
+    });
+
+    return ret;
   }
 }

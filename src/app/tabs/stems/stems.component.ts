@@ -12,6 +12,7 @@ import { ISTEM } from '../../../interfaces/stem';
 import { id } from '../../helpers';
 import { defaultSTEM } from '../../helpers/stem';
 import { NotifyService } from '../../services/notify.service';
+import { PinpointService } from '../../services/pinpoint.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellIconComponent } from '../../shared/components/cell-icon/cell-icon.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -26,6 +27,7 @@ type EditingType = ISTEM;
 })
 export class StemsComponent extends EditorBaseTableComponent<EditingType> {
   private notifyService = inject(NotifyService);
+  private pinpointService = inject(PinpointService);
 
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'stems';
   public importSTEMButton =
@@ -92,7 +94,7 @@ export class StemsComponent extends EditorBaseTableComponent<EditingType> {
     },
     {
       field: '',
-      width: 200,
+      width: 250,
       sortable: false,
       suppressMovable: true,
       headerComponent: HeaderButtonsComponent,
@@ -105,6 +107,10 @@ export class StemsComponent extends EditorBaseTableComponent<EditingType> {
       cellRenderer: CellButtonsComponent,
       cellClass: 'no-adjust',
       cellRendererParams: {
+        showPinpointButton: true,
+        pinpointCallback: (item: EditingType) => {
+          this.pinpointService.searchSTEM(item._gameId);
+        },
         showCopyButton: true,
         copyCallback: (item: EditingType) => {
           const newItem = structuredClone(item);

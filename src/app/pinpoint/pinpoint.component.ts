@@ -19,5 +19,8 @@ export class PinpointComponent {
     {
       name: 'NPC',
     },
+    {
+      name: 'STEM',
+    },
   ];
 }

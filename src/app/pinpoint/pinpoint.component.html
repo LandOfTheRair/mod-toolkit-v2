@@ -218,4 +218,69 @@
   </div>
 </div>
 }
+
+@case (3) {
+<div class="flex flex-row gap-2 mb-3">
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-stem (change)="pinpointService.searchSTEM($event)"
+        [defaultValue]="pinpointService.pinpointSTEM()"></app-input-stem>
+    </div>
+  </div>
+</div>
+
+
+<div class="flex flex-row gap-2">
+  @let stemInfo = pinpointService.stemInformation();
+
+  <div class="form-column">
+
+    @if(stemInfo.length === 0 && pinpointService.pinpointSTEM()) {
+    <div class="flex flex-row gap-2 flex-wrap w-full">
+      <div class="form-column">
+        <div class="form-row">
+          <p>No usages of this STEM could be found. It may be invoked only in code.</p>
+        </div>
+      </div>
+    </div>
+    }
+
+    <div class="flex flex-row gap-2 flex-wrap w-full">
+      @for(entry of stemInfo; track $index) {
+      <div class="xl:w-[45%] 2xl:w-[30%]">
+        <div class="flex flex-row">
+          @if(entry.itemRandomTrait) {
+          <span class="ml-1">ITEMRANDOMTRAIT {{ entry.itemRandomTrait }}</span>
+          }
+
+          @if(entry.itemTrait) {
+          <span class="ml-1">ITEMTRAIT {{ entry.itemTrait }}</span>
+          }
+
+          @if(entry.itemEffect) {
+          <span class="ml-1">ITEMEFFECT {{ entry.itemEffect }}</span>
+          }
+
+          @if(entry.npcBaseEffect) {
+          <span class="ml-1">NPCBASEEFFECT {{ entry.npcBaseEffect }}</span>
+          }
+
+          @if(entry.npcSkill) {
+          <span class="ml-1">NPCSKILL {{ entry.npcSkill }}</span>
+          }
+
+          @if(entry.npcTrait) {
+          <span class="ml-1">NPCTRAIT {{ entry.npcTrait }}</span>
+          }
+
+          @if(entry.traitTree) {
+          <span class="ml-1">TRAITTREE {{ entry.traitTree }}</span>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+}
 }
