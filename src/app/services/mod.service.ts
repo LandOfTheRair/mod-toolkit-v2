@@ -305,7 +305,7 @@ export class ModService {
     });
 
     mod.quests.forEach((quest) => {
-      quest.requirements.npcIds.forEach((id, i) => {
+      quest.requirements.npcIds?.forEach((id, i) => {
         if (id !== oldName) return;
 
         console.log(
