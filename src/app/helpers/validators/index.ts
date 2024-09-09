@@ -6,5 +6,6 @@ export * from './map';
 export * from './npc';
 export * from './quest';
 export * from './recipe';
+export * from './rngdungeon';
 export * from './spawner';
 export * from './traittrees';
