@@ -157,6 +157,46 @@ export class TraitTreesEditorComponent
       );
   }
 
+  changeTrait(
+    $event: string | undefined,
+    tree: ITraitTreeRow[],
+    treeName: string,
+    row: number,
+    col: number
+  ): void {
+    this.editing.update(() => {
+      const newTree = structuredClone(this.editing());
+
+      let oldTraitValue: ITraitTreeRowTrait | undefined;
+      let oldTraitRow = -1;
+      let oldTraitCol = -1;
+
+      newTree.data.trees[treeName].tree.forEach((traitRow, ri) => {
+        traitRow.traits.forEach((trait, ci) => {
+          if (trait.name !== $event || (ci === col && ri === row)) return;
+
+          oldTraitValue = trait;
+          oldTraitCol = ci;
+          oldTraitRow = ri;
+        });
+      });
+
+      if (oldTraitValue) {
+        const curTraitValue = tree[row].traits[col];
+
+        newTree.data.trees[treeName].tree[row].traits[col] = oldTraitValue;
+        newTree.data.trees[treeName].tree[oldTraitRow].traits[oldTraitCol] =
+          curTraitValue;
+      } else {
+        newTree.data.trees[treeName].tree[row].traits[col].name = $event ?? '';
+        newTree.data.trees[treeName].tree[row].traits[col].maxLevel = 1;
+        newTree.data.trees[treeName].tree[row].traits[col].requires = '';
+      }
+
+      return newTree;
+    });
+  }
+
   public doSave() {
     const item = this.editing();
 

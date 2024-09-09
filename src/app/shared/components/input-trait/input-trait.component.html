@@ -1,6 +1,6 @@
 <div class="relative">
   <ng-select class="form-control" [items]="values()" [(ngModel)]="trait" bindLabel="value" bindValue="value"
-    placeholder="Select trait..." (change)="change.emit($event)">
+    placeholder="Select trait..." (change)="change.emit($event?.value)">
 
     <ng-template ng-option-tmp let-item="item">
       <div class="relative">

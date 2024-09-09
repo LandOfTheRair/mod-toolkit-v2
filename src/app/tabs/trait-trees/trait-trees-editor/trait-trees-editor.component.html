@@ -88,11 +88,13 @@
 }
 
 @default {
-@let tree = editingData.data.trees[editingData.data.treeOrder[activeTab() - 1]].tree;
+@let treeName = editingData.data.treeOrder[activeTab() - 1];
+@let treeTab = editingData.data.trees[treeName];
+@let tree = treeTab.tree;
 
-@for(row of tree; track $index) {
+@for(row of tree; let rowIndex = $index; track $index) {
 <div class="flex flex-row">
-  @for(col of tree[$index].traits; track $index + ' ' + col.name) {
+  @for(col of tree[$index].traits; let colIndex = $index;track $index + ' ' + col.name) {
   <div class="flex-1">
     <div class="flex flex-col p-4">
       <div class="flex items-center justify-center">
@@ -109,7 +111,8 @@
       </div>
 
       <div class="form-row">
-        <app-input-trait [(trait)]="col.name" label="Trait" [allowSpells]="true"></app-input-trait>
+        <app-input-trait [trait]="col.name" label="Trait" [allowSpells]="true"
+          (change)="changeTrait($event, tree, treeName, rowIndex, colIndex)"></app-input-trait>
       </div>
 
       <div class="form-row">
