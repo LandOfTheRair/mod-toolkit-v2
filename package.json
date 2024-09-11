@@ -1,6 +1,7 @@
 {
   "author": "Kyle Kemp <kyle@seiyria.com>",
   "description": "Modding tools for Land of the Rair.",
+  "name": "landoftherair-modkit",
   "homepage": "https://rair.land",
   "version": "1.4.12",
   "main": "app/main.js",

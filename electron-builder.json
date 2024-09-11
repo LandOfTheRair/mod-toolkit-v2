@@ -11,7 +11,7 @@
     "!**/*.ts",
     "!*.map",
     "!package.json",
-    "!package-lock.json"
+    "!package-lock.json",
     {
       "from": "../dist",
       "filter": ["**/*"]

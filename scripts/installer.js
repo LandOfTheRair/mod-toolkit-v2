@@ -10,7 +10,6 @@ const generate = async () => {
       outputDirectory: "./release/win-installer",
       authors: "Land of the Rair",
       exe: "Land of the Rair ModKit.exe",
-      version: "1.0.0",
     });
     console.log("Success!");
   } catch (e) {
