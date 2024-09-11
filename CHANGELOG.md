@@ -1,6 +1,15 @@
+## <small>1.6.7 (2024-09-11)</small>
+
+* better handling of version string sending ([155aceb](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/155aceb))
+* store resources in a common dir, not with the app ([6039e69](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6039e69))
+
+
+
 ## <small>1.6.6 (2024-09-11)</small>
 
+* Release Patch 1.6.6 ([da7816e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/da7816e))
 * show version in modkit util ([1086475](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1086475))
+* Sync version ([e0127a2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e0127a2))
 
 
 
