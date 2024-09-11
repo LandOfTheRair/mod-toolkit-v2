@@ -1,5 +1,12 @@
+## <small>1.6.2 (2024-09-11)</small>
+
+* update build process to add installable ([26f8e66](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/26f8e66))
+
+
+
 ## <small>1.6.1 (2024-09-11)</small>
 
+* Release Patch 1.6.1 ([a209d59](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a209d59))
 
 
 
