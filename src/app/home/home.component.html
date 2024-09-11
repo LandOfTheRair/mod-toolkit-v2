@@ -42,7 +42,7 @@
             <li><a (click)="closeMenu(); toggleTester()" [class.btn-disabled]="!electronService.isInElectron()">Test
                 Mod!</a></li>
 
-            <li class="menu-title"><a>ModKit Utilities</a></li>
+            <li class="menu-title"><a>ModKit Utilities (v.{{ electronService.version() }})</a></li>
             <li><a (click)="closeMenu()" target="_blank" href="https://rair.land/docs/modkit/">Help</a></li>
             <li><a (click)="closeMenu(); toggleModValidation()">Validate Mod {{ hasErrors() ? '❌' : '' }}</a></li>
             <li><a (click)="closeMenu(); toggleAnalyzing()">Analyze...</a></li>

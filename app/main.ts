@@ -62,6 +62,8 @@ const handleSetup = async () => {
   ipcMain.on('READY_CHECK', async () => {
     if (!isReady) return;
     sendToUI('ready');
+
+    sendToUI('version', require('./package.json').version);
   });
 
   setupIPC(sendToUI);

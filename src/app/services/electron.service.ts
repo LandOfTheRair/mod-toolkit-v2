@@ -31,6 +31,8 @@ export class ElectronService {
 
   public isInElectron = computed(() => !!window.api);
 
+  public version = signal<string>('web');
+
   private quicksaveFilepath = computed(() => {
     const mod = this.modService.mod();
     const settings = this.settingsService.allSettings()[mod.meta.id];
@@ -163,6 +165,10 @@ export class ElectronService {
           settingsData.value
         );
       }
+    );
+
+    window.api.receive('version', (version) =>
+      this.version.set(version as string)
     );
 
     const quicksaveFilepath = this.quicksaveFilepath();
