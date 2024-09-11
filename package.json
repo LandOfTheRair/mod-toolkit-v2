@@ -31,7 +31,8 @@
     "bump:patch": "npm version patch -m \"Release Patch %s\" && npm run syncversion",
     "bump:minor": "npm version minor -m \"Release Minor %s\" && npm run syncversion",
     "bump:major": "npm version major -m \"Release Major %s\" && npm run syncversion",
-    "syncversion": "node scripts/syncversion && git commit -am \"Sync version\""
+    "syncversion": "node scripts/syncversion && git commit -am \"Sync version\"",
+    "postsyncversion": "node scripts/postversion.reversion"
   },
   "dependencies": {
     "@angular/common": "18.1.3",
