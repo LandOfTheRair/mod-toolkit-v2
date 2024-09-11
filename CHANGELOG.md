@@ -1,7 +1,14 @@
+## 1.6.0 (2024-09-11)
+
+* move publish ([6b91671](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6b91671))
+
+
+
 ## 1.5.0 (2024-09-11)
 
 * attempt auto updater ([d0239a2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d0239a2))
 * fix electron json ([3fa7fc4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3fa7fc4))
+* Release Minor 1.5.0 ([edaf850](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/edaf850))
 
 
 
