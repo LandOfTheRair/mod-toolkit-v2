@@ -1,6 +1,12 @@
+## <small>1.6.1 (2024-09-11)</small>
+
+
+
+
 ## 1.6.0 (2024-09-11)
 
 * move publish ([6b91671](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6b91671))
+* Release Minor 1.6.0 ([62e9ca9](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/62e9ca9))
 
 
 
