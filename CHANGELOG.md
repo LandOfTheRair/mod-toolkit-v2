@@ -1,5 +1,13 @@
+## <small>1.6.9 (2024-09-11)</small>
+
+* notify user when doing update stuff ([0ead8ab](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0ead8ab))
+
+
+
 ## <small>1.6.8 (2024-09-11)</small>
 
+* Release Patch 1.6.8 ([7b092cf](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7b092cf))
+* Sync version ([369c1fe](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/369c1fe))
 
 
 
