@@ -1,6 +1,14 @@
+## <small>1.6.6 (2024-09-11)</small>
+
+* show version in modkit util ([1086475](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1086475))
+
+
+
 ## <small>1.6.5 (2024-09-11)</small>
 
 * add postversion script ([8c366b2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8c366b2))
+* Release Patch 1.6.5 ([2f00b70](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2f00b70))
+* Sync version ([4b2e54f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4b2e54f))
 * Sync version ([0567ffe](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0567ffe))
 
 
