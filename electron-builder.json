@@ -20,7 +20,7 @@
   "artifactName": "LandOfTheRairModdingTools.${ext}",
   "win": {
     "icon": "dist/assets/icons",
-    "target": ["zip"],
+    "target": ["zip", "nsis"],
     "publish": ["github"]
   },
   "portable": {

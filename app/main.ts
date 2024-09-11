@@ -11,6 +11,9 @@ import { SendToUI } from './types';
 const isDevelopment = !app.isPackaged;
 
 autoUpdater.checkForUpdatesAndNotify();
+autoUpdater.logger = log;
+
+log.transports.file.level = 'info';
 
 console.log(`Starting in ${isDevelopment ? 'dev' : 'prod'} mode...`);
 

@@ -47,7 +47,7 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Server Binary
+      - name: Upload Portable Zip
         id: uploadReleaseAsset
         uses: actions/upload-release-asset@v1
         env:
@@ -57,3 +57,33 @@ jobs:
           asset_path: "./release/LandOfTheRairModdingTools.zip"
           asset_name: LandOfTheRairModdingTools.zip
           asset_content_type: application/zip
+
+      - name: Upload EXE
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.createRelease.outputs.upload_url }}
+          asset_path: "./release/LandOfTheRairModdingTools.exe"
+          asset_name: LandOfTheRairModdingTools.exe
+          asset_content_type: application/vnd.microsoft.portable-executable
+
+      - name: Upload YML
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.createRelease.outputs.upload_url }}
+          asset_path: "./release/latest.yml"
+          asset_name: latest.yml
+          asset_content_type: text/yaml
+
+      - name: Upload Blockmap
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.createRelease.outputs.upload_url }}
+          asset_path: "./release/LandOfTheRairModdingTools.exe.blockmap"
+          asset_name: LandOfTheRairModdingTools.exe.blockmap
+          asset_content_type: application/octet-stream
