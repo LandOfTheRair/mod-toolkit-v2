@@ -2,7 +2,7 @@
   "author": "Kyle Kemp <kyle@seiyria.com>",
   "description": "Modding tools for Land of the Rair.",
   "homepage": "https://rair.land",
-  "version": "1.4.11",
+  "version": "1.4.12",
   "main": "app/main.js",
   "private": true,
   "scripts": {
