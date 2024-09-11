@@ -39,6 +39,8 @@ const handleSetup = async () => {
   // check for and load resources if they're not present
   let isReady = false;
 
+  sendToUI('version', require('./package.json').version);
+
   if (!fs.existsSync(baseUrl + '/resources/.loaded')) {
     sendToUI('firstload');
     sendToUI('notify', {
@@ -62,8 +64,6 @@ const handleSetup = async () => {
   ipcMain.on('READY_CHECK', async () => {
     if (!isReady) return;
     sendToUI('ready');
-
-    sendToUI('version', require('./package.json').version);
   });
 
   setupIPC(sendToUI);
