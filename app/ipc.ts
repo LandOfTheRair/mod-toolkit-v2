@@ -65,6 +65,10 @@ export async function watchMaps(sendToUI: SendToUI) {
 export function setupIPC(sendToUI: SendToUI) {
   watchMaps(sendToUI);
 
+  ipcMain.on('GET_VERSION', async () => {
+    sendToUI('version', require('./package.json').version);
+  });
+
   ipcMain.on('UPDATE_RESOURCES', async () => {
     try {
       sendToUI('notify', { type: 'info', text: 'Updating resources...' });

@@ -103,6 +103,8 @@ export class ElectronService {
       this.isLoaded.set(true);
       this.isFirstLoad.set(false);
 
+      this.send('GET_VERSION');
+
       this.requestAllJSON();
       tryEnsureMaps();
     });
