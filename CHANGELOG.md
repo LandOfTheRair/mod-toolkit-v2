@@ -1,6 +1,14 @@
+## <small>1.6.5 (2024-09-11)</small>
+
+* add postversion script ([8c366b2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8c366b2))
+* Sync version ([0567ffe](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0567ffe))
+
+
+
 ## <small>1.6.4 (2024-09-11)</small>
 
 * make it clean ([d37c68b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d37c68b))
+* Release Patch 1.6.4 ([dbbd275](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/dbbd275))
 
 
 
