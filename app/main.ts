@@ -10,9 +10,6 @@ import { SendToUI } from './types';
 
 const isDevelopment = !app.isPackaged;
 
-autoUpdater.checkForUpdatesAndNotify();
-autoUpdater.logger = log;
-
 log.transports.file.level = 'info';
 
 console.log(`Starting in ${isDevelopment ? 'dev' : 'prod'} mode...`);
@@ -67,6 +64,23 @@ const handleSetup = async () => {
   });
 
   setupIPC(sendToUI);
+
+  autoUpdater.on('update-available', () => {
+    sendToUI('notify', {
+      type: 'info',
+      text: 'Update available for ModKit. Downloading...',
+    });
+  });
+
+  autoUpdater.on('update-downloaded', () => {
+    sendToUI('notify', {
+      type: 'success',
+      text: 'Update downloaded! It will be installed after next restart of ModKit',
+    });
+  });
+
+  autoUpdater.logger = log;
+  autoUpdater.checkForUpdatesAndNotify();
 };
 
 async function createWindow(): Promise<BrowserWindow> {
