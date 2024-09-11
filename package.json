@@ -1,8 +1,11 @@
 {
   "author": "Kyle Kemp <kyle@seiyria.com>",
   "description": "Modding tools for Land of the Rair.",
-  "name": "landoftherair-modkit",
+  "name": "landoftherairmodkit",
   "homepage": "https://rair.land",
+  "repository": {
+    "url": "https://github.com/LandOfTheRair/mod-toolkit-v2"
+  },
   "version": "1.4.12",
   "main": "app/main.js",
   "private": true,
@@ -22,7 +25,7 @@
     "electron:local": "npm run build:prod && electron .",
     "electron:build": "npm run build:prod && electron-builder build --publish=never",
     "electron:build:setup": "npm run electron:build && npm run electron:setup",
-    "electron:setup": "node scripts/installer",
+    "electron:setup": "",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
     "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
@@ -87,7 +90,6 @@
     "electron-builder": "24.13.3",
     "electron-debug": "3.2.0",
     "electron-reloader": "1.2.3",
-    "electron-winstaller": "5.4.0",
     "eslint": "8.57.0",
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-jsdoc": "48.2.3",

@@ -34,7 +34,7 @@ export class ElectronService {
   private quicksaveFilepath = computed(() => {
     const mod = this.modService.mod();
     const settings = this.settingsService.allSettings()[mod.meta.id];
-    return settings.autosaveFilePath;
+    return settings?.autosaveFilePath;
   });
 
   constructor() {

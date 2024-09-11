@@ -1,8 +1,11 @@
 {
-  "name": "mod-toolkit",
+  "name": "landoftherairmodkit",
   "author": "Kyle Kemp <kyle@seiyria.com>",
   "description": "Modding tools for Land of the Rair.",
   "homepage": "https://rair.land",
+  "repository": {
+    "url": "https://github.com/LandOfTheRair/mod-toolkit-v2"
+  },
   "version": "1.0.7",
   "main": "main.js",
   "private": true,
@@ -12,6 +15,7 @@
     "download-github-repo": "^0.1.4",
     "electron-config": "^2.0.0",
     "electron-log": "^5.1.7",
+    "electron-updater": "^6.3.4",
     "fs-extra": "^11.2.0",
     "md5-file": "^5.0.0",
     "recursive-readdir": "^2.2.3"

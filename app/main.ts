@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, protocol, screen, shell } from 'electron';
 import log from 'electron-log';
+import { autoUpdater } from 'electron-updater';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as handlers from './handlers';
@@ -8,6 +9,8 @@ import { setupIPC, watchMaps } from './ipc';
 import { SendToUI } from './types';
 
 const isDevelopment = !app.isPackaged;
+
+autoUpdater.checkForUpdatesAndNotify();
 
 console.log(`Starting in ${isDevelopment ? 'dev' : 'prod'} mode...`);
 
