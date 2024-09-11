@@ -1,5 +1,12 @@
+## <small>1.6.4 (2024-09-11)</small>
+
+* make it clean ([d37c68b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d37c68b))
+
+
+
 ## <small>1.6.3 (2024-09-11)</small>
 
+* Release Patch 1.6.3 ([930f527](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/930f527))
 
 
 
