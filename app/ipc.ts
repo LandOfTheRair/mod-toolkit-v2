@@ -69,6 +69,10 @@ export function setupIPC(sendToUI: SendToUI) {
     sendToUI('version', require('./package.json').version);
   });
 
+  ipcMain.on('GET_BASEURL', async () => {
+    sendToUI('baseurl', baseUrl);
+  });
+
   ipcMain.on('UPDATE_RESOURCES', async () => {
     try {
       sendToUI('notify', { type: 'info', text: 'Updating resources...' });

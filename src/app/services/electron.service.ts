@@ -32,6 +32,7 @@ export class ElectronService {
   public isInElectron = computed(() => !!window.api);
 
   public version = signal<string>('web');
+  public baseUrl = signal<string>('');
 
   private quicksaveFilepath = computed(() => {
     const mod = this.modService.mod();
@@ -104,6 +105,7 @@ export class ElectronService {
       this.isFirstLoad.set(false);
 
       this.send('GET_VERSION');
+      this.send('GET_BASEURL');
 
       this.requestAllJSON();
       tryEnsureMaps();
@@ -171,6 +173,10 @@ export class ElectronService {
 
     window.api.receive('version', (version) =>
       this.version.set(version as string)
+    );
+
+    window.api.receive('baseurl', (baseurl) =>
+      this.baseUrl.set(baseurl as string)
     );
 
     const quicksaveFilepath = this.quicksaveFilepath();

@@ -25,7 +25,7 @@ export class SpriteComponent {
       return 'https://play.rair.land/assets';
     }
 
-    return 'lotr://./resources/maps/__assets';
+    return `lotr://./resources/maps/__assets`;
   });
 
   public size = computed(() => divisors[this.type()]);

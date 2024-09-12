@@ -37,6 +37,7 @@ const handleSetup = async () => {
   let isReady = false;
 
   sendToUI('version', require('./package.json').version);
+  sendToUI('baseurl', baseUrl);
 
   if (!fs.existsSync(baseUrl + '/resources/.loaded')) {
     sendToUI('firstload');
@@ -132,7 +133,7 @@ async function createWindow(): Promise<BrowserWindow> {
   // load intercepter for image loading
   protocol.interceptFileProtocol('lotr', (req, callback) => {
     const url = req.url.substr(7);
-    callback({ path: path.normalize(app.getAppPath() + url) });
+    callback({ path: path.normalize(baseUrl + url) });
   });
 
   win.webContents.setWindowOpenHandler(({ url }: any) => {
