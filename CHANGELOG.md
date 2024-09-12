@@ -1,8 +1,16 @@
+## <small>1.6.11 (2024-09-12)</small>
+
+* fix base path for sprites ([9ea5aa2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9ea5aa2))
+
+
+
 ## <small>1.6.10 (2024-09-12)</small>
 
 * don't lowercase types or assume anything about them. fix auto-weapon-skill selector to be lowercase ([b539329](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b539329))
 * rair server should not be required to export a mod ([d37ff5c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d37ff5c))
+* Release Patch 1.6.10 ([e2141b5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e2141b5))
 * support sprite-changing effects ([a297551](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a297551))
+* Sync version ([c43ad7e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c43ad7e))
 
 
 
