@@ -1,5 +1,5 @@
 import { isNumber, isString, isUndefined } from 'lodash';
-import { IItemDefinition, SkillType } from '../../../interfaces';
+import { IItemDefinition } from '../../../interfaces';
 
 const WeaponClasses = [
   'Axe',
@@ -178,10 +178,6 @@ const conditionallyAddInformation = (item: IItemDefinition) => {
         max: item.randomTrait.level,
       };
   }
-
-  item.type = item.type.toLowerCase() as SkillType;
-  if (item.secondaryType)
-    item.secondaryType = item.secondaryType.toLowerCase() as SkillType;
 };
 
 function fillInItemProperties(itemData: IItemDefinition) {

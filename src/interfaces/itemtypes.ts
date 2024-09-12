@@ -73,6 +73,7 @@ export enum ArmorClass {
 }
 
 export enum MiscClass {
+  Abacus = 'Abacus',
   Book = 'Book',
   Bottle = 'Bottle',
   Box = 'Box',

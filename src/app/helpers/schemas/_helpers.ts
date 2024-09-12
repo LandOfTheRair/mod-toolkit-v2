@@ -11,6 +11,7 @@ import {
   Allegiance,
   DamageClass,
   HasIdentification,
+  ItemClass,
   ItemSlot,
   ITraitTreeRowTrait,
   QuestRewardType,
@@ -122,6 +123,14 @@ export const isPartialReputationObject = isPartialObjectOf<Allegiance>(
 );
 export const isPartialReputationObjectFailure =
   isPartialObjectOfFailure<Allegiance>(Object.values(Allegiance));
+
+export function isItemClass(val: any): boolean {
+  return Object.values(ItemClass).includes(val as ItemClass);
+}
+
+export function isSkill(val: any): boolean {
+  return Object.values(Skill).includes(val as Skill);
+}
 
 export function isItemSlot(val: any): boolean {
   return itemSlots.includes(val as ItemSlot);

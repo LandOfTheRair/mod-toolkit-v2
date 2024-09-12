@@ -1,5 +1,5 @@
 import { sortBy } from 'lodash';
-import { StatBlock } from '../../interfaces';
+import { SkillType, StatBlock } from '../../interfaces';
 
 export const coreStats = sortBy(
   [
@@ -276,30 +276,30 @@ export const typePropDefaults: Record<
 
 export const typePropPrimarySecondary: Record<
   string,
-  { p: string; s?: string }
+  { p: SkillType; s?: SkillType }
 > = {
-  Axe: { p: 'Axe' },
-  Blunderbuss: { p: 'Ranged', s: 'Twohanded' },
-  Broadsword: { p: 'Sword' },
-  Club: { p: 'Mace' },
-  Crossbow: { p: 'Ranged' },
-  Dagger: { p: 'Dagger' },
-  Flail: { p: 'Mace' },
-  Greataxe: { p: 'Axe', s: 'Twohanded' },
-  Greatmace: { p: 'Mace', s: 'Twohanded' },
-  Greatsword: { p: 'Twohanded' },
-  Halberd: { p: 'Polearm', s: 'Twohanded' },
-  Hammer: { p: 'Mace' },
-  Longbow: { p: 'Ranged', s: 'Twohanded' },
-  Longsword: { p: 'Sword' },
-  Mace: { p: 'Mace' },
-  Shield: { p: 'Mace' },
-  Shortbow: { p: 'Ranged' },
-  Shortsword: { p: 'Shortsword' },
-  Spear: { p: 'Staff' },
-  Staff: { p: 'Staff' },
-  Totem: { p: 'Wand' },
-  Wand: { p: 'Wand' },
+  Axe: { p: 'axe' },
+  Blunderbuss: { p: 'ranged', s: 'twohanded' },
+  Broadsword: { p: 'sword' },
+  Club: { p: 'mace' },
+  Crossbow: { p: 'ranged' },
+  Dagger: { p: 'dagger' },
+  Flail: { p: 'mace' },
+  Greataxe: { p: 'axe', s: 'twohanded' },
+  Greatmace: { p: 'mace', s: 'twohanded' },
+  Greatsword: { p: 'twohanded' },
+  Halberd: { p: 'polearm', s: 'twohanded' },
+  Hammer: { p: 'mace' },
+  Longbow: { p: 'ranged', s: 'twohanded' },
+  Longsword: { p: 'sword' },
+  Mace: { p: 'mace' },
+  Shield: { p: 'mace' },
+  Shortbow: { p: 'ranged' },
+  Shortsword: { p: 'shortsword' },
+  Spear: { p: 'staff' },
+  Staff: { p: 'staff' },
+  Totem: { p: 'wand' },
+  Wand: { p: 'wand' },
 };
 
 itemClasses.forEach((itemType) => {
