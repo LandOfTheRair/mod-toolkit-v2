@@ -205,14 +205,6 @@ export function setupIPC(sendToUI: SendToUI) {
   });
 
   ipcMain.on('SAVE_MOD', (e: any, { modData, shouldExport }: any) => {
-    if (shouldExport && !fs.existsSync(`${baseUrl}/resources/rair`)) {
-      sendToUI('notify', {
-        type: 'error',
-        text: 'Mod cannot be formatted for saving, install Rair Server first!',
-      });
-      return;
-    }
-
     const extname = shouldExport ? 'Rair Mods' : 'Rair In-Dev Mods';
     const ext = shouldExport ? 'rairmod' : 'rairdevmod';
 

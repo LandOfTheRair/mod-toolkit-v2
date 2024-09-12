@@ -19,6 +19,7 @@ export interface IStatusEffectInfo {
   canOverlapUniqueIfEquipped?: boolean;
   charges?: number;
   statChanges: Partial<Record<StatType, number>>;
+  spriteChange?: number;
 }
 
 export interface IEffectTooltip {
