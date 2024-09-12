@@ -43,6 +43,7 @@ export const defaultSTEM: () => ISTEM = () => {
           canOverlapUniqueIfEquipped: false,
           charges: 0,
           statChanges: {},
+          spriteChange: -1,
         },
       },
       effectMeta: {},
