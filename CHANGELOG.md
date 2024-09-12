@@ -1,6 +1,16 @@
+## <small>1.6.10 (2024-09-12)</small>
+
+* don't lowercase types or assume anything about them. fix auto-weapon-skill selector to be lowercase ([b539329](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b539329))
+* rair server should not be required to export a mod ([d37ff5c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d37ff5c))
+* support sprite-changing effects ([a297551](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a297551))
+
+
+
 ## <small>1.6.9 (2024-09-11)</small>
 
 * notify user when doing update stuff ([0ead8ab](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0ead8ab))
+* Release Patch 1.6.9 ([f1d3bac](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f1d3bac))
+* Sync version ([5804f7c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5804f7c))
 
 
 
