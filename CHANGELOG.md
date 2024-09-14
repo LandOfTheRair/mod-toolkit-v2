@@ -1,6 +1,14 @@
+## <small>1.6.12 (2024-09-14)</small>
+
+* add spell flag to only target caster ([e22a699](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e22a699))
+
+
+
 ## <small>1.6.11 (2024-09-12)</small>
 
 * fix base path for sprites ([9ea5aa2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9ea5aa2))
+* Release Patch 1.6.11 ([206aa5a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/206aa5a))
+* Sync version ([ddce578](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ddce578))
 
 
 
