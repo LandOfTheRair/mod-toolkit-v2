@@ -1,6 +1,14 @@
+## <small>1.6.13 (2024-09-14)</small>
+
+* add duration -> charges flag ([762781f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/762781f))
+
+
+
 ## <small>1.6.12 (2024-09-14)</small>
 
 * add spell flag to only target caster ([e22a699](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e22a699))
+* Release Patch 1.6.12 ([df51571](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/df51571))
+* Sync version ([8caa867](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8caa867))
 
 
 
