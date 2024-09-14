@@ -64,6 +64,7 @@ export const stemSchema: Schema = [
   ['spell.spellMeta.targetAttackMessage', false, isString],
   ['spell.spellMeta.targetSfx', false, isString],
   ['spell.spellMeta.targetsParty', false, isBoolean],
+  ['spell.spellMeta.targetsCaster', false, isBoolean],
   ['spell.spellMeta.range', false, isNumber],
   ['spell.spellMeta.resistLowerTrait', false, isString],
   ['spell.spellMeta.useSkillAsPotency', false, isBoolean],

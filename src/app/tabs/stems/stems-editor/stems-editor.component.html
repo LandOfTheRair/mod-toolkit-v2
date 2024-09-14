@@ -243,18 +243,18 @@
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell can target hostile targets.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.noHostileTarget" class="checkbox" />
-            <span class="label-text">No Hostile Targets</span>
+          <label class="label cursor-pointer" floatUi="Whether or not the spell can only target the caster.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.targetsCaster" class="checkbox" />
+            <span class="label-text">Targets Caster</span>
           </label>
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell can be reflected back to the caster.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.noReflect" class="checkbox" />
-            <span class="label-text">No Reflect</span>
+          <label class="label cursor-pointer" floatUi="Whether or not the spell can target hostile targets.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.noHostileTarget" class="checkbox" />
+            <span class="label-text">No Hostile Targets</span>
           </label>
         </div>
       </div>
@@ -378,6 +378,13 @@
       </div>
     </div>
     }
+
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer" floatUi="Whether or not the spell can be reflected back to the caster.">
+        <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.noReflect" class="checkbox" />
+        <span class="label-text">No Reflect</span>
+      </label>
+    </div>
 
     <div class="form-row split">
       <div class="form-column">
