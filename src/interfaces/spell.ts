@@ -44,6 +44,7 @@ export interface ISpell {
     range?: number; // if the spell is an aoe, this is the default range from the center it targets (default 0)
     resistLowerTrait?: string; // if the spell canBeResisted, this trait will improve the chance of the spell cast going through
     useSkillAsPotency?: boolean; // if true, the spell will use only the casters skill as the potency (unless there is already a potency set)
+    useDurationAsCharges?: boolean; // if true, the spell will turn the duration into charges instead
     fizzledBy: string[]; // if set, the spell will not take hold on any target if they contain an effect listed in this array
   };
 }

@@ -292,6 +292,18 @@
 
     <div class="form-row split">
       <div class="form-column">
+        <div class="form-row pl-1">
+          <label class="label cursor-pointer"
+            floatUi="Whether or not to convert the duration of the spell into charges instead.">
+            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.useDurationAsCharges" class="checkbox" />
+            <span class="label-text">Duration -> Charges</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Bonus Rolls Min</app-input-floating-label>
           <input [(ngModel)]="editingData.spell.bonusRollsMin" type="number" min="0" placeholder="Enter min rolls..."
