@@ -825,17 +825,24 @@ export class AnalysisService {
       .filter((m) => m[0] <= skill)
       .reverse()[0][1];
 
-    const isStatic = spell.spellMeta?.staticPotency;
     const potencyMultiplier = spell.potencyMultiplier ?? 1;
 
-    if (spell.spellMeta?.useSkillAsPotency)
+    if (spell.spellMeta?.useSkillAsPotency) {
       return {
         min: calcSkill * potencyMultiplier,
         max: calcSkill * potencyMultiplier,
       };
+    }
 
-    const bonusRollsMin = isStatic ? 0 : spell.bonusRollsMin ?? 0;
-    const bonusRollsMax = isStatic ? 0 : spell.bonusRollsMax ?? 0;
+    if (spell.spellMeta?.staticPotency) {
+      return {
+        min: Math.floor(calcSkill * stat * maxMult * potencyMultiplier),
+        max: Math.floor(calcSkill * stat * maxMult * potencyMultiplier),
+      };
+    }
+
+    const bonusRollsMin = spell.bonusRollsMin ?? 0;
+    const bonusRollsMax = spell.bonusRollsMax ?? 0;
 
     // base rolls
     const baseRollsMin = calcSkill + bonusRollsMin;
