@@ -1,6 +1,14 @@
+## <small>1.6.16 (2024-09-16)</small>
+
+* better handling of skill levels ([e0a2ffc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e0a2ffc))
+
+
+
 ## <small>1.6.15 (2024-09-16)</small>
 
+* Release Patch 1.6.15 ([16b1216](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/16b1216))
 * set skill level when loading npc page ([0073419](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0073419))
+* Sync version ([db12379](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/db12379))
 
 
 
