@@ -11,6 +11,7 @@ import {
   SkillType,
   StatType,
 } from '../../../../interfaces';
+import { levelFromSkillXP } from '../../../helpers/export';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
@@ -127,6 +128,9 @@ export class NpcsEditorComponent
   ngOnInit(): void {
     this.checkLinkedStats();
     const npc = this.editing();
+
+    const skillLevel = levelFromSkillXP(npc.skills.martial ?? 0);
+    npc.skillLevels = skillLevel;
 
     const reps = npc.repMod ?? [];
     npc.repMod = this.allegiances.map((allegiance) => ({

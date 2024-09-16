@@ -63,12 +63,19 @@ const otherStats = {
   damageFactor: 1,
 };
 
-const skillXPFromLevel = (level: number) => {
+export function levelFromSkillXP(skillXP: number): number {
+  const skillValue = skillXP ?? 0;
+  if (skillValue < 100) return 0;
+
+  const value = Math.log((skillValue - 1) / 100) / Math.log(1.55); // -1 because for some reason level 1 displays as 2, fuck math or something?
+  return 1 + Math.floor(value);
+}
+
+export function skillXPFromLevel(level: number): number {
   if (level === 0) return 100;
-  if (level === 1) return 200;
 
   return Math.floor(Math.pow(1.55, level) * 100);
-};
+}
 
 const assignReputations = (npc: INPCDefinition) => {
   const antiReps: Record<AllegianceType, AllegianceType[]> = {
