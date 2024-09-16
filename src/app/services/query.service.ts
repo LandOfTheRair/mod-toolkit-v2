@@ -1,4 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { IModKit } from '../../interfaces';
 import { ModService } from './mod.service';
 
 @Injectable({
@@ -9,6 +10,7 @@ export class QueryService {
 
   public isQuerying = signal<boolean>(false);
 
+  public modForJSModifiable = computed(() => this.modService.mod());
   public modForJS = computed(() => structuredClone(this.modService.mod()));
   public modForSQL = computed(() => {
     const mod = structuredClone(this.modService.mod());
@@ -29,5 +31,9 @@ export class QueryService {
 
   public toggleQuerying(newSetting = !this.isQuerying()) {
     this.isQuerying.set(newSetting);
+  }
+
+  public updateMod(newMod: IModKit) {
+    this.modService.updateMod(newMod);
   }
 }

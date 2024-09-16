@@ -36,7 +36,7 @@ export class QueryComponent {
   public readonly jsModel: CodeModel = {
     language: 'javascript',
     uri: 'query.js',
-    value: 'function query(mod) {\n\n}',
+    value: 'function query(mod, dangerModModifiable) {\n\n}',
   };
 
   public readonly sqlModel: CodeModel = {
@@ -79,7 +79,9 @@ export class QueryComponent {
     try {
       // eslint-disable-next-line @typescript-eslint/no-implied-eval
       const func = new Function(`return ${this.jsModel.value};`);
-      const result = func()(this.queryService.modForJS());
+      const modifiableMod = this.queryService.modForJSModifiable();
+      const result = func()(this.queryService.modForJS(), modifiableMod);
+      this.queryService.updateMod(modifiableMod);
       this.jsResult.set(result);
     } catch (e: any) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

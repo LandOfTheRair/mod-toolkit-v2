@@ -1,6 +1,6 @@
 <div class="navbar bg-base-100">
   <div class="flex-1">
-    <a class="btn btn-ghost text-xl">Land of the Rair Mod Toolkit</a>
+    <a class="btn btn-ghost text-xl">Land of the Rair ModKit</a>
 
     @if(electronService.isLoaded()) {
     <a class="btn btn-ghost text-lg" [swal]="changeModName" [class.btn-disabled]="!electronService.isInElectron()">{{

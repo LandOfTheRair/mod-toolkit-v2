@@ -1,1 +1,1 @@
-# Land of the Rair Mod Toolkit
+# Land of the Rair ModKit
