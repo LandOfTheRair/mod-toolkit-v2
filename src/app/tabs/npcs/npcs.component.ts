@@ -51,6 +51,13 @@ export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
       filter: 'agNumberColumnFilter',
     },
     {
+      field: 'skillLevels',
+      headerName: 'Skill',
+      flex: 1,
+      cellDataType: 'number',
+      filter: 'agNumberColumnFilter',
+    },
+    {
       field: 'cr',
       headerName: 'Challenge Rating',
       flex: 1,

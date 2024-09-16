@@ -8,10 +8,11 @@ import {
   ItemSlot,
   ItemSlotType,
   Rollable,
+  Skill,
   SkillType,
   StatType,
 } from '../../../../interfaces';
-import { levelFromSkillXP } from '../../../helpers/export';
+import { levelFromSkillXP, skillXPFromLevel } from '../../../helpers/export';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
@@ -507,6 +508,12 @@ export class NpcsEditorComponent
     if (Object.keys(npc.triggers ?? {}).length === 0) {
       delete (npc as any).triggers;
     }
+
+    Object.values(Skill).forEach((skill) => {
+      npc.skills[skill.toLowerCase() as SkillType] = skillXPFromLevel(
+        npc.skillLevels
+      );
+    });
 
     this.editing.set(npc);
 
