@@ -1,7 +1,15 @@
+## <small>1.6.15 (2024-09-16)</small>
+
+* set skill level when loading npc page ([0073419](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0073419))
+
+
+
 ## <small>1.6.14 (2024-09-16)</small>
 
 * fix naming, make query service able to write back ([b8d56da](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b8d56da))
 * fix spell calc for spells that are static ([34ae332](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/34ae332))
+* Release Patch 1.6.14 ([d78ca2d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d78ca2d))
+* Sync version ([2e0d746](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2e0d746))
 
 
 
