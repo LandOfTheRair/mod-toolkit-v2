@@ -1,6 +1,15 @@
+## <small>1.6.14 (2024-09-16)</small>
+
+* fix naming, make query service able to write back ([b8d56da](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b8d56da))
+* fix spell calc for spells that are static ([34ae332](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/34ae332))
+
+
+
 ## <small>1.6.13 (2024-09-14)</small>
 
 * add duration -> charges flag ([762781f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/762781f))
+* Release Patch 1.6.13 ([66b5c07](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/66b5c07))
+* Sync version ([172f719](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/172f719))
 
 
 
