@@ -116,10 +116,17 @@ export class InputAnalysisReportComponent implements OnInit {
       },
       {
         category: 'Miscellaneous',
+        value: 'Resistance Acquisition',
+        type: AnalysisReportType.ResistanceAcquisition,
+        data: {},
+        desc: 'A breakdown of the max resist for each element at each level.',
+      },
+      {
+        category: 'Miscellaneous',
         value: 'Stat Utilization',
         type: AnalysisReportType.StatUtilization,
         data: {},
-        desc: 'A breakdown of each stats utilization across weapons and armors',
+        desc: 'A breakdown of each stats utilization across weapons and armors.',
       },
       {
         category: 'Miscellaneous',

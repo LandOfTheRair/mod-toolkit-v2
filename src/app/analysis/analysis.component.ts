@@ -101,6 +101,10 @@ export class AnalysisComponent implements OnInit {
           chosenItemTier
         );
       }
+
+      case AnalysisReportType.ResistanceAcquisition: {
+        return this.analysisService.generateResistanceAcquisitionReport();
+      }
     }
   });
 

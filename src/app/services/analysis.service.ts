@@ -6,12 +6,22 @@ import {
   AnalysisReport,
   AnalysisReportDisplay,
   ArmorClass,
+  ArmorClasses,
+  EarClasses,
+  FeetClasses,
+  HandsClasses,
+  HeadClasses,
   IItemDefinition,
   ItemClass,
   ItemClassType,
+  NeckClasses,
+  RingClasses,
+  RobeClasses,
   Stat,
   StatType,
+  WaistClasses,
   WeaponClass,
+  WristsClasses,
 } from '../../interfaces';
 import { ISTEM } from '../../interfaces/stem';
 import { ModService } from './mod.service';
@@ -1136,6 +1146,100 @@ export class AnalysisService {
 
       allReports.push(weaponReport);
     }
+
+    return {
+      entries: [...allReports],
+    };
+  }
+
+  private getBestItemsForStatPerLevel(
+    level: number,
+    stat: StatType
+  ): IItemDefinition[] {
+    const allEquippableItems = this.modService
+      .mod()
+      .items.filter(
+        (f) =>
+          f.itemClass !== ItemClass.Gem &&
+          (f.stats?.[stat] ?? 0) > 0 &&
+          f.sprite !== -1 &&
+          !f.destroyOnDrop
+      );
+
+    const slotsToFill: ItemClassType[][] = [
+      ArmorClasses.slice(),
+      RobeClasses.slice(),
+      RobeClasses.slice(),
+      HeadClasses.slice(),
+      NeckClasses.slice(),
+      WaistClasses.slice(),
+      WristsClasses.slice(),
+      RingClasses.slice(),
+      RingClasses.slice(),
+      FeetClasses.slice(),
+      HandsClasses.slice(),
+      EarClasses.slice(),
+    ];
+
+    const bestItems = slotsToFill.map((s) => {
+      return sortBy(
+        allEquippableItems.filter(
+          (i) =>
+            (i.requirements?.level ?? 0) <= level && s.includes(i.itemClass)
+        ),
+        (i) => -(i.stats?.[stat] ?? 0)
+      )[0];
+    });
+
+    return bestItems.filter(Boolean);
+  }
+
+  public generateResistanceAcquisitionReport(): AnalysisReport {
+    const resistanceStats: StatType[] = [
+      'physicalResist',
+      'magicalResist',
+      'necroticResist',
+      'energyResist',
+      'diseaseResist',
+      'poisonResist',
+      'fireResist',
+      'iceResist',
+      'waterResist',
+      'sonicResist',
+    ];
+
+    const allReports: AnalysisReportDisplay[] = [];
+
+    const statReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: `Max Resistances Per Level (No Encrust)`,
+        headers: ['Level', ...resistanceStats],
+        rows: [],
+      },
+    };
+
+    for (let level = 1; level <= 50; level++) {
+      const row: AnalysisDisplayRow[] = [
+        {
+          pretext: level.toString(),
+        },
+      ];
+
+      resistanceStats.forEach((stat) => {
+        const items = this.getBestItemsForStatPerLevel(level, stat);
+        const sum = sumBy(items, (i) => i.stats?.[stat] ?? 0);
+
+        row.push({
+          pretext: sum.toString() ?? '-',
+          tooltip: `${items.map((s) => s.name).join(', ')}`,
+        });
+      });
+
+      statReport.table.rows.push(row);
+    }
+
+    allReports.push(statReport);
 
     return {
       entries: [...allReports],
