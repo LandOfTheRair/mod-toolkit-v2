@@ -1,8 +1,16 @@
+## <small>1.6.19 (2024-09-17)</small>
+
+* ignore holiday items when doing max resistance report ([bf2cb1c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/bf2cb1c))
+
+
+
 ## <small>1.6.18 (2024-09-17)</small>
 
 * add report to check max prot per level ([a1dbc81](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a1dbc81))
 * effect input should include spells with no effects, too ([dc0fb44](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/dc0fb44))
+* Release Patch 1.6.18 ([2c3e7ca](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2c3e7ca))
 * support shared navigation urls/etc for easier debugging and sharing ([2391473](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2391473))
+* Sync version ([c2254eb](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c2254eb))
 
 
 
