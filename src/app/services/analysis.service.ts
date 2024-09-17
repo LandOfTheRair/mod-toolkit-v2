@@ -11,6 +11,7 @@ import {
   FeetClasses,
   HandsClasses,
   HeadClasses,
+  Holiday,
   IItemDefinition,
   ItemClass,
   ItemClassType,
@@ -1163,7 +1164,8 @@ export class AnalysisService {
           f.itemClass !== ItemClass.Gem &&
           (f.stats?.[stat] ?? 0) > 0 &&
           f.sprite !== -1 &&
-          !f.destroyOnDrop
+          !f.destroyOnDrop &&
+          !Object.values(Holiday).some((s) => f.name.includes(s))
       );
 
     const slotsToFill: ItemClassType[][] = [
@@ -1213,7 +1215,7 @@ export class AnalysisService {
     const statReport: AnalysisReportDisplay = {
       type: AnalysisDisplayType.Table,
       table: {
-        title: `Max Resistances Per Level (No Encrust)`,
+        title: `Max Resistances Per Level (No Encrust & No Holiday)`,
         headers: ['Level', ...resistanceStats],
         rows: [],
       },
