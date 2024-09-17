@@ -1,6 +1,16 @@
+## <small>1.6.18 (2024-09-17)</small>
+
+* add report to check max prot per level ([a1dbc81](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a1dbc81))
+* effect input should include spells with no effects, too ([dc0fb44](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/dc0fb44))
+* support shared navigation urls/etc for easier debugging and sharing ([2391473](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2391473))
+
+
+
 ## <small>1.6.17 (2024-09-17)</small>
 
 * boots should be considered a weapon ([ba5d21e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ba5d21e))
+* Release Patch 1.6.17 ([ce1a9b9](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ce1a9b9))
+* Sync version ([5785c3f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5785c3f))
 
 
 
