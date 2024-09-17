@@ -1,4 +1,12 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { maxBy } from 'lodash';
 import { AnalysisReportType, ItemClassType } from '../../interfaces';
 import { AnalysisService } from '../services/analysis.service';
@@ -10,7 +18,14 @@ import { ReportModel } from '../shared/components/input-analysis-report/input-an
   templateUrl: './analysis.component.html',
   styleUrl: './analysis.component.scss',
 })
-export class AnalysisComponent {
+export class AnalysisComponent implements OnInit {
+  public exit = output();
+  public changeURLProp = output<[string, string | undefined]>();
+  public defaultReport = input<string | null>();
+  public defaultItemclass = input<string | null>();
+  public defaultSpell = input<string | null>();
+  public defaultTier = input<string | null>();
+
   public analysisService = inject(AnalysisService);
   public modService = inject(ModService);
 
@@ -24,7 +39,7 @@ export class AnalysisComponent {
     return maxBy(this.modService.mod().items, 'tier')?.tier ?? 1;
   });
 
-  public report = signal<ReportModel | undefined>(undefined);
+  public report = signal<string | undefined>(undefined);
   public reportData = computed(() => {
     const reportType = this.reportType();
     const reportArgs = this.reportDataArgs();
@@ -89,70 +104,19 @@ export class AnalysisComponent {
     }
   });
 
+  ngOnInit() {
+    const tier = this.defaultTier();
+    if (tier) {
+      this.tierInput.set(+tier);
+    }
+  }
+
   public updateReport($event: ReportModel | undefined) {
     if (!$event) return;
 
     this.reportType.set($event.type);
     this.reportDataArgs.set($event.data);
 
-    /*
-    let report: AnalysisReport | undefined = undefined;
-
-    switch ($event.type) {
-      case AnalysisReportType.ArmorAverage: {
-        report = this.analysisService.generateArmorReport(
-          $event.data.itemClasses ?? []
-        );
-        break;
-      }
-
-      case AnalysisReportType.GemStats: {
-        report = this.analysisService.generateGemReport();
-        break;
-      }
-
-      case AnalysisReportType.StatUtilization: {
-        report = this.analysisService.generateStatUtilizationReport();
-        break;
-      }
-
-      case AnalysisReportType.SpellPotency: {
-        report = this.analysisService.generateSpellPotencyReport(
-          $event.data.spellName ?? ''
-        );
-        break;
-      }
-
-      case AnalysisReportType.WeaponPotency: {
-        report = this.analysisService.generateWeaponPotencyReport(
-          $event.data.itemClass,
-          5
-        );
-        break;
-      }
-
-      case AnalysisReportType.TraitUsage: {
-        report = this.analysisService.generateTraitReport();
-        break;
-      }
-
-      TODO: this one should support an array of item classes (default) OR a singular item picker
-      case AnalysisReportType.Progression: {
-        report = this.analysisService.generateProgressionReport(
-          $event.data.itemClasses ?? []
-        );
-        break;
-      }
-
-      case AnalysisReportType.WeaponAverage: {
-        report = this.analysisService.generateWeaponReport(
-          $event.data.itemClasses ?? []
-        );
-        break;
-      }
-    }
-
-    this.reportData.set(report);
-    */
+    this.changeURLProp.emit(['report', $event.value]);
   }
 }

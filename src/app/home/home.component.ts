@@ -3,10 +3,13 @@ import {
   computed,
   ElementRef,
   inject,
+  OnInit,
   signal,
   viewChild,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { isUndefined } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import { numErrorsForMod, validationMessagesForMod } from '../helpers';
 import { formatMod } from '../helpers/exporter';
@@ -22,7 +25,10 @@ import { QueryService } from '../services/query.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   private localStorage = inject(LocalStorageService);
   public pinpointService = inject(PinpointService);
   public analysisService = inject(AnalysisService);
@@ -98,15 +104,44 @@ export class HomeComponent {
     },
   ];
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit() {
     const lastTab = (this.localStorage.retrieve('lasttab') as number) ?? 0;
-    this.activeTab.set(lastTab);
+    const lastTabUrl = this.route.snapshot.queryParamMap.get('tab');
+
+    this.activeTab.set(lastTabUrl ? +lastTabUrl : lastTab);
+
+    const lastSub = this.route.snapshot.queryParamMap.get('sub');
+    switch (lastSub) {
+      case 'validate': {
+        return this.toggleModValidation();
+      }
+      case 'pinpoint': {
+        return this.togglePinpointing();
+      }
+      case 'analyze': {
+        return this.toggleAnalyzing();
+      }
+      case 'query': {
+        return this.toggleQuerying();
+      }
+    }
   }
 
   changeTab(newTab: number) {
     this.activeTab.set(newTab);
 
     this.localStorage.store('lasttab', newTab);
+
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+      queryParams: {
+        tab: newTab,
+        sub: '',
+      },
+    });
   }
 
   closeMenu() {
@@ -151,6 +186,14 @@ export class HomeComponent {
     this.pinpointService.togglePinpointing(false);
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
+
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+      queryParams: {
+        sub: 'validate',
+      },
+    });
   }
 
   togglePinpointing() {
@@ -158,6 +201,14 @@ export class HomeComponent {
     this.isValidating.set(false);
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
+
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+      queryParams: {
+        sub: 'pinpoint',
+      },
+    });
   }
 
   toggleAnalyzing() {
@@ -165,6 +216,14 @@ export class HomeComponent {
     this.isValidating.set(false);
     this.pinpointService.togglePinpointing(false);
     this.queryService.toggleQuerying(false);
+
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+      queryParams: {
+        sub: 'analyze',
+      },
+    });
   }
 
   toggleQuerying() {
@@ -172,6 +231,14 @@ export class HomeComponent {
     this.isValidating.set(false);
     this.pinpointService.togglePinpointing(false);
     this.analysisService.toggleAnalyzing(false);
+
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+      queryParams: {
+        sub: 'query',
+      },
+    });
   }
 
   toggleTester() {
@@ -185,5 +252,30 @@ export class HomeComponent {
     }
 
     void this.electronService.reloadExternalWebMod();
+  }
+
+  getURLSubProp(prop: string): string | null {
+    return this.route.snapshot.queryParamMap.get(prop);
+  }
+
+  updateSubURLProp(prop: string, value: string | number | undefined) {
+    if (isUndefined(value)) return;
+
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+      queryParams: {
+        [prop]: value,
+      },
+    });
+  }
+
+  resetSub() {
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        tab: this.activeTab(),
+      },
+    });
   }
 }

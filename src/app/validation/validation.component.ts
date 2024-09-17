@@ -9,11 +9,12 @@ import { ModService } from '../services/mod.service';
   styleUrl: './validation.component.scss',
 })
 export class ValidationComponent {
+  public exit = output();
+
   private localStorage = inject(LocalStorageService);
   private modService = inject(ModService);
 
   public activeValidationTab = signal<number>(0);
-  public exit = output();
 
   public validationMessageContainers = computed(() => {
     const mod = this.modService.mod();

@@ -1,4 +1,4 @@
-import { Component, input, model, output } from '@angular/core';
+import { Component, input, model, OnInit, output } from '@angular/core';
 import {
   ArmorClass,
   ItemClassType,
@@ -11,10 +11,11 @@ import {
   templateUrl: './input-itemclass.component.html',
   styleUrl: './input-itemclass.component.scss',
 })
-export class InputItemclassComponent {
+export class InputItemclassComponent implements OnInit {
   public itemClass = model<ItemClassType>();
   public label = input<string>('Type');
   public change = output<ItemClassType>();
+  public defaultValue = input<string>();
 
   public values = [
     ...Object.values(WeaponClass).map((c) => ({
@@ -27,4 +28,11 @@ export class InputItemclassComponent {
       value: c,
     })),
   ];
+
+  ngOnInit() {
+    const val = this.defaultValue();
+    if (val) {
+      this.itemClass.set(val as ItemClassType);
+    }
+  }
 }

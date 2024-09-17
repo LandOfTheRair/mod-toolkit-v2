@@ -1,6 +1,6 @@
 <div class="relative">
-  <ng-select class="form-control" [items]="values()" groupBy="category" [(ngModel)]="map" placeholder="Select map..."
-    (change)="change.emit($event?.value)"></ng-select>
+  <ng-select class="form-control" [items]="values()" [(ngModel)]="map" placeholder="Select map..."
+    (change)="change.emit($event)"></ng-select>
 
   <app-input-floating-label>Map</app-input-floating-label>
 </div>

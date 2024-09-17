@@ -1,6 +1,6 @@
 <div class="relative">
   <ng-select class="form-control" [items]="values()" [(ngModel)]="spell" placeholder="Select spell..."
-    (change)="change.emit($event?.value)">
+    (change)="change.emit($event)">
   </ng-select>
 
   <app-input-floating-label>{{ label() }}</app-input-floating-label>

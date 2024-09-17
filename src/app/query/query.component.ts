@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { CodeModel } from '@ngstack/code-editor';
 import * as alasql from 'alasql';
 import * as _ from 'lodash';
@@ -12,6 +12,8 @@ import { QueryService } from '../services/query.service';
   styleUrl: './query.component.scss',
 })
 export class QueryComponent {
+  public exit = output();
+
   private localStorage = inject(LocalStorageService);
 
   public queryService = inject(QueryService);

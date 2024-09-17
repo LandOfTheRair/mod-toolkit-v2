@@ -74,7 +74,7 @@
   <div class="root-content p-3">
     <div class="card bg-base-100 w-full shadow-xl">
       <div class="card-body">
-        <app-validation (exit)="isValidating.set(false)"></app-validation>
+        <app-validation (exit)="resetSub(); isValidating.set(false)"></app-validation>
       </div>
     </div>
   </div>
@@ -85,7 +85,10 @@
   <div class="root-content p-3">
     <div class="card bg-base-100 w-full shadow-xl">
       <div class="card-body">
-        <app-pinpoint></app-pinpoint>
+        <app-pinpoint (exit)="resetSub()" (changeURLProp)="updateSubURLProp($event[0], $event[1])"
+          [defaultTab]="getURLSubProp('pptab')" [defaultMap]="getURLSubProp('map')"
+          [defaultItem]="getURLSubProp('item')" [defaultNPC]="getURLSubProp('npc')"
+          [defaultSTEM]="getURLSubProp('stem')"></app-pinpoint>
       </div>
     </div>
   </div>
@@ -96,7 +99,9 @@
   <div class="root-content p-3">
     <div class="card bg-base-100 w-full shadow-xl">
       <div class="card-body">
-        <app-analysis></app-analysis>
+        <app-analysis (exit)="resetSub()" (changeURLProp)="updateSubURLProp($event[0], $event[1])"
+          [defaultReport]="getURLSubProp('report')" [defaultItemclass]="getURLSubProp('itemclass')"
+          [defaultSpell]="getURLSubProp('spell')" [defaultTier]="getURLSubProp('tier')"></app-analysis>
       </div>
     </div>
   </div>
@@ -107,7 +112,7 @@
   <div class="root-content p-3">
     <div class="card bg-base-100 w-full shadow-xl">
       <div class="card-body">
-        <app-query></app-query>
+        <app-query (exit)="resetSub()"></app-query>
       </div>
     </div>
   </div>

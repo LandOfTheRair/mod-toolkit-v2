@@ -15,7 +15,7 @@
     <button class="btn-sm btn btn-primary mr-3" (click)="updateSQLFunction()">Run SQL</button>
     }
     }
-    <button class="btn-sm btn btn-success mr-3" (click)="queryService.toggleQuerying()">Done</button>
+    <button class="btn-sm btn btn-success mr-3" (click)="queryService.toggleQuerying(); exit.emit()">Done</button>
   </div>
 
 </div>

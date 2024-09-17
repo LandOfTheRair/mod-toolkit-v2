@@ -1,7 +1,7 @@
 <div role="tablist" class="tabs tabs-boxed rounded-none">
 
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-success mr-3" (click)="analysisService.toggleAnalyzing()">Done</button>
+    <button class="btn-sm btn btn-success mr-3" (click)="analysisService.toggleAnalyzing(); exit.emit()">Done</button>
   </div>
 
 </div>
@@ -9,7 +9,8 @@
 <div class="flex flex-row gap-2 mb-3">
   <div class="form-column">
     <div class="form-row">
-      <app-input-analysis-report [(report)]="report" (change)="updateReport($event)"></app-input-analysis-report>
+      <app-input-analysis-report [(report)]="report" (change)="updateReport($event)"
+        [defaultValue]="defaultReport()!"></app-input-analysis-report>
     </div>
   </div>
 
@@ -18,11 +19,13 @@
   <div class="form-column">
     <div class="form-row">
       @if(reportTypeName === 'progressionsingle' || reportTypeName === 'weaponpotency') {
-      <app-input-itemclass [(itemClass)]="itemClassInput"></app-input-itemclass>
+      <app-input-itemclass [(itemClass)]="itemClassInput" (change)="changeURLProp.emit(['itemclass', $event])"
+        [defaultValue]="defaultItemclass()!"></app-input-itemclass>
       }
 
       @if(reportTypeName === 'spellpotency') {
-      <app-input-spell [(spell)]="spellNameInput"></app-input-spell>
+      <app-input-spell [(spell)]="spellNameInput" (change)="changeURLProp.emit(['spell', $event])"
+        [defaultValue]="defaultSpell()!"></app-input-spell>
       }
     </div>
   </div>
@@ -32,7 +35,7 @@
       @if(reportTypeName === 'weaponpotency') {
       <app-input-floating-label>Weapon Tier</app-input-floating-label>
       <input [(ngModel)]="tierInput" min="1" [max]="maxTier()" type="number" placeholder="Choose tier..."
-        class="form-input" />
+        class="form-input" (change)="changeURLProp.emit(['tier', tierInput().toString()])" />
       }
     </div>
   </div>

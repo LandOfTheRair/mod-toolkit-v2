@@ -2,13 +2,13 @@
 
   @for(tab of tabOrder; track tab.name; let i = $index) {
   <a role="tab" class="tab" [class.tab-active]="pinpointService.activePinpointTab() === i"
-    (click)="pinpointService.activePinpointTab.set(i)">
+    (click)="pinpointService.activePinpointTab.set(i); changeURLProp.emit(['pptab', i.toString()])">
     {{ tab.name }}
   </a>
   }
 
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-success mr-3" (click)="pinpointService.togglePinpointing()">Done</button>
+    <button class="btn-sm btn btn-success mr-3" (click)="pinpointService.togglePinpointing(); exit.emit()">Done</button>
   </div>
 
 </div>
@@ -19,7 +19,8 @@
 <div class="flex flex-row gap-2 mb-3">
   <div class="form-column">
     <div class="form-row">
-      <app-input-map [(map)]="pinpointService.pinpointMap"></app-input-map>
+      <app-input-map [(map)]="pinpointService.pinpointMap" [defaultValue]="pinpointService.pinpointMap()"
+        (change)="changeURLProp.emit(['map', $event])"></app-input-map>
     </div>
   </div>
 </div>
@@ -63,7 +64,7 @@
 <div class="flex flex-row gap-2 mb-3">
   <div class="form-column">
     <div class="form-row">
-      <app-input-item (change)="pinpointService.searchItem($event)"
+      <app-input-item (change)="pinpointService.searchItem($event); changeURLProp.emit(['item', $event])"
         [defaultValue]="pinpointService.pinpointItem()"></app-input-item>
     </div>
   </div>
@@ -146,7 +147,7 @@
 <div class="flex flex-row gap-2 mb-3">
   <div class="form-column">
     <div class="form-row">
-      <app-input-npc (change)="pinpointService.searchNPC($event)"
+      <app-input-npc (change)="pinpointService.searchNPC($event); changeURLProp.emit(['npc', $event])"
         [defaultValue]="pinpointService.pinpointNPC()"></app-input-npc>
     </div>
   </div>
@@ -223,7 +224,7 @@
 <div class="flex flex-row gap-2 mb-3">
   <div class="form-column">
     <div class="form-row">
-      <app-input-stem (change)="pinpointService.searchSTEM($event)"
+      <app-input-stem (change)="pinpointService.searchSTEM($event); changeURLProp.emit(['stem', $event])"
         [defaultValue]="pinpointService.pinpointSTEM()"></app-input-stem>
     </div>
   </div>
