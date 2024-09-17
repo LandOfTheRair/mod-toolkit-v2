@@ -41,10 +41,18 @@ export class InputEffectComponent {
         (s) => s._hasEffect && !['Attribute', 'Mood'].includes(s.name)
       );
 
+    const baseSpells = this.modService
+      .mod()
+      .stems.filter((s) => s._hasSpell && !s._hasEffect);
+
     return sortBy(
       [
         ...baseEffectList,
         ...baseEffects.map((e) => ({
+          value: e._gameId,
+          desc: e.all.desc,
+        })),
+        ...baseSpells.map((e) => ({
           value: e._gameId,
           desc: e.all.desc,
         })),
