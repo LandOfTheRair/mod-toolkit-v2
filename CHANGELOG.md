@@ -1,6 +1,14 @@
+## <small>1.6.17 (2024-09-17)</small>
+
+* boots should be considered a weapon ([ba5d21e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ba5d21e))
+
+
+
 ## <small>1.6.16 (2024-09-16)</small>
 
 * better handling of skill levels ([e0a2ffc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e0a2ffc))
+* Release Patch 1.6.16 ([69f099d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/69f099d))
+* Sync version ([c1876aa](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c1876aa))
 
 
 
