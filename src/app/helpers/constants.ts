@@ -177,6 +177,7 @@ export const weaponClasses = [
   'Axe',
   'Blunderbuss',
   'Broadsword',
+  'Boots',
   'Claws',
   'Club',
   'Crossbow',
