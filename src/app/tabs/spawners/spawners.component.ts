@@ -42,6 +42,7 @@ export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
     {
       field: 'npcIds',
       headerName: 'NPCs',
+      cellClass: 'leading-4 whitespace-break-spaces',
       flex: 1,
       cellDataType: 'text',
       sortable: false,
