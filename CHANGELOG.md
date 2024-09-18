@@ -1,6 +1,14 @@
+## <small>1.6.20 (2024-09-18)</small>
+
+* fix(npc): copydrop should have a prefix ([ca6b93f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ca6b93f))
+
+
+
 ## <small>1.6.19 (2024-09-17)</small>
 
 * ignore holiday items when doing max resistance report ([bf2cb1c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/bf2cb1c))
+* Release Patch 1.6.19 ([d5461c1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d5461c1))
+* Sync version ([4c0121c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4c0121c))
 
 
 
