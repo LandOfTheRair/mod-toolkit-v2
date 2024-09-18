@@ -1,4 +1,4 @@
-import { Component, model, output } from '@angular/core';
+import { Component, computed, input, model, output } from '@angular/core';
 import { ItemSlot, ItemSlotType } from '../../../../interfaces';
 
 @Component({
@@ -9,6 +9,11 @@ import { ItemSlot, ItemSlotType } from '../../../../interfaces';
 export class InputItemslotComponent {
   public itemSlot = model.required<string | undefined>();
   public change = output<ItemSlotType>();
+  public hasEquipmentPrefix = input<boolean>(false);
 
-  public values = [...Object.values(ItemSlot).sort()];
+  public values = computed(() => [
+    ...Object.values(ItemSlot)
+      .sort()
+      .map((x) => (this.hasEquipmentPrefix() ? `equipment.${x}` : x)),
+  ]);
 }
