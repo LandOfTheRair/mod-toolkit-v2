@@ -42,7 +42,7 @@ export function checkNPCUsages(mod: IModKit) {
 
   mod.maps.forEach((map) => {
     map.map.layers[10].objects.forEach((spawner: any) => {
-      if (spawner.properties.lairName) {
+      if (spawner.properties?.lairName) {
         addItemCount(spawner.properties.lairName as string);
       }
     });

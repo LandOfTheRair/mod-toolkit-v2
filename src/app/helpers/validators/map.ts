@@ -149,6 +149,8 @@ export function checkMapSpawners(mod: IModKit): ValidationMessageGroup[] {
 
   mod.maps.forEach((map) => {
     map.map.layers[10].objects.forEach((spawner: any) => {
+      if (!spawner.properties) return;
+
       addModSpawnerCount(spawner.properties.tag as string);
       addUsedSpawnerCount(spawner.properties.tag as string);
 
