@@ -4,6 +4,7 @@ import * as alasql from 'alasql';
 import * as _ from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 
+import { id } from '../helpers';
 import { QueryService } from '../services/query.service';
 
 @Component({
@@ -49,6 +50,7 @@ export class QueryComponent {
 
   constructor() {
     (window as any)._ = _;
+    (window as any).id = id;
 
     const lastQueryTab =
       (this.localStorage.retrieve('lastquerytab') as number) ?? 0;
