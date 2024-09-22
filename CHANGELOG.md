@@ -1,8 +1,16 @@
+## <small>1.7.1 (2024-09-22)</small>
+
+* export id for queries ([f300705](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f300705))
+
+
+
 ## 1.7.0 (2024-09-22)
 
 * add achievement editor, fix other bugs ([b7e73df](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b7e73df))
 * fix for validation spawner properties with some map edge cases ([c4a6ed6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c4a6ed6))
 * fix visual issue on spawner tab ([5d3da80](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5d3da80))
+* Release Minor 1.7.0 ([a9bdcbf](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a9bdcbf))
+* Sync version ([ca75060](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ca75060))
 
 
 
