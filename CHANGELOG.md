@@ -1,5 +1,15 @@
+## 1.7.0 (2024-09-22)
+
+* add achievement editor, fix other bugs ([b7e73df](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b7e73df))
+* fix for validation spawner properties with some map edge cases ([c4a6ed6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c4a6ed6))
+* fix visual issue on spawner tab ([5d3da80](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5d3da80))
+
+
+
 ## <small>1.6.20 (2024-09-18)</small>
 
+* Release Patch 1.6.20 ([5b7a941](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5b7a941))
+* Sync version ([0395a65](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0395a65))
 * fix(npc): copydrop should have a prefix ([ca6b93f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ca6b93f))
 
 
