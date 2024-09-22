@@ -12,7 +12,10 @@ import { NgxFloatUiModule } from 'ngx-float-ui';
 
 import { AnalysisComponent } from '../analysis/analysis.component';
 import { PinpointComponent } from '../pinpoint/pinpoint.component';
+import { QueryComponent } from '../query/query.component';
 import { SharedModule } from '../shared/shared.module';
+import { AchievementsEditorComponent } from '../tabs/achievements/achievements-editor/achievements-editor.component';
+import { AchievementsComponent } from '../tabs/achievements/achievements.component';
 import { CoresEditorComponent } from '../tabs/cores/cores-editor/cores-editor.component';
 import { CoresComponent } from '../tabs/cores/cores.component';
 import { DialogsEditorComponent } from '../tabs/dialogs/dialogs-editor/dialogs-editor.component';
@@ -36,7 +39,6 @@ import { TraitTreesEditorComponent } from '../tabs/trait-trees/trait-trees-edito
 import { TraitTreesComponent } from '../tabs/trait-trees/trait-trees.component';
 import { ValidationComponent } from '../validation/validation.component';
 import { HomeComponent } from './home.component';
-import { QueryComponent } from '../query/query.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { QueryComponent } from '../query/query.component';
     CoresEditorComponent,
     TraitTreesComponent,
     TraitTreesEditorComponent,
+    AchievementsComponent,
+    AchievementsEditorComponent,
     StemsComponent,
     StemsEditorComponent,
     PinpointComponent,
@@ -78,8 +82,6 @@ import { QueryComponent } from '../query/query.component';
     CodeEditorModule,
     ColorPickerModule,
   ],
-  exports: [
-    QueryComponent
-  ],
+  exports: [QueryComponent],
 })
 export class HomeModule {}

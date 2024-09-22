@@ -9,6 +9,7 @@ import {
 } from 'lodash';
 import {
   Allegiance,
+  BaseClass,
   DamageClass,
   HasIdentification,
   ItemClass,
@@ -20,6 +21,7 @@ import {
   SchemaValidatorMessage,
   Skill,
   Stat,
+  Tradeskill,
 } from '../../../interfaces';
 
 const itemSlots = [
@@ -132,6 +134,10 @@ export function isSkill(val: any): boolean {
   return Object.values(Skill).includes(val as Skill);
 }
 
+export function isTradeskill(val: any): boolean {
+  return Object.values(Tradeskill).includes(val as Tradeskill);
+}
+
 export function isItemSlot(val: any): boolean {
   return itemSlots.includes(val as ItemSlot);
 }
@@ -237,6 +243,10 @@ export function isCosmetic(cos: any): boolean {
 
 export function isRequirement(req: any): boolean {
   return !!(req.level || req.baseClass || req.alignment || req.quest);
+}
+
+export function isBaseClass(req: any): boolean {
+  return Object.values(BaseClass).includes(req as BaseClass);
 }
 
 export function isSuccor(suc: any): boolean {

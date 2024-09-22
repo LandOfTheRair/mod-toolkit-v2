@@ -1,3 +1,4 @@
+import { IAchievement } from './achievement';
 import { ICoreContent } from './core';
 import { IDroptable } from './droptable';
 import { IItemDefinition } from './item';
@@ -34,4 +35,5 @@ export interface IModKit {
   cores: ICoreContent[];
   stems: ISTEM[];
   traitTrees: ITraitTree[];
+  achievements: IAchievement[];
 }

@@ -102,6 +102,10 @@ export class HomeComponent implements OnInit {
       name: 'Trait Trees',
       count: computed(() => this.modService.mod().traitTrees.length),
     },
+    {
+      name: 'Achievements',
+      count: computed(() => this.modService.mod().achievements.length),
+    },
   ];
 
   constructor() {}

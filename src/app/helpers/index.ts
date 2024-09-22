@@ -1,3 +1,4 @@
+export * from './achievement';
 export * from './constants';
 export * from './core';
 export * from './dialog';

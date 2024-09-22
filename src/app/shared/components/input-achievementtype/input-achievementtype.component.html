@@ -1,0 +1,6 @@
+<div class="relative">
+  <ng-select class="form-control" [items]="values()" [(ngModel)]="achievementType"
+    placeholder="Select achievement type..." [clearable]="false" (change)="change.emit($event)"></ng-select>
+
+  <app-input-floating-label>Achievement Type</app-input-floating-label>
+</div>

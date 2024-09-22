@@ -62,7 +62,7 @@ export class EditorBaseComponent<T extends HasIdentification>
       editing._id = id();
     }
 
-    console.log(`[EDIT BEGIN]`, editing);
+    console.info(`[EDIT BEGIN]`, editing);
 
     this.editing.set(editing);
   }
@@ -79,7 +79,7 @@ export class EditorBaseComponent<T extends HasIdentification>
   }
 
   doSave() {
-    console.log('[SAVE DATA]', this.editing());
+    console.info('[SAVE DATA]', this.editing());
     this.save.emit(this.editing());
   }
 }

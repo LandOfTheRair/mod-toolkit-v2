@@ -93,7 +93,14 @@ export class DialogsEditorComponent
       this.dialogModel.value = this.dialogText();
     }
 
+    npc.items ??= {
+      equipment: {} as any,
+    };
+
+    npc.items.equipment ??= {} as any;
+
     npc.baseEffects ??= [];
+    npc.baseEffects.forEach((eff) => (eff.extra ??= { potency: 0 }));
 
     npc.hp ??= { min: 1, max: 1 };
     npc.mp ??= { min: 1, max: 1 };

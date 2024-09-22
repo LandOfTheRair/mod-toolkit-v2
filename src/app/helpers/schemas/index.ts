@@ -1,3 +1,4 @@
+export * from './achievement';
 export * from './dialog';
 export * from './droptable';
 export * from './item';

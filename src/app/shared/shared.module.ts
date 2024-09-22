@@ -12,22 +12,28 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxFloatUiModule } from 'ngx-float-ui';
 
 import { CellButtonsComponent } from './components/cell-buttons/cell-buttons.component';
+import { CellIconComponent } from './components/cell-icon/cell-icon.component';
 import { CellSpriteComponent } from './components/cell-sprite/cell-sprite.component';
 import { DebugViewComponent } from './components/debug-view/debug-view.component';
 import { EditBaseeffectComponent } from './components/edit-baseeffect/edit-baseeffect.component';
+import { EditStatobjectComponent } from './components/edit-statobject/edit-statobject.component';
 import { EditorBaseTableComponent } from './components/editor-base-table/editor-base-table.component';
 import { EditorBaseComponent } from './components/editor-base/editor-base.component';
 import { EditorViewTableComponent } from './components/editor-view-table/editor-view-table.component';
 import { HeaderButtonsComponent } from './components/header-buttons/header-buttons.component';
 import { IconComponent } from './components/icon/icon.component';
+import { InputAchievementTypeComponent } from './components/input-achievementtype/input-achievementtype.component';
 import { InputAlignmentComponent } from './components/input-alignment/input-alignment.component';
 import { InputAllegianceComponent } from './components/input-allegiance/input-allegiance.component';
+import { InputAnalysisReportComponent } from './components/input-analysis-report/input-analysis-report.component';
+import { InputBufftypeComponent } from './components/input-bufftype/input-bufftype.component';
 import { InputCategoryComponent } from './components/input-category/input-category.component';
 import { InputChallengeratingComponent } from './components/input-challengerating/input-challengerating.component';
 import { InputClassComponent } from './components/input-class/input-class.component';
 import { InputDamageclassComponent } from './components/input-damageclass/input-damageclass.component';
 import { InputEffectComponent } from './components/input-effect/input-effect.component';
 import { InputFloatingLabelComponent } from './components/input-floating-label/input-floating-label.component';
+import { InputGameeventComponent } from './components/input-gameevent/input-gameevent.component';
 import { InputHolidayComponent } from './components/input-holiday/input-holiday.component';
 import { InputHostilityComponent } from './components/input-hostility/input-hostility.component';
 import { InputIconComponent } from './components/input-icon/input-icon.component';
@@ -35,6 +41,7 @@ import { InputItemComponent } from './components/input-item/input-item.component
 import { InputItemclassComponent } from './components/input-itemclass/input-itemclass.component';
 import { InputItemslotEncrustComponent } from './components/input-itemslot-encrust/input-itemslot-encrust.component';
 import { InputItemslotComponent } from './components/input-itemslot/input-itemslot.component';
+import { InputMacrotypeComponent } from './components/input-macrotype/input-macrotype.component';
 import { InputMapComponent } from './components/input-map/input-map.component';
 import { InputMapnpcComponent } from './components/input-mapnpc/input-mapnpc.component';
 import { InputNpcComponent } from './components/input-npc/input-npc.component';
@@ -45,9 +52,11 @@ import { InputRecipeComponent } from './components/input-recipe/input-recipe.com
 import { InputRegionComponent } from './components/input-region/input-region.component';
 import { InputSfxComponent } from './components/input-sfx/input-sfx.component';
 import { InputSkillComponent } from './components/input-skill/input-skill.component';
+import { InputSpawnerComponent } from './components/input-spawner/input-spawner.component';
 import { InputSpellComponent } from './components/input-spell/input-spell.component';
 import { InputSpriteComponent } from './components/input-sprite/input-sprite.component';
 import { InputStatComponent } from './components/input-stat/input-stat.component';
+import { InputStemComponent } from './components/input-stem/input-stem.component';
 import { InputTradeskillComponent } from './components/input-tradeskill/input-tradeskill.component';
 import { InputTraitComponent } from './components/input-trait/input-trait.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
@@ -55,14 +64,6 @@ import { SpriteWithInlineNameComponent } from './components/sprite-with-inline-n
 import { SpriteComponent } from './components/sprite/sprite.component';
 import { TestViewComponent } from './components/test-view/test-view.component';
 import { WebviewDirective } from './directives/';
-import { CellIconComponent } from './components/cell-icon/cell-icon.component';
-import { InputMacrotypeComponent } from './components/input-macrotype/input-macrotype.component';
-import { InputBufftypeComponent } from './components/input-bufftype/input-bufftype.component';
-import { EditStatobjectComponent } from './components/edit-statobject/edit-statobject.component';
-import { InputGameeventComponent } from './components/input-gameevent/input-gameevent.component';
-import { InputSpawnerComponent } from './components/input-spawner/input-spawner.component';
-import { InputAnalysisReportComponent } from './components/input-analysis-report/input-analysis-report.component';
-import { InputStemComponent } from './components/input-stem/input-stem.component';
 
 @NgModule({
   declarations: [
@@ -118,6 +119,7 @@ import { InputStemComponent } from './components/input-stem/input-stem.component
     InputSpawnerComponent,
     InputAnalysisReportComponent,
     InputStemComponent,
+    InputAchievementTypeComponent,
   ],
   imports: [
     CommonModule,
@@ -184,6 +186,7 @@ import { InputStemComponent } from './components/input-stem/input-stem.component
     InputSpawnerComponent,
     InputAnalysisReportComponent,
     InputStemComponent,
+    InputAchievementTypeComponent,
   ],
 })
 export class SharedModule {}

@@ -1,3 +1,4 @@
+export * from './achievement';
 export * from './analysis';
 export * from './behavior';
 export * from './building-blocks';
