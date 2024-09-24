@@ -50,9 +50,11 @@ export function testMod(sendToUI: SendToUI, modData: any) {
   fs.ensureDirSync(`${baseUrl}/resources/rair/content`);
 
   // clean out old maps
-  fs.ensureDirSync(`${baseUrl}/resources/rair/content/maps`);
-  fs.rmdirSync(`${baseUrl}/resources/rair/content/maps`, { recursive: true });
-  fs.ensureDirSync(`${baseUrl}/resources/rair/content/maps`);
+  fs.ensureDirSync(`${baseUrl}/resources/rair/content/_output/maps`);
+  fs.rmdirSync(`${baseUrl}/resources/rair/content/_output/maps`, {
+    recursive: true,
+  });
+  fs.ensureDirSync(`${baseUrl}/resources/rair/content/_output/maps`);
 
   // dump all mod data
   fs.ensureDirSync(`${baseUrl}/resources/rair/content/mods`);
