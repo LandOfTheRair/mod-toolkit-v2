@@ -167,6 +167,15 @@ export class ElectronService {
       tryToReady();
     });
 
+    // import the mod raw from the backup.
+    window.api.receive('importpartialmod', (mod: IModKit) => {
+      const importedMod = importMod(mod);
+      this.modService.importMod(importedMod);
+      tryEnsureMaps();
+
+      tryToReady();
+    });
+
     window.api.receive(
       'updatesetting',
       (settingsData: { setting: keyof ModSettings; value: any }) => {

@@ -183,6 +183,26 @@ export class ModService {
     });
   }
 
+  public importMod(mod: IModKit) {
+    console.info(`[MOD:IMPORT]`, mod);
+
+    Object.keys(mod).forEach((modKey) => {
+      if (modKey === 'meta') return;
+      const key = modKey as keyof Omit<IModKit, 'meta'>;
+
+      if (key === 'maps') {
+        mod[key].forEach((map) => {
+          this.importMap(map);
+        });
+        return;
+      }
+
+      mod[key].forEach((modEntry) => {
+        this.modAdd(key, modEntry);
+      });
+    });
+  }
+
   public updateMod(mod: IModKit) {
     this.presave(mod);
     console.info('[UpdateMod]', mod);

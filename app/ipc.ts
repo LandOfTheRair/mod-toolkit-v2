@@ -293,6 +293,28 @@ export function setupIPC(sendToUI: SendToUI) {
     sendToUI('notify', { type: 'info', text: `Loaded ${file}!` });
   });
 
+  ipcMain.on('ADDITIVE_LOAD_MOD', () => {
+    const res = dialog.showOpenDialogSync(null, {
+      title: 'Load Land of the Rair Mod',
+      filters: [
+        {
+          name: 'Rair In-Dev/Exported Mods',
+          extensions: ['rairmod', 'rairdevmod'],
+        },
+      ],
+      properties: ['openFile'],
+    });
+
+    if (!res) return;
+
+    const file = res[0];
+    const json = fs.readJSONSync(file);
+
+    sendToUI('importpartialmod', json);
+
+    sendToUI('notify', { type: 'info', text: `Imported ${file}!` });
+  });
+
   ipcMain.on('DOWNLOAD_MONGO', async () => {
     await handlers.downloadMongo(sendToUI);
     sendToUI('notify', { type: 'info', text: 'Finished downloading MongoDB!' });
