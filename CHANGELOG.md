@@ -1,6 +1,18 @@
+## <small>1.7.2 (2024-09-24)</small>
+
+* add dropdown for spawn map on test mod page ([f082e6f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f082e6f))
+* closes #29 ([bbe6f72](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/bbe6f72)), closes [#29](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/29)
+* ensure map dir exists, I guess ([99a2ac4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/99a2ac4))
+* fix build ([9c1bd1b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9c1bd1b))
+* support additive imports ([2e46f21](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2e46f21))
+
+
+
 ## <small>1.7.1 (2024-09-22)</small>
 
 * export id for queries ([f300705](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f300705))
+* Release Patch 1.7.1 ([6f8b929](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6f8b929))
+* Sync version ([33bf9f1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/33bf9f1))
 
 
 
