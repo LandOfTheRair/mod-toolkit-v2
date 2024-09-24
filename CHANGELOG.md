@@ -1,10 +1,19 @@
+## <small>1.7.3 (2024-09-24)</small>
+
+* fix map input, startup error, visual errors with test modal ([73c87bf](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/73c87bf))
+* show last update for content in web modkit ([9a11471](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9a11471))
+
+
+
 ## <small>1.7.2 (2024-09-24)</small>
 
 * add dropdown for spawn map on test mod page ([f082e6f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f082e6f))
 * closes #29 ([bbe6f72](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/bbe6f72)), closes [#29](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/29)
 * ensure map dir exists, I guess ([99a2ac4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/99a2ac4))
 * fix build ([9c1bd1b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9c1bd1b))
+* Release Patch 1.7.2 ([4f6189f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4f6189f))
 * support additive imports ([2e46f21](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2e46f21))
+* Sync version ([e63afe5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e63afe5))
 
 
 
