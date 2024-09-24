@@ -11,7 +11,7 @@
 
     <div class="form-row">
       <app-input-floating-label>Map</app-input-floating-label>
-      <app-input-map [(map)]="settings.map"></app-input-map>
+      <app-input-map [(map)]="settings.map" [defaultValue]="''"></app-input-map>
     </div>
 
     <div class="form-row">
@@ -51,7 +51,7 @@
   <div class="flex-1">
     <button class="btn btn-sm btn-primary" (click)="testMod()"
       [disabled]="!settings.map || !settings.x || !settings.y || !isValidJSON()">Test Mod!</button>
-    <button class="ml-1 btn btn-sm btn-error" (click)="killMod()">Kill LotR/MongoDB</button>
+    <button class="ml-2 btn btn-sm btn-error" (click)="killMod()">Kill LotR/MongoDB</button>
   </div>
 
   <div class="flex-1 flex justify-end">

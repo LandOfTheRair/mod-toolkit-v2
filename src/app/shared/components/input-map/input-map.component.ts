@@ -27,6 +27,7 @@ export class InputMapComponent implements OnInit {
   );
 
   ngOnInit() {
+    if (!this.defaultValue()) return;
     this.map.set(this.values().find((f) => f === this.defaultValue()));
   }
 }
