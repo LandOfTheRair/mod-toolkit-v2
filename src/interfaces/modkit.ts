@@ -14,6 +14,11 @@ import { ITraitTree } from './trait-tree';
 export type ModJSONKey = 'bgm' | 'sfx' | 'macicons';
 export type ModJSON = Record<ModJSONKey, string[]>;
 
+export interface IModKitDependency {
+  url: string;
+  name: string;
+}
+
 export interface IModKit {
   meta: {
     id: string;
@@ -21,6 +26,8 @@ export interface IModKit {
     author: string;
     version: number;
     savedAt: number;
+    dependencies: IModKitDependency[];
+    _url?: string;
     _backup: any;
   };
 

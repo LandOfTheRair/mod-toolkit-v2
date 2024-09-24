@@ -7,6 +7,7 @@ import {
   OnInit,
   output,
 } from '@angular/core';
+import { sortBy } from 'lodash';
 import { IQuest } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
@@ -25,13 +26,29 @@ export class InputQuestComponent implements OnInit {
 
   public values = computed(() => {
     const mod = this.modService.mod();
+    const activeDependencies = this.modService.activeDependencies();
 
-    return [
-      ...mod.quests.map((q) => ({
-        value: q.name,
-        desc: `[${q.giver}] ${q.desc}`,
-      })),
-    ];
+    const myModQuests = mod.quests.map((i) => ({
+      category: `${mod.meta.name} (Current)`,
+      data: i,
+      value: i.name,
+      desc: `[${i.giver}] ${i.desc}`,
+      index: 0,
+    }));
+
+    const depQuests = activeDependencies
+      .map((dep, idx) =>
+        dep.quests.map((i) => ({
+          category: dep.meta.name,
+          data: i,
+          value: i.name,
+          desc: `[${i.giver}] ${i.desc}`,
+          index: idx + 1,
+        }))
+      )
+      .flat();
+
+    return [...sortBy([...myModQuests, ...depQuests], ['index', 'value'])];
   });
 
   ngOnInit() {

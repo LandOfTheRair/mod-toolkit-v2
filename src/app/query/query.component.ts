@@ -82,7 +82,7 @@ export class QueryComponent {
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-implied-eval
-      const func = new Function(`return ${this.jsModel.value};`);
+      const func = new Function(`return ${this.jsModel.value.trim()};`);
       const modifiableMod = this.queryService.modForJSModifiable();
       const result = func()(this.queryService.modForJS(), modifiableMod);
       this.queryService.updateMod(modifiableMod);

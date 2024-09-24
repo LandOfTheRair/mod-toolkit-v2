@@ -1,0 +1,65 @@
+<div role="tablist" class="tabs tabs-boxed rounded-none">
+
+  <div class="tab flex flex-row justify-end">
+    <button class="btn btn-primary btn-sm mr-2" [swal]="addDependency">
+      <ng-icon name="heroPlus"></ng-icon>
+    </button>
+    <button class="btn-sm btn btn-success mr-3" (click)="exit.emit()">Done</button>
+  </div>
+
+</div>
+
+<div class="flex flex-row gap-2 mb-3">
+  <div class="form-column">
+
+    @if(modService.activeDependencies().length === 0) {
+    <div class="form-row">
+      <p>You don't currently have any dependencies.</p>
+    </div>
+    }
+
+    @for(dep of modService.activeDependencies(); track $index) {
+    <div class="form-row split pl-3">
+      <div class="form-column justify-center pr-3">
+        <div class="form-row">
+          <h2 class="text-xl font-bold mb-1">{{ dep.meta.name }}</h2>
+          <h3 class="text-lg italic mb-2">{{ dep.meta.author }} &middot; Last edited {{ dep.meta.savedAt | date }}</h3>
+
+          <p class="italic">{{ dep.meta._url }}</p>
+        </div>
+      </div>
+
+      <div class="form-column justify-center">
+        <div class="form-row">
+          <ul class="list-disc">
+            <li>{{ dep.achievements.length | number }} Achievements</li>
+            <li>{{ dep.items.length | number }} Items</li>
+            <li>{{ dep.npcs.length | number }} NPCs</li>
+            <li>{{ dep.dialogs.length | number }} NPC Scripts</li>
+            <li>{{ dep.quests.length | number }} Quests</li>
+            <li>{{ dep.recipes.length | number }} Recipes</li>
+            <li>{{ dep.spawners.length | number }} Spawners</li>
+            <li>{{ dep.stems.length | number }} STEMs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="form-column justify-center">
+        <div class="form-row">
+          <button class="ml-1 btn btn-info btn-sm" (click)="addNewDependency(dep.meta._url)">
+            <ng-icon name="heroArrowPathRoundedSquare"></ng-icon>
+          </button>
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeDependency(dep.meta.name)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+
+  </div>
+</div>
+
+<swal #addDependency title="Add Dependency" text="Add a dependency by pasting the link here." input="text"
+  confirmButtonText="Add Dependency" [focusCancel]="true" (confirm)="addNewDependency($event)">
+</swal>

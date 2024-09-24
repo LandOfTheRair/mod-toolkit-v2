@@ -11,6 +11,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxFloatUiModule } from 'ngx-float-ui';
 
 import { AnalysisComponent } from '../analysis/analysis.component';
+import { DependenciesComponent } from '../dependencies/dependencies.component';
 import { PinpointComponent } from '../pinpoint/pinpoint.component';
 import { QueryComponent } from '../query/query.component';
 import { SharedModule } from '../shared/shared.module';
@@ -70,6 +71,7 @@ import { HomeComponent } from './home.component';
     PinpointComponent,
     AnalysisComponent,
     QueryComponent,
+    DependenciesComponent,
   ],
   imports: [
     CommonModule,

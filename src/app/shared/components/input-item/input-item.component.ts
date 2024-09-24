@@ -29,19 +29,31 @@ export class InputItemComponent implements OnInit {
 
   public values = computed(() => {
     const mod = this.modService.mod();
+    const activeDependencies = this.modService.activeDependencies();
+
+    const myModItems = mod.items.map((i) => ({
+      category: `${mod.meta.name} (Current)`,
+      data: i,
+      value: i.name,
+      index: 0,
+    }));
+
+    const depItems = activeDependencies
+      .map((dep, idx) =>
+        dep.items.map((i) => ({
+          category: dep.meta.name,
+          data: i,
+          value: i.name,
+          index: idx + 1,
+        }))
+      )
+      .flat();
 
     return [
       this.allowNone()
         ? { category: 'Default', data: { name: 'none' }, value: 'none' }
         : undefined,
-      ...sortBy(
-        mod.items.map((i) => ({
-          category: 'My Mod Items',
-          data: i,
-          value: i.name,
-        })),
-        'value'
-      ),
+      ...sortBy([...myModItems, ...depItems], ['index', 'value']),
     ]
       .flat()
       .filter(Boolean) as ItemModel[];

@@ -7,6 +7,7 @@ import {
   OnInit,
   output,
 } from '@angular/core';
+import { sortBy } from 'lodash';
 import { IRecipe } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
@@ -28,16 +29,35 @@ export class InputRecipeComponent implements OnInit {
 
   public values = computed(() => {
     const mod = this.modService.mod();
+    const activeDependencies = this.modService.activeDependencies();
+
+    const myModRecipes = mod.recipes.map((i) => ({
+      category: `${mod.meta.name} (Current)`,
+      data: i,
+      value: i.name,
+      index: 0,
+    }));
+
+    const depRecipes = activeDependencies
+      .map((dep, idx) =>
+        dep.recipes.map((i) => ({
+          category: dep.meta.name,
+          data: i,
+          value: i.name,
+          index: idx + 1,
+        }))
+      )
+      .flat();
+
     const learnable = this.onlyLearnable();
 
     return [
-      ...mod.recipes
-        .filter((i) => (learnable ? i.requireLearn : true))
-        .map((i) => ({
-          category: 'My Mod Recipes',
-          data: i,
-          value: i.name,
-        })),
+      ...sortBy(
+        [...myModRecipes, ...depRecipes].filter((i) =>
+          learnable ? i.data.requireLearn : true
+        ),
+        ['index', 'value']
+      ),
     ];
   });
 

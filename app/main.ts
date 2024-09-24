@@ -12,8 +12,6 @@ const isDevelopment = !app.isPackaged;
 
 log.transports.file.level = 'info';
 
-console.log(`Starting in ${isDevelopment ? 'dev' : 'prod'} mode...`);
-
 log.transports.file.resolvePath = () =>
   path.join(app.getAppPath(), 'logs/main.log');
 
@@ -123,11 +121,17 @@ async function createWindow(): Promise<BrowserWindow> {
     },
   });
 
-  win.setMenu(null);
+  if (!isDevelopment) {
+    win.setMenu(null);
+  }
 
   win.once('ready-to-show', () => {
     win?.show();
     handleSetup();
+
+    if (isDevelopment) {
+      win?.webContents.openDevTools();
+    }
   });
 
   // load intercepter for image loading
@@ -160,14 +164,12 @@ async function createWindow(): Promise<BrowserWindow> {
     await win.loadURL(url.href);
   }
 
-  if (isDevelopment) {
-    win.webContents.openDevTools();
-  }
-
   return win;
 }
 
 try {
+  console.log(`Starting in ${isDevelopment ? 'dev' : 'prod'} mode...`);
+
   protocol.registerSchemesAsPrivileged([
     { scheme: 'lotr', privileges: { bypassCSP: true, supportFetchAPI: true } },
   ]);

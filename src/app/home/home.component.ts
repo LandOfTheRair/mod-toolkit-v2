@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
 
   public activeTab = signal<number>(0);
   public isValidating = signal<boolean>(false);
+  public isManagingDependencies = signal<boolean>(false);
 
   public hasErrors = computed(() => {
     const mod = this.modService.mod();
@@ -130,6 +131,10 @@ export class HomeComponent implements OnInit {
       case 'query': {
         return this.toggleQuerying();
       }
+      case 'dependencies': {
+        this.isManagingDependencies.set(true);
+        return;
+      }
     }
   }
 
@@ -185,8 +190,25 @@ export class HomeComponent implements OnInit {
     saveMod();
   }
 
+  toggleDependencies() {
+    this.isManagingDependencies.set(true);
+    this.pinpointService.togglePinpointing(false);
+    this.isValidating.set(false);
+    this.analysisService.toggleAnalyzing(false);
+    this.queryService.toggleQuerying(false);
+
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+      queryParams: {
+        sub: 'dependencies',
+      },
+    });
+  }
+
   toggleModValidation() {
     this.isValidating.set(!this.isValidating());
+    this.isManagingDependencies.set(false);
     this.pinpointService.togglePinpointing(false);
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
@@ -202,6 +224,7 @@ export class HomeComponent implements OnInit {
 
   togglePinpointing() {
     this.pinpointService.togglePinpointing(true);
+    this.isManagingDependencies.set(false);
     this.isValidating.set(false);
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
@@ -217,6 +240,7 @@ export class HomeComponent implements OnInit {
 
   toggleAnalyzing() {
     this.analysisService.toggleAnalyzing(true);
+    this.isManagingDependencies.set(false);
     this.isValidating.set(false);
     this.pinpointService.togglePinpointing(false);
     this.queryService.toggleQuerying(false);
@@ -232,6 +256,7 @@ export class HomeComponent implements OnInit {
 
   toggleQuerying() {
     this.queryService.toggleQuerying(true);
+    this.isManagingDependencies.set(false);
     this.isValidating.set(false);
     this.pinpointService.togglePinpointing(false);
     this.analysisService.toggleAnalyzing(false);

@@ -1,6 +1,11 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 
-import { IEditorMap, IModKit, ModJSONKey } from '../../interfaces';
+import {
+  IEditorMap,
+  IModKit,
+  IModKitDependency,
+  ModJSONKey,
+} from '../../interfaces';
 import { importMod } from '../helpers/importer';
 import { ModService } from './mod.service';
 import { NotifyService } from './notify.service';
@@ -106,6 +111,7 @@ export class ElectronService {
 
       this.send('GET_VERSION');
       this.send('GET_BASEURL');
+      this.send('GET_DEPENDENCIES');
 
       this.requestAllJSON();
       tryEnsureMaps();
@@ -180,11 +186,18 @@ export class ElectronService {
       this.baseUrl.set(baseurl as string)
     );
 
+    window.api.receive('dependencies', (deps) => {
+      this.modService.setDependencies(deps as IModKit[]);
+    });
+
+    window.api.receive('adddependency', (dep) => {
+      this.modService.addModDependency(dep as IModKitDependency);
+    });
+
     const quicksaveFilepath = this.quicksaveFilepath();
     if (quicksaveFilepath) {
       this.needsLoadForReadyCheck.set(true);
       this.send('LOAD_MOD_QUIETLY', { path: quicksaveFilepath });
-      return;
     }
 
     this.send('READY_CHECK');

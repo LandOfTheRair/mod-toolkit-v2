@@ -28,17 +28,27 @@ export class InputNpcComponent implements OnInit {
 
   public values = computed(() => {
     const mod = this.modService.mod();
+    const activeDependencies = this.modService.activeDependencies();
 
-    return [
-      ...sortBy(
-        mod.npcs.map((i) => ({
-          category: 'My Mod NPCs',
+    const myModNPCs = mod.npcs.map((i) => ({
+      category: `${mod.meta.name} (Current)`,
+      data: i,
+      value: i.npcId,
+      index: 0,
+    }));
+
+    const depNPCs = activeDependencies
+      .map((dep, idx) =>
+        dep.npcs.map((i) => ({
+          category: dep.meta.name,
           data: i,
           value: i.npcId,
-        })),
-        'value'
-      ),
-    ];
+          index: idx + 1,
+        }))
+      )
+      .flat();
+
+    return [...sortBy([...myModNPCs, ...depNPCs], ['index', 'value'])];
   });
 
   ngOnInit() {

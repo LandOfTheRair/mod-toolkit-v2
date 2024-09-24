@@ -7,6 +7,7 @@ import {
   IEditorMap,
   IItemDefinition,
   IModKit,
+  IModKitDependency,
   ItemSlotType,
   ModJSON,
   ModJSONKey,
@@ -32,6 +33,7 @@ export function defaultModKit(): IModKit {
       name: 'Unnamed Mod',
       savedAt: 0,
       version: 1,
+      dependencies: [],
       _backup: undefined,
     },
     dialogs: [],
@@ -57,13 +59,32 @@ export class ModService {
   private localStorage = inject(LocalStorageService);
   private settingsService = inject(SettingsService);
 
+  public allDependencies = signal<IModKit[]>([]);
+
   public mod = signal<IModKit>(defaultModKit());
   public modName = computed(() => this.mod().meta.name);
   public modAuthor = computed(() => this.mod().meta.author);
 
-  public availableNPCs = computed(() => this.mod().npcs);
-  public availableItems = computed(() => this.mod().items);
+  public availableNPCs = computed(() => [
+    ...this.mod().npcs,
+    ...this.activeDependencies()
+      .map((d) => d.npcs)
+      .flat(),
+  ]);
+  public availableItems = computed(() => [
+    ...this.mod().items,
+    ...this.activeDependencies()
+      .map((d) => d.items)
+      .flat(),
+  ]);
   public availableMaps = computed(() => this.mod().maps);
+
+  public activeDependencies = computed(() => {
+    const myDeps = this.mod().meta.dependencies ?? [];
+    return this.allDependencies().filter((f) =>
+      myDeps.map((d) => d.name).includes(f.meta.name)
+    );
+  });
 
   public availableClasses = computed(() => {
     const settingsJson =
@@ -100,6 +121,8 @@ export class ModService {
   // mod functions
   public migrateMod(mod: IModKit) {
     const check = defaultModKit();
+    mod.meta.dependencies ??= [];
+
     Object.keys(check).forEach((checkKeyString) => {
       const checkKey = checkKeyString as keyof IModKit;
 
@@ -123,6 +146,26 @@ export class ModService {
   public setAuthor(newAuthor: string): void {
     const mod = this.mod();
     mod.meta.author = newAuthor;
+
+    this.updateMod(mod);
+  }
+
+  public setDependencies(deps: IModKit[]): void {
+    this.allDependencies.set(deps);
+  }
+
+  public addModDependency(dep: IModKitDependency): void {
+    const mod = this.mod();
+    mod.meta.dependencies.push(dep);
+
+    this.updateMod(mod);
+  }
+
+  public removeModDependency(depName: string): void {
+    const mod = this.mod();
+    mod.meta.dependencies = mod.meta.dependencies.filter(
+      (f) => f.name !== depName
+    );
 
     this.updateMod(mod);
   }

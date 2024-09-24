@@ -315,4 +315,12 @@ export function setupIPC(sendToUI: SendToUI) {
     sendToUI('notify', { type: 'info', text: 'Killing LotR/MongoDB...' });
     helpers.killMod(sendToUI);
   });
+
+  ipcMain.on('GET_DEPENDENCIES', async () => {
+    helpers.getAndSendDependencies(sendToUI);
+  });
+
+  ipcMain.on('ADD_DEPENDENCY', async (e: any, data: any) => {
+    helpers.addDependency(sendToUI, data);
+  });
 }

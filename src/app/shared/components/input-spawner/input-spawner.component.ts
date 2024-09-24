@@ -28,19 +28,27 @@ export class InputSpawnerComponent implements OnInit {
 
   public values = computed(() => {
     const mod = this.modService.mod();
+    const activeDependencies = this.modService.activeDependencies();
 
-    return [
-      ...sortBy(
-        mod.spawners.map((i) => ({
-          category: 'My Mod Spawners',
+    const myModSpawners = mod.spawners.map((i) => ({
+      category: `${mod.meta.name} (Current)`,
+      data: i,
+      value: i.tag,
+      index: 0,
+    }));
+
+    const depSpawners = activeDependencies
+      .map((dep, idx) =>
+        dep.spawners.map((i) => ({
+          category: dep.meta.name,
           data: i,
           value: i.tag,
-        })),
-        'value'
-      ),
-    ]
-      .flat()
-      .filter(Boolean) as ItemModel[];
+          index: idx + 1,
+        }))
+      )
+      .flat();
+
+    return [...sortBy([...myModSpawners, ...depSpawners], ['index', 'value'])];
   });
 
   ngOnInit() {

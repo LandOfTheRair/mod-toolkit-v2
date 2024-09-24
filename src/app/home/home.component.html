@@ -27,6 +27,8 @@
                 [class.btn-disabled]="!electronService.isInElectron()">Change Mod Name</a></li>
             <li><a (click)="closeMenu()" [swal]="changeModAuthor"
                 [class.btn-disabled]="!electronService.isInElectron()">Change Mod Author</a></li>
+            <li><a (click)="closeMenu(); toggleDependencies()"
+                [class.btn-disabled]="!electronService.isInElectron()">Manage Dependencies</a></li>
 
             <li class="menu-title"><a>Mod I/O</a></li>
             <li><a (click)="closeMenu(); electronService.send('LOAD_MOD')"
@@ -75,6 +77,17 @@
     <div class="card bg-base-100 w-full shadow-xl">
       <div class="card-body">
         <app-validation (exit)="resetSub(); isValidating.set(false)"></app-validation>
+      </div>
+    </div>
+  </div>
+</div>
+
+} @else if(isManagingDependencies()) {
+<div class="root-body">
+  <div class="root-content p-3">
+    <div class="card bg-base-100 w-full shadow-xl">
+      <div class="card-body">
+        <app-dependencies (exit)="resetSub(); isManagingDependencies.set(false)"></app-dependencies>
       </div>
     </div>
   </div>
