@@ -46,7 +46,7 @@
 
       <div class="form-column justify-center">
         <div class="form-row">
-          <button class="ml-1 btn btn-info btn-sm" (click)="addNewDependency(dep.meta._url)">
+          <button class="ml-1 btn btn-info btn-sm" (click)="addNewDependency(dep.meta._url!)">
             <ng-icon name="heroArrowPathRoundedSquare"></ng-icon>
           </button>
           <button class="ml-1 btn btn-error btn-sm" (click)="removeDependency(dep.meta.name)">
