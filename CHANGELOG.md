@@ -1,7 +1,15 @@
+## <small>1.7.4 (2024-09-24)</small>
+
+* only dark mode ([3457fbd](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3457fbd))
+
+
+
 ## <small>1.7.3 (2024-09-24)</small>
 
 * fix map input, startup error, visual errors with test modal ([73c87bf](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/73c87bf))
+* Release Patch 1.7.3 ([81e83a7](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/81e83a7))
 * show last update for content in web modkit ([9a11471](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9a11471))
+* Sync version ([4c8df06](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4c8df06))
 
 
 
