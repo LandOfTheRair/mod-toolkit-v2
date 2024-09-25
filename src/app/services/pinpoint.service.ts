@@ -32,6 +32,7 @@ interface ItemUseDescriptor {
 interface NPCUseDescriptor {
   spawnerName?: string;
   questName?: string;
+  stemName?: string;
 
   extraDescription?: string;
 }
@@ -511,9 +512,21 @@ export class PinpointService {
         questName: q.name,
       }));
 
-    return [...lairMaps, ...relatedSpawnerUses, ...relatedQuests].filter(
-      Boolean
-    );
+    const relatedSTEMs = mod.stems
+      .filter(
+        (f) =>
+          f._hasSpell && f.spell?.spellMeta?.creatureSummoned?.includes(npc)
+      )
+      .map((s) => ({
+        stemName: s._gameId,
+      }));
+
+    return [
+      ...lairMaps,
+      ...relatedSpawnerUses,
+      ...relatedQuests,
+      ...relatedSTEMs,
+    ].filter(Boolean);
   }
 
   private getNPCDrops(npc: string): Rollable[] {

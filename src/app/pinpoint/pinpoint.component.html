@@ -180,6 +180,10 @@
           <span class="ml-1">SPAWNER {{ entry.spawnerName }}</span>
           }
 
+          @if(entry.stemName) {
+          <span class="ml-1">STEM {{ entry.stemName }}</span>
+          }
+
           @if(entry.extraDescription) {
           <span class="ml-1">{{ entry.extraDescription }}</span>
           }
