@@ -1,6 +1,14 @@
+## <small>1.7.5 (2024-09-25)</small>
+
+* fix pinpoint to utilize STEM->creaturesSummoned ([b1c6421](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b1c6421))
+
+
+
 ## <small>1.7.4 (2024-09-24)</small>
 
 * only dark mode ([3457fbd](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3457fbd))
+* Release Patch 1.7.4 ([681911b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/681911b))
+* Sync version ([7ad38ed](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7ad38ed))
 
 
 
