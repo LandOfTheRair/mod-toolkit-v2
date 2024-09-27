@@ -42,22 +42,23 @@
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Level</app-input-floating-label>
-          <input [(ngModel)]="editingData.level" min="0" type="number" placeholder="Choose level..." class="form-input"
-            (ngModelChange)="changeCRStats()" />
+          <input [(ngModel)]="editingData.level" min="1" type="number" placeholder="Choose level..." class="form-input"
+            (ngModelChange)="changeDynamicStats()" />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Skill</app-input-floating-label>
-          <input [(ngModel)]="editingData.skillLevels" min="0" type="number" placeholder="Choose skill..."
+          <input [(ngModel)]="editingData.skillLevels" min="1" type="number" placeholder="Choose skill..."
             class="form-input" />
         </div>
       </div>
     </div>
 
     <div class="form-row">
-      <app-input-class [(playerClass)]="editingData.baseClass" label="NPC Class"></app-input-class>
+      <app-input-class [(playerClass)]="editingData.baseClass" label="NPC Class"
+        (change)="changeDynamicStats()"></app-input-class>
     </div>
 
     <div class="form-row">
@@ -79,7 +80,7 @@
     </div>
 
     <div class="form-row">
-      <app-input-category [(category)]="editingData.monsterClass"></app-input-category>
+      <app-input-category [(category)]="editingData.monsterClass" (change)="changeDynamicStats()"></app-input-category>
     </div>
 
     <div class="form-row split">
@@ -168,7 +169,7 @@
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>HP Multiplier</app-input-floating-label>
-          <input [(ngModel)]="editingData.hpMult" min="0" (ngModelChange)="changeCRStats()" type="number"
+          <input [(ngModel)]="editingData.hpMult" min="0" (ngModelChange)="changeDynamicStats()" type="number"
             placeholder="Choose HP multiplier..." class="form-input" />
         </div>
       </div>

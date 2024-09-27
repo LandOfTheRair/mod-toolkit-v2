@@ -122,7 +122,7 @@ export class NpcsEditorComponent
       const data = this.challengeData();
       if (!data) return;
 
-      this.changeCRStats();
+      this.changeDynamicStats();
     });
   }
 
@@ -131,7 +131,7 @@ export class NpcsEditorComponent
     const npc = this.editing();
 
     const skillLevel = levelFromSkillXP(npc.skills.martial ?? 0);
-    npc.skillLevels = skillLevel;
+    npc.skillLevels = skillLevel || 1;
 
     const reps = npc.repMod ?? [];
     npc.repMod = this.allegiances.map((allegiance) => ({
@@ -333,11 +333,25 @@ export class NpcsEditorComponent
     this.editing.set(npc);
   }
 
-  public changeCRStats() {
+  public changeDynamicStats() {
     const npc = this.editing();
     const challengeData = this.challengeData();
 
     const level = npc.level;
+    const type = npc.monsterClass;
+    const baseClass = npc.baseClass;
+
+    let classMeta: any = {};
+    let typeMeta: any = {};
+
+    if (baseClass) {
+      classMeta = challengeData.byClass?.[baseClass]?.meta ?? {};
+    }
+
+    if (type) {
+      typeMeta = challengeData.byType?.[type]?.meta ?? {};
+    }
+
     npc.hp = structuredClone(challengeData.global.stats.hp[level]);
     npc.mp = structuredClone(challengeData.global.stats.mp[level]);
     npc.giveXp = structuredClone(challengeData.global.stats.giveXp[level]);
@@ -345,6 +359,14 @@ export class NpcsEditorComponent
 
     npc.hp.min = Math.floor(npc.hp.min * npc.hpMult);
     npc.hp.max = Math.floor(npc.hp.max * npc.hpMult);
+
+    const stats = ['hp', 'mp', 'giveXp', 'gold'] as (keyof INPCDefinition)[];
+    stats.forEach((stat) => {
+      const mult =
+        (classMeta[`${stat}Mult`] ?? 1) * (typeMeta[`${stat}Mult`] ?? 1);
+      npc[stat].min = Math.floor(npc[stat].min * mult);
+      npc[stat].max = Math.floor(npc[stat].max * mult);
+    });
 
     this.editing.set(npc);
   }
