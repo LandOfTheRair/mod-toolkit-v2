@@ -1,5 +1,6 @@
 import {
   BaseClassType,
+  DialogActionType,
   IModKit,
   INPCScript,
   ValidationMessage,
@@ -8,8 +9,9 @@ import {
 import {
   extractAllItemsFromBehavior,
   extractAllItemsFromDialog,
+  getAllDialogActions,
 } from '../data';
-import { dialogSchema } from '../schemas';
+import { dialogBehaviorSchemas, dialogSchema } from '../schemas';
 import { validateSchema } from '../schemas/_helpers';
 
 export function checkMapNPCDialogs(mod: IModKit): ValidationMessageGroup {
@@ -57,6 +59,32 @@ export function validateDialogs(mod: IModKit): ValidationMessageGroup {
       message: f,
     }));
     itemValidations.messages.push(...validationFailures);
+  });
+
+  return itemValidations;
+}
+
+export function validateDialogActions(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Invalid NPC Script Actions',
+    messages: [],
+  };
+
+  mod.dialogs.forEach((item) => {
+    const allActions = getAllDialogActions(item);
+
+    allActions.forEach((action) => {
+      const failures = validateSchema<any>(
+        `${item.tag}->${action.type}`,
+        action,
+        dialogBehaviorSchemas[action.type as DialogActionType]
+      );
+      const validationFailures: ValidationMessage[] = failures.map((f) => ({
+        type: 'error',
+        message: f,
+      }));
+      itemValidations.messages.push(...validationFailures);
+    });
   });
 
   return itemValidations;

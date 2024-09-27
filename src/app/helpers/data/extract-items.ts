@@ -19,11 +19,8 @@ export function getAllNodesFromDialog(dialogEntry: any): any[] {
   return nodes.flat(Infinity);
 }
 
-export function extractAllItemsFromDialog(
-  dialog: INPCScript,
-  validClasses: BaseClassType[]
-): string[] {
-  const allDialogWords = Object.keys(dialog.dialog ?? {})
+export function getAllDialogActions(dialog: INPCScript): any[] {
+  return Object.keys(dialog.dialog ?? {})
     .flatMap((k) =>
       Object.keys(dialog.dialog[k] ?? {}).map(
         (d) => dialog.dialog[k][d].actions
@@ -32,6 +29,13 @@ export function extractAllItemsFromDialog(
     .flat()
     .map((a: any) => getAllNodesFromDialog(a))
     .flat(Infinity);
+}
+
+export function extractAllItemsFromDialog(
+  dialog: INPCScript,
+  validClasses: BaseClassType[]
+): string[] {
+  const allDialogWords = getAllDialogActions(dialog);
 
   const allDialogItemNames = allDialogWords
     .filter((i) => i.item)

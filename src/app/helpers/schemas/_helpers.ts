@@ -1,6 +1,7 @@
 import {
   difference,
   get,
+  isArray,
   isBoolean,
   isNull,
   isNumber,
@@ -10,8 +11,10 @@ import {
 import {
   Allegiance,
   BaseClass,
+  Currency,
   DamageClass,
   HasIdentification,
+  Holiday,
   ItemClass,
   ItemSlot,
   ITraitTreeRowTrait,
@@ -142,6 +145,14 @@ export function isItemSlot(val: any): boolean {
   return itemSlots.includes(val as ItemSlot);
 }
 
+export function isDialogItemSlot(val: any): boolean {
+  const dialogSlots = [...itemSlots, 'sack', 'leftHand', 'rightHand'];
+  return (
+    dialogSlots.includes(val as ItemSlot) ||
+    (isArray(val) && val.every((i) => dialogSlots.includes(i as ItemSlot)))
+  );
+}
+
 export function isTraitObject(val: any): boolean {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return Object.keys(val).every((k) => isInteger(val[k]));
@@ -162,8 +173,34 @@ export function isAllegiance(val: any): boolean {
   return Object.values(Allegiance).includes(val);
 }
 
+export function isCurrency(val: any): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  return Object.values(Currency).includes(val);
+}
+
+export function isHoliday(val: any): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  return Object.values(Holiday).includes(val);
+}
+
 export function isRepMod(val: any): boolean {
   return isInteger(val.delta) && isAllegiance(val.allegiance);
+}
+
+export function isDialogChatOption(val: any): boolean {
+  return isString(val.text) && isString(val.action);
+}
+
+export function isDialogItem(val: any): boolean {
+  return isString(val.name) && val.amount ? isNumber(val.amount) : true;
+}
+
+export function isAny(): boolean {
+  return true;
+}
+
+export function is(val: any): SchemaValidator {
+  return (match: any) => val === match;
 }
 
 export function isRandomStatObject(val: any): boolean {
@@ -313,7 +350,7 @@ export function validateSchema<T extends HasIdentification>(
 
     if (!validator(value) && !isNull(value) && !isUndefined(value))
       errors.push(
-        `Property '${prop}' does not pass validation for '${label}' (${
+        `Property '${prop}' (value: ${value}) does not pass validation for '${label}' (${
           message?.(value) ?? 'no additional information provided'
         }).`
       );

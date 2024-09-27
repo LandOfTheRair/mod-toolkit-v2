@@ -1,5 +1,6 @@
 export * from './achievement';
 export * from './dialog';
+export * from './dialog-behaviors';
 export * from './droptable';
 export * from './item';
 export * from './npc';

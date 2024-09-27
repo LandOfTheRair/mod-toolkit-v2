@@ -27,6 +27,7 @@ export enum DialogActionType {
   CheckAnyHostilesNearby = 'checkAnyHostilesNearby',
   DropItems = 'dropItems',
   KillSelfSilently = 'killSelfSilently',
+  GrantAchievement = 'grantAchievement',
 }
 
 // dialog items, used for check/take/give
