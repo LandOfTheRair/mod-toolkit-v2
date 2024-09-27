@@ -1,6 +1,16 @@
+## <small>1.7.6 (2024-09-27)</small>
+
+* add dialog validators ([56e37f0](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/56e37f0))
+* add upgrades to pinpointer ([04b4726](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/04b4726))
+* CR metadata includes class/type and now does calculations in the npc section ([dca8128](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/dca8128))
+
+
+
 ## <small>1.7.5 (2024-09-25)</small>
 
 * fix pinpoint to utilize STEM->creaturesSummoned ([b1c6421](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b1c6421))
+* Release Patch 1.7.5 ([e6121e2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e6121e2))
+* Sync version ([377ad2b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/377ad2b))
 
 
 
