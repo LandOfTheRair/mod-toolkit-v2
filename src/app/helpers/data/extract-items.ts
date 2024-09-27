@@ -42,7 +42,12 @@ export function extractAllItemsFromDialog(
     .map((i) => i.item.name)
     .filter(Boolean);
 
-  return allDialogItemNames
+  const allDialogItemUpgrades = allDialogWords
+    .filter((i) => i.upgrade)
+    .map((i) => i.upgrade)
+    .filter(Boolean);
+
+  return [...allDialogItemNames, ...allDialogItemUpgrades]
     .map((i) => {
       if (i.includes('${ baseClass }')) {
         return validClasses.map((c) => i.split('${ baseClass }').join(c));
