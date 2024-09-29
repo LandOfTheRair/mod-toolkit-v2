@@ -74,7 +74,7 @@ const handleSetup = async () => {
   autoUpdater.on('update-downloaded', () => {
     sendToUI('notify', {
       type: 'success',
-      text: 'Update downloaded! It will be installed after next restart of ModKit',
+      text: 'Update downloaded! It will be installed after next restart of ModKit.',
     });
   });
 
