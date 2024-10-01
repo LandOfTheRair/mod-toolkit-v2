@@ -12,7 +12,7 @@ const isDevelopment = !app.isPackaged;
 
 log.transports.file.level = 'info';
 
-log.transports.file.resolvePath = () =>
+log.transports.file.resolvePathFn = () =>
   path.join(app.getAppPath(), 'logs/main.log');
 
 process.on('uncaughtException', (err) => {

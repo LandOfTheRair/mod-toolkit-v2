@@ -1,5 +1,8 @@
 import * as childProcess from 'child_process';
+import { app } from 'electron';
+import log from 'electron-log';
 import * as fs from 'fs-extra';
+import * as path from 'path';
 
 import { SendToUI } from '../types';
 import { baseUrl } from './constants';
@@ -7,8 +10,15 @@ import { baseUrl } from './constants';
 let mongoProcess: any = null;
 let lotrProcess: any = null;
 
+const testLogger = log.create({ logId: 'modtest' });
+
+testLogger.transports.file.level = 'info';
+
+testLogger.transports.file.resolvePathFn = () =>
+  path.join(app.getAppPath(), 'logs/modtest.log');
+
 process.on('exit', () => {
-  console.log('Attempting to clean up stray processes...');
+  testLogger.log('Attempting to clean up stray processes...');
   killMod();
 });
 
@@ -83,7 +93,15 @@ MODS_TO_LOAD=mod
     mongoProcess = childProcess.exec(
       `${baseUrl}/resources/mongodb/bin/mongod.exe --port 35353 --dbpath ${baseUrl}/resources/mongodb/data/db`,
       {},
-      () => {}
+      (error, stdout, stderr) => {
+        if (error) {
+          testLogger.error(`mongo error: ${error}`);
+          return;
+        }
+
+        testLogger.log(`mongo stdout: ${stdout}`);
+        testLogger.error(`mongo stderr: ${stderr}`);
+      }
     );
   }
 
@@ -93,7 +111,7 @@ MODS_TO_LOAD=mod
       sendToUI('notify', { type: 'info', text: 'Stopping old Rair Server...' });
       childProcess.exec('taskkill /F /IM lotr-server.exe');
     } catch (e) {
-      console.error(e);
+      testLogger.error(e);
     }
   }
 
@@ -104,11 +122,12 @@ MODS_TO_LOAD=mod
     { cwd: `${baseUrl}/resources/rair` },
     (error, stdout, stderr) => {
       if (error) {
-        console.error(`exec error: ${error}`);
+        testLogger.error(`rair error: ${error}`);
         return;
       }
-      console.log(`stdout: ${stdout}`);
-      console.error(`stderr: ${stderr}`);
+
+      testLogger.log(`rair stdout: ${stdout}`);
+      testLogger.error(`rair stderr: ${stderr}`);
     }
   );
 
