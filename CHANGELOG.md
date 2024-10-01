@@ -1,7 +1,15 @@
+## <small>1.7.8 (2024-10-01)</small>
+
+* improve stuff by using childProcess.spawn instead of execSync ([2be90cd](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2be90cd))
+
+
+
 ## <small>1.7.7 (2024-10-01)</small>
 
 * add better logging ([acf15fd](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/acf15fd))
 * allow macros sometimes in spell picker ([af5af2e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/af5af2e))
+* Release Patch 1.7.7 ([b0f5401](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b0f5401))
+* Sync version ([a89e730](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a89e730))
 * typo ([4a2cd4e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4a2cd4e))
 
 
