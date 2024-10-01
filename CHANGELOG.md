@@ -1,8 +1,18 @@
+## <small>1.7.7 (2024-10-01)</small>
+
+* add better logging ([acf15fd](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/acf15fd))
+* allow macros sometimes in spell picker ([af5af2e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/af5af2e))
+* typo ([4a2cd4e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4a2cd4e))
+
+
+
 ## <small>1.7.6 (2024-09-27)</small>
 
 * add dialog validators ([56e37f0](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/56e37f0))
 * add upgrades to pinpointer ([04b4726](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/04b4726))
 * CR metadata includes class/type and now does calculations in the npc section ([dca8128](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/dca8128))
+* Release Patch 1.7.6 ([e75cec5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e75cec5))
+* Sync version ([19515b5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/19515b5))
 
 
 
