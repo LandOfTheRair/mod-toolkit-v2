@@ -7,8 +7,8 @@ import * as path from 'path';
 import { SendToUI } from '../types';
 import { baseUrl } from './constants';
 
-let mongoProcess: any = null;
-let lotrProcess: any = null;
+let mongoProcess: childProcess.ChildProcessWithoutNullStreams | null = null;
+let lotrProcess: childProcess.ChildProcessWithoutNullStreams | null = null;
 
 const testLogger = log.create({ logId: 'modtest' });
 
@@ -87,29 +87,42 @@ MODS_TO_LOAD=mod
   );
   sendToUI('notify', { type: 'info', text: 'Wrote .env file!' });
 
-  // run mongo if not running
-  if (!mongoProcess) {
-    sendToUI('notify', { type: 'info', text: 'Starting MongoDB...' });
-    mongoProcess = childProcess.exec(
-      `${baseUrl}/resources/mongodb/bin/mongod.exe --port 35353 --dbpath ${baseUrl}/resources/mongodb/data/db`,
-      {},
-      (error, stdout, stderr) => {
-        if (error) {
-          testLogger.error(`mongo error: ${error}`);
-          return;
-        }
-
-        testLogger.log(`mongo stdout: ${stdout}`);
-        testLogger.error(`mongo stderr: ${stderr}`);
-      }
-    );
+  // run lotr server if not running (kill old install)
+  if (mongoProcess) {
+    try {
+      sendToUI('notify', { type: 'info', text: 'Stopping old MongoDB...' });
+      mongoProcess.kill();
+    } catch (e) {
+      testLogger.error(e);
+    }
   }
+
+  // run mongo if not running
+  sendToUI('notify', { type: 'info', text: 'Starting MongoDB...' });
+  mongoProcess = childProcess.spawn(
+    `${baseUrl}/resources/mongodb/bin/mongod.exe`,
+    [
+      '--quiet',
+      '--port',
+      '35353',
+      '--dbpath',
+      `${baseUrl}/resources/mongodb/data/db`,
+    ]
+  );
+
+  mongoProcess.stdout.on('data', (data: any) => {
+    testLogger.log(`mongo stdout: ${data}`);
+  });
+
+  mongoProcess.stderr.on('data', (data) => {
+    testLogger.log(`mongo stderr: ${data}`);
+  });
 
   // run lotr server if not running (kill old install)
   if (lotrProcess) {
     try {
       sendToUI('notify', { type: 'info', text: 'Stopping old Rair Server...' });
-      childProcess.exec('taskkill /F /IM lotr-server.exe');
+      lotrProcess.kill();
     } catch (e) {
       testLogger.error(e);
     }
@@ -117,19 +130,19 @@ MODS_TO_LOAD=mod
 
   // re/start lotr server
   sendToUI('notify', { type: 'info', text: 'Starting Rair Server...' });
-  lotrProcess = childProcess.exec(
+  lotrProcess = childProcess.spawn(
     `${baseUrl}/resources/rair/lotr-server.exe`,
-    { cwd: `${baseUrl}/resources/rair` },
-    (error, stdout, stderr) => {
-      if (error) {
-        testLogger.error(`rair error: ${error}`);
-        return;
-      }
-
-      testLogger.log(`rair stdout: ${stdout}`);
-      testLogger.error(`rair stderr: ${stderr}`);
-    }
+    [],
+    { cwd: `${baseUrl}/resources/rair` }
   );
+
+  lotrProcess.stdout.on('data', (data: any) => {
+    testLogger.log(`rair stdout: ${data}`);
+  });
+
+  lotrProcess.stderr.on('data', (data) => {
+    testLogger.log(`rair stderr: ${data}`);
+  });
 
   // open lotr client
   if (openClient) {
@@ -145,7 +158,7 @@ MODS_TO_LOAD=mod
 
 export function killMod(sendToUI?: SendToUI) {
   try {
-    childProcess.exec('taskkill /F /IM lotr-server.exe');
+    lotrProcess?.kill();
     lotrProcess = null;
     sendToUI?.('notify', { type: 'info', text: 'Killed Rair server!' });
   } catch (e) {
@@ -153,7 +166,7 @@ export function killMod(sendToUI?: SendToUI) {
   }
 
   try {
-    childProcess.exec('taskkill /F /IM mongod.exe');
+    mongoProcess?.kill();
     mongoProcess = null;
     sendToUI?.('notify', { type: 'info', text: 'Killed MongoDB!' });
   } catch (e) {
