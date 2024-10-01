@@ -1,6 +1,14 @@
+## <small>1.7.9 (2024-10-01)</small>
+
+* force using \n for export file ([672fdb2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/672fdb2))
+
+
+
 ## <small>1.7.8 (2024-10-01)</small>
 
 * improve stuff by using childProcess.spawn instead of execSync ([2be90cd](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2be90cd))
+* Release Patch 1.7.8 ([a328010](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a328010))
+* Sync version ([25cf472](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/25cf472))
 
 
 
