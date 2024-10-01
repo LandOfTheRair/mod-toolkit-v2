@@ -70,7 +70,7 @@ export function testMod(sendToUI: SendToUI, modData: any) {
   fs.ensureDirSync(`${baseUrl}/resources/rair/content/mods`);
   fs.rmdirSync(`${baseUrl}/resources/rair/content/mods`, { recursive: true });
   fs.ensureDirSync(`${baseUrl}/resources/rair/content/mods`);
-  fs.writeJsonSync(`${baseUrl}/resources/rair/content/mods/mod.rairmod`, mod);
+  fs.writeJSONSync(`${baseUrl}/resources/rair/content/mods/mod.rairmod`, mod);
   sendToUI('notify', { type: 'info', text: 'Copied mod file!' });
 
   // write .env

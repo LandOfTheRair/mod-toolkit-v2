@@ -77,7 +77,7 @@ export function editMap(mapName: string, map: any) {
 
   // const map = fs.readJsonSync(path);
   fixTiledMapPaths(map);
-  fs.writeJsonSync(path, map);
+  fs.writeJSONSync(path, map);
 
   childProcess.exec(`${baseUrl}/resources/Tiled/tiled.exe "${path}"`);
 }

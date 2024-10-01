@@ -223,7 +223,7 @@ export function setupIPC(sendToUI: SendToUI) {
     try {
       const fullMod = modData;
 
-      fs.writeJSONSync(res, fullMod, { spaces: 2 });
+      helpers.saveSpecificJSON(res, fullMod);
       sendToUI('notify', { type: 'info', text: `Saved ${res}!` });
       sendToUI('updatesetting', { setting: 'autosaveFilePath', value: res });
     } catch {
