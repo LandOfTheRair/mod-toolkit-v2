@@ -21,11 +21,12 @@ export class InputSpellComponent implements OnInit {
   public label = input<string>('Spell');
   public change = output<string>();
   public defaultValue = input<string>();
+  public allowMacro = input<boolean>();
 
   public values = computed(() => {
     const baseSpells = this.modService
       .mod()
-      .stems.filter((s) => s._hasSpell)
+      .stems.filter((s) => s._hasSpell || (this.allowMacro() && s._hasMacro))
       .map((s) => s._gameId);
 
     return baseSpells.sort();
