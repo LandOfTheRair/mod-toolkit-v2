@@ -1,6 +1,16 @@
+## <small>1.7.10 (2024-10-02)</small>
+
+* add more prop validation for map objects ([2e3b5d2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2e3b5d2))
+* add teleport validation for maps ([8493388](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8493388))
+* add validation service to abstract getting errors/etc ([65f522e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/65f522e))
+
+
+
 ## <small>1.7.9 (2024-10-01)</small>
 
 * force using \n for export file ([672fdb2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/672fdb2))
+* Release Patch 1.7.9 ([5ea03da](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5ea03da))
+* Sync version ([e622ffc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e622ffc))
 
 
 
