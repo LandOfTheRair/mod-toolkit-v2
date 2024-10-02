@@ -11,7 +11,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { isUndefined } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
-import { numErrorsForMod, validationMessagesForMod } from '../helpers';
 import { formatMod } from '../helpers/exporter';
 import { AnalysisService } from '../services/analysis.service';
 import { DebugService } from '../services/debug.service';
@@ -19,6 +18,7 @@ import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
 import { PinpointService } from '../services/pinpoint.service';
 import { QueryService } from '../services/query.service';
+import { ValidationService } from '../services/validation.service';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
   public debugService = inject(DebugService);
   public electronService = inject(ElectronService);
   public modService = inject(ModService);
+  private validationService = inject(ValidationService);
 
   public exportWarnSwal = viewChild<SwalComponent>('exportWarnSwal');
   public menuRef = viewChild<ElementRef<HTMLElement>>('menu');
@@ -46,17 +47,17 @@ export class HomeComponent implements OnInit {
   public isManagingDependencies = signal<boolean>(false);
 
   public hasErrors = computed(() => {
-    const mod = this.modService.mod();
     const classes = this.modService.availableClasses();
     const json = this.modService.json();
 
     if (json.sfx.length === 0 || json.bgm.length === 0 || classes.length === 0)
       return false;
 
+    const validationErrors = this.validationService.validationMessages();
+
     return (
-      validationMessagesForMod(mod, classes, json).filter((m) =>
-        m.messages.some((t) => t.type === 'error')
-      ).length > 0
+      validationErrors.filter((m) => m.messages.some((t) => t.type === 'error'))
+        .length > 0
     );
   });
 
@@ -165,11 +166,7 @@ export class HomeComponent implements OnInit {
       });
     };
 
-    const numErrors = numErrorsForMod(
-      this.modService.mod(),
-      this.modService.availableClasses(),
-      this.modService.json()
-    );
+    const numErrors = this.validationService.numErrors();
     if (numErrors > 0) {
       const res = await this.exportWarnSwal()?.fire();
       if (!res) return;

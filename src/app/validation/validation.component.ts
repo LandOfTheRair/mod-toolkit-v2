@@ -1,7 +1,6 @@
 import { Component, computed, inject, output, signal } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
-import { validationMessagesForMod } from '../helpers';
-import { ModService } from '../services/mod.service';
+import { ValidationService } from '../services/validation.service';
 
 @Component({
   selector: 'app-validation',
@@ -12,15 +11,12 @@ export class ValidationComponent {
   public exit = output();
 
   private localStorage = inject(LocalStorageService);
-  private modService = inject(ModService);
+  private validationService = inject(ValidationService);
 
   public activeValidationTab = signal<number>(0);
 
   public validationMessageContainers = computed(() => {
-    const mod = this.modService.mod();
-    const classes = this.modService.availableClasses();
-    const json = this.modService.json();
-    return validationMessagesForMod(mod, classes, json);
+    return this.validationService.validationMessages();
   });
 
   public onlyValidationMessages = computed(() => {
