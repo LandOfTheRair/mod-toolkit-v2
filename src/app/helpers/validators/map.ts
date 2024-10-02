@@ -1,3 +1,4 @@
+import { keyBy } from 'lodash';
 import { IModKit, ModJSON, ValidationMessageGroup } from '../../../interfaces';
 
 export function checkMapProperties(mod: IModKit): ValidationMessageGroup[] {
@@ -40,6 +41,89 @@ export function checkMapProperties(mod: IModKit): ValidationMessageGroup[] {
         message: `${map.name} has fewer than the normal 16 layers. Some things may not work correctly.`,
       });
     }
+
+    groups.push(mapValidations);
+  });
+
+  return groups;
+}
+export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
+  const groups: ValidationMessageGroup[] = [];
+
+  const mapsByName = keyBy(mod.maps, 'name');
+
+  mod.maps.forEach((map) => {
+    const mapValidations: ValidationMessageGroup = {
+      header: `Map Teleports (${map.name})`,
+      messages: [],
+    };
+
+    map.map.layers[8].objects
+      .filter((f: any) =>
+        [
+          'Teleport',
+          'ClimbUp',
+          'ClimbDown',
+          'StairsUp',
+          'StairsDown',
+          'Fall',
+        ].includes(f.type as string)
+      )
+      .forEach((teleport: any) => {
+        if (!teleport.properties) return;
+
+        const {
+          teleportTag,
+          teleportTagMap,
+          teleportTagRef,
+          teleportMap,
+          teleportX,
+          teleportY,
+        } = teleport.properties;
+
+        const myX = teleport.x / 64;
+        const myY = teleport.y / 64 - 1;
+
+        if (['Orikurnis', 'Solokar'].includes(teleportTagMap as string)) return;
+
+        if (teleportTag && teleportTagMap && teleportTagRef) {
+          if (!mapsByName[teleportTagMap]) {
+            mapValidations.messages.push({
+              type: 'error',
+              message: `${map.name} has a teleport by ref to a map that doesn't exist (${myX},${myY}): ${teleportTagMap}`,
+            });
+            return;
+          }
+
+          const hasRef = mapsByName[teleportTagMap].map.layers[8].objects.find(
+            (f: any) => f.properties?.teleportTag === teleportTagRef
+          );
+
+          if (!hasRef) {
+            mapValidations.messages.push({
+              type: 'error',
+              message: `${map.name} has a teleport by ref that doesn't work (${myX},${myY}): ${teleportTag} -> ${teleportTagRef} | ${teleportTagMap}`,
+            });
+          }
+        } else if (teleportMap && teleportX && teleportY) {
+          if (!mapsByName[teleportMap]) {
+            mapValidations.messages.push({
+              type: 'error',
+              message: `${map.name} has a teleport by position to a map that doesn't exist (${myX},${myY}): ${teleportMap}`,
+            });
+            return;
+          }
+
+          const wallLayer = mapsByName[teleportMap].map.layers[4].data;
+          const coordinate = teleportY * wallLayer.width + teleportX;
+          if (wallLayer[coordinate]) {
+            mapValidations.messages.push({
+              type: 'error',
+              message: `${map.name} has a teleport that drops you onto a wall (${myX},${myY}): ${teleportX},${teleportY}`,
+            });
+          }
+        }
+      });
 
     groups.push(mapValidations);
   });
