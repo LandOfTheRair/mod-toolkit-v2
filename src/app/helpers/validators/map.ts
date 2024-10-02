@@ -1,6 +1,13 @@
 import { keyBy } from 'lodash';
 import { IModKit, ModJSON, ValidationMessageGroup } from '../../../interfaces';
 
+const posString = (obj: any) => {
+  const myX = obj.x / 64;
+  const myY = obj.y / 64 - 1;
+
+  return `${myX},${myY}`;
+};
+
 export function checkMapProperties(mod: IModKit): ValidationMessageGroup[] {
   const groups: ValidationMessageGroup[] = [];
 
@@ -47,6 +54,7 @@ export function checkMapProperties(mod: IModKit): ValidationMessageGroup[] {
 
   return groups;
 }
+
 export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
   const groups: ValidationMessageGroup[] = [];
 
@@ -59,19 +67,19 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
     };
 
     map.map.layers[8].objects
-      .filter((f: any) =>
-        [
-          'Teleport',
-          'ClimbUp',
-          'ClimbDown',
-          'StairsUp',
-          'StairsDown',
-          'Fall',
-        ].includes(f.type as string)
+      .filter(
+        (f: any) =>
+          f.properties &&
+          [
+            'Teleport',
+            'ClimbUp',
+            'ClimbDown',
+            'StairsUp',
+            'StairsDown',
+            'Fall',
+          ].includes(f.type as string)
       )
       .forEach((teleport: any) => {
-        if (!teleport.properties) return;
-
         const {
           teleportTag,
           teleportTagMap,
@@ -81,16 +89,17 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
           teleportY,
         } = teleport.properties;
 
-        const myX = teleport.x / 64;
-        const myY = teleport.y / 64 - 1;
-
         if (['Orikurnis', 'Solokar'].includes(teleportTagMap as string)) return;
 
         if (teleportTag && teleportTagMap && teleportTagRef) {
           if (!mapsByName[teleportTagMap]) {
             mapValidations.messages.push({
               type: 'error',
-              message: `${map.name} has a teleport by ref to a map that doesn't exist (${myX},${myY}): ${teleportTagMap}`,
+              message: `${
+                map.name
+              } has a teleport by ref to a map that doesn't exist (${posString(
+                teleport
+              )}): ${teleportTagMap}`,
             });
             return;
           }
@@ -102,14 +111,22 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
           if (!hasRef) {
             mapValidations.messages.push({
               type: 'error',
-              message: `${map.name} has a teleport by ref that doesn't work (${myX},${myY}): ${teleportTag} -> ${teleportTagRef} | ${teleportTagMap}`,
+              message: `${
+                map.name
+              } has a teleport by ref that doesn't work (${posString(
+                teleport
+              )}): ${teleportTag} -> ${teleportTagRef} | ${teleportTagMap}`,
             });
           }
         } else if (teleportMap && teleportX && teleportY) {
           if (!mapsByName[teleportMap]) {
             mapValidations.messages.push({
               type: 'error',
-              message: `${map.name} has a teleport by position to a map that doesn't exist (${myX},${myY}): ${teleportMap}`,
+              message: `${
+                map.name
+              } has a teleport by position to a map that doesn't exist (${posString(
+                teleport
+              )}): ${teleportMap}`,
             });
             return;
           }
@@ -119,10 +136,98 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
           if (wallLayer[coordinate]) {
             mapValidations.messages.push({
               type: 'error',
-              message: `${map.name} has a teleport that drops you onto a wall (${myX},${myY}): ${teleportX},${teleportY}`,
+              message: `${
+                map.name
+              } has a teleport that drops you onto a wall (${posString(
+                teleport
+              )}): ${teleportX},${teleportY}`,
             });
           }
         }
+      });
+
+    groups.push(mapValidations);
+  });
+
+  return groups;
+}
+
+export function checkMapObjects(mod: IModKit): ValidationMessageGroup[] {
+  const groups: ValidationMessageGroup[] = [];
+
+  mod.maps.forEach((map) => {
+    const mapValidations: ValidationMessageGroup = {
+      header: `Map Objects (${map.name})`,
+      messages: [],
+    };
+
+    map.map.layers[8].objects
+      .filter(
+        (f: any) =>
+          f.properties &&
+          [
+            'Teleport',
+            'ClimbUp',
+            'ClimbDown',
+            'StairsUp',
+            'StairsDown',
+            'Fall',
+          ].includes(f.type as string)
+      )
+      .forEach((obj: any) => {
+        const { teleportTag, teleportTagMap, teleportX, teleportY } =
+          obj.properties;
+
+        const isTag = teleportTag && teleportTagMap;
+        const isPos = teleportX && teleportY;
+
+        if (isPos || isTag) return;
+
+        mapValidations.messages.push({
+          type: 'error',
+          message: `${
+            map.name
+          } has a teleport that has no valid teleport setup (${posString(
+            obj
+          )})`,
+        });
+      });
+
+    map.map.layers[8].objects
+      .filter((f: any) => f.properties && ['Locker'].includes(f.type as string))
+      .forEach((obj: any) => {
+        const name = obj.name;
+        const { lockerId } = obj.properties;
+
+        if (name && lockerId) return;
+
+        mapValidations.messages.push({
+          type: 'error',
+          message: `${
+            map.name
+          } has a locker that is missing either a name or lockerId (${posString(
+            obj
+          )})`,
+        });
+      });
+
+    map.map.layers[8].objects
+      .filter(
+        (f: any) => f.properties && ['Fillable'].includes(f.type as string)
+      )
+      .forEach((obj: any) => {
+        const { fillEffect, fillDesc } = obj.properties;
+
+        if (fillEffect && fillDesc) return;
+
+        mapValidations.messages.push({
+          type: 'error',
+          message: `${
+            map.name
+          } has a fillable that is missing either a fillEffect or fillDesc (${posString(
+            obj
+          )})`,
+        });
       });
 
     groups.push(mapValidations);
