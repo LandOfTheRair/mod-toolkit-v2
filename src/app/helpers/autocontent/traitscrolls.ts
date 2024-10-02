@@ -25,6 +25,8 @@ export function generateTraitScrolls(mod: IModKit): IItemDefinition[] {
 
   const banned = ['Unimbued'];
 
+  const firstLevelFound: Record<string, number> = {};
+
   mod.stems.forEach((stem) => {
     if (!stem._hasTrait) return;
 
@@ -49,7 +51,7 @@ export function generateTraitScrolls(mod: IModKit): IItemDefinition[] {
 
       const tree = classTree.data.trees[treeName].tree;
 
-      tree.forEach(({ traits }: any) => {
+      tree.forEach(({ traits }: any, row: number) => {
         traits.forEach(({ name, maxLevel }: any) => {
           if (!name) return;
           if (maxLevel <= 1) {
@@ -60,6 +62,11 @@ export function generateTraitScrolls(mod: IModKit): IItemDefinition[] {
           scrollToClass[name] ??= [];
 
           allRuneScrolls.add(name as string);
+
+          const levelRequirement = row * 10;
+          firstLevelFound[name] = firstLevelFound[name]
+            ? Math.min(levelRequirement, firstLevelFound[name])
+            : levelRequirement;
 
           if (classTree.name !== 'Core' && treeName !== 'Core') {
             scrollToClass[name].push(classTree.name);
@@ -86,7 +93,7 @@ export function generateTraitScrolls(mod: IModKit): IItemDefinition[] {
           restrict: scrollToClass[scrollName],
         },
         requirements: {
-          level: 5 + (i - 1) * 10,
+          level: (firstLevelFound[scrollName] ?? 0) + i * 5,
         },
         value: 1,
         itemClass: ItemClass.Scroll,
