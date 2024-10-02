@@ -570,6 +570,41 @@
     }
   </div>
 </div>
+
+<hr class="mt-3">
+
+<h2 class="text-xl font-bold mb-2 mt-2 ml-1">Potency Calculator</h2>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column max-w-[50%]">
+    <div class="form-row split">
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Skill Level</app-input-floating-label>
+          <input [(ngModel)]="calcSkill" min="1" type="number" placeholder="Choose skill..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label>Stat Value</app-input-floating-label>
+          <input [(ngModel)]="calcStat" min="1" type="number" placeholder="Choose stat..." class="form-input" />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row flex items-center pl-3">
+          <app-input-floating-label>Resulting Potency</app-input-floating-label>
+          <div class="mt-1">
+            {{ calcPotency.min }} - {{ calcPotency.max }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 }
 
 @case (2) {

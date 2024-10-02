@@ -826,7 +826,7 @@ export class AnalysisService {
     };
   }
 
-  private calculateSpellDamage(
+  public calculateSpellDamage(
     spell: ISTEM['spell'],
     skill: number,
     stat: number

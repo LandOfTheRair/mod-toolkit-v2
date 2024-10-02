@@ -1,7 +1,9 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { isBoolean, isString } from 'lodash';
+import { LocalStorage } from 'ngx-webstorage';
 import { INPCDefinition, StatType } from '../../../../interfaces';
 import { ISTEM } from '../../../../interfaces/stem';
+import { AnalysisService } from '../../../services/analysis.service';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
@@ -13,6 +15,8 @@ export class StemsEditorComponent
   extends EditorBaseComponent<ISTEM>
   implements OnInit
 {
+  public analysisService = inject(AnalysisService);
+
   public readonly key = 'stems';
   public readonly tabs = [
     { name: 'Global Settings', visibleIf: computed(() => true) },
@@ -39,6 +43,17 @@ export class StemsEditorComponent
   public currentSpellFizzleEffect = signal<{ value: string } | undefined>(
     undefined
   );
+
+  @LocalStorage() calcSkill!: number;
+  @LocalStorage() calcStat!: number;
+
+  public get calcPotency() {
+    return this.analysisService.calculateSpellDamage(
+      this.editing().spell,
+      this.calcSkill,
+      this.calcStat
+    );
+  }
 
   public canSave = computed(() => {
     const data = this.editing();
@@ -86,6 +101,9 @@ export class StemsEditorComponent
 
   ngOnInit(): void {
     super.ngOnInit();
+
+    if (!this.calcSkill) this.calcSkill = 1;
+    if (!this.calcStat) this.calcStat = 10;
   }
 
   checkAndUpdateGameId($event: string) {
