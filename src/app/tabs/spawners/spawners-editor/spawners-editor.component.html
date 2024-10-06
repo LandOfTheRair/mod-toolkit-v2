@@ -86,9 +86,11 @@
     <div class="form-row">
       <div class="form-column">
         <div class="form-row">
-          <app-input-gameevent [(gameEvent)]="editingData.requireEvent"></app-input-gameevent>
+          <app-input-event [defaultValue]="editingData.requireEvent"
+            (change)="editingData.requireEvent = $event"></app-input-event>
         </div>
       </div>
+
       <div class="form-column">
         <div class="form-row">
           <app-input-holiday [(holiday)]="editingData.requireHoliday"></app-input-holiday>

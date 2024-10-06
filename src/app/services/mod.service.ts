@@ -48,6 +48,7 @@ export function defaultModKit(): IModKit {
     stems: [],
     traitTrees: [],
     achievements: [],
+    events: [],
   };
 }
 

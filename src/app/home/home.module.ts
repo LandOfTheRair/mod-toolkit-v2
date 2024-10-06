@@ -15,6 +15,8 @@ import { DependenciesComponent } from '../dependencies/dependencies.component';
 import { PinpointComponent } from '../pinpoint/pinpoint.component';
 import { QueryComponent } from '../query/query.component';
 import { SharedModule } from '../shared/shared.module';
+import { EventsEditorComponent } from '../tabs/achievements copy/events-editor/events-editor.component';
+import { EventsComponent } from '../tabs/achievements copy/events.component';
 import { AchievementsEditorComponent } from '../tabs/achievements/achievements-editor/achievements-editor.component';
 import { AchievementsComponent } from '../tabs/achievements/achievements.component';
 import { CoresEditorComponent } from '../tabs/cores/cores-editor/cores-editor.component';
@@ -72,6 +74,8 @@ import { HomeComponent } from './home.component';
     AnalysisComponent,
     QueryComponent,
     DependenciesComponent,
+    EventsComponent,
+    EventsEditorComponent,
   ],
   imports: [
     CommonModule,

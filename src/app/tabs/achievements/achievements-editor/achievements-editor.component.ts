@@ -17,7 +17,7 @@ export class AchievementsEditorComponent
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.name && data.desc && data.ap > 0;
+    return data.name && data.desc && data.ap > 0 && this.satisfiesUnique();
   });
 
   public satisfiesUnique = computed(() => {

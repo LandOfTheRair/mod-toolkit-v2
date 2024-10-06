@@ -2,5 +2,5 @@
   <ng-select class="form-control" [items]="values()" [(ngModel)]="map" placeholder="Select map..."
     (change)="change.emit($event)"></ng-select>
 
-  <app-input-floating-label>Map</app-input-floating-label>
+  <app-input-floating-label>{{ label() }}</app-input-floating-label>
 </div>

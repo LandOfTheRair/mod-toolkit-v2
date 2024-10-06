@@ -32,8 +32,10 @@ import { InputChallengeratingComponent } from './components/input-challengeratin
 import { InputClassComponent } from './components/input-class/input-class.component';
 import { InputDamageclassComponent } from './components/input-damageclass/input-damageclass.component';
 import { InputEffectComponent } from './components/input-effect/input-effect.component';
+import { InputEventComponent } from './components/input-event/input-event.component';
+import { InputEventRarityComponent } from './components/input-eventrarity/input-eventrarity.component';
+import { InputEventSuccessTypeComponent } from './components/input-eventsuccesstype/input-eventsuccesstype.component';
 import { InputFloatingLabelComponent } from './components/input-floating-label/input-floating-label.component';
-import { InputGameeventComponent } from './components/input-gameevent/input-gameevent.component';
 import { InputHolidayComponent } from './components/input-holiday/input-holiday.component';
 import { InputHostilityComponent } from './components/input-hostility/input-hostility.component';
 import { InputIconComponent } from './components/input-icon/input-icon.component';
@@ -115,11 +117,13 @@ import { WebviewDirective } from './directives/';
     InputMacrotypeComponent,
     InputBufftypeComponent,
     EditStatobjectComponent,
-    InputGameeventComponent,
     InputSpawnerComponent,
     InputAnalysisReportComponent,
     InputStemComponent,
     InputAchievementTypeComponent,
+    InputEventRarityComponent,
+    InputEventComponent,
+    InputEventSuccessTypeComponent,
   ],
   imports: [
     CommonModule,
@@ -182,11 +186,13 @@ import { WebviewDirective } from './directives/';
     InputMacrotypeComponent,
     InputBufftypeComponent,
     EditStatobjectComponent,
-    InputGameeventComponent,
     InputSpawnerComponent,
     InputAnalysisReportComponent,
     InputStemComponent,
     InputAchievementTypeComponent,
+    InputEventRarityComponent,
+    InputEventComponent,
+    InputEventSuccessTypeComponent,
   ],
 })
 export class SharedModule {}

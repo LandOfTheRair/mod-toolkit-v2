@@ -22,6 +22,7 @@ export function formatMod(modData: IModKit): IModKit {
     stems: modData.stems,
     traitTrees: modData.traitTrees,
     achievements: modData.achievements,
+    events: modData.events,
   };
 
   return exported;

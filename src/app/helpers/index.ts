@@ -3,6 +3,7 @@ export * from './constants';
 export * from './core';
 export * from './dialog';
 export * from './droptable';
+export * from './event';
 export * from './exporter';
 export * from './id';
 export * from './importer';

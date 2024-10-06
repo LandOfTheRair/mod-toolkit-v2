@@ -4,6 +4,7 @@ export * from './behavior';
 export * from './building-blocks';
 export * from './core';
 export * from './droptable';
+export * from './dynamicevent';
 export * from './effect';
 export * from './identified';
 export * from './item';

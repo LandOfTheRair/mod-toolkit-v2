@@ -1,6 +1,7 @@
 import { IAchievement } from './achievement';
 import { ICoreContent } from './core';
 import { IDroptable } from './droptable';
+import { IDynamicEventMeta } from './dynamicevent';
 import { IItemDefinition } from './item';
 import { IEditorMap } from './map';
 import { INPCDefinition } from './npc';
@@ -43,4 +44,5 @@ export interface IModKit {
   stems: ISTEM[];
   traitTrees: ITraitTree[];
   achievements: IAchievement[];
+  events: IDynamicEventMeta[];
 }

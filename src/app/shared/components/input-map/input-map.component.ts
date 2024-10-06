@@ -20,6 +20,7 @@ export class InputMapComponent implements OnInit {
 
   public map = model.required<string | undefined>();
   public defaultValue = input<string>();
+  public label = input<string>('Map');
   public change = output<string>();
 
   public values = computed(() =>

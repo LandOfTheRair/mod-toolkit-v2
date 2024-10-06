@@ -108,6 +108,10 @@ export class HomeComponent implements OnInit {
       name: 'Achievements',
       count: computed(() => this.modService.mod().achievements.length),
     },
+    {
+      name: 'Events',
+      count: computed(() => this.modService.mod().events.length),
+    },
   ];
 
   constructor() {}
