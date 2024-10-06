@@ -1,7 +1,18 @@
+## <small>1.7.13 (2024-10-06)</small>
+
+* add url deep linking for editor tables ([5de68ae](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5de68ae))
+* make trait scrolls bind properly if they're holiday ([2887c14](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2887c14))
+* preliminary implementation of dynamic event chains ([50722b1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/50722b1))
+* start/end message are not technically required for events ([a5d16b7](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a5d16b7))
+
+
+
 ## <small>1.7.12 (2024-10-03)</small>
 
 * add more logging for mod test ([df9f338](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/df9f338))
 * add potency calculator to spells ([8ad7ad1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8ad7ad1))
+* Release Patch 1.7.12 ([f5d150e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f5d150e))
+* Sync version ([b1e5d34](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b1e5d34))
 
 
 
