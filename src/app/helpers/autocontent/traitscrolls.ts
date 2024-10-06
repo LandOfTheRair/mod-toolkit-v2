@@ -24,6 +24,17 @@ export function generateTraitScrolls(mod: IModKit): IItemDefinition[] {
   const returnedRuneScrolls: IItemDefinition[] = [];
 
   const banned = ['Unimbued'];
+  const shouldBind: string[] = [];
+
+  const allHolidays = mod.cores.find((f) => f.name === 'holidaydescs');
+  if (allHolidays) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    Object.values(allHolidays.json ?? {}).forEach((holidayValue: any) => {
+      if (!holidayValue.traits) return;
+
+      shouldBind.push(...(holidayValue.traits as string[]));
+    });
+  }
 
   const firstLevelFound: Record<string, number> = {};
 
@@ -95,6 +106,7 @@ export function generateTraitScrolls(mod: IModKit): IItemDefinition[] {
         requirements: {
           level: (firstLevelFound[scrollName] ?? 0) + i * 5,
         },
+        binds: shouldBind.includes(scrollName),
         value: 1,
         itemClass: ItemClass.Scroll,
         type: Skill.Martial,
