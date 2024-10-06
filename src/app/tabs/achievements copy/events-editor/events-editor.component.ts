@@ -18,12 +18,7 @@ export class EventsEditorComponent
   public canSave = computed(() => {
     const data = this.editing();
     return (
-      data.name &&
-      data.description &&
-      data.rarity &&
-      data.startMessage &&
-      data.endMessage &&
-      this.satisfiesUnique()
+      data.name && data.description && data.rarity && this.satisfiesUnique()
     );
   });
 
