@@ -1,9 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FilterChangedEvent, FilterModel } from 'ag-grid-community';
 import { merge } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import { HasIdentification, IModKit } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
+import { URLService } from '../../../services/url.service';
 
 @Component({
   selector: 'app-editor-base-table',
@@ -13,6 +15,9 @@ import { ModService } from '../../../services/mod.service';
 export class EditorBaseTableComponent<T extends HasIdentification>
   implements OnInit
 {
+  private route = inject(ActivatedRoute);
+  private urlService = inject(URLService);
+
   private localStorage = inject(LocalStorageService);
   protected modService = inject(ModService);
 
@@ -30,9 +35,27 @@ export class EditorBaseTableComponent<T extends HasIdentification>
     const state = this.localStorage.retrieve(
       `${this.dataKey}-tablefilters`
     ) as FilterModel;
+
     if (state) {
       this.tableFilterState.set(state);
     }
+
+    const loadItemId = this.getURLSubProp('id');
+    if (loadItemId) {
+      const potentialItems: T[] = this.modService.mod()[
+        this.dataKey
+      ] as unknown as T[];
+
+      const item = potentialItems.find((i) => i._id === loadItemId);
+
+      if (item) {
+        this.editExisting(item);
+      }
+    }
+  }
+
+  getURLSubProp(prop: string): string | null {
+    return this.route.snapshot.queryParamMap.get(prop);
   }
 
   public createNew() {
@@ -49,11 +72,18 @@ export class EditorBaseTableComponent<T extends HasIdentification>
 
     const finalItem = merge(defaultContent, clonedContent);
     this.editingData.set(finalItem);
+    this.urlService.trackURLChanges({
+      id: data._id,
+    });
   }
 
   public cancelEditing() {
     this.isEditing.set(false);
     this.oldData.set(undefined);
+
+    this.urlService.trackURLChanges({
+      id: '',
+    });
   }
 
   public saveNewData(data: T) {

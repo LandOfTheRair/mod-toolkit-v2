@@ -7,7 +7,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { isUndefined } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -18,6 +18,7 @@ import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
 import { PinpointService } from '../services/pinpoint.service';
 import { QueryService } from '../services/query.service';
+import { URLService } from '../services/url.service';
 import { ValidationService } from '../services/validation.service';
 
 @Component({
@@ -26,8 +27,8 @@ import { ValidationService } from '../services/validation.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private urlService = inject(URLService);
 
   private localStorage = inject(LocalStorageService);
   public pinpointService = inject(PinpointService);
@@ -148,13 +149,9 @@ export class HomeComponent implements OnInit {
 
     this.localStorage.store('lasttab', newTab);
 
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParamsHandling: 'merge',
-      queryParams: {
-        tab: newTab,
-        sub: '',
-      },
+    this.urlService.trackURLChanges({
+      tab: newTab,
+      sub: '',
     });
   }
 
@@ -198,12 +195,8 @@ export class HomeComponent implements OnInit {
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
 
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParamsHandling: 'merge',
-      queryParams: {
-        sub: 'dependencies',
-      },
+    this.urlService.trackURLChanges({
+      sub: 'dependencies',
     });
   }
 
@@ -214,12 +207,8 @@ export class HomeComponent implements OnInit {
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
 
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParamsHandling: 'merge',
-      queryParams: {
-        sub: 'validate',
-      },
+    this.urlService.trackURLChanges({
+      sub: 'validate',
     });
   }
 
@@ -230,12 +219,8 @@ export class HomeComponent implements OnInit {
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
 
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParamsHandling: 'merge',
-      queryParams: {
-        sub: 'pinpoint',
-      },
+    this.urlService.trackURLChanges({
+      sub: 'pinpoint',
     });
   }
 
@@ -246,12 +231,8 @@ export class HomeComponent implements OnInit {
     this.pinpointService.togglePinpointing(false);
     this.queryService.toggleQuerying(false);
 
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParamsHandling: 'merge',
-      queryParams: {
-        sub: 'analyze',
-      },
+    this.urlService.trackURLChanges({
+      sub: 'analyze',
     });
   }
 
@@ -262,12 +243,8 @@ export class HomeComponent implements OnInit {
     this.pinpointService.togglePinpointing(false);
     this.analysisService.toggleAnalyzing(false);
 
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParamsHandling: 'merge',
-      queryParams: {
-        sub: 'query',
-      },
+    this.urlService.trackURLChanges({
+      sub: 'query',
     });
   }
 
@@ -291,21 +268,15 @@ export class HomeComponent implements OnInit {
   updateSubURLProp(prop: string, value: string | number | undefined) {
     if (isUndefined(value)) return;
 
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParamsHandling: 'merge',
-      queryParams: {
-        [prop]: value,
-      },
+    this.urlService.trackURLChanges({
+      [prop]: value,
     });
   }
 
   resetSub() {
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        tab: this.activeTab(),
-      },
+    this.urlService.trackURLChanges({
+      tab: this.activeTab(),
+      sub: '',
     });
   }
 }

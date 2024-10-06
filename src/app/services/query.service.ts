@@ -26,6 +26,8 @@ export class QueryService {
       ...mod.spawners.map((c) => ({ type: 'spawner', data: c })),
       ...mod.stems.map((c) => ({ type: 'stem', data: c })),
       ...mod.traitTrees.map((c) => ({ type: 'traitTree', data: c })),
+      ...mod.achievements.map((c) => ({ type: 'achievement', data: c })),
+      ...mod.events.map((c) => ({ type: 'event', data: c })),
     ];
   });
 
