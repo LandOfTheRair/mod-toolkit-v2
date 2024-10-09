@@ -1,6 +1,14 @@
+## <small>1.7.15 (2024-10-09)</small>
+
+* change max animation ([461f750](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/461f750))
+
+
+
 ## <small>1.7.14 (2024-10-09)</small>
 
 * change max sprite for item ([72c4c16](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/72c4c16))
+* Release Patch 1.7.14 ([b9667cc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b9667cc))
+* Sync version ([1bc0556](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1bc0556))
 
 
 
