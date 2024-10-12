@@ -12,6 +12,26 @@ export class SpriteWithInlineNameComponent {
   public name = input.required<string>();
   public type = input.required<'items' | 'creatures'>();
 
+  public level = computed(() => {
+    const mod = this.modService.mod();
+    const name = this.name();
+    const type = this.type();
+
+    let levelReq = 0;
+
+    if (type === 'items') {
+      const foundItem = mod.items.find((i) => i.name === name);
+      levelReq = foundItem?.requirements?.level ?? 0;
+    }
+
+    if (type === 'creatures') {
+      const foundNpc = mod.npcs.find((i) => i.npcId === name);
+      levelReq = foundNpc?.level ?? 0;
+    }
+
+    return levelReq ? `(Level ${levelReq})` : '';
+  });
+
   public sprite = computed(() => {
     const mod = this.modService.mod();
     const name = this.name();
