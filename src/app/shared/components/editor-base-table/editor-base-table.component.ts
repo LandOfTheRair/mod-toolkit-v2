@@ -46,7 +46,7 @@ export class EditorBaseTableComponent<T extends HasIdentification>
         this.dataKey
       ] as unknown as T[];
 
-      const item = potentialItems.find((i) => i._id === loadItemId);
+      const item = potentialItems?.find((i) => i._id === loadItemId);
 
       if (item) {
         this.editExisting(item);
