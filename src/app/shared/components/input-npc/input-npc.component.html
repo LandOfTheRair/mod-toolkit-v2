@@ -9,7 +9,7 @@
           [sprite]="item.data.sprite"></app-sprite>
         }
         <div class="ml-7 text-white">
-          {{ item.data.npcId }}
+          {{ item.data.npcId }} (Level {{ item.data.level ?? 0 }})
         </div>
       </div>
     </ng-template>
@@ -19,7 +19,7 @@
         <app-sprite class="absolute -top-5 -left-7" [scale]="0.5" [type]="'creatures'"
           [sprite]="item.data.sprite"></app-sprite>
         <div class="ml-5 text-white">
-          {{ item.data.npcId }}
+          {{ item.data.npcId }} (Level {{ item.data.level ?? 0 }})
         </div>
       </div>
     </ng-template>

@@ -10,7 +10,7 @@
           [sprite]="item.data.sprite"></app-sprite>
         }
         <div class="ml-7 text-white">
-          {{ item.data.name }}
+          {{ item.data.name }} (Level {{ item.data.requirements?.level ?? 0 }})
         </div>
       </div>
     </ng-template>
@@ -22,7 +22,7 @@
           [sprite]="item.data.sprite"></app-sprite>
         }
         <div class="ml-5 text-white">
-          {{ item.data.name }}
+          {{ item.data.name }} (Level {{ item.data.requirements?.level ?? 0 }})
         </div>
       </div>
     </ng-template>
