@@ -6,27 +6,34 @@
 
     <div class="form-row">
       <app-input-floating-label>Character Level</app-input-floating-label>
-      <input [(ngModel)]="settings.level" min="1" type="number" class="form-input" />
+      <input [(ngModel)]="settings.level" min="1" type="number" class="form-input" (change)="saveSettings()" />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Map</app-input-floating-label>
-      <app-input-map [(map)]="settings.map" [defaultValue]="''"></app-input-map>
+      <app-input-map [(map)]="settings.map" [defaultValue]="''" (mapChange)="saveSettings()"></app-input-map>
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Map X</app-input-floating-label>
-      <input [(ngModel)]="settings.x" min="0" type="number" class="form-input" />
+      <input [(ngModel)]="settings.x" min="0" type="number" class="form-input" (change)="saveSettings()" />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Map Y</app-input-floating-label>
-      <input [(ngModel)]="settings.y" min="0" type="number" class="form-input" />
+      <input [(ngModel)]="settings.y" min="0" type="number" class="form-input" (change)="saveSettings()" />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Database Override URL</app-input-floating-label>
+      <input [(ngModel)]="settings.databaseOverride" type="text"
+        placeholder="If unspecified, will start the MongoDB installed with ModKit" class="form-input"
+        (change)="saveSettings()" />
     </div>
 
     <div class="form-row pl-1">
       <label class="label cursor-pointer" floatUi="Whether or not to open the game client.">
-        <input type="checkbox" [(ngModel)]="settings.openClient" class="checkbox" />
+        <input type="checkbox" [(ngModel)]="settings.openClient" class="checkbox" (change)="saveSettings()" />
         <span class="label-text">Open Client?</span>
       </label>
     </div>

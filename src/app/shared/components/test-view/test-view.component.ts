@@ -22,6 +22,7 @@ export class TestViewComponent implements OnInit {
     x: 4,
     y: 4,
     openClient: true,
+    databaseOverride: '',
     otherProps: '{\n  \n}',
   };
 
@@ -33,6 +34,7 @@ export class TestViewComponent implements OnInit {
 
   ngOnInit() {
     const settings = this.localStorage.retrieve('testsettings');
+    console.log('old settings', settings);
     if (settings) {
       this.settings.level = settings.level;
       this.settings.map = settings.map;
@@ -40,8 +42,13 @@ export class TestViewComponent implements OnInit {
       this.settings.y = settings.y;
       this.settings.openClient = settings.openClient;
       this.settings.otherProps = settings.otherProps;
+      this.settings.databaseOverride = settings.databaseOverride;
       this.dialogModel.value = settings.otherProps;
     }
+  }
+
+  public saveSettings() {
+    this.localStorage.store('testsettings', this.settings);
   }
 
   public onSettingsChanged(newProps: string) {
@@ -49,13 +56,14 @@ export class TestViewComponent implements OnInit {
 
     try {
       this.isValidJSON.set(!!JSON.parse(newProps));
+      this.saveSettings();
     } catch {
       this.isValidJSON.set(false);
     }
   }
 
   public testMod() {
-    this.localStorage.store('testsettings', this.settings);
+    this.saveSettings();
 
     const settingsString = JSON.stringify({
       map: this.settings.map,
@@ -69,6 +77,7 @@ export class TestViewComponent implements OnInit {
       map: this.settings.map,
       settings: settingsString,
       openClient: this.settings.openClient,
+      databaseOverrideURL: this.settings.databaseOverride,
     });
   }
 

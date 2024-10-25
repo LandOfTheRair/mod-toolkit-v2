@@ -23,10 +23,13 @@ process.on('exit', () => {
 });
 
 export function testMod(sendToUI: SendToUI, modData: any) {
-  const { mod, openClient, map, settings } = modData;
+  const { mod, openClient, map, settings, databaseOverrideURL } = modData;
 
   // check mongodb install
-  if (!fs.existsSync(`${baseUrl}/resources/mongodb/bin/mongod.exe`)) {
+  if (
+    !databaseOverrideURL &&
+    !fs.existsSync(`${baseUrl}/resources/mongodb/bin/mongod.exe`)
+  ) {
     testLogger.log(`MongoDB is not installed.`);
     sendToUI('notify', { type: 'error', text: 'MongoDB is not installed.' });
     return;
@@ -76,11 +79,13 @@ export function testMod(sendToUI: SendToUI, modData: any) {
   fs.writeJSONSync(`${baseUrl}/resources/rair/content/mods/mod.rairmod`, mod);
   sendToUI('notify', { type: 'info', text: 'Copied mod file!' });
 
+  const defaultDatabaseURL = `mongodb://localhost:35353/lotr2`;
+
   // write .env
   fs.writeFileSync(
     `${baseUrl}/resources/rair/.env`,
     `
-DATABASE_URI=mongodb://localhost:35353/lotr2
+DATABASE_URI=${databaseOverrideURL || defaultDatabaseURL}
 TEST_MODE=1
 TEST_USER_NAME=${username}
 TEST_USER_PASSWORD=${password}
@@ -89,6 +94,10 @@ MODS_TO_LOAD=mod
   `
   );
   sendToUI('notify', { type: 'info', text: 'Wrote .env file!' });
+
+  if (databaseOverrideURL) {
+    sendToUI('notify', { type: 'info', text: 'Using custom database!' });
+  }
 
   // run mongodb if not running (kill old install)
   if (mongoProcess) {
@@ -101,27 +110,29 @@ MODS_TO_LOAD=mod
     }
   }
 
-  // run mongo if not running
-  testLogger.log(`Starting MongoDB...`);
-  sendToUI('notify', { type: 'info', text: 'Starting MongoDB...' });
-  mongoProcess = childProcess.spawn(
-    `${baseUrl}/resources/mongodb/bin/mongod.exe`,
-    [
-      '--quiet',
-      '--port',
-      '35353',
-      '--dbpath',
-      `${baseUrl}/resources/mongodb/data/db`,
-    ]
-  );
+  // run mongo if not running and no override specified
+  if (!databaseOverrideURL) {
+    testLogger.log(`Starting MongoDB...`);
+    sendToUI('notify', { type: 'info', text: 'Starting MongoDB...' });
+    mongoProcess = childProcess.spawn(
+      `${baseUrl}/resources/mongodb/bin/mongod.exe`,
+      [
+        '--quiet',
+        '--port',
+        '35353',
+        '--dbpath',
+        `${baseUrl}/resources/mongodb/data/db`,
+      ]
+    );
 
-  mongoProcess.stdout.on('data', (data: any) => {
-    testLogger.log(`mongo stdout: ${data}`);
-  });
+    mongoProcess.stdout.on('data', (data: any) => {
+      testLogger.log(`mongo stdout: ${data}`);
+    });
 
-  mongoProcess.stderr.on('data', (data) => {
-    testLogger.log(`mongo stderr: ${data}`);
-  });
+    mongoProcess.stderr.on('data', (data) => {
+      testLogger.log(`mongo stderr: ${data}`);
+    });
+  }
 
   // run lotr server if not running (kill old install)
   if (lotrProcess) {
