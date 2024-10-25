@@ -1,6 +1,17 @@
+## <small>1.7.16 (2024-10-25)</small>
+
+* add level to npc/item input ([20ab4eb](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/20ab4eb))
+* allow database override uri ([d6bcd77](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d6bcd77))
+* fix null accessor ([c6754a5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c6754a5))
+* show level in small sprites ([9426748](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9426748))
+
+
+
 ## <small>1.7.15 (2024-10-09)</small>
 
 * change max animation ([461f750](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/461f750))
+* Release Patch 1.7.15 ([29c0f0a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/29c0f0a))
+* Sync version ([1dac106](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1dac106))
 
 
 
