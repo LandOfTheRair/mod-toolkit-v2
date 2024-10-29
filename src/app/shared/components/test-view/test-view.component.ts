@@ -34,7 +34,6 @@ export class TestViewComponent implements OnInit {
 
   ngOnInit() {
     const settings = this.localStorage.retrieve('testsettings');
-    console.log('old settings', settings);
     if (settings) {
       this.settings.level = settings.level;
       this.settings.map = settings.map;
