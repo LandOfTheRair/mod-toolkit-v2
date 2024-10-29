@@ -131,6 +131,8 @@ export class ModService {
 
       mod[checkKey] = structuredClone(check[checkKey]) as unknown as any;
     });
+
+    mod.events.forEach((m) => delete (m as any).extraData);
   }
 
   public resetMod(): void {

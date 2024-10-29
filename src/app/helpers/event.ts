@@ -15,7 +15,6 @@ export const defaultEvent: () => IDynamicEventMeta = () => ({
   rarity: DynamicEventRarity.Common,
   startMessage: '',
   conflicts: [],
-  extraData: {},
   map: undefined as unknown as string,
   npc: undefined as unknown as string,
 

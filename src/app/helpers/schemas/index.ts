@@ -2,6 +2,7 @@ export * from './achievement';
 export * from './dialog';
 export * from './dialog-behaviors';
 export * from './droptable';
+export * from './event';
 export * from './item';
 export * from './npc';
 export * from './quest';
