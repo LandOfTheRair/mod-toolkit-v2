@@ -1,9 +1,19 @@
+## <small>1.7.17 (2025-09-23)</small>
+
+* Add event validator ([d09e844](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d09e844))
+* closes #46 ([3098b7e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3098b7e)), closes [#46](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/46)
+* ignore console.log ([c6e1dff](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c6e1dff))
+
+
+
 ## <small>1.7.16 (2024-10-25)</small>
 
 * add level to npc/item input ([20ab4eb](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/20ab4eb))
 * allow database override uri ([d6bcd77](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d6bcd77))
 * fix null accessor ([c6754a5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c6754a5))
+* Release Patch 1.7.16 ([3223254](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3223254))
 * show level in small sprites ([9426748](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9426748))
+* Sync version ([89d8a65](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/89d8a65))
 
 
 
