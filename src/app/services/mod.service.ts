@@ -403,6 +403,105 @@ export class ModService {
     this.mod.set(mod);
   }
 
+  public isItemUsedInMod(itemName: string): boolean {
+    let used = false;
+
+    const mod = this.mod();
+
+    mod.items.forEach((item) => {
+      const contained = item.containedItems;
+      if (!contained) return;
+
+      contained.forEach((rollable) => {
+        if (rollable.result !== itemName) return;
+
+        used = true;
+      });
+    });
+
+    mod.drops.forEach((droptable) => {
+      droptable.drops.forEach((drop) => {
+        if (drop.result !== itemName) return;
+
+        used = true;
+      });
+    });
+
+    mod.quests.forEach((quest) => {
+      if (quest.requirements.item !== itemName) return;
+
+      used = true;
+    });
+
+    mod.dialogs.forEach((npcScript) => {
+      Object.keys(npcScript.items?.equipment ?? {}).forEach((slot) => {
+        const itemSlot = slot as ItemSlotType;
+        if (npcScript.items.equipment[itemSlot] !== itemName) return;
+
+        used = true;
+      });
+    });
+
+    mod.npcs.forEach((npc) => {
+      npc.items?.sack?.forEach((item) => {
+        if (item.result !== itemName) return;
+
+        used = true;
+      });
+
+      Object.keys(npc.items?.equipment ?? {}).forEach((slot) => {
+        const itemSlot = slot as ItemSlotType;
+
+        npc.items?.equipment?.[itemSlot].forEach((rollable) => {
+          if (rollable.result !== itemName) return;
+
+          used = true;
+        });
+      });
+
+      npc.drops?.forEach((rollable) => {
+        if (rollable.result !== itemName) return;
+
+        used = true;
+      });
+
+      npc.dropPool?.items?.forEach((rollable) => {
+        if (rollable.result !== itemName) return;
+
+        used = true;
+      });
+
+      if (npc.tansFor === itemName) {
+        used = true;
+      }
+    });
+
+    mod.recipes.forEach((recipe) => {
+      if (recipe.item === itemName) {
+        used = true;
+      }
+
+      if (recipe.transferOwnerFrom === itemName) {
+        used = true;
+      }
+
+      const ingredients = recipe.ingredients;
+      ingredients?.forEach((ing) => {
+        if (ing !== itemName) return;
+
+        used = true;
+      });
+
+      recipe.ozIngredients?.forEach((ing) => {
+        if (ing.display !== itemName) return;
+
+        used = true;
+      });
+    });
+
+    return used;
+  }
+
   // item functions
   public updateItemNameAcrossMod(oldName: string, newName: string) {
     if (oldName === newName) return;

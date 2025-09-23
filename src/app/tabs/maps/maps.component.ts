@@ -10,7 +10,6 @@ import { ColDef } from 'ag-grid-community';
 import { IEditorMap } from '../../../interfaces/map';
 import { id } from '../../helpers';
 import { ElectronService } from '../../services/electron.service';
-import { NotifyService } from '../../services/notify.service';
 import { PinpointService } from '../../services/pinpoint.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -24,7 +23,6 @@ type EditingType = IEditorMap;
   styleUrl: './maps.component.scss',
 })
 export class MapsComponent extends EditorBaseTableComponent<EditingType> {
-  private notifyService = inject(NotifyService);
   private electronService = inject(ElectronService);
   private pinpointService = inject(PinpointService);
 

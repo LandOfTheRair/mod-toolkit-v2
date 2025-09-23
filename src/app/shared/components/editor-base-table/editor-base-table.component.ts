@@ -5,6 +5,7 @@ import { merge } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import { HasIdentification, IModKit } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
+import { NotifyService } from '../../../services/notify.service';
 import { URLService } from '../../../services/url.service';
 
 @Component({
@@ -17,6 +18,7 @@ export class EditorBaseTableComponent<T extends HasIdentification>
 {
   private route = inject(ActivatedRoute);
   private urlService = inject(URLService);
+  protected notifyService = inject(NotifyService);
 
   private localStorage = inject(LocalStorageService);
   protected modService = inject(ModService);
@@ -107,6 +109,15 @@ export class EditorBaseTableComponent<T extends HasIdentification>
   public deleteData(data: T) {
     if (!this.dataKey) {
       throw new Error('Set a datakey for this component.');
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    if (this.modService.isItemUsedInMod((data as any).name)) {
+      this.notifyService.error({
+        message:
+          'This item is still being used in the mod. Please remove all references before deleting it.',
+      });
+      return;
     }
 
     this.modService.modDelete<T>(this.dataKey, data);
