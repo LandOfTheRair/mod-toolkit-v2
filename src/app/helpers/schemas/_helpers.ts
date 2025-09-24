@@ -28,7 +28,7 @@ import {
   Tradeskill,
 } from '../../../interfaces';
 
-const itemSlots = uniq([
+export const itemSlots = uniq([
   'weapon',
   'armor',
   'shield',

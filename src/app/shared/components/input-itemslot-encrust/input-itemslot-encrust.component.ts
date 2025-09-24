@@ -1,5 +1,6 @@
 import { Component, model, output } from '@angular/core';
-import { ItemSlot, ItemSlotType } from '../../../../interfaces';
+import { ItemSlotType } from '../../../../interfaces';
+import { itemSlots } from '../../../helpers/schemas/_helpers';
 
 @Component({
   selector: 'app-input-itemslot-encrust',
@@ -10,5 +11,5 @@ export class InputItemslotEncrustComponent {
   public itemSlots = model.required<string[]>();
   public change = output<ItemSlotType | 'weapon' | 'armor'>();
 
-  public values = [...Object.values(ItemSlot), 'weapon', 'armor'].sort();
+  public values = [itemSlots].sort();
 }
