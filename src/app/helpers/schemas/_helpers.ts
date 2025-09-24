@@ -7,6 +7,7 @@ import {
   isNumber,
   isString,
   isUndefined,
+  uniq,
 } from 'lodash';
 import {
   Allegiance,
@@ -27,14 +28,14 @@ import {
   Tradeskill,
 } from '../../../interfaces';
 
-const itemSlots = [
+const itemSlots = uniq([
   'weapon',
   'armor',
   'shield',
   'ring',
   'robe',
   ...Object.values(ItemSlot),
-] as ItemSlot[];
+]) as ItemSlot[];
 
 export function isArrayOf(validator: SchemaValidator): SchemaValidator {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
