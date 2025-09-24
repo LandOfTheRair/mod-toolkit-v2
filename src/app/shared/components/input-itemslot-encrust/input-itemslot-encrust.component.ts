@@ -11,5 +11,5 @@ export class InputItemslotEncrustComponent {
   public itemSlots = model.required<string[]>();
   public change = output<ItemSlotType | 'weapon' | 'armor'>();
 
-  public values = [itemSlots].sort();
+  public values = itemSlots.sort();
 }
