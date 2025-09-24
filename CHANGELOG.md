@@ -1,8 +1,16 @@
+## <small>1.7.18 (2025-09-24)</small>
+
+* fix: will save % should be utilized ([e10a4e8](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e10a4e8))
+
+
+
 ## <small>1.7.17 (2025-09-23)</small>
 
 * Add event validator ([d09e844](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d09e844))
 * closes #46 ([3098b7e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3098b7e)), closes [#46](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/46)
 * ignore console.log ([c6e1dff](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c6e1dff))
+* Release Patch 1.7.17 ([ac252e7](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ac252e7))
+* Sync version ([722dc18](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/722dc18))
 
 
 
