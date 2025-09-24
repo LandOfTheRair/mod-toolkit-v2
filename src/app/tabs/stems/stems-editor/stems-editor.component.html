@@ -1,63 +1,100 @@
 @let editingData = editing();
 
 <div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
-
   @for(tab of tabs; let i = $index; track tab.name) {
-  <a role="tab" class="tab" [class.hidden]="!tab.visibleIf()" [class.tab-active]="activeTab() === i"
-    (click)="changeTab(i)">
+  <a
+    role="tab"
+    class="tab"
+    [class.hidden]="!tab.visibleIf()"
+    [class.tab-active]="activeTab() === i"
+    (click)="changeTab(i)"
+  >
     {{ tab.name }}
   </a>
   }
 
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
-    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()"
-      [class.btn-disabled]="!electronService.isInElectron()">Save</button>
+    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">
+      Go Back
+    </button>
+    <button
+      class="btn-sm btn btn-secondary"
+      [disabled]="!canSave()"
+      (click)="doSave()"
+      [class.btn-disabled]="!electronService.isInElectron()"
+    >
+      Save
+    </button>
   </div>
-
 </div>
 
-@switch (activeTab()) {
-@case (0) {
+@switch (activeTab()) { @case (0) {
 <div class="flex flex-row gap-2">
   <div class="form-column">
-
     <div class="form-row">
-      <app-input-icon [(icon)]="editingData.all.icon" [color]="editingData.all.color"
-        [bgColor]="editingData.all.bgColor"></app-input-icon>
+      <app-input-icon
+        [(icon)]="editingData.all.icon"
+        [color]="editingData.all.color"
+        [bgColor]="editingData.all.bgColor"
+      ></app-input-icon>
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Name</app-input-floating-label>
-      <input [ngModel]="editingData.name" type="text" placeholder="Enter STEM name..." class="form-input"
-        (ngModelChange)="checkAndUpdateGameId($event); update('name', $event);"
-        [class.has-error]="!satisfiesUniqueName()" />
+      <input
+        [ngModel]="editingData.name"
+        type="text"
+        placeholder="Enter STEM name..."
+        class="form-input"
+        (ngModelChange)="checkAndUpdateGameId($event); update('name', $event)"
+        [class.has-error]="!satisfiesUniqueName()"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Game Id</app-input-floating-label>
-      <input [(ngModel)]="editingData._gameId" type="text" placeholder="Enter game id..." class="form-input"
-        [class.has-error]="!satisfiesUniqueGameId()" />
+      <input
+        [(ngModel)]="editingData._gameId"
+        type="text"
+        placeholder="Enter game id..."
+        class="form-input"
+        [class.has-error]="!satisfiesUniqueGameId()"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Description</app-input-floating-label>
-      <input [(ngModel)]="editingData.all.desc" type="text" placeholder="Enter STEM desc..." class="form-input" />
+      <input
+        [(ngModel)]="editingData.all.desc"
+        type="text"
+        placeholder="Enter STEM desc..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Icon Color</app-input-floating-label>
-          <input [(colorPicker)]="editingData.all.color" [(ngModel)]="editingData.all.color"
-            [style.background]="editingData.all.color" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
-            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+          <input
+            [(colorPicker)]="editingData.all.color"
+            [(ngModel)]="editingData.all.color"
+            [style.background]="editingData.all.color"
+            [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'"
+            [cpOKButton]="true"
+            [cpCancelButton]="true"
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.all.color = ''">
+          <button
+            class="ml-1 btn-sm btn btn-warning"
+            (click)="editingData.all.color = ''"
+          >
             <ng-icon name="heroFire"></ng-icon>
           </button>
         </div>
@@ -68,143 +105,221 @@
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Background Color</app-input-floating-label>
-          <input [(colorPicker)]="editingData.all.bgColor" [(ngModel)]="editingData.all.bgColor"
-            [style.background]="editingData.all.bgColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
-            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+          <input
+            [(colorPicker)]="editingData.all.bgColor"
+            [(ngModel)]="editingData.all.bgColor"
+            [style.background]="editingData.all.bgColor"
+            [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'"
+            [cpOKButton]="true"
+            [cpCancelButton]="true"
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.all.bgColor = ''">
+          <button
+            class="ml-1 btn-sm btn btn-warning"
+            (click)="editingData.all.bgColor = ''"
+          >
             <ng-icon name="heroFire"></ng-icon>
           </button>
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="form-column">
-
     <div class="form-row pl-1">
-      <label class="label cursor-pointer" floatUi="Whether or not this STEM has a Spell.">
-        <input type="checkbox" [ngModel]="editingData._hasSpell" (ngModelChange)="update('_hasSpell', $event)"
-          class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not this STEM has a Spell."
+      >
+        <input
+          type="checkbox"
+          [ngModel]="editingData._hasSpell"
+          (ngModelChange)="update('_hasSpell', $event)"
+          class="checkbox"
+        />
         <span class="label-text">Has Spell</span>
       </label>
     </div>
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer" floatUi="Whether or not this STEM has a Trait.">
-        <input type="checkbox" [ngModel]="editingData._hasTrait" (ngModelChange)="update('_hasTrait', $event)"
-          class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not this STEM has a Trait."
+      >
+        <input
+          type="checkbox"
+          [ngModel]="editingData._hasTrait"
+          (ngModelChange)="update('_hasTrait', $event)"
+          class="checkbox"
+        />
         <span class="label-text">Has Trait</span>
       </label>
     </div>
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer" floatUi="Whether or not this STEM has a Effect.">
-        <input type="checkbox" [ngModel]="editingData._hasEffect" (ngModelChange)="update('_hasEffect', $event)"
-          class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not this STEM has a Effect."
+      >
+        <input
+          type="checkbox"
+          [ngModel]="editingData._hasEffect"
+          (ngModelChange)="update('_hasEffect', $event)"
+          class="checkbox"
+        />
         <span class="label-text">Has Effect</span>
       </label>
     </div>
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer" floatUi="Whether or not this STEM has a Macro.">
-        <input type="checkbox" [ngModel]="editingData._hasMacro" (ngModelChange)="update('_hasMacro', $event)"
-          class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not this STEM has a Macro."
+      >
+        <input
+          type="checkbox"
+          [ngModel]="editingData._hasMacro"
+          (ngModelChange)="update('_hasMacro', $event)"
+          class="checkbox"
+        />
         <span class="label-text">Has Macro</span>
       </label>
     </div>
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer"
-        floatUi="Whether or not this STEM only applies to NPCs. Generally, this means this ability has corresponding scripts to go with it that can't be handled here.">
-        <input type="checkbox" [ngModel]="editingData._isNPCOnly" (ngModelChange)="update('_isNPCOnly', $event)"
-          class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not this STEM only applies to NPCs. Generally, this means this ability has corresponding scripts to go with it that can't be handled here."
+      >
+        <input
+          type="checkbox"
+          [ngModel]="editingData._isNPCOnly"
+          (ngModelChange)="update('_isNPCOnly', $event)"
+          class="checkbox"
+        />
         <span class="label-text">Is NPC Only</span>
       </label>
     </div>
-
   </div>
 
-  <div class="form-column">
-  </div>
+  <div class="form-column"></div>
 </div>
-}
-
-@case (1) {
+} @case (1) {
 <ng-container *ngTemplateOutlet="defaults"></ng-container>
 
 <div class="flex flex-row gap-2">
   <div class="form-column">
-
     <div class="form-row">
       <app-input-floating-label>Spell Name</app-input-floating-label>
-      <input [(ngModel)]="editingData.spell.spellName" type="text"
-        [placeholder]="'Enter spell name (defaults to ' + editingData._gameId + ')'" class="form-input" />
+      <input
+        [(ngModel)]="editingData.spell.spellName"
+        type="text"
+        [placeholder]="
+          'Enter spell name (defaults to ' + editingData._gameId + ')'
+        "
+        class="form-input"
+      />
     </div>
-
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label>Max Skill For Gains</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.maxSkillForGain" type="number" min="0" placeholder="Enter max skill..."
-            class="form-input" />
+          <app-input-floating-label
+            >Max Skill For Gains</app-input-floating-label
+          >
+          <input
+            [(ngModel)]="editingData.spell.maxSkillForGain"
+            type="number"
+            min="0"
+            placeholder="Enter max skill..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label>Bonus Agro On Cast</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.spellMeta.bonusAgro" type="number" min="0"
-            placeholder="Enter bonus agro..." class="form-input" />
+          <app-input-floating-label
+            >Bonus Agro On Cast</app-input-floating-label
+          >
+          <input
+            [(ngModel)]="editingData.spell.spellMeta.bonusAgro"
+            type="number"
+            min="0"
+            placeholder="Enter bonus agro..."
+            class="form-input"
+          />
         </div>
       </div>
     </div>
-
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>MP Cost</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.mpCost" type="number" min="0" placeholder="Enter MP cost..."
-            class="form-input" />
+          <input
+            [(ngModel)]="editingData.spell.mpCost"
+            type="number"
+            min="0"
+            placeholder="Enter MP cost..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Cast Time</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.castTime" type="number" min="0" placeholder="Enter cast time..."
-            class="form-input" />
+          <input
+            [(ngModel)]="editingData.spell.castTime"
+            type="number"
+            min="0"
+            placeholder="Enter cast time..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Cooldown</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.cooldown" type="number" min="0" placeholder="Enter cooldown..."
-            class="form-input" />
+          <input
+            [(ngModel)]="editingData.spell.cooldown"
+            type="number"
+            min="0"
+            placeholder="Enter cooldown..."
+            class="form-input"
+          />
         </div>
       </div>
     </div>
 
     <div class="form-row">
-      <app-input-damageclass [(damageClass)]="editingData.spell.damageClass"
-        label="Damage Class"></app-input-damageclass>
+      <app-input-damageclass
+        [(damageClass)]="editingData.spell.damageClass"
+        label="Damage Class"
+      ></app-input-damageclass>
     </div>
-
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell damages the target.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.doesAttack"
-              (ngModelChange)="setSpellAttack($event)" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell damages the target."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.doesAttack"
+              (ngModelChange)="setSpellAttack($event)"
+              class="checkbox"
+            />
             <span class="label-text">Is Attack</span>
           </label>
         </div>
@@ -212,9 +327,16 @@
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell heals the target.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.doesHeal"
-              (ngModelChange)="setSpellHeal($event)" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell heals the target."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.doesHeal"
+              (ngModelChange)="setSpellHeal($event)"
+              class="checkbox"
+            />
             <span class="label-text">Is Heal</span>
           </label>
         </div>
@@ -222,9 +344,16 @@
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell is an over-time effect.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.doesOvertime"
-              (ngModelChange)="setSpellOvertime($event)" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell is an over-time effect."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.doesOvertime"
+              (ngModelChange)="setSpellOvertime($event)"
+              class="checkbox"
+            />
             <span class="label-text">Is Overtime</span>
           </label>
         </div>
@@ -234,8 +363,15 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell targets the party of the caster.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.targetsParty" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell targets the party of the caster."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.targetsParty"
+              class="checkbox"
+            />
             <span class="label-text">Targets Party</span>
           </label>
         </div>
@@ -243,8 +379,15 @@
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell can only target the caster.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.targetsCaster" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell can only target the caster."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.targetsCaster"
+              class="checkbox"
+            />
             <span class="label-text">Targets Caster</span>
           </label>
         </div>
@@ -252,8 +395,15 @@
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell can target hostile targets.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.noHostileTarget" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell can target hostile targets."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.noHostileTarget"
+              class="checkbox"
+            />
             <span class="label-text">No Hostile Targets</span>
           </label>
         </div>
@@ -263,17 +413,30 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label>Potency Multiplier</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.potencyMultiplier" type="number" min="0"
-            placeholder="Enter multiplier..." class="form-input" />
+          <app-input-floating-label
+            >Potency Multiplier</app-input-floating-label
+          >
+          <input
+            [(ngModel)]="editingData.spell.potencyMultiplier"
+            type="number"
+            min="0"
+            placeholder="Enter multiplier..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer"
-            floatUi="Whether or not the spell potency is determined solely by the skill of the caster (normally, this also factors in stats and other information).">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.useSkillAsPotency" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell potency is determined solely by the skill of the caster (normally, this also factors in stats and other information)."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.useSkillAsPotency"
+              class="checkbox"
+            />
             <span class="label-text">Skill -> Potency</span>
           </label>
         </div>
@@ -281,9 +444,15 @@
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer"
-            floatUi="Whether or not the spell potency should be static (useful for buffs, so they always cast with the same duration).">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.staticPotency" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell potency should be static (useful for buffs, so they always cast with the same duration)."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.staticPotency"
+              class="checkbox"
+            />
             <span class="label-text">Static Potency</span>
           </label>
         </div>
@@ -293,9 +462,15 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer"
-            floatUi="Whether or not to convert the duration of the spell into charges instead.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.useDurationAsCharges" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not to convert the duration of the spell into charges instead."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.useDurationAsCharges"
+              class="checkbox"
+            />
             <span class="label-text">Duration -> Charges</span>
           </label>
         </div>
@@ -306,34 +481,53 @@
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Bonus Rolls Min</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.bonusRollsMin" type="number" min="0" placeholder="Enter min rolls..."
-            class="form-input" />
+          <input
+            [(ngModel)]="editingData.spell.bonusRollsMin"
+            type="number"
+            min="0"
+            placeholder="Enter min rolls..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Bonus Rolls Max</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.bonusRollsMax" type="number" min="0" placeholder="Enter max rolls..."
-            class="form-input" />
+          <input
+            [(ngModel)]="editingData.spell.bonusRollsMax"
+            type="number"
+            min="0"
+            placeholder="Enter max rolls..."
+            class="form-input"
+          />
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="form-column">
     <div class="form-row">
-      <app-input-effect floatUi="Only set this if your spell effect is simple and has no tick effects."
+      <app-input-effect
+        floatUi="Only set this if your spell effect is simple and has no tick effects."
         [defaultValue]="editingData.spell.spellMeta.linkedEffectName"
-        (change)="editingData.spell.spellMeta.linkedEffectName = $event" label="Linked Effect"></app-input-effect>
+        (change)="editingData.spell.spellMeta.linkedEffectName = $event"
+        label="Linked Effect"
+      ></app-input-effect>
     </div>
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell is an AoE.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.aoe" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell is an AoE."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.aoe"
+              class="checkbox"
+            />
             <span class="label-text">Is AoE</span>
           </label>
         </div>
@@ -342,9 +536,15 @@
       <div class="form-column">
         @if(editingData.spell.spellMeta.aoe) {
         <div class="form-row pl-1">
-          <label class="label cursor-pointer"
-            floatUi="Whether or not the spell can be cast directionally from the current tile.">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.allowDirectional" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell can be cast directionally from the current tile."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.allowDirectional"
+              class="checkbox"
+            />
             <span class="label-text">Allow Directional Casting</span>
           </label>
         </div>
@@ -357,43 +557,70 @@
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>AoE Range</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.spellMeta.range" type="number" min="0" max="5"
-            placeholder="Enter range..." class="form-input" />
+          <input
+            [(ngModel)]="editingData.spell.spellMeta.range"
+            type="number"
+            min="0"
+            max="5"
+            placeholder="Enter range..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
-          <app-input-trait [(trait)]="editingData.spell.spellMeta.aoeRangeTrait"
-            label="AoE Range Trait"></app-input-trait>
+          <app-input-trait
+            [(trait)]="editingData.spell.spellMeta.aoeRangeTrait"
+            label="AoE Range Trait"
+          ></app-input-trait>
         </div>
       </div>
     </div>
-    }
-
-    @if(editingData.spell.spellMeta.doesAttack || editingData.spell.spellMeta.doesOvertime) {
+    } @if(editingData.spell.spellMeta.doesAttack ||
+    editingData.spell.spellMeta.doesOvertime) {
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label>Will Save Threshold</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.willSaveThreshold" type="number" min="0"
-            placeholder="Enter threshold..." class="form-input" />
+          <app-input-floating-label
+            >Will Save Threshold</app-input-floating-label
+          >
+          <input
+            [(ngModel)]="editingData.spell.willSaveThreshold"
+            type="number"
+            min="0"
+            placeholder="Enter threshold..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Will Save %</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.willSaveThreshold" type="number" min="0" max="100"
-            placeholder="Enter save chance %..." class="form-input" />
+          <input
+            [(ngModel)]="editingData.spell.willSavePercent"
+            type="number"
+            min="0"
+            max="100"
+            placeholder="Enter save chance %..."
+            class="form-input"
+          />
         </div>
       </div>
     </div>
     }
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer" floatUi="Whether or not the spell can be reflected back to the caster.">
-        <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.noReflect" class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not the spell can be reflected back to the caster."
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="editingData.spell.spellMeta.noReflect"
+          class="checkbox"
+        />
         <span class="label-text">No Reflect</span>
       </label>
     </div>
@@ -401,8 +628,15 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the spell can be resisted (no damage).">
-            <input type="checkbox" [(ngModel)]="editingData.spell.spellMeta.canBeResisted" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the spell can be resisted (no damage)."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.spell.spellMeta.canBeResisted"
+              class="checkbox"
+            />
             <span class="label-text">Can Be Resisted</span>
           </label>
         </div>
@@ -411,8 +645,11 @@
       <div class="form-column">
         @if(editingData.spell.spellMeta.canBeResisted) {
         <div class="form-row">
-          <app-input-trait [(trait)]="editingData.spell.spellMeta.resistLowerTrait" label="Resist Lower Trait"
-            floatUi="This trait lowers the resist of the opponent, making it more likely to hit."></app-input-trait>
+          <app-input-trait
+            [(trait)]="editingData.spell.spellMeta.resistLowerTrait"
+            label="Resist Lower Trait"
+            floatUi="This trait lowers the resist of the opponent, making it more likely to hit."
+          ></app-input-trait>
         </div>
         }
       </div>
@@ -420,51 +657,77 @@
 
     @if(editingData.spell.spellMeta.doesAttack) {
     <div class="form-row">
-      <app-input-trait [(trait)]="editingData.spell.spellMeta.extraAttackTrait" label="Extra Attack Trait"
-        floatUi="This trait increases the number of attacks a spell does."></app-input-trait>
+      <app-input-trait
+        [(trait)]="editingData.spell.spellMeta.extraAttackTrait"
+        label="Extra Attack Trait"
+        floatUi="This trait increases the number of attacks a spell does."
+      ></app-input-trait>
     </div>
     }
-
   </div>
 
   <div class="form-column">
-
     <div class="form-row">
       <app-input-floating-label>Caster Message</app-input-floating-label>
-      <input [(ngModel)]="editingData.spell.spellMeta.casterMessage" type="text" placeholder="Enter caster message..."
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.spell.spellMeta.casterMessage"
+        type="text"
+        placeholder="Enter caster message..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Caster Attack Message</app-input-floating-label>
-      <input [(ngModel)]="editingData.spell.spellMeta.casterAttackMessage" type="text"
-        placeholder="Enter caster attack message..." class="form-input" />
+      <input
+        [(ngModel)]="editingData.spell.spellMeta.casterAttackMessage"
+        type="text"
+        placeholder="Enter caster attack message..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
-      <app-input-sfx [(sfx)]="editingData.spell.spellMeta.casterSfx" label="Caster SFX"></app-input-sfx>
+      <app-input-sfx
+        [(sfx)]="editingData.spell.spellMeta.casterSfx"
+        label="Caster SFX"
+      ></app-input-sfx>
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Target Message</app-input-floating-label>
-      <input [(ngModel)]="editingData.spell.spellMeta.targetMessage" type="text" placeholder="Enter target message..."
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.spell.spellMeta.targetMessage"
+        type="text"
+        placeholder="Enter target message..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Target Attack Message</app-input-floating-label>
-      <input [(ngModel)]="editingData.spell.spellMeta.targetAttackMessage" type="text"
-        placeholder="Enter target attack message..." class="form-input" />
+      <input
+        [(ngModel)]="editingData.spell.spellMeta.targetAttackMessage"
+        type="text"
+        placeholder="Enter target attack message..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
-      <app-input-sfx [(sfx)]="editingData.spell.spellMeta.targetSfx" label="Target SFX"></app-input-sfx>
+      <app-input-sfx
+        [(sfx)]="editingData.spell.spellMeta.targetSfx"
+        label="Target SFX"
+      ></app-input-sfx>
     </div>
   </div>
 
   <div class="form-column">
     <div class="form-row">
-      <button class="btn btn-accent btn-sm w-full" (click)="addSpellPotencyMultiplier()">
+      <button
+        class="btn btn-accent btn-sm w-full"
+        (click)="addSpellPotencyMultiplier()"
+      >
         Add spell multiplier
       </button>
     </div>
@@ -474,58 +737,35 @@
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Caster Skill</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.skillMultiplierChanges[$index][0]" min="0" type="number"
-            placeholder="Choose skill..." class="form-input" />
+          <input
+            [(ngModel)]="editingData.spell.skillMultiplierChanges[$index][0]"
+            min="0"
+            type="number"
+            placeholder="Choose skill..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Potency</app-input-floating-label>
-          <input [(ngModel)]="editingData.spell.skillMultiplierChanges[$index][1]" min="0" type="number"
-            placeholder="Choose potency..." class="form-input" />
+          <input
+            [(ngModel)]="editingData.spell.skillMultiplierChanges[$index][1]"
+            min="0"
+            type="number"
+            placeholder="Choose potency..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeSpellPotencyMultiplier($index)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-    }
-
-    <div class="form-row split">
-
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-npc [(npc)]="currentSpellNPC" label="Add Summonable NPC"></app-input-npc>
-        </div>
-      </div>
-
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="btn btn-accent btn-sm" [disabled]="!currentSpellNPC() || hasSpellSummonNPC(currentSpellNPC())"
-            (click)="addSpellSummonNPC(currentSpellNPC())">
-            <ng-icon name="heroPlus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    @for(npc of sortSpellSummonNPCs(editingData.spell.spellMeta.creatureSummoned); track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-sprite-with-inline-name [name]="npc" type="creatures"></app-sprite-with-inline-name>
-        </div>
-      </div>
-
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeSpellSummonNPC($index)">
+          <button
+            class="ml-1 btn btn-error btn-sm"
+            (click)="removeSpellPotencyMultiplier($index)"
+          >
             <ng-icon name="heroMinus"></ng-icon>
           </button>
         </div>
@@ -536,22 +776,83 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-effect [(effect)]="currentSpellFizzleEffect" label="Add Fizzle Effect"></app-input-effect>
+          <app-input-npc
+            [(npc)]="currentSpellNPC"
+            label="Add Summonable NPC"
+          ></app-input-npc>
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="btn btn-accent btn-sm"
-            [disabled]="!currentSpellFizzleEffect() || hasSpellFizzleEffect(currentSpellFizzleEffect()?.value)"
-            (click)="addSpellFizzleEffect(currentSpellFizzleEffect()?.value)">
+          <button
+            class="btn btn-accent btn-sm"
+            [disabled]="
+              !currentSpellNPC() || hasSpellSummonNPC(currentSpellNPC())
+            "
+            (click)="addSpellSummonNPC(currentSpellNPC())"
+          >
             <ng-icon name="heroPlus"></ng-icon>
           </button>
         </div>
       </div>
     </div>
 
-    @for(effect of sortSpellFizzleEffects(editingData.spell.spellMeta.fizzledBy); track $index) {
+    @for(npc of
+    sortSpellSummonNPCs(editingData.spell.spellMeta.creatureSummoned); track
+    $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-sprite-with-inline-name
+            [name]="npc"
+            type="creatures"
+          ></app-sprite-with-inline-name>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button
+            class="ml-1 btn btn-error btn-sm"
+            (click)="removeSpellSummonNPC($index)"
+          >
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-effect
+            [(effect)]="currentSpellFizzleEffect"
+            label="Add Fizzle Effect"
+          ></app-input-effect>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button
+            class="btn btn-accent btn-sm"
+            [disabled]="
+              !currentSpellFizzleEffect() ||
+              hasSpellFizzleEffect(currentSpellFizzleEffect()?.value)
+            "
+            (click)="addSpellFizzleEffect(currentSpellFizzleEffect()?.value)"
+          >
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(effect of
+    sortSpellFizzleEffects(editingData.spell.spellMeta.fizzledBy); track $index)
+    {
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
@@ -561,7 +862,10 @@
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeSpellFizzleEffect($index)">
+          <button
+            class="ml-1 btn btn-error btn-sm"
+            (click)="removeSpellFizzleEffect($index)"
+          >
             <ng-icon name="heroMinus"></ng-icon>
           </button>
         </div>
@@ -571,79 +875,105 @@
   </div>
 </div>
 
-<hr class="mt-3">
+<hr class="mt-3" />
 
 <h2 class="text-xl font-bold mb-2 mt-2 ml-1">Potency Calculator</h2>
 
 <div class="flex flex-row gap-2">
   <div class="form-column max-w-[50%]">
     <div class="form-row split">
-
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Skill Level</app-input-floating-label>
-          <input [(ngModel)]="calcSkill" min="1" type="number" placeholder="Choose skill..." class="form-input" />
+          <input
+            [(ngModel)]="calcSkill"
+            min="1"
+            type="number"
+            placeholder="Choose skill..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Stat Value</app-input-floating-label>
-          <input [(ngModel)]="calcStat" min="1" type="number" placeholder="Choose stat..." class="form-input" />
+          <input
+            [(ngModel)]="calcStat"
+            min="1"
+            type="number"
+            placeholder="Choose stat..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row flex items-center pl-3">
           <app-input-floating-label>Resulting Potency</app-input-floating-label>
-          <div class="mt-1">
-            {{ calcPotency.min }} - {{ calcPotency.max }}
-          </div>
+          <div class="mt-1">{{ calcPotency.min }} - {{ calcPotency.max }}</div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
-}
-
-@case (2) {
+} @case (2) {
 <ng-container *ngTemplateOutlet="defaults"></ng-container>
 
 <div class="flex flex-row gap-2">
   <div class="form-column">
-
     <div class="form-row">
       <app-input-floating-label>Name</app-input-floating-label>
-      <input [(ngModel)]="editingData.trait.name" type="text" [placeholder]="'Defaults to ' + editingData.name"
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.trait.name"
+        type="text"
+        [placeholder]="'Defaults to ' + editingData.name"
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Tooltip Description</app-input-floating-label>
-      <input [(ngModel)]="editingData.trait.desc" type="text" [placeholder]="'Defaults to ' + editingData.all.desc"
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.trait.desc"
+        type="text"
+        [placeholder]="'Defaults to ' + editingData.all.desc"
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
-      <app-input-icon [(icon)]="editingData.trait.icon" [color]="editingData.trait.iconColor || editingData.all.color"
+      <app-input-icon
+        [(icon)]="editingData.trait.icon"
+        [color]="editingData.trait.iconColor || editingData.all.color"
         [bgColor]="editingData.trait.iconBgColor || editingData.all.bgColor"
-        [borderColor]="editingData.trait.borderColor"></app-input-icon>
+        [borderColor]="editingData.trait.borderColor"
+      ></app-input-icon>
     </div>
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Icon Color</app-input-floating-label>
-          <input [(colorPicker)]="editingData.trait.iconColor" [(ngModel)]="editingData.trait.iconColor"
-            [style.background]="editingData.trait.iconColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
-            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+          <input
+            [(colorPicker)]="editingData.trait.iconColor"
+            [(ngModel)]="editingData.trait.iconColor"
+            [style.background]="editingData.trait.iconColor"
+            [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'"
+            [cpOKButton]="true"
+            [cpCancelButton]="true"
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.trait.iconColor = ''">
+          <button
+            class="ml-1 btn-sm btn btn-warning"
+            (click)="editingData.trait.iconColor = ''"
+          >
             <ng-icon name="heroFire"></ng-icon>
           </button>
         </div>
@@ -653,17 +983,30 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label>Icon Background Color</app-input-floating-label>
-          <input [(colorPicker)]="editingData.trait.iconBgColor" [(ngModel)]="editingData.trait.iconBgColor"
-            [cpDisabled]="!!editingData.trait.isAncient" [disabled]="!!editingData.trait.isAncient"
-            [style.background]="editingData.trait.iconBgColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
-            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+          <app-input-floating-label
+            >Icon Background Color</app-input-floating-label
+          >
+          <input
+            [(colorPicker)]="editingData.trait.iconBgColor"
+            [(ngModel)]="editingData.trait.iconBgColor"
+            [cpDisabled]="!!editingData.trait.isAncient"
+            [disabled]="!!editingData.trait.isAncient"
+            [style.background]="editingData.trait.iconBgColor"
+            [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'"
+            [cpOKButton]="true"
+            [cpCancelButton]="true"
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.trait.iconBgColor = ''">
+          <button
+            class="ml-1 btn-sm btn btn-warning"
+            (click)="editingData.trait.iconBgColor = ''"
+          >
             <ng-icon name="heroFire"></ng-icon>
           </button>
         </div>
@@ -674,15 +1017,25 @@
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Border Color</app-input-floating-label>
-          <input [(colorPicker)]="editingData.trait.borderColor" [(ngModel)]="editingData.trait.borderColor"
-            [style.background]="editingData.trait.borderColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
-            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+          <input
+            [(colorPicker)]="editingData.trait.borderColor"
+            [(ngModel)]="editingData.trait.borderColor"
+            [style.background]="editingData.trait.borderColor"
+            [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'"
+            [cpOKButton]="true"
+            [cpCancelButton]="true"
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.trait.borderColor = ''">
+          <button
+            class="ml-1 btn-sm btn btn-warning"
+            (click)="editingData.trait.borderColor = ''"
+          >
             <ng-icon name="heroFire"></ng-icon>
           </button>
         </div>
@@ -693,72 +1046,107 @@
   <div class="form-column">
     <div class="form-row">
       <app-input-floating-label>Value Per Tier</app-input-floating-label>
-      <input [(ngModel)]="editingData.trait.valuePerTier" type="number" min="0" placeholder="Enter value per tier..."
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.trait.valuePerTier"
+        type="number"
+        min="0"
+        placeholder="Enter value per tier..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Spell Given</app-input-floating-label>
-      <input [(ngModel)]="editingData.trait.spellGiven" type="text"
-        [placeholder]="'Defaults to ' + editingData._gameId + ' (if Spell entry exists)'" class="form-input" />
+      <input
+        [(ngModel)]="editingData.trait.spellGiven"
+        type="text"
+        [placeholder]="
+          'Defaults to ' + editingData._gameId + ' (if Spell entry exists)'
+        "
+        class="form-input"
+      />
     </div>
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer"
-        floatUi="Whether or not the trait is an ancient trait. Has some special implications">
-        <input type="checkbox" [(ngModel)]="editingData.trait.isAncient" (ngModelChange)="toggleAncient()"
-          class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not the trait is an ancient trait. Has some special implications"
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="editingData.trait.isAncient"
+          (ngModelChange)="toggleAncient()"
+          class="checkbox"
+        />
         <span class="label-text">Is Ancient</span>
       </label>
     </div>
   </div>
 
-
   <div class="form-column">
-
-    <app-edit-statobject [(statObject)]="editingData.trait.statsGiven!"></app-edit-statobject>
-
+    <app-edit-statobject
+      [(statObject)]="editingData.trait.statsGiven!"
+    ></app-edit-statobject>
   </div>
 </div>
-}
-
-@case (3) {
+} @case (3) {
 <ng-container *ngTemplateOutlet="defaults"></ng-container>
 
 <div class="flex flex-row gap-2">
   <div class="form-column">
-
     <div class="form-row">
       <app-input-floating-label>Name</app-input-floating-label>
-      <input [(ngModel)]="editingData.effect.tooltip.name" type="text" [placeholder]="'Defaults to ' + editingData.name"
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.effect.tooltip.name"
+        type="text"
+        [placeholder]="'Defaults to ' + editingData.name"
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Tooltip Description</app-input-floating-label>
-      <input [(ngModel)]="editingData.effect.tooltip.desc" type="text"
-        [placeholder]="'Defaults to ' + editingData.all.desc" class="form-input" />
+      <input
+        [(ngModel)]="editingData.effect.tooltip.desc"
+        type="text"
+        [placeholder]="'Defaults to ' + editingData.all.desc"
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
-      <app-input-icon [(icon)]="editingData.effect.tooltip.icon"
+      <app-input-icon
+        [(icon)]="editingData.effect.tooltip.icon"
         [color]="editingData.effect.tooltip.color || editingData.all.color"
-        [bgColor]="editingData.effect.tooltip.bgColor || editingData.all.bgColor"></app-input-icon>
+        [bgColor]="
+          editingData.effect.tooltip.bgColor || editingData.all.bgColor
+        "
+      ></app-input-icon>
     </div>
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Icon Color</app-input-floating-label>
-          <input [(colorPicker)]="editingData.effect.tooltip.color" [(ngModel)]="editingData.effect.tooltip.color"
-            [style.background]="editingData.effect.tooltip.color" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
-            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+          <input
+            [(colorPicker)]="editingData.effect.tooltip.color"
+            [(ngModel)]="editingData.effect.tooltip.color"
+            [style.background]="editingData.effect.tooltip.color"
+            [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'"
+            [cpOKButton]="true"
+            [cpCancelButton]="true"
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.effect.tooltip.color = ''">
+          <button
+            class="ml-1 btn-sm btn btn-warning"
+            (click)="editingData.effect.tooltip.color = ''"
+          >
             <ng-icon name="heroFire"></ng-icon>
           </button>
         </div>
@@ -769,15 +1157,25 @@
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Background Color</app-input-floating-label>
-          <input [(colorPicker)]="editingData.effect.tooltip.bgColor" [(ngModel)]="editingData.effect.tooltip.bgColor"
-            [style.background]="editingData.effect.tooltip.bgColor" [cpAlphaChannel]="'disabled'"
-            [cpOutputFormat]="'hex'" [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+          <input
+            [(colorPicker)]="editingData.effect.tooltip.bgColor"
+            [(ngModel)]="editingData.effect.tooltip.bgColor"
+            [style.background]="editingData.effect.tooltip.bgColor"
+            [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'"
+            [cpOKButton]="true"
+            [cpCancelButton]="true"
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.effect.tooltip.bgColor = ''">
+          <button
+            class="ml-1 btn-sm btn btn-warning"
+            (click)="editingData.effect.tooltip.bgColor = ''"
+          >
             <ng-icon name="heroFire"></ng-icon>
           </button>
         </div>
@@ -785,56 +1183,83 @@
     </div>
 
     <div class="form-row">
-      <app-input-sprite [(sprite)]="editingData.effect.effect.extra.spriteChange" type="creatures"></app-input-sprite>
+      <app-input-sprite
+        [(sprite)]="editingData.effect.effect.extra.spriteChange"
+        type="creatures"
+      ></app-input-sprite>
     </div>
   </div>
 
   <div class="form-column">
     <div class="form-row">
-      <app-input-bufftype [(buffType)]="editingData.effect.effect.type"
-        (buffTypeChange)="changeBuffType($event)"></app-input-bufftype>
+      <app-input-bufftype
+        [(buffType)]="editingData.effect.effect.type"
+        (buffTypeChange)="changeBuffType($event)"
+      ></app-input-bufftype>
     </div>
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Default Duration</app-input-floating-label>
-          <input [(ngModel)]="editingData.effect.effect.duration" type="number" min="0"
-            placeholder="Enter duration (ticks)..." class="form-input" />
+          <input
+            [(ngModel)]="editingData.effect.effect.duration"
+            type="number"
+            min="0"
+            placeholder="Enter duration (ticks)..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Scale Duration</app-input-floating-label>
-          <input [(ngModel)]="editingData.effect.effect.durationScaleValue" type="number" min="0"
-            placeholder="Enter duration (ticks)..." class="form-input" />
+          <input
+            [(ngModel)]="editingData.effect.effect.durationScaleValue"
+            type="number"
+            min="0"
+            placeholder="Enter duration (ticks)..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
-          <app-input-stat [(stat)]="editingData.effect.effect.durationScaleStat" [allowCore]="true"
-            label="Scale Stat"></app-input-stat>
+          <app-input-stat
+            [(stat)]="editingData.effect.effect.durationScaleStat"
+            [allowCore]="true"
+            label="Scale Stat"
+          ></app-input-stat>
         </div>
       </div>
     </div>
-
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Potency</app-input-floating-label>
-          <input [(ngModel)]="editingData.effect.effect.extra.potency" type="number" min="0"
-            placeholder="Enter potency..." class="form-input" />
+          <input
+            [(ngModel)]="editingData.effect.effect.extra.potency"
+            type="number"
+            min="0"
+            placeholder="Enter potency..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Charges</app-input-floating-label>
-          <input [(ngModel)]="editingData.effect.effect.extra.charges" type="number" min="0"
-            placeholder="Enter charges..." class="form-input" />
+          <input
+            [(ngModel)]="editingData.effect.effect.extra.charges"
+            type="number"
+            min="0"
+            placeholder="Enter charges..."
+            class="form-input"
+          />
         </div>
       </div>
     </div>
@@ -842,9 +1267,15 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer"
-            floatUi="Whether or not you should be able to right-click remove this effect.">
-            <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.canRemove" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not you should be able to right-click remove this effect."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.effect.effect.extra.canRemove"
+              class="checkbox"
+            />
             <span class="label-text">Can Remove Effect</span>
           </label>
         </div>
@@ -852,9 +1283,15 @@
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer"
-            floatUi="Whether or not the effect itself should tick on a timer. Most often, this is not an option you want to set.">
-            <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.doesTick" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the effect itself should tick on a timer. Most often, this is not an option you want to set."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.effect.effect.extra.doesTick"
+              class="checkbox"
+            />
             <span class="label-text">Does Tick</span>
           </label>
         </div>
@@ -864,8 +1301,15 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not the effect should persist through death.">
-            <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.persistThroughDeath" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not the effect should persist through death."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.effect.effect.extra.persistThroughDeath"
+              class="checkbox"
+            />
             <span class="label-text">Persists Through Death</span>
           </label>
         </div>
@@ -873,10 +1317,17 @@
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer"
-            floatUi="Whether or not you can overlap with an effect if this is from equipping.">
-            <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.canOverlapUniqueIfEquipped"
-              class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not you can overlap with an effect if this is from equipping."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="
+                editingData.effect.effect.extra.canOverlapUniqueIfEquipped
+              "
+              class="checkbox"
+            />
             <span class="label-text">Can Overlap Unique If Equipped</span>
           </label>
         </div>
@@ -886,120 +1337,181 @@
     <div class="form-row">
       <div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
         @for(tab of effectUniqueTabs; let i = $index; track tab.name) {
-        <a role="tab" class="tab" [class.tab-active]="effectUniqueType() === tab.type"
-          (click)="changeUniqueType(tab.setTo)">
+        <a
+          role="tab"
+          class="tab"
+          [class.tab-active]="effectUniqueType() === tab.type"
+          (click)="changeUniqueType(tab.setTo)"
+        >
           {{ tab.name }}
         </a>
         }
       </div>
     </div>
 
-    @switch(effectUniqueType()) {
-    @case ('boolean') {
+    @switch(effectUniqueType()) { @case ('boolean') {
     <div class="form-row pl-1">
-      <label class="label cursor-pointer"
-        floatUi="Whether or not this effect is unique, which means it will not be applied multiple times to a creature.">
-        <input type="checkbox" [(ngModel)]="editingData.effect.effect.extra.unique" class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not this effect is unique, which means it will not be applied multiple times to a creature."
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="editingData.effect.effect.extra.unique"
+          class="checkbox"
+        />
         <span class="label-text">Is Unique</span>
       </label>
     </div>
-    }
-
-    @case ('string') {
+    } @case ('string') {
     <div class="form-row">
       <app-input-floating-label>Unique Spell Class</app-input-floating-label>
-      <input [(ngModel)]="editingData.effect.effect.extra.unique" type="text" placeholder="Enter spell class..."
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.effect.effect.extra.unique"
+        type="text"
+        placeholder="Enter spell class..."
+        class="form-input"
+      />
     </div>
-    }
-    }
+    } }
 
-    <app-edit-statobject [(statObject)]="editingData.effect.effect.extra.statChanges"></app-edit-statobject>
+    <app-edit-statobject
+      [(statObject)]="editingData.effect.effect.extra.statChanges"
+    ></app-edit-statobject>
   </div>
 
   <div class="form-column">
     <div class="form-row">
-      <app-input-effect [defaultValue]="editingData.effect.effectMeta.effectRef"
-        (change)="editingData.effect.effectMeta.effectRef = $event" label="Effect Ref"></app-input-effect>
+      <app-input-effect
+        [defaultValue]="editingData.effect.effectMeta.effectRef"
+        (change)="editingData.effect.effectMeta.effectRef = $event"
+        label="Effect Ref"
+      ></app-input-effect>
     </div>
 
     <div class="form-row">
-      <app-input-effect [defaultValue]="editingData.effect.effectMeta.recentlyRef"
-        (change)="editingData.effect.effectMeta.recentlyRef = $event" label="Recently Ref"></app-input-effect>
+      <app-input-effect
+        [defaultValue]="editingData.effect.effectMeta.recentlyRef"
+        (change)="editingData.effect.effectMeta.recentlyRef = $event"
+        label="Recently Ref"
+      ></app-input-effect>
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Cast Message</app-input-floating-label>
-      <input [(ngModel)]="editingData.effect.effectMeta.castMessage" type="text" placeholder="Enter cast message..."
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.effect.effectMeta.castMessage"
+        type="text"
+        placeholder="Enter cast message..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Apply Message</app-input-floating-label>
-      <input [(ngModel)]="editingData.effect.effectMeta.applyMessage" type="text" placeholder="Enter apply message..."
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.effect.effectMeta.applyMessage"
+        type="text"
+        placeholder="Enter apply message..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Unapply Message</app-input-floating-label>
-      <input [(ngModel)]="editingData.effect.effectMeta.unapplyMesage" type="text"
-        placeholder="Enter unapply message..." class="form-input" />
+      <input
+        [(ngModel)]="editingData.effect.effectMeta.unapplyMesage"
+        type="text"
+        placeholder="Enter unapply message..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
-      <app-input-sfx [(sfx)]="editingData.effect.effectMeta.castSfx" label="Cast SFX"></app-input-sfx>
+      <app-input-sfx
+        [(sfx)]="editingData.effect.effectMeta.castSfx"
+        label="Cast SFX"
+      ></app-input-sfx>
     </div>
 
     <div class="form-row">
-      <app-input-sfx [(sfx)]="editingData.effect.effectMeta.applySfx" label="Apply SFX"></app-input-sfx>
+      <app-input-sfx
+        [(sfx)]="editingData.effect.effectMeta.applySfx"
+        label="Apply SFX"
+      ></app-input-sfx>
     </div>
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer" floatUi="Whether or not the effect can be stacked on a creature.">
-        <input type="checkbox" [(ngModel)]="editingData.effect.effectMeta.noStack" class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not the effect can be stacked on a creature."
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="editingData.effect.effectMeta.noStack"
+          class="checkbox"
+        />
         <span class="label-text">No Effect Stacking</span>
       </label>
     </div>
   </div>
 </div>
-}
-
-@case (4) {
+} @case (4) {
 <ng-container *ngTemplateOutlet="defaults"></ng-container>
 
 <div class="flex flex-row gap-2">
   <div class="form-column">
-
     <div class="form-row">
       <app-input-floating-label>Name</app-input-floating-label>
-      <input [(ngModel)]="editingData.macro.name" type="text" [placeholder]="'Defaults to ' + editingData.name"
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.macro.name"
+        type="text"
+        [placeholder]="'Defaults to ' + editingData.name"
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Tooltip Description</app-input-floating-label>
-      <input [(ngModel)]="editingData.macro.tooltipDesc" type="text"
-        [placeholder]="'Defaults to ' + editingData.all.desc" class="form-input" />
+      <input
+        [(ngModel)]="editingData.macro.tooltipDesc"
+        type="text"
+        [placeholder]="'Defaults to ' + editingData.all.desc"
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
-      <app-input-icon [(icon)]="editingData.macro.icon" [color]="editingData.macro.color || editingData.all.color"
-        [bgColor]="editingData.macro.bgColor || editingData.all.bgColor"></app-input-icon>
+      <app-input-icon
+        [(icon)]="editingData.macro.icon"
+        [color]="editingData.macro.color || editingData.all.color"
+        [bgColor]="editingData.macro.bgColor || editingData.all.bgColor"
+      ></app-input-icon>
     </div>
 
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Icon Color</app-input-floating-label>
-          <input [(colorPicker)]="editingData.macro.color" [(ngModel)]="editingData.macro.color"
-            [style.background]="editingData.macro.color" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
-            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+          <input
+            [(colorPicker)]="editingData.macro.color"
+            [(ngModel)]="editingData.macro.color"
+            [style.background]="editingData.macro.color"
+            [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'"
+            [cpOKButton]="true"
+            [cpCancelButton]="true"
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.macro.color = ''">
+          <button
+            class="ml-1 btn-sm btn btn-warning"
+            (click)="editingData.macro.color = ''"
+          >
             <ng-icon name="heroFire"></ng-icon>
           </button>
         </div>
@@ -1010,15 +1522,25 @@
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Background Color</app-input-floating-label>
-          <input [(colorPicker)]="editingData.macro.bgColor" [(ngModel)]="editingData.macro.bgColor"
-            [style.background]="editingData.macro.bgColor" [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'"
-            [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+          <input
+            [(colorPicker)]="editingData.macro.bgColor"
+            [(ngModel)]="editingData.macro.bgColor"
+            [style.background]="editingData.macro.bgColor"
+            [cpAlphaChannel]="'disabled'"
+            [cpOutputFormat]="'hex'"
+            [cpOKButton]="true"
+            [cpCancelButton]="true"
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn-sm btn btn-warning" (click)="editingData.macro.bgColor = ''">
+          <button
+            class="ml-1 btn-sm btn btn-warning"
+            (click)="editingData.macro.bgColor = ''"
+          >
             <ng-icon name="heroFire"></ng-icon>
           </button>
         </div>
@@ -1027,40 +1549,54 @@
   </div>
 
   <div class="form-column">
-
     <div class="form-row">
       <app-input-floating-label>Macro</app-input-floating-label>
-      <input [(ngModel)]="editingData.macro.macro" type="text"
-        [placeholder]="'Enter macro command (defaults to cast ' + editingData._gameId.toLowerCase() + ')...'"
-        class="form-input" />
+      <input
+        [(ngModel)]="editingData.macro.macro"
+        type="text"
+        [placeholder]="
+          'Enter macro command (defaults to cast ' +
+          editingData._gameId.toLowerCase() +
+          ')...'
+        "
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
-      <app-input-macrotype [(macroType)]="editingData.macro.mode"></app-input-macrotype>
+      <app-input-macrotype
+        [(macroType)]="editingData.macro.mode"
+      ></app-input-macrotype>
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Key</app-input-floating-label>
-      <input [(ngModel)]="editingData.macro.key" type="text" placeholder="Enter macro key..." class="form-input" />
+      <input
+        [(ngModel)]="editingData.macro.key"
+        type="text"
+        placeholder="Enter macro key..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer"
-        floatUi="Whether or not the item is a default macro (shows up in system list).">
-        <input type="checkbox" [(ngModel)]="editingData.macro.isDefault" class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not the item is a default macro (shows up in system list)."
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="editingData.macro.isDefault"
+          class="checkbox"
+        />
         <span class="label-text">Is Default Macro</span>
       </label>
     </div>
-
   </div>
 
-  <div class="form-column">
-
-  </div>
-
+  <div class="form-column"></div>
 </div>
-}
-}
+} }
 
 <ng-template #defaults>
   <div class="flex flex-row gap-2">
@@ -1069,48 +1605,80 @@
 
   <div class="flex flex-row gap-2">
     <div class="form-column">
-      <app-icon class="w-17 min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]" [icon]="editingData.all.icon"
-        [color]="editingData.all.color || '#000'" [bgColor]="editingData.all.bgColor || '#9ca3af'"
-        [borderColor]="editingData.trait.borderColor || ''"></app-icon>
+      <app-icon
+        class="w-17 min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]"
+        [icon]="editingData.all.icon"
+        [color]="editingData.all.color || '#000'"
+        [bgColor]="editingData.all.bgColor || '#9ca3af'"
+        [borderColor]="editingData.trait.borderColor || ''"
+      ></app-icon>
     </div>
 
     <div class="form-column">
       <div class="form-row">
         <app-input-floating-label>Game Id</app-input-floating-label>
-        <input [(ngModel)]="editingData._gameId" [disabled]="true" type="text" placeholder="Enter game id..."
-          class="form-input" [class.has-error]="!satisfiesUniqueGameId()" />
+        <input
+          [(ngModel)]="editingData._gameId"
+          [disabled]="true"
+          type="text"
+          placeholder="Enter game id..."
+          class="form-input"
+          [class.has-error]="!satisfiesUniqueGameId()"
+        />
       </div>
     </div>
 
     <div class="form-column">
       <div class="form-row">
         <app-input-floating-label>Description</app-input-floating-label>
-        <input [(ngModel)]="editingData.all.desc" [disabled]="true" type="text" placeholder="Enter STEM desc..."
-          class="form-input" />
+        <input
+          [(ngModel)]="editingData.all.desc"
+          [disabled]="true"
+          type="text"
+          placeholder="Enter STEM desc..."
+          class="form-input"
+        />
       </div>
     </div>
 
     <div class="form-column">
       <div class="form-row">
         <app-input-floating-label>Icon Color</app-input-floating-label>
-        <input [(colorPicker)]="editingData.all.color" [disabled]="true" [cpDisabled]="true"
-          [(ngModel)]="editingData.all.color" [style.background]="editingData.all.color" [cpAlphaChannel]="'disabled'"
-          [cpOutputFormat]="'hex'" [cpOKButton]="true" [cpCancelButton]="true" class="form-input" />
+        <input
+          [(colorPicker)]="editingData.all.color"
+          [disabled]="true"
+          [cpDisabled]="true"
+          [(ngModel)]="editingData.all.color"
+          [style.background]="editingData.all.color"
+          [cpAlphaChannel]="'disabled'"
+          [cpOutputFormat]="'hex'"
+          [cpOKButton]="true"
+          [cpCancelButton]="true"
+          class="form-input"
+        />
       </div>
     </div>
 
     <div class="form-column">
       <div class="form-row">
         <app-input-floating-label>Background Color</app-input-floating-label>
-        <input [(colorPicker)]="editingData.all.bgColor" [disabled]="true" [cpDisabled]="true"
-          [(ngModel)]="editingData.all.bgColor" [style.background]="editingData.all.bgColor"
-          [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'" [cpOKButton]="true" [cpCancelButton]="true"
-          class="form-input" />
+        <input
+          [(colorPicker)]="editingData.all.bgColor"
+          [disabled]="true"
+          [cpDisabled]="true"
+          [(ngModel)]="editingData.all.bgColor"
+          [style.background]="editingData.all.bgColor"
+          [cpAlphaChannel]="'disabled'"
+          [cpOutputFormat]="'hex'"
+          [cpOKButton]="true"
+          [cpCancelButton]="true"
+          class="form-input"
+        />
       </div>
     </div>
   </div>
 
-  <hr class="my-2">
+  <hr class="my-2" />
 </ng-template>
 
 <app-debug-view>
