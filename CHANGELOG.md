@@ -1,6 +1,14 @@
+## <small>1.7.20 (2025-09-24)</small>
+
+* fix values ([1efb3a3](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1efb3a3))
+
+
+
 ## <small>1.7.19 (2025-09-24)</small>
 
 * fix values for encrust ([051c7e5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/051c7e5))
+* Release Patch 1.7.19 ([227eb11](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/227eb11))
+* Sync version ([bb7772f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/bb7772f))
 * uniq item slots for list ([621b4c8](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/621b4c8))
 
 
