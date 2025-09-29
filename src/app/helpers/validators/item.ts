@@ -46,11 +46,39 @@ export function checkItemDescriptions(mod: IModKit): ValidationMessageGroup {
   };
 
   const itemDescs: Record<string, string> = {};
+  const itemExtendedDescs: Record<string, string> = {};
 
   mod.items.forEach((item) => {
     if (!item.desc) return;
 
+    if (
+      item.name.includes('Orikurnis') ||
+      item.name.includes('Solokar') ||
+      item.name.includes('Enemy')
+    )
+      return;
+
     if (itemDescs[item.desc]) {
+      if (item.extendedDesc) {
+        if (itemExtendedDescs[item.extendedDesc]) {
+          itemValidations.messages.push({
+            type: 'error',
+            message: `${item.name} and ${
+              itemExtendedDescs[item.extendedDesc]
+            } share the same extended description AND description.`,
+          });
+          return;
+        } else {
+          itemValidations.messages.push({
+            type: 'warning',
+            message: `${item.name} and ${
+              itemDescs[item.desc]
+            } share the same description but NOT the same extended description.`,
+          });
+          return;
+        }
+      }
+
       itemValidations.messages.push({
         type: 'error',
         message: `${item.name} and ${
@@ -62,6 +90,9 @@ export function checkItemDescriptions(mod: IModKit): ValidationMessageGroup {
     }
 
     itemDescs[item.desc] = item.name;
+    if (item.extendedDesc) {
+      itemExtendedDescs[item.extendedDesc] = item.name;
+    }
   });
 
   return itemValidations;

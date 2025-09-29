@@ -1,15 +1,19 @@
 <div role="tablist" class="tabs tabs-boxed rounded-none">
-
   @for(tab of tabOrder; track tab.name; let i = $index) {
-  <a role="tab" class="tab" [class.tab-active]="activeValidationTab() === i" (click)="changeTab(i)">{{ tab.icon }} {{
-    tab.name
-    }} ({{ tab.count() }})</a>
+  <a
+    role="tab"
+    class="tab"
+    [class.tab-active]="activeValidationTab() === i"
+    (click)="changeTab(i)"
+    >{{ tab.icon }} {{ tab.name }} ({{ tab.count() }})</a
+  >
   }
 
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-success mr-3" (click)="exit.emit()">Done</button>
+    <button class="btn-sm btn btn-success mr-3" (click)="exit.emit()">
+      Done
+    </button>
   </div>
-
 </div>
 
 <div class="message-container">
@@ -19,19 +23,13 @@
   @for(message of container.messages; track $index) {
   <div>
     <span>
-      @if(message.type === 'error') {
-      ❌
-      } @else if(message.type === 'warning') {
-      ⚠️
-      } @else if(message.type === 'good') {
-      ✅
-      }
+      @if(message.type === 'error') { ❌ } @else if(message.type === 'warning')
+      { ⚠️ } @else if(message.type === 'good') { ✅ }
     </span>
 
     <span>
       {{ message.message }}
     </span>
   </div>
-  }
-  }
+  } }
 </div>

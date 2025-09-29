@@ -83,13 +83,21 @@ export class ValidationComponent {
     {
       name: 'Errors',
       icon: '❌',
-      messages: this.tabErrors,
+      messages: () =>
+        this.tabErrors().map((t) => ({
+          ...t,
+          messages: t.messages.filter((m) => m.type === 'error'),
+        })),
       count: computed(() => this.allErrors().length),
     },
     {
       name: 'Warnings',
       icon: '⚠️',
-      messages: this.tabWarnings,
+      messages: () =>
+        this.tabWarnings().map((t) => ({
+          ...t,
+          messages: t.messages.filter((m) => m.type === 'warning'),
+        })),
       count: computed(() => this.allWarnings().length),
     },
     {
