@@ -21,7 +21,7 @@ export async function watchMaps(sendToUI: SendToUI) {
   if (watcher) return;
 
   const allFiles = await recursiveReaddir(
-    `${baseUrl}/resources/maps/src/content/maps/custom`
+    `${baseUrl}/resources/maps/src/content/maps/custom`,
   );
   const allFilesToHash = allFiles.map((f) => path.resolve(f));
   allFilesToHash.forEach(async (f) => {
@@ -32,12 +32,12 @@ export async function watchMaps(sendToUI: SendToUI) {
     `${baseUrl}/resources/maps/src/content/maps/custom/*.json`,
     {
       persistent: true,
-    }
+    },
   );
 
   const updateMap = (name: string) => {
     const map = fs.readJSONSync(
-      `${baseUrl}/resources/maps/src/content/maps/custom/${name}.json`
+      `${baseUrl}/resources/maps/src/content/maps/custom/${name}.json`,
     );
     sendToUI('newmap', { name, map });
   };
@@ -55,7 +55,7 @@ export async function watchMaps(sendToUI: SendToUI) {
 
     console.log(
       `[Map Update]`,
-      `${pathToHash} has changed. Sending update to client...`
+      `${pathToHash} has changed. Sending update to client...`,
     );
     const map = path.basename(filePath, '.json');
     updateMap(map);
@@ -204,7 +204,7 @@ export function setupIPC(sendToUI: SendToUI) {
     await fs.writeJSON(
       `${baseUrl}/resources/modbackup/${mod.meta.name}.rairdevmod.bak`,
       mod,
-      { spaces: 2 }
+      { spaces: 2 },
     );
   });
 
@@ -231,6 +231,28 @@ export function setupIPC(sendToUI: SendToUI) {
     }
   });
 
+  ipcMain.on('SAVE_MOD_DIFF', (e: any, { modData }: any) => {
+    const extname = 'Rair Mods';
+    const ext = 'rairmodpatch';
+
+    const res = dialog.showSaveDialogSync(null, {
+      title: 'Save Land of the Rair Mod Patch',
+      defaultPath: modData.meta.name,
+      filters: [{ name: extname, extensions: [ext] }],
+    });
+
+    if (!res) return;
+
+    try {
+      const fullMod = modData;
+
+      helpers.saveSpecificJSON(res, fullMod);
+      sendToUI('notify', { type: 'info', text: `Saved ${res}!` });
+    } catch {
+      sendToUI('notify', { type: 'error', text: `Failed to save ${res}!` });
+    }
+  });
+
   ipcMain.on(
     'SAVE_MOD_WITH_BACKUP',
     async (e: any, { modData, quicksaveFilepath }: any) => {
@@ -248,7 +270,7 @@ export function setupIPC(sendToUI: SendToUI) {
         console.error('Could not quick save?');
         console.error(e);
       }
-    }
+    },
   );
 
   ipcMain.on('LOAD_MOD_QUIETLY', (e: any, { path }: any) => {
@@ -293,13 +315,33 @@ export function setupIPC(sendToUI: SendToUI) {
     sendToUI('notify', { type: 'info', text: `Loaded ${file}!` });
   });
 
+  ipcMain.on('LOAD_MOD_FOR_DIFFING', () => {
+    const res = dialog.showOpenDialogSync(null, {
+      title: 'Load Land of the Rair Mod (Diff Mode)',
+      filters: [
+        {
+          name: 'Rair In-Dev/Exported Mods',
+          extensions: ['rairmod', 'rairdevmod'],
+        },
+      ],
+      properties: ['openFile'],
+    });
+
+    if (!res) return;
+
+    const file = res[0];
+    const json = fs.readJSONSync(file);
+
+    sendToUI('loadmodfordiffing', json);
+  });
+
   ipcMain.on('ADDITIVE_LOAD_MOD', () => {
     const res = dialog.showOpenDialogSync(null, {
       title: 'Load Land of the Rair Mod',
       filters: [
         {
           name: 'Rair In-Dev/Exported Mods',
-          extensions: ['rairmod', 'rairdevmod'],
+          extensions: ['rairmod', 'rairdevmod', 'rairmodpatch'],
         },
       ],
       properties: ['openFile'],

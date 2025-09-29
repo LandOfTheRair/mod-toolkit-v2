@@ -72,8 +72,15 @@
                     Import Mod
                   </a>
                 </li>
+
                 <li>
                   <a (click)="closeMenu(); attemptExport()">Export Mod</a>
+                </li>
+
+                <li>
+                  <a (click)="closeMenu(); attemptPartialExport()">
+                    Export Partial Mod...
+                  </a>
                 </li>
 
                 <li class="menu-title"><a>Mod Testing</a></li>
@@ -330,7 +337,6 @@
           </div>
         </div>
       </div>
-
     } @else {
       <div class="root-content px-3">
         <div

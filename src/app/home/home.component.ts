@@ -14,6 +14,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { formatMod } from '../helpers/exporter';
 import { AnalysisService } from '../services/analysis.service';
 import { DebugService } from '../services/debug.service';
+import { DiffService } from '../services/diff.service';
 import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
 import { PinpointService } from '../services/pinpoint.service';
@@ -30,6 +31,7 @@ export class HomeComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private urlService = inject(URLService);
 
+  private diffService = inject(DiffService);
   private localStorage = inject(LocalStorageService);
   public pinpointService = inject(PinpointService);
   public analysisService = inject(AnalysisService);
@@ -186,6 +188,34 @@ export class HomeComponent implements OnInit {
     }
 
     saveMod();
+  }
+
+  async attemptPartialExport() {
+    const saveCurrentModForDiffing = () => {
+      this.diffService.setMyMod(this.modService.mod());
+      this.diffService.exportWhenReady.set(true);
+      this.electronService.send('LOAD_MOD_FOR_DIFFING');
+    };
+
+    const numErrors = this.validationService.numErrors();
+    if (numErrors > 0) {
+      const res = await this.exportWarnSwal()?.fire();
+      if (!res) return;
+
+      const { isConfirmed, isDenied } = res;
+
+      if (isDenied) {
+        this.isValidating.set(true);
+        return;
+      }
+
+      if (isConfirmed) {
+        saveCurrentModForDiffing();
+        return;
+      }
+    }
+
+    saveCurrentModForDiffing();
   }
 
   toggleDependencies() {

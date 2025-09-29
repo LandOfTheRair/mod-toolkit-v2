@@ -7,6 +7,7 @@ import {
   ModJSONKey,
 } from '../../interfaces';
 import { importMod } from '../helpers/importer';
+import { DiffService } from './diff.service';
 import { ModService } from './mod.service';
 import { NotifyService } from './notify.service';
 import { ModSettings, SettingsService } from './settings.service';
@@ -33,6 +34,7 @@ export class ElectronService {
   private modService = inject(ModService);
   private notifyService = inject(NotifyService);
   private settingsService = inject(SettingsService);
+  private diffService = inject(DiffService);
 
   public isInElectron = computed(() => !!window.api);
 
@@ -63,11 +65,20 @@ export class ElectronService {
         this.send('BACKUP_MOD', mod);
       }
     });
+
+    effect(() => {
+      const diff = this.diffService.exportMod();
+      if (!diff) return;
+
+      this.send('SAVE_MOD_DIFF', {
+        modData: diff,
+      });
+    });
   }
 
   public async reloadExternalWebMod() {
     const basegamecontent = await fetch(
-      'https://play.rair.land/assets/content/_output/simplemods/BaseGameContent.rairmod.json'
+      'https://play.rair.land/assets/content/_output/simplemods/BaseGameContent.rairmod.json',
     );
     const contentJson = await basegamecontent.json();
 
@@ -136,7 +147,7 @@ export class ElectronService {
     window.api.receive('renamemap', (nameData) => {
       this.modService.renameMap(
         nameData.oldName as string,
-        nameData.newName as string
+        nameData.newName as string,
       );
     });
 
@@ -182,17 +193,22 @@ export class ElectronService {
         this.settingsService.setSettingForMod(
           this.modService.mod().meta.id,
           settingsData.setting,
-          settingsData.value
+          settingsData.value,
         );
-      }
+      },
     );
 
+    window.api.receive('loadmodfordiffing', (mod: IModKit) => {
+      const importedMod = importMod(mod);
+      this.diffService.setModToCompareAgainst(importedMod);
+    });
+
     window.api.receive('version', (version) =>
-      this.version.set(version as string)
+      this.version.set(version as string),
     );
 
     window.api.receive('baseurl', (baseurl) =>
-      this.baseUrl.set(baseurl as string)
+      this.baseUrl.set(baseurl as string),
     );
 
     window.api.receive('dependencies', (deps) => {
