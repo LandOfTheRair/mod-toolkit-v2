@@ -1,36 +1,65 @@
 <div class="flex flex-row items-center">
-
-  <app-sprite class="w-17 mr-4 bg-gray-400 p-1" [sprite]="sprite()" [type]="type()"></app-sprite>
+  <app-sprite
+    class="w-17 mr-4 bg-gray-400 p-1"
+    [sprite]="sprite()"
+    [type]="type()"
+  ></app-sprite>
 
   <div class="relative flex">
     <app-input-floating-label>Sprite</app-input-floating-label>
-    <input class="flex-1" [(ngModel)]="sprite" min="-1" [step]="step()" type="number" placeholder="Choose sprite..."
-      class="input input-sm input-bordered w-full max-w-xs" />
+    <input
+      class="flex-1"
+      [(ngModel)]="sprite"
+      min="-1"
+      [step]="step()"
+      type="number"
+      placeholder="Choose sprite..."
+      class="input input-sm input-bordered w-full max-w-xs"
+    />
 
     <button class="ml-1 btn btn-secondary btn-sm" (click)="changeIcon()">
       <ng-icon name="heroArrowTopRightOnSquare"></ng-icon>
     </button>
   </div>
-
 </div>
 
 <dialog #iconPicker class="modal">
   <div class="modal-box w-11/12 max-w-5xl">
     <h1 class="text-2xl font-bold mb-2">Icon Picker</h1>
 
+    @let spriteCounts = usedSprites();
+
     <div class="relative flex flex-wrap overflow-y-scroll max-h-[70vh]">
       @for(icon of iconArray(); track $index) {
-      <app-sprite
-        class="bg-gray-400 p-1 flex-1 m-2 min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px] outline-2 outline-offset-2 hover:outline-dashed outline-primary"
-        [class.outline]="icon === pickerSprite()" [sprite]="icon" [type]="type()"
-        (click)="pickerSprite.set(icon)"></app-sprite>
+      <div
+        class="relative p-1 flex-1 m-2 bg-gray-400 min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px] outline-2 outline-offset-2 hover:outline-dashed outline-primary"
+      >
+        <app-sprite
+          [class.outline]="icon === pickerSprite()"
+          [sprite]="icon"
+          [type]="type()"
+          (click)="pickerSprite.set(icon)"
+        ></app-sprite>
+
+        <div
+          class="badge badge-primary absolute top-0 right-0"
+          [class.badge-success]="!spriteCounts[icon]"
+        >
+          {{ spriteCounts[icon] || 0 }}
+        </div>
+      </div>
       }
     </div>
 
     <div class="modal-action mt-2">
       <form method="dialog">
         <button class="btn btn-sm">Close</button>
-        <button class="ml-2 btn btn-primary btn-sm" (click)="confirmNewIcon(pickerSprite())">Pick</button>
+        <button
+          class="ml-2 btn btn-primary btn-sm"
+          (click)="confirmNewIcon(pickerSprite())"
+        >
+          Pick
+        </button>
       </form>
     </div>
   </div>

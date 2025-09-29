@@ -2,11 +2,13 @@ import {
   Component,
   computed,
   ElementRef,
+  inject,
   input,
   model,
   signal,
   viewChild,
 } from '@angular/core';
+import { ModService } from '../../../services/mod.service';
 
 @Component({
   selector: 'app-input-sprite',
@@ -14,9 +16,28 @@ import {
   styleUrl: './input-sprite.component.scss',
 })
 export class InputSpriteComponent {
+  private modService = inject(ModService);
+
   public sprite = model.required<number>();
   public type = input<'creatures' | 'items'>('items');
   public step = computed(() => (this.type() === 'creatures' ? 5 : 1));
+
+  public usedSprites = computed(() => {
+    const mod = this.modService.mod();
+    const sprites: number[] = [];
+    if (this.type() === 'items') {
+      sprites.push(...mod.items.map((i) => i.sprite));
+    } else {
+      sprites.push(...mod.npcs.flatMap((n) => n.sprite));
+    }
+
+    return sprites.reduce((acc, sprite) => {
+      return {
+        ...acc,
+        [sprite]: (acc[sprite] ?? 0) + 1,
+      };
+    }, {} as Record<number, number>);
+  });
 
   public pickerSprite = signal<number>(0);
 
