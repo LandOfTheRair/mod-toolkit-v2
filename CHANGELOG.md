@@ -1,6 +1,23 @@
+## 1.8.0 (2025-09-29)
+
+* feat(export): add selective export ([740da89](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/740da89)), closes [#85](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/85)
+* feat(report): add map item/npcs report ([7aa0a5e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7aa0a5e)), closes [#81](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/81)
+* feat(ui): show # times a sprite is used in the sprite picker ([809becd](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/809becd)), closes [#82](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/82)
+* add comments to follow flow easier ([c5beb9a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c5beb9a))
+* add prettier to fix html formatting ([6847faa](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6847faa))
+* closes #84 ([3ece004](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3ece004)), closes [#84](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/84)
+* closes #87 ([bc76725](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/bc76725)), closes [#87](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/87)
+* fix tab mixing message types in validation ([8f3180f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8f3180f))
+* halberds should always be secondaryType=twohanded ([3931f61](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3931f61))
+* upgrade monaco-editor to hopefully fix load issue ([0dee8b6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0dee8b6))
+
+
+
 ## <small>1.7.20 (2025-09-24)</small>
 
 * fix values ([1efb3a3](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1efb3a3))
+* Release Patch 1.7.20 ([1068db4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1068db4))
+* Sync version ([2de747d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2de747d))
 
 
 
