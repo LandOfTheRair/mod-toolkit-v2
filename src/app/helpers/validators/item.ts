@@ -39,6 +39,34 @@ export function checkItemStats(mod: IModKit): ValidationMessageGroup {
   return itemValidations;
 }
 
+export function checkItemDescriptions(mod: IModKit): ValidationMessageGroup {
+  const itemValidations: ValidationMessageGroup = {
+    header: 'Duplicate Item Descriptions',
+    messages: [],
+  };
+
+  const itemDescs: Record<string, string> = {};
+
+  mod.items.forEach((item) => {
+    if (!item.desc) return;
+
+    if (itemDescs[item.desc]) {
+      itemValidations.messages.push({
+        type: 'error',
+        message: `${item.name} and ${
+          itemDescs[item.desc]
+        } share the same description.`,
+      });
+
+      return;
+    }
+
+    itemDescs[item.desc] = item.name;
+  });
+
+  return itemValidations;
+}
+
 export function checkItemUses(mod: IModKit): ValidationMessageGroup {
   const itemValidations: ValidationMessageGroup = {
     header: 'Unused Items',
