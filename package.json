@@ -56,7 +56,7 @@
     "angular-svg-icon": "18.0.1",
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
-    "monaco-editor": "0.50.0",
+    "monaco-editor": "0.54.0-dev-20250929",
     "ngx-color-picker": "17.0.0",
     "ngx-float-ui": "18.0.1",
     "ngx-webstorage": "18.0.0",
