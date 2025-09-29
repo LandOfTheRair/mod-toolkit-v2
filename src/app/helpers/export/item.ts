@@ -101,9 +101,14 @@ const conditionallyAddInformation = (item: IItemDefinition) => {
   }
 
   if (
-    ['Blunderbuss', 'Shortbow', 'Longbow', 'Greatmace', 'Greataxe'].includes(
-      item.itemClass
-    )
+    [
+      'Blunderbuss',
+      'Shortbow',
+      'Longbow',
+      'Greatmace',
+      'Greataxe',
+      'Halberd',
+    ].includes(item.itemClass)
   ) {
     item.twoHanded = true;
     item.secondaryType = 'twohanded';
