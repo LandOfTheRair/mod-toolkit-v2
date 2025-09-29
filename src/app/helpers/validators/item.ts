@@ -58,9 +58,16 @@ export function checkItemDescriptions(mod: IModKit): ValidationMessageGroup {
     )
       return;
 
-    if (itemDescs[item.desc]) {
+    // if the description matches
+    const descMatch = itemDescs[item.desc];
+    if (descMatch) {
+      // if there's an extended desc
       if (item.extendedDesc) {
-        if (itemExtendedDescs[item.extendedDesc]) {
+        // ... and the extended desc matches, it's an error - they can't both be the same
+        if (
+          itemExtendedDescs[item.extendedDesc] &&
+          descMatch === itemExtendedDescs[item.extendedDesc]
+        ) {
           itemValidations.messages.push({
             type: 'error',
             message: `${item.name} and ${
@@ -68,6 +75,8 @@ export function checkItemDescriptions(mod: IModKit): ValidationMessageGroup {
             } share the same extended description AND description.`,
           });
           return;
+
+          // ... but if the extended desc doesn't match, it's just a warning
         } else {
           itemValidations.messages.push({
             type: 'warning',
@@ -79,6 +88,7 @@ export function checkItemDescriptions(mod: IModKit): ValidationMessageGroup {
         }
       }
 
+      // if there is no extended desc, it's an error - they should not have the same desc
       itemValidations.messages.push({
         type: 'error',
         message: `${item.name} and ${
