@@ -1,16 +1,22 @@
 <div role="tablist" class="tabs tabs-boxed rounded-none">
-
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-success mr-3" (click)="analysisService.toggleAnalyzing(); exit.emit()">Done</button>
+    <button
+      class="btn-sm btn btn-success mr-3"
+      (click)="analysisService.toggleAnalyzing(); exit.emit()"
+    >
+      Done
+    </button>
   </div>
-
 </div>
 
 <div class="flex flex-row gap-2 mb-3">
   <div class="form-column">
     <div class="form-row">
-      <app-input-analysis-report [(report)]="report" (change)="updateReport($event)"
-        [defaultValue]="defaultReport()!"></app-input-analysis-report>
+      <app-input-analysis-report
+        [(report)]="report"
+        (change)="updateReport($event)"
+        [defaultValue]="defaultReport()!"
+      ></app-input-analysis-report>
     </div>
   </div>
 
@@ -18,109 +24,153 @@
 
   <div class="form-column">
     <div class="form-row">
-      @if(reportTypeName === 'progressionsingle' || reportTypeName === 'weaponpotency') {
-      <app-input-itemclass [(itemClass)]="itemClassInput" (change)="changeURLProp.emit(['itemclass', $event])"
-        [defaultValue]="defaultItemclass()!"></app-input-itemclass>
+      @if (
+        reportTypeName === 'progressionsingle' ||
+        reportTypeName === 'weaponpotency'
+      ) {
+        <app-input-itemclass
+          [(itemClass)]="itemClassInput"
+          (change)="changeURLProp.emit(['itemclass', $event])"
+          [defaultValue]="defaultItemclass()!"
+        ></app-input-itemclass>
       }
-
-      @if(reportTypeName === 'spellpotency') {
-      <app-input-spell [(spell)]="spellNameInput" (change)="changeURLProp.emit(['spell', $event])"
-        [defaultValue]="defaultSpell()!"></app-input-spell>
+      @if (reportTypeName === 'spellpotency') {
+        <app-input-spell
+          [(spell)]="spellNameInput"
+          (change)="changeURLProp.emit(['spell', $event])"
+          [defaultValue]="defaultSpell()!"
+        ></app-input-spell>
+      }
+      @if (reportTypeName === 'mapcontent') {
+        <app-input-map
+          [(map)]="mapNameInput"
+          (change)="changeURLProp.emit(['map', $event])"
+          [defaultValue]="defaultMap()!"
+        ></app-input-map>
       }
     </div>
   </div>
 
   <div class="form-column">
     <div class="form-row">
-      @if(reportTypeName === 'weaponpotency') {
-      <app-input-floating-label>Weapon Tier</app-input-floating-label>
-      <input [(ngModel)]="tierInput" min="1" [max]="maxTier()" type="number" placeholder="Choose tier..."
-        class="form-input" (change)="changeURLProp.emit(['tier', tierInput().toString()])" />
+      @if (reportTypeName === 'weaponpotency') {
+        <app-input-floating-label>Weapon Tier</app-input-floating-label>
+        <input
+          [(ngModel)]="tierInput"
+          min="1"
+          [max]="maxTier()"
+          type="number"
+          placeholder="Choose tier..."
+          class="form-input"
+          (change)="changeURLProp.emit(['tier', tierInput().toString()])"
+        />
       }
     </div>
   </div>
 
-  <div class="form-column">
-
-  </div>
+  <div class="form-column"></div>
 </div>
 
 @let fullReport = reportData();
-@if(fullReport) {
-<div class="flex flex-row gap-2 mb-3">
-  <div class="form-column">
+@if (fullReport) {
+  <div class="flex flex-row gap-2 mb-3">
+    <div class="form-column">
+      @for (entry of fullReport.entries; track $index) {
+        @switch (entry.type) {
+          @case ('list') {
+            <div class="form-row">
+              <h1 class="ml-1 text-2xl font-bold mb-2">
+                {{ entry.list.title }}
+              </h1>
+            </div>
 
-    @for(entry of fullReport.entries; track $index) {
-    @switch(entry.type) {
-    @case ('list') {
-    <div class="form-row">
-      <h1 class="ml-1 text-2xl font-bold mb-2">{{ entry.list.title }}</h1>
-    </div>
-
-    @for(row of entry.list.rows; track $index) {
-    <div class="form-row flex">
-      @if(row.pretext) {
-      <span class="ml-1">{{ row.pretext }}</span>
-      }
-
-      @if(row.itemName) {
-      <app-sprite-with-inline-name class="ml-1" [type]="'items'" [name]="row.itemName"></app-sprite-with-inline-name>
-      }
-
-      @if(row.posttext) {
-      <span class="ml-1">{{ row.posttext }}</span>
-      }
-    </div>
-    }
-    }
-
-    @case ('table') {
-    <div class="form-row">
-      <h1 class="ml-1 text-2xl font-bold mb-2">{{ entry.table.title }}</h1>
-    </div>
-
-    <div class="form-row">
-      <table class="table table-zebra table-xs table-pin-rows table-pin-col">
-        <thead>
-          <tr>
-            @for(header of entry.table.headers; track $index) {
-            <th>{{ header }}</th>
-            }
-          </tr>
-        </thead>
-
-        <tbody>
-          @for(row of entry.table.rows; track $index) {
-          <tr>
-            @for(col of row; track $index) {
-            <td>
-              <div class="flex" [floatUi]="col.tooltip ?? ''" [disabled]="!col.tooltip">
-                @if(col.pretext) {
-                <span class="ml-1">{{ col.pretext }}</span>
+            @for (row of entry.list.rows; track $index) {
+              <div class="form-row flex">
+                @if (row.pretext) {
+                  <span class="ml-1">{{ row.pretext }}</span>
                 }
-
-                @if(col.itemName) {
-                <app-sprite-with-inline-name class="ml-1" [type]="'items'"
-                  [name]="col.itemName"></app-sprite-with-inline-name>
+                @if (row.itemName) {
+                  <app-sprite-with-inline-name
+                    class="ml-1"
+                    [type]="'items'"
+                    [name]="row.itemName"
+                  ></app-sprite-with-inline-name>
                 }
-
-                @if(col.posttext) {
-                <span class="ml-1">{{ col.posttext }}</span>
+                @if (row.npcId) {
+                  <app-sprite-with-inline-name
+                    class="ml-1"
+                    [type]="'creatures'"
+                    [name]="row.npcId"
+                  ></app-sprite-with-inline-name>
+                }
+                @if (row.posttext) {
+                  <span class="ml-1">{{ row.posttext }}</span>
                 }
               </div>
-            </td>
             }
-          </tr>
           }
-        </tbody>
-      </table>
-    </div>
-    }
-    }
+          @case ('table') {
+            <div class="form-row">
+              <h1 class="ml-1 text-2xl font-bold mb-2">
+                {{ entry.table.title }}
+              </h1>
+            </div>
 
-    }
+            <div class="form-row">
+              <table
+                class="table table-zebra table-xs table-pin-rows table-pin-col"
+              >
+                <thead>
+                  <tr>
+                    @for (header of entry.table.headers; track $index) {
+                      <th>{{ header }}</th>
+                    }
+                  </tr>
+                </thead>
+
+                <tbody>
+                  @for (row of entry.table.rows; track $index) {
+                    <tr>
+                      @for (col of row; track $index) {
+                        <td>
+                          <div
+                            class="flex"
+                            [floatUi]="col.tooltip ?? ''"
+                            [disabled]="!col.tooltip"
+                          >
+                            @if (col.pretext) {
+                              <span class="ml-1">{{ col.pretext }}</span>
+                            }
+                            @if (col.itemName) {
+                              <app-sprite-with-inline-name
+                                class="ml-1"
+                                [type]="'items'"
+                                [name]="col.itemName"
+                              ></app-sprite-with-inline-name>
+                            }
+                            @if (col.npcId) {
+                              <app-sprite-with-inline-name
+                                class="ml-1"
+                                [type]="'creatures'"
+                                [name]="col.npcId"
+                              ></app-sprite-with-inline-name>
+                            }
+                            @if (col.posttext) {
+                              <span class="ml-1">{{ col.posttext }}</span>
+                            }
+                          </div>
+                        </td>
+                      }
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        }
+      }
+    </div>
   </div>
-</div>
 }
 
 <app-debug-view>

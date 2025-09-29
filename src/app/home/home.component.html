@@ -2,263 +2,397 @@
   <div class="flex-1">
     <a class="btn btn-ghost text-xl">Land of the Rair ModKit</a>
 
-    @if(electronService.isLoaded()) {
-    <a class="btn btn-ghost text-lg" [swal]="changeModName" [class.btn-disabled]="!electronService.isInElectron()">{{
-      modService.modName() }}</a>
-    <a class="btn btn-ghost" [swal]="changeModAuthor" [class.btn-disabled]="!electronService.isInElectron()">{{
-      modService.modAuthor() }}</a>
+    @if (electronService.isLoaded()) {
+      <a
+        class="btn btn-ghost text-lg"
+        [swal]="changeModName"
+        [class.btn-disabled]="!electronService.isInElectron()"
+      >
+        {{ modService.modName() }}
+      </a>
+      <a
+        class="btn btn-ghost"
+        [swal]="changeModAuthor"
+        [class.btn-disabled]="!electronService.isInElectron()"
+      >
+        {{ modService.modAuthor() }}
+      </a>
     }
   </div>
 
-  @if(electronService.isLoaded()) {
-  <div class="flex-none">
-    <ul class="menu menu-horizontal px-1">
-      <li>
-        <details #menu>
-          <summary>
-            @if(hasErrors()) {
-            <span floatUiLoose="Your mod currently has errors. You should fix them." loosePlacement="left">❌</span>
-            }
-            Actions
-          </summary>
-          <ul class="z-30 top-6 right-1.5 w-72 bg-base-100 rounded-t-none p-2">
+  @if (electronService.isLoaded()) {
+    <div class="flex-none">
+      <ul class="menu menu-horizontal px-1">
+        <li>
+          <details #menu>
+            <summary>
+              @if (hasErrors()) {
+                <span
+                  floatUiLoose="Your mod currently has errors. You should fix them."
+                  loosePlacement="left"
+                >
+                  ❌
+                </span>
+              }
+              Actions
+            </summary>
+            <ul
+              class="z-30 top-6 right-1.5 w-72 bg-base-100 rounded-t-none p-2"
+            >
+              @if (electronService.isInElectron()) {
+                <li class="menu-title"><a>Mod Metadata</a></li>
+                <li>
+                  <a (click)="closeMenu()" [swal]="changeModName">
+                    Change Mod Name
+                  </a>
+                </li>
+                <li>
+                  <a (click)="closeMenu()" [swal]="changeModAuthor">
+                    Change Mod Author
+                  </a>
+                </li>
+                <li>
+                  <a (click)="closeMenu(); toggleDependencies()">
+                    Manage Dependencies
+                  </a>
+                </li>
 
-            @if(electronService.isInElectron()) {
-            <li class="menu-title"><a>Mod Metadata</a></li>
-            <li><a (click)="closeMenu()" [swal]="changeModName">Change Mod Name</a></li>
-            <li><a (click)="closeMenu()" [swal]="changeModAuthor">Change Mod Author</a></li>
-            <li><a (click)="closeMenu(); toggleDependencies()">Manage Dependencies</a></li>
+                <li class="menu-title"><a>Mod I/O</a></li>
+                <li>
+                  <a (click)="closeMenu(); electronService.send('LOAD_MOD')">
+                    Load Mod
+                  </a>
+                </li>
+                <li>
+                  <a
+                    (click)="
+                      closeMenu(); electronService.send('ADDITIVE_LOAD_MOD')
+                    "
+                  >
+                    Import Mod
+                  </a>
+                </li>
+                <li>
+                  <a (click)="closeMenu(); attemptExport()">Export Mod</a>
+                </li>
 
-            <li class="menu-title"><a>Mod I/O</a></li>
-            <li><a (click)="closeMenu(); electronService.send('LOAD_MOD')">Load Mod</a></li>
-            <li><a (click)="closeMenu(); electronService.send('ADDITIVE_LOAD_MOD')">Import Mod</a></li>
-            <li><a (click)="closeMenu(); attemptExport();">Export Mod</a></li>
+                <li class="menu-title"><a>Mod Testing</a></li>
+                <li>
+                  <a
+                    (click)="
+                      closeMenu(); electronService.send('DOWNLOAD_MONGO')
+                    "
+                  >
+                    Install MongoDB...
+                  </a>
+                </li>
+                <li>
+                  <a
+                    (click)="closeMenu(); electronService.send('DOWNLOAD_RAIR')"
+                  >
+                    Install Rair Server...
+                  </a>
+                </li>
+                <li><a (click)="closeMenu(); toggleTester()">Test Mod!</a></li>
+              }
 
-            <li class="menu-title"><a>Mod Testing</a></li>
-            <li><a (click)="closeMenu(); electronService.send('DOWNLOAD_MONGO')">Install MongoDB...</a></li>
-            <li><a (click)="closeMenu(); electronService.send('DOWNLOAD_RAIR')">Install Rair Server...</a></li>
-            <li><a (click)="closeMenu(); toggleTester()">Test Mod!</a></li>
-            }
+              <li class="menu-title">
+                <a>
+                  ModKit Utilities
+                  <span class="italic font-thin">
+                    (v.{{ electronService.version() }})
+                  </span>
+                </a>
+              </li>
 
-            <li class="menu-title">
-              <a>
-                ModKit Utilities
-                <span class="italic font-thin">(v.{{ electronService.version() }})</span>
-              </a>
-            </li>
+              <li>
+                <a
+                  (click)="closeMenu()"
+                  target="_blank"
+                  href="https://rair.land/docs/modkit/"
+                >
+                  Help
+                </a>
+              </li>
+              <li>
+                <a (click)="closeMenu(); toggleModValidation()">
+                  Validate Mod {{ hasErrors() ? '❌' : '' }}
+                </a>
+              </li>
+              <li>
+                <a (click)="closeMenu(); toggleAnalyzing()">Analyze...</a>
+              </li>
+              <li>
+                <a (click)="closeMenu(); togglePinpointing()">Pinpoint...</a>
+              </li>
+              <li><a (click)="closeMenu(); toggleQuerying()">Query...</a></li>
+              <li>
+                <a (click)="closeMenu(); debugService.toggleDebug()">
+                  Debug Mode {{ debugService.isDebug() ? '☑' : '☐' }}
+                </a>
+              </li>
 
-            <li><a (click)="closeMenu()" target="_blank" href="https://rair.land/docs/modkit/">Help</a></li>
-            <li><a (click)="closeMenu(); toggleModValidation()">Validate Mod {{ hasErrors() ? '❌' : '' }}</a></li>
-            <li><a (click)="closeMenu(); toggleAnalyzing()">Analyze...</a></li>
-            <li><a (click)="closeMenu(); togglePinpointing()">Pinpoint...</a></li>
-            <li><a (click)="closeMenu(); toggleQuerying()">Query...</a></li>
-            <li>
-              <a (click)="closeMenu(); debugService.toggleDebug()">Debug Mode {{ debugService.isDebug() ? '☑' : '☐'
-                }}</a>
-            </li>
+              <li class="menu-title">
+                <a>
+                  Updates
 
-            <li class="menu-title">
-              <a>
-                Updates
+                  @if (!electronService.isInElectron()) {
+                    <span class="italic font-thin">
+                      (Last Updated:
+                      {{ modService.mod().meta.savedAt | date: 'shortDate' }})
+                    </span>
+                  }
+                </a>
+              </li>
+              <li>
+                <a (click)="closeMenu(); updateResources()">Update Resources</a>
+              </li>
 
-                @if(!electronService.isInElectron()) {
-                <span class="italic font-thin">(Last Updated: {{ modService.mod().meta.savedAt | date:'shortDate'
-                  }})</span>
-                }
-              </a>
-            </li>
-            <li><a (click)="closeMenu(); updateResources()">Update Resources</a></li>
+              @if (electronService.isInElectron()) {
+                <li>
+                  <a (click)="closeMenu(); modService.updateAutogenerated()">
+                    Update Autogenerated Content
+                  </a>
+                </li>
 
-            @if(electronService.isInElectron()) {
-            <li><a (click)="closeMenu(); modService.updateAutogenerated()">Update Autogenerated Content</a></li>
-
-            <li class="menu-title"><a>Danger Zone</a></li>
-            <li><a (click)="closeMenu()" [swal]="resetMod">Reset Mod</a></li>
-            }
-          </ul>
-        </details>
-      </li>
-    </ul>
-  </div>
+                <li class="menu-title"><a>Danger Zone</a></li>
+                <li>
+                  <a (click)="closeMenu()" [swal]="resetMod">Reset Mod</a>
+                </li>
+              }
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </div>
   }
 </div>
 
-@if(isValidating()) {
-<div class="root-body">
-  <div class="root-content p-3">
-    <div class="card bg-base-100 w-full shadow-xl">
-      <div class="card-body">
-        <app-validation (exit)="resetSub(); isValidating.set(false)"></app-validation>
+@if (isValidating()) {
+  <div class="root-body">
+    <div class="root-content p-3">
+      <div class="card bg-base-100 w-full shadow-xl">
+        <div class="card-body">
+          <app-validation
+            (exit)="resetSub(); isValidating.set(false)"
+          ></app-validation>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-} @else if(isManagingDependencies()) {
-<div class="root-body">
-  <div class="root-content p-3">
-    <div class="card bg-base-100 w-full shadow-xl">
-      <div class="card-body">
-        <app-dependencies (exit)="resetSub(); isManagingDependencies.set(false)"></app-dependencies>
+} @else if (isManagingDependencies()) {
+  <div class="root-body">
+    <div class="root-content p-3">
+      <div class="card bg-base-100 w-full shadow-xl">
+        <div class="card-body">
+          <app-dependencies
+            (exit)="resetSub(); isManagingDependencies.set(false)"
+          ></app-dependencies>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-} @else if(pinpointService.isPinpointing()) {
-<div class="root-body">
-  <div class="root-content p-3">
-    <div class="card bg-base-100 w-full shadow-xl">
-      <div class="card-body">
-        <app-pinpoint (exit)="resetSub()" (changeURLProp)="updateSubURLProp($event[0], $event[1])"
-          [defaultTab]="getURLSubProp('pptab')" [defaultMap]="getURLSubProp('map')"
-          [defaultItem]="getURLSubProp('item')" [defaultNPC]="getURLSubProp('npc')"
-          [defaultSTEM]="getURLSubProp('stem')"></app-pinpoint>
+} @else if (pinpointService.isPinpointing()) {
+  <div class="root-body">
+    <div class="root-content p-3">
+      <div class="card bg-base-100 w-full shadow-xl">
+        <div class="card-body">
+          <app-pinpoint
+            (exit)="resetSub()"
+            (changeURLProp)="updateSubURLProp($event[0], $event[1])"
+            [defaultTab]="getURLSubProp('pptab')"
+            [defaultMap]="getURLSubProp('map')"
+            [defaultItem]="getURLSubProp('item')"
+            [defaultNPC]="getURLSubProp('npc')"
+            [defaultSTEM]="getURLSubProp('stem')"
+          ></app-pinpoint>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-} @else if(analysisService.isAnalyzing()) {
-<div class="root-body">
-  <div class="root-content p-3">
-    <div class="card bg-base-100 w-full shadow-xl">
-      <div class="card-body">
-        <app-analysis (exit)="resetSub()" (changeURLProp)="updateSubURLProp($event[0], $event[1])"
-          [defaultReport]="getURLSubProp('report')" [defaultItemclass]="getURLSubProp('itemclass')"
-          [defaultSpell]="getURLSubProp('spell')" [defaultTier]="getURLSubProp('tier')"></app-analysis>
+} @else if (analysisService.isAnalyzing()) {
+  <div class="root-body">
+    <div class="root-content p-3">
+      <div class="card bg-base-100 w-full shadow-xl">
+        <div class="card-body">
+          <app-analysis
+            (exit)="resetSub()"
+            (changeURLProp)="updateSubURLProp($event[0], $event[1])"
+            [defaultReport]="getURLSubProp('report')"
+            [defaultItemclass]="getURLSubProp('itemclass')"
+            [defaultMap]="getURLSubProp('map')"
+            [defaultSpell]="getURLSubProp('spell')"
+            [defaultTier]="getURLSubProp('tier')"
+          ></app-analysis>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-} @else if(queryService.isQuerying()) {
-<div class="root-body">
-  <div class="root-content p-3">
-    <div class="card bg-base-100 w-full shadow-xl">
-      <div class="card-body">
-        <app-query (exit)="resetSub()"></app-query>
+} @else if (queryService.isQuerying()) {
+  <div class="root-body">
+    <div class="root-content p-3">
+      <div class="card bg-base-100 w-full shadow-xl">
+        <div class="card-body">
+          <app-query (exit)="resetSub()"></app-query>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
 } @else {
-<div class="root-body">
-  <div role="tablist" class="tabs tabs-boxed rounded-none flex flex-wrap">
+  <div class="root-body">
+    <div role="tablist" class="tabs tabs-boxed rounded-none flex flex-wrap">
+      @for (tab of tabOrder; track tab.name; let i = $index) {
+        <a
+          role="tab"
+          class="tab flex-1 min-w-[150px]"
+          [class.tab-disabled]="
+            !electronService.isLoaded() ||
+            (tab.disableOutsideElectron && !electronService.isInElectron())
+          "
+          [class.tab-active]="activeTab() === i"
+          (click)="changeTab(i)"
+        >
+          {{ tab.name }} ({{ tab.count() }})
+        </a>
+      }
+    </div>
 
-    @for(tab of tabOrder; track tab.name; let i = $index) {
-    <a role="tab" class="tab flex-1 min-w-[150px]"
-      [class.tab-disabled]="!electronService.isLoaded() || (tab.disableOutsideElectron && !electronService.isInElectron())"
-      [class.tab-active]="activeTab() === i" (click)="changeTab(i)">{{ tab.name
-      }} ({{ tab.count() }})</a>
+    @if (electronService.isFirstLoad()) {
+      <div class="root-content px-3">
+        <div
+          class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl"
+        >
+          First time load detected.
+          <br />
+          <br />
+          Loading necessary resources to use the modding tools...
+        </div>
+      </div>
     }
 
-  </div>
+    @if (electronService.isLoaded()) {
+      <div class="root-content p-3">
+        <div class="card bg-base-100 w-full shadow-xl">
+          <div class="card-body">
+            @switch (activeTab()) {
+              @case (0) {
+                <app-maps class="h-full"></app-maps>
+              }
 
-  @if(electronService.isFirstLoad()) {
-  <div class="root-content px-3">
-    <div class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl">
-      First time load detected.
-      <br><br>
-      Loading necessary resources to use the modding tools...
-    </div>
-  </div>
-  }
+              @case (1) {
+                <app-items class="h-full"></app-items>
+              }
 
-  @if(electronService.isLoaded()) {
-  <div class="root-content p-3">
-    <div class="card bg-base-100 w-full shadow-xl">
-      <div class="card-body">
-        @switch (activeTab()) {
-        @case (0) {
-        <app-maps class="h-full"></app-maps>
-        }
+              @case (2) {
+                <app-npcs class="h-full"></app-npcs>
+              }
 
-        @case (1) {
-        <app-items class="h-full"></app-items>
-        }
+              @case (3) {
+                <app-droptables class="h-full"></app-droptables>
+              }
 
-        @case (2) {
-        <app-npcs class="h-full"></app-npcs>
-        }
+              @case (4) {
+                <app-recipes class="h-full"></app-recipes>
+              }
 
-        @case (3) {
-        <app-droptables class="h-full"></app-droptables>
-        }
+              @case (5) {
+                <app-spawners class="h-full"></app-spawners>
+              }
 
-        @case (4) {
-        <app-recipes class="h-full"></app-recipes>
-        }
+              @case (6) {
+                <app-dialogs class="h-full"></app-dialogs>
+              }
 
-        @case (5) {
-        <app-spawners class="h-full"></app-spawners>
-        }
+              @case (7) {
+                <app-quests class="h-full"></app-quests>
+              }
 
-        @case (6) {
-        <app-dialogs class="h-full"></app-dialogs>
-        }
+              @case (8) {
+                <app-cores class="h-full"></app-cores>
+              }
 
-        @case (7) {
-        <app-quests class="h-full"></app-quests>
-        }
+              @case (9) {
+                <app-stems class="h-full"></app-stems>
+              }
 
-        @case (8) {
-        <app-cores class="h-full"></app-cores>
-        }
+              @case (10) {
+                <app-trait-trees class="h-full"></app-trait-trees>
+              }
 
-        @case (9) {
-        <app-stems class="h-full"></app-stems>
-        }
+              @case (11) {
+                <app-achievements class="h-full"></app-achievements>
+              }
 
-        @case (10) {
-        <app-trait-trees class="h-full"></app-trait-trees>
-        }
-
-        @case (11) {
-        <app-achievements class="h-full"></app-achievements>
-        }
-
-        @case (12) {
-        <app-events class="h-full"></app-events>
-        }
-
-        }
+              @case (12) {
+                <app-events class="h-full"></app-events>
+              }
+            }
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  }
 
-  @else {
-  <div class="root-content px-3">
-    <div class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl">
-      <span class="loading loading-ring loading-lg"></span>
-    </div>
+    } @else {
+      <div class="root-content px-3">
+        <div
+          class="w-full h-full flex flex-nowrap justify-center items-center text-center text-3xl"
+        >
+          <span class="loading loading-ring loading-lg"></span>
+        </div>
+      </div>
+    }
   </div>
-  }
-</div>
 }
 
-<swal #changeModName title="Change Mod Name" text="Change the name of your mod." input="text"
-  confirmButtonText="Change name" [inputValue]="modService.modName()" [inputAttributes]="{ maxlength: '20' }"
-  [focusCancel]="true" (confirm)="modService.setName($event)">
-</swal>
+<swal
+  #changeModName
+  title="Change Mod Name"
+  text="Change the name of your mod."
+  input="text"
+  confirmButtonText="Change name"
+  [inputValue]="modService.modName()"
+  [inputAttributes]="{ maxlength: '20' }"
+  [focusCancel]="true"
+  (confirm)="modService.setName($event)"
+></swal>
 
-<swal #changeModAuthor title="Change Mod Author" text="Change the author of your mod." input="text"
-  confirmButtonText="Change author" [inputValue]="modService.modAuthor()" [inputAttributes]="{ maxlength: '20' }"
-  [showCancelButton]="true" [focusCancel]="true" (confirm)="modService.setAuthor($event)">
-</swal>
+<swal
+  #changeModAuthor
+  title="Change Mod Author"
+  text="Change the author of your mod."
+  input="text"
+  confirmButtonText="Change author"
+  [inputValue]="modService.modAuthor()"
+  [inputAttributes]="{ maxlength: '20' }"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  (confirm)="modService.setAuthor($event)"
+></swal>
 
-<swal #resetMod title="Reset Mod?" text="This cannot be undone. You may want to back up your mod before doing this."
-  confirmButtonText="Yes, reset" icon="warning" [showCancelButton]="true" [focusCancel]="true"
-  (confirm)="modService.resetMod()">
-</swal>
+<swal
+  #resetMod
+  title="Reset Mod?"
+  text="This cannot be undone. You may want to back up your mod before doing this."
+  confirmButtonText="Yes, reset"
+  icon="warning"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  (confirm)="modService.resetMod()"
+></swal>
 
-<swal #exportWarnSwal title="Export Confirmation"
+<swal
+  #exportWarnSwal
+  title="Export Confirmation"
   text="Your mod has errors. Are you sure you want to export it? It may fail. You can view errors by going to Actions > Validate Mod."
-  confirmButtonText="Yes, export" [showDenyButton]="true" denyButtonText="View errors" icon="warning"
-  [showCancelButton]="true" [focusCancel]="true"></swal>
+  confirmButtonText="Yes, export"
+  [showDenyButton]="true"
+  denyButtonText="View errors"
+  icon="warning"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+></swal>
 
 <dialog #tester class="modal">
-  <app-test-view class="modal-box w-11/12 max-w-5xl overflow-x-hidden"></app-test-view>
+  <app-test-view
+    class="modal-box w-11/12 max-w-5xl overflow-x-hidden"
+  ></app-test-view>
 </dialog>

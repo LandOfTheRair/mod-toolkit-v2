@@ -44,8 +44,8 @@ export class AnalysisService {
 
   private maxItemLevel = computed(() =>
     Math.max(
-      ...this.modService.mod().items.map((i) => i.requirements?.level ?? 0)
-    )
+      ...this.modService.mod().items.map((i) => i.requirements?.level ?? 0),
+    ),
   );
 
   public isAnalyzing = signal<boolean>(false);
@@ -59,7 +59,7 @@ export class AnalysisService {
   }
 
   public generateProgressionReport(
-    itemClasses: ItemClassType[]
+    itemClasses: ItemClassType[],
   ): AnalysisReport {
     const items = this.modService.mod().items;
     const filterItemClasses = structuredClone(itemClasses);
@@ -84,12 +84,12 @@ export class AnalysisService {
     const allMatchingItems = items.filter(
       (f) =>
         filterItemClasses.includes(f.itemClass) &&
-        baseItemFilters.every((filter) => filter(f))
+        baseItemFilters.every((filter) => filter(f)),
     );
 
     const sorted = sortBy(
       allMatchingItems,
-      (item) => item.requirements?.level ?? 0
+      (item) => item.requirements?.level ?? 0,
     );
 
     const dataRows: AnalysisDisplayRow[] = sorted.map((i) => ({
@@ -114,7 +114,7 @@ export class AnalysisService {
     itemClasses: ItemClassType[],
     getters: Array<(i: IItemDefinition[]) => string> = [],
     levelMin = 0,
-    levelMax = this.maxItemLevel()
+    levelMax = this.maxItemLevel(),
   ): AnalysisDisplayRow[][] {
     return itemClasses.map((i) => {
       const validItems = this.modService.mod().items.filter((f) => {
@@ -153,16 +153,16 @@ export class AnalysisService {
 
                 (items) =>
                   Math.min(
-                    ...items.map((i) => get(i, 'requirements.level', 0))
+                    ...items.map((i) => get(i, 'requirements.level', 0)),
                   ).toString(),
                 (items) =>
                   Math.max(
-                    ...items.map((i) => get(i, 'requirements.level', 0))
+                    ...items.map((i) => get(i, 'requirements.level', 0)),
                   ).toString(),
 
                 (items) =>
                   Math.max(
-                    ...items.map((i) => get(i, 'stats.offense', 0))
+                    ...items.map((i) => get(i, 'stats.offense', 0)),
                   ).toString(),
                 (items) =>
                   (
@@ -172,7 +172,7 @@ export class AnalysisService {
 
                 (items) =>
                   Math.max(
-                    ...items.map((i) => get(i, 'stats.defense', 0))
+                    ...items.map((i) => get(i, 'stats.defense', 0)),
                   ).toString(),
                 (items) =>
                   (
@@ -182,15 +182,15 @@ export class AnalysisService {
 
                 (items) =>
                   Math.max(
-                    ...items.map((i) => get(i, 'stats.armorClass', 0))
+                    ...items.map((i) => get(i, 'stats.armorClass', 0)),
                   ).toString(),
                 (items) =>
                   (
                     sumBy(items, (i) => get(i, 'stats.armorClass', 0)) /
                     items.length
                   ).toFixed(2),
-              ]
-            )
+              ],
+            ),
           )
           .flat(),
       },
@@ -200,7 +200,7 @@ export class AnalysisService {
       Array(this.maxItemLevel())
         .fill(0)
         .map((_, i) => i + 1),
-      5
+      5,
     );
 
     levelRanges[0].unshift(0);
@@ -232,7 +232,7 @@ export class AnalysisService {
                     items.length === 0
                       ? ''
                       : Math.max(
-                          ...items.map((i) => get(i, 'stats.offense', 0))
+                          ...items.map((i) => get(i, 'stats.offense', 0)),
                         ).toString(),
                   (items) =>
                     items.length === 0
@@ -246,7 +246,7 @@ export class AnalysisService {
                     items.length === 0
                       ? ''
                       : Math.max(
-                          ...items.map((i) => get(i, 'stats.defense', 0))
+                          ...items.map((i) => get(i, 'stats.defense', 0)),
                         ).toString(),
                   (items) =>
                     items.length === 0
@@ -260,7 +260,7 @@ export class AnalysisService {
                     items.length === 0
                       ? ''
                       : Math.max(
-                          ...items.map((i) => get(i, 'stats.armorClass', 0))
+                          ...items.map((i) => get(i, 'stats.armorClass', 0)),
                         ).toString(),
                   (items) =>
                     items.length === 0
@@ -271,8 +271,8 @@ export class AnalysisService {
                         ).toFixed(2),
                 ],
                 Math.min(...chunk),
-                Math.max(...chunk)
-              )
+                Math.max(...chunk),
+              ),
             )
             .flat(),
         },
@@ -311,7 +311,7 @@ export class AnalysisService {
 
                 (items) =>
                   Math.max(
-                    ...items.map((i) => get(i, 'requirements.level', 0))
+                    ...items.map((i) => get(i, 'requirements.level', 0)),
                   ).toString(),
 
                 (items) =>
@@ -321,7 +321,7 @@ export class AnalysisService {
 
                 (items) =>
                   Math.max(
-                    ...items.map((i) => get(i, 'stats.offense', 0))
+                    ...items.map((i) => get(i, 'stats.offense', 0)),
                   ).toString(),
                 (items) =>
                   (
@@ -331,7 +331,7 @@ export class AnalysisService {
 
                 (items) =>
                   Math.max(
-                    ...items.map((i) => get(i, 'stats.defense', 0))
+                    ...items.map((i) => get(i, 'stats.defense', 0)),
                   ).toString(),
                 (items) =>
                   (
@@ -341,15 +341,15 @@ export class AnalysisService {
 
                 (items) =>
                   Math.max(
-                    ...items.map((i) => get(i, 'stats.weaponArmorClass', 0))
+                    ...items.map((i) => get(i, 'stats.weaponArmorClass', 0)),
                   ).toString(),
                 (items) =>
                   (
                     sumBy(items, (i) => get(i, 'stats.weaponArmorClass', 0)) /
                     items.length
                   ).toFixed(2),
-              ]
-            )
+              ],
+            ),
           )
           .flat(),
       },
@@ -359,7 +359,7 @@ export class AnalysisService {
       Array(this.maxItemLevel())
         .fill(0)
         .map((_, i) => i + 1),
-      5
+      5,
     );
 
     levelRanges[0].unshift(0);
@@ -393,7 +393,7 @@ export class AnalysisService {
                     items.length === 0
                       ? ''
                       : Math.max(
-                          ...items.map((i) => get(i, 'tier', 0))
+                          ...items.map((i) => get(i, 'tier', 0)),
                         ).toString(),
                   (items) =>
                     items.length === 0
@@ -406,7 +406,7 @@ export class AnalysisService {
                     items.length === 0
                       ? ''
                       : Math.max(
-                          ...items.map((i) => get(i, 'stats.offense', 0))
+                          ...items.map((i) => get(i, 'stats.offense', 0)),
                         ).toString(),
                   (items) =>
                     items.length === 0
@@ -420,7 +420,7 @@ export class AnalysisService {
                     items.length === 0
                       ? ''
                       : Math.max(
-                          ...items.map((i) => get(i, 'stats.defense', 0))
+                          ...items.map((i) => get(i, 'stats.defense', 0)),
                         ).toString(),
                   (items) =>
                     items.length === 0
@@ -434,7 +434,7 @@ export class AnalysisService {
                     items.length === 0
                       ? ''
                       : Math.max(
-                          ...items.map((i) => get(i, 'stats.armorClass', 0))
+                          ...items.map((i) => get(i, 'stats.armorClass', 0)),
                         ).toString(),
                   (items) =>
                     items.length === 0
@@ -445,8 +445,8 @@ export class AnalysisService {
                         ).toFixed(2),
                 ],
                 Math.min(...chunk),
-                Math.max(...chunk)
-              )
+                Math.max(...chunk),
+              ),
             )
             .flat(),
         },
@@ -477,7 +477,7 @@ export class AnalysisService {
     };
 
     const allSlotNames = uniq(
-      allGems.map((g) => g.encrustGive?.slots ?? []).flat()
+      allGems.map((g) => g.encrustGive?.slots ?? []).flat(),
     );
 
     const allStats: Record<
@@ -494,7 +494,7 @@ export class AnalysisService {
     > = {};
     allGems.forEach((gem) => {
       const stats: StatType[] = Object.keys(
-        gem.encrustGive?.stats ?? {}
+        gem.encrustGive?.stats ?? {},
       ) as StatType[];
       const slots = gem.encrustGive?.slots ?? [];
 
@@ -517,11 +517,11 @@ export class AnalysisService {
         allStats[stat].gemList.push(gem.name);
         allStats[stat].firstLevel = Math.min(
           allStats[stat].firstLevel,
-          gemLevel
+          gemLevel,
         );
         allStats[stat].biggestBoost = Math.max(
           allStats[stat].biggestBoost,
-          gemBoost
+          gemBoost,
         );
 
         if (allStats[stat].firstLevel === gemLevel) {
@@ -581,7 +581,7 @@ export class AnalysisService {
     > = {};
     allGems.forEach((gem) => {
       const stats: StatType[] = Object.keys(
-        gem.encrustGive?.stats ?? {}
+        gem.encrustGive?.stats ?? {},
       ) as StatType[];
       const slots = gem.encrustGive?.slots ?? [];
 
@@ -601,7 +601,7 @@ export class AnalysisService {
         allSlots[slot].gemList.push(gem.name);
         allSlots[slot].firstLevel = Math.min(
           allSlots[slot].firstLevel,
-          gemLevel
+          gemLevel,
         );
 
         if (allSlots[slot].firstLevel === gemLevel) {
@@ -617,7 +617,7 @@ export class AnalysisService {
         rows: difference(Object.values(Stat), Object.keys(allStats)).map(
           (stat) => ({
             pretext: stat,
-          })
+          }),
         ),
       },
     };
@@ -670,7 +670,7 @@ export class AnalysisService {
 
     traitReport.table.rows = sortBy(
       stems.filter((s) => s._hasTrait),
-      'name'
+      'name',
     ).map((stem) => {
       const traitUsage = stem._gameId;
 
@@ -689,15 +689,15 @@ export class AnalysisService {
           i.useEffect?.name === traitUsage ||
           i.trapEffect?.name === traitUsage ||
           i.breakEffect?.name === traitUsage ||
-          i.encrustGive?.strikeEffect?.name === traitUsage
+          i.encrustGive?.strikeEffect?.name === traitUsage,
       );
       const usingNPCs = npcs.filter(
         (n) =>
           n.traitLevels?.[traitUsage] > 0 ||
-          n.usableSkills?.some((s) => s.result === traitUsage)
+          n.usableSkills?.some((s) => s.result === traitUsage),
       );
       const usingTrees = baseTrees.filter((t) =>
-        t.traits.some((n) => n === traitUsage)
+        t.traits.some((n) => n === traitUsage),
       );
 
       const formattedTraitInfo = `${traitUsage}${stem._hasSpell ? ' 🔮' : ''}${
@@ -708,7 +708,7 @@ export class AnalysisService {
         { pretext: formattedTraitInfo, tooltip: stem.all.desc },
         {
           pretext: this.formatEntryEmphasizeZero(
-            usingItems.length + usingNPCs.length + usingTrees.length
+            usingItems.length + usingNPCs.length + usingTrees.length,
           ),
         },
         {
@@ -733,7 +733,7 @@ export class AnalysisService {
 
   private countStatUtilizationOnItems(
     items: IItemDefinition[],
-    stat: StatType
+    stat: StatType,
   ): Record<ItemClassType, number> {
     return items.reduce(
       (prev, cur) => ({
@@ -742,7 +742,7 @@ export class AnalysisService {
           (prev[cur.itemClass] ?? 0) +
           (cur.stats?.[stat] || cur.randomStats?.[stat] ? 1 : 0),
       }),
-      {} as Record<ItemClassType, number>
+      {} as Record<ItemClassType, number>,
     );
   }
 
@@ -751,7 +751,7 @@ export class AnalysisService {
 
     const weaponClassOrder = Object.values(WeaponClass);
     const allWeapons = allItems.filter((f) =>
-      weaponClassOrder.includes(f.itemClass as WeaponClass)
+      weaponClassOrder.includes(f.itemClass as WeaponClass),
     );
 
     const weaponReport: AnalysisReportDisplay = {
@@ -767,14 +767,14 @@ export class AnalysisService {
       Object.values(Stat).map((stat) => {
         const statUtilization = this.countStatUtilizationOnItems(
           allWeapons,
-          stat
+          stat,
         );
 
         return [
           { pretext: stat as string },
           {
             pretext: this.formatEntryEmphasizeZero(
-              sum(Object.values(statUtilization))
+              sum(Object.values(statUtilization)),
             ),
           },
           ...weaponClassOrder.map((c) => ({
@@ -782,12 +782,12 @@ export class AnalysisService {
           })),
         ];
       }),
-      (row) => -row[1].pretext
+      (row) => -row[1].pretext,
     );
 
     const armorClassOrder = Object.values(ArmorClass);
     const allArmors = allItems.filter((f) =>
-      armorClassOrder.includes(f.itemClass as ArmorClass)
+      armorClassOrder.includes(f.itemClass as ArmorClass),
     );
 
     const armorReport: AnalysisReportDisplay = {
@@ -803,14 +803,14 @@ export class AnalysisService {
       Object.values(Stat).map((stat) => {
         const statUtilization = this.countStatUtilizationOnItems(
           allArmors,
-          stat
+          stat,
         );
 
         return [
           { pretext: stat as string },
           {
             pretext: this.formatEntryEmphasizeZero(
-              sum(Object.values(statUtilization))
+              sum(Object.values(statUtilization)),
             ),
           },
           ...armorClassOrder.map((c) => ({
@@ -818,7 +818,7 @@ export class AnalysisService {
           })),
         ];
       }),
-      (row) => -row[1].pretext
+      (row) => -row[1].pretext,
     );
 
     return {
@@ -829,7 +829,7 @@ export class AnalysisService {
   public calculateSpellDamage(
     spell: ISTEM['spell'],
     skill: number,
-    stat: number
+    stat: number,
   ): { min: number; max: number } {
     const calcSkill = skill + 1;
     const maxMult = spell.skillMultiplierChanges
@@ -1041,7 +1041,7 @@ export class AnalysisService {
     scaleStatValues: number[],
     tier: number,
     skill: number,
-    stat: number
+    stat: number,
   ): { min: number; max: number } {
     const scaleStatValue = scaleStatValues[stat - 1];
     const baseDamage =
@@ -1067,7 +1067,7 @@ export class AnalysisService {
 
   public generateWeaponPotencyReport(
     itemClass: ItemClassType | undefined,
-    tier = 1
+    tier = 1,
   ): AnalysisReport {
     if (!itemClass) return { entries: [] };
 
@@ -1081,7 +1081,7 @@ export class AnalysisService {
     if (!weaponTierInfo || !statScaling) return { entries: [] };
 
     const weaponDamageInfo = this.calculateWeaponDamageInfo(
-      weaponTierInfo as WeaponTierInfo
+      weaponTierInfo as WeaponTierInfo,
     );
 
     const allReports: AnalysisReportDisplay[] = [];
@@ -1134,7 +1134,7 @@ export class AnalysisService {
           statScaling as number[],
           tier,
           skill,
-          stat
+          stat,
         );
 
         weaponReport.table.rows.push([
@@ -1155,7 +1155,7 @@ export class AnalysisService {
 
   private getBestItemsForStatPerLevel(
     level: number,
-    stat: StatType
+    stat: StatType,
   ): IItemDefinition[] {
     const allEquippableItems = this.modService
       .mod()
@@ -1165,7 +1165,7 @@ export class AnalysisService {
           (f.stats?.[stat] ?? 0) > 0 &&
           f.sprite !== -1 &&
           !f.destroyOnDrop &&
-          !Object.values(Holiday).some((s) => f.name.includes(s))
+          !Object.values(Holiday).some((s) => f.name.includes(s)),
       );
 
     const slotsToFill: ItemClassType[][] = [
@@ -1187,9 +1187,9 @@ export class AnalysisService {
       return sortBy(
         allEquippableItems.filter(
           (i) =>
-            (i.requirements?.level ?? 0) <= level && s.includes(i.itemClass)
+            (i.requirements?.level ?? 0) <= level && s.includes(i.itemClass),
         ),
-        (i) => -(i.stats?.[stat] ?? 0)
+        (i) => -(i.stats?.[stat] ?? 0),
       )[0];
     });
 
@@ -1242,6 +1242,113 @@ export class AnalysisService {
     }
 
     allReports.push(statReport);
+
+    return {
+      entries: [...allReports],
+    };
+  }
+
+  public generateMapReport(mapName: string): AnalysisReport {
+    const mod = this.modService.mod();
+
+    const itemRefs: Record<string, number> = {};
+    const npcRefs: Record<string, number> = {};
+
+    const usedSpawnerTags: Record<string, number> = {};
+
+    const allReports: AnalysisReportDisplay[] = [];
+
+    const npcReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: `NPCs Used`,
+        headers: ['NPC Id', '# Times Referenced'],
+        rows: [],
+      },
+    };
+
+    const map = mod.maps.find((m) => m.name === mapName);
+    if (!map) return { entries: [] };
+
+    map.map.layers[10].objects.forEach((spawner: any) => {
+      if (!spawner.properties) return;
+
+      usedSpawnerTags[spawner.properties.tag as string] =
+        (usedSpawnerTags[spawner.properties.tag as string] ?? 0) + 1;
+
+      if (spawner.properties.lairName) {
+        npcRefs[spawner.properties.lairName as string] =
+          (npcRefs[spawner.properties.lairName as string] ?? 0) + 1;
+      }
+    });
+
+    Object.keys(usedSpawnerTags).forEach((tag) => {
+      const spawnerData = mod.spawners.find((s) => s.tag === tag);
+      if (!spawnerData) return;
+
+      spawnerData.npcIds.forEach((rollable) => {
+        const npcId = rollable.result;
+        npcRefs[npcId] = (npcRefs[npcId] ?? 0) + usedSpawnerTags[tag];
+      });
+    });
+
+    Object.keys(npcRefs).forEach((npcId) => {
+      const npcData = mod.npcs.find((n) => n.npcId === npcId);
+      if (!npcData) return;
+
+      (npcData.drops ?? []).forEach((drop) => {
+        const itemId = drop.result;
+        itemRefs[itemId] = (itemRefs[itemId] ?? 0) + npcRefs[npcId];
+      });
+
+      Object.values(npcData.items?.equipment ?? {}).forEach((rollable) => {
+        rollable.forEach((result) => {
+          const itemId = result.result;
+          itemRefs[itemId] = (itemRefs[itemId] ?? 0) + npcRefs[npcId];
+        });
+      });
+
+      (npcData.dropPool?.items ?? []).forEach((drop) => {
+        const itemId = drop.result;
+        itemRefs[itemId] = (itemRefs[itemId] ?? 0) + npcRefs[npcId];
+      });
+
+      npcReport.table.rows.push([
+        {
+          npcId: npcId,
+        },
+        {
+          pretext: `x${npcRefs[npcId]}`,
+        },
+      ]);
+    });
+
+    const itemReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: `Items Used`,
+        headers: ['Item Name', '# Times Referenced'],
+        rows: [],
+      },
+    };
+
+    Object.keys(itemRefs).forEach((itemId) => {
+      if (itemId === 'none') return;
+
+      itemReport.table.rows.push([
+        { itemName: itemId },
+        { pretext: `x${itemRefs[itemId]}` },
+      ]);
+    });
+
+    itemReport.table.rows = sortBy(itemReport.table.rows, (i) =>
+      i[0].itemName?.toLowerCase(),
+    );
+    npcReport.table.rows = sortBy(npcReport.table.rows, (i) =>
+      i[0].npcId?.toLowerCase(),
+    );
+
+    allReports.push(npcReport, itemReport);
 
     return {
       entries: [...allReports],

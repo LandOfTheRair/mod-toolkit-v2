@@ -25,6 +25,7 @@ export class AnalysisComponent implements OnInit {
   public defaultItemclass = input<string | null>();
   public defaultSpell = input<string | null>();
   public defaultTier = input<string | null>();
+  public defaultMap = input<string | null>();
 
   public analysisService = inject(AnalysisService);
   public modService = inject(ModService);
@@ -33,6 +34,7 @@ export class AnalysisComponent implements OnInit {
   public reportDataArgs = signal<ReportModel['data'] | undefined>(undefined);
   public itemClassInput = signal<ItemClassType | undefined>(undefined);
   public spellNameInput = signal<string | undefined>(undefined);
+  public mapNameInput = signal<string | undefined>(undefined);
   public tierInput = signal<number>(1);
 
   public maxTier = computed(() => {
@@ -51,13 +53,13 @@ export class AnalysisComponent implements OnInit {
     switch (reportType) {
       case AnalysisReportType.ArmorAverage: {
         return this.analysisService.generateArmorReport(
-          reportArgs?.itemClasses ?? []
+          reportArgs?.itemClasses ?? [],
         );
       }
 
       case AnalysisReportType.WeaponAverage: {
         return this.analysisService.generateWeaponReport(
-          reportArgs?.itemClasses ?? []
+          reportArgs?.itemClasses ?? [],
         );
       }
 
@@ -75,7 +77,7 @@ export class AnalysisComponent implements OnInit {
 
       case AnalysisReportType.ProgressionAggregate: {
         return this.analysisService.generateProgressionReport(
-          reportArgs?.itemClasses ?? []
+          reportArgs?.itemClasses ?? [],
         );
       }
 
@@ -98,12 +100,19 @@ export class AnalysisComponent implements OnInit {
 
         return this.analysisService.generateWeaponPotencyReport(
           chosenItemClass,
-          chosenItemTier
+          chosenItemTier,
         );
       }
 
       case AnalysisReportType.ResistanceAcquisition: {
         return this.analysisService.generateResistanceAcquisitionReport();
+      }
+
+      case AnalysisReportType.MapContent: {
+        const mapName = this.mapNameInput();
+        if (!mapName) return undefined;
+
+        return this.analysisService.generateMapReport(mapName);
       }
     }
   });

@@ -6,6 +6,7 @@ export enum AnalysisReportType {
   WeaponAverage = 'weaponaverage', // average weapon information by item class
   ResistanceAcquisition = 'resistanceacquisition', // what your max expected resistance is from gear at a level
   TraitUsage = 'traitusage', // a list of all traits that are used and unused
+  MapContent = 'mapcontent', // a list of all npcs and items in a map
   StatUtilization = 'statutilization', // a list of all stats by utilization
   SpellPotency = 'spellpotency', // a list of all skill/stat combos for spell damage estimation
   WeaponPotency = 'weaponpotency', // a list of all skill/stat combos for weapon damage estimation
@@ -20,6 +21,7 @@ export type AnalysisDisplayRow = {
   pretext?: string;
   posttext?: string;
   itemName?: string;
+  npcId?: string;
   tooltip?: string;
 };
 

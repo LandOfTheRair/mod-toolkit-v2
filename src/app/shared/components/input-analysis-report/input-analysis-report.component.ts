@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  inject,
   input,
   model,
   OnInit,
@@ -15,6 +16,7 @@ import {
   ShieldClasses,
 } from '../../../../interfaces';
 import { armorClasses, weaponClasses } from '../../../helpers';
+import { ModService } from '../../../services/mod.service';
 
 export type ReportModel = {
   category: string;
@@ -34,10 +36,16 @@ export type ReportModel = {
   styleUrl: './input-analysis-report.component.scss',
 })
 export class InputAnalysisReportComponent implements OnInit {
+  private modService = inject(ModService);
+
   public report = model.required<string | undefined>();
   public label = input<string>('Report');
   public change = output<ReportModel | undefined>();
   public defaultValue = input<string>();
+
+  public allMaps = computed(() =>
+    this.modService.mod().maps.map((map) => map.name)
+  );
 
   public values = computed(() => {
     return [
@@ -113,6 +121,15 @@ export class InputAnalysisReportComponent implements OnInit {
           itemClasses: weaponClasses,
         },
         desc: 'A global and individual breakdown of each weapon type, including average stats per bracket.',
+      },
+      {
+        category: 'Miscellaneous',
+        value: 'Map Content',
+        type: AnalysisReportType.MapContent,
+        data: {
+          maps: this.allMaps(),
+        },
+        desc: 'A breakdown of all NPCs and items in a map.',
       },
       {
         category: 'Miscellaneous',
