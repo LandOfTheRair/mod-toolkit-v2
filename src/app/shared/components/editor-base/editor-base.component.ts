@@ -37,6 +37,8 @@ export class EditorBaseComponent<T extends HasIdentification>
   public goBack = output<void>();
   public save = output<T>();
 
+  protected isSaving = signal<boolean>(false);
+
   public changeTab(tab: number) {
     this.activeTab.set(tab);
     this.localStorage.store(`${this.key}-tabs`, tab);

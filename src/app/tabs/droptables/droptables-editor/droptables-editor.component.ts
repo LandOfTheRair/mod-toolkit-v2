@@ -20,7 +20,8 @@ export class DroptablesEditorComponent extends EditorBaseComponent<IDroptable> {
     const data = this.editing();
     return (
       (data.isGlobal || data.mapName || data.regionName) &&
-      data.drops.length > 0
+      data.drops.length > 0 &&
+      !this.isSaving()
     );
   });
 
@@ -57,5 +58,17 @@ export class DroptablesEditorComponent extends EditorBaseComponent<IDroptable> {
 
   public sortDrops(drops: Rollable[]): Rollable[] {
     return sortBy(drops, 'result');
+  }
+
+  doSave() {
+    this.isSaving.set(true);
+
+    setTimeout(() => {
+      const table = this.editing();
+
+      this.editing.set(table);
+
+      super.doSave();
+    }, 50);
   }
 }

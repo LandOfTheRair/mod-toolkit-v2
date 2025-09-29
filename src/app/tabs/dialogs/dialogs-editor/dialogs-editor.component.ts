@@ -47,7 +47,12 @@ export class DialogsEditorComponent
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.tag && !this.dialogError() && !this.behaviorError();
+    return (
+      data.tag &&
+      !this.dialogError() &&
+      !this.behaviorError() &&
+      !this.isSaving()
+    );
   });
 
   public slotsInOrder = computed(() => {
@@ -171,14 +176,18 @@ export class DialogsEditorComponent
   }
 
   doSave() {
-    const npc = this.editing();
-    npc.usableSkills = npc.usableSkills.filter(Boolean);
+    this.isSaving.set(true);
 
-    npc.dialog = yaml.load(this.dialogText()) as Record<string, any>;
-    npc.behaviors = yaml.load(this.behaviorText()) as IBehavior[];
+    setTimeout(() => {
+      const npc = this.editing();
+      npc.usableSkills = npc.usableSkills.filter(Boolean);
 
-    this.editing.set(npc);
+      npc.dialog = yaml.load(this.dialogText()) as Record<string, any>;
+      npc.behaviors = yaml.load(this.behaviorText()) as IBehavior[];
 
-    super.doSave();
+      this.editing.set(npc);
+
+      super.doSave();
+    }, 50);
   }
 }

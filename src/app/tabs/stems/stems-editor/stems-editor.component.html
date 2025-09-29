@@ -14,14 +14,17 @@
   }
 
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">
+    <button
+      class="btn-sm btn btn-warning mr-3"
+      (click)="doBack()"
+      [class.btn-disabled]="isSaving()"
+    >
       Go Back
     </button>
     <button
       class="btn-sm btn btn-secondary"
-      [disabled]="!canSave()"
       (click)="doSave()"
-      [class.btn-disabled]="!electronService.isInElectron()"
+      [class.btn-disabled]="!electronService.isInElectron() || !canSave()"
     >
       Save
     </button>

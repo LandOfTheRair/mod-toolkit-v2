@@ -15,7 +15,13 @@ import { EditorBaseComponent } from '../../../shared/components/editor-base/edit
 export class QuestsEditorComponent extends EditorBaseComponent<IQuest> {
   public canSave = computed(() => {
     const data = this.editing();
-    return data.desc && data.giver && data.name && this.satisfiesUnique();
+    return (
+      data.desc &&
+      data.giver &&
+      data.name &&
+      this.satisfiesUnique() &&
+      !this.isSaving()
+    );
   });
 
   public satisfiesUnique = computed(() => {
@@ -85,5 +91,17 @@ export class QuestsEditorComponent extends EditorBaseComponent<IQuest> {
       ...quest,
       rewards: quest.rewards.filter((s, i) => i !== index),
     }));
+  }
+
+  doSave() {
+    this.isSaving.set(true);
+
+    setTimeout(() => {
+      const core = this.editing();
+
+      this.editing.set(core);
+
+      super.doSave();
+    }, 50);
   }
 }

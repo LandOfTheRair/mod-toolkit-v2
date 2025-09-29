@@ -56,7 +56,10 @@ export class TraitTreesEditorComponent
   public canSave = computed(() => {
     const data = this.editing();
     return (
-      data.name && this.satisfiesUnique() && data.data.treeOrder.length > 0
+      data.name &&
+      this.satisfiesUnique() &&
+      data.data.treeOrder.length > 0 &&
+      !this.isSaving()
     );
   });
 
@@ -198,10 +201,14 @@ export class TraitTreesEditorComponent
   }
 
   public doSave() {
-    const item = this.editing();
+    this.isSaving.set(true);
 
-    this.editing.set(item);
+    setTimeout(() => {
+      const item = this.editing();
 
-    super.doSave();
+      this.editing.set(item);
+
+      super.doSave();
+    }, 50);
   }
 }

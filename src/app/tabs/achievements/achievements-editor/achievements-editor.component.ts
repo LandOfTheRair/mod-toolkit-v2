@@ -17,7 +17,13 @@ export class AchievementsEditorComponent
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.name && data.desc && data.ap > 0 && this.satisfiesUnique();
+    return (
+      data.name &&
+      data.desc &&
+      data.ap > 0 &&
+      this.satisfiesUnique() &&
+      !this.isSaving()
+    );
   });
 
   public satisfiesUnique = computed(() => {
@@ -35,11 +41,13 @@ export class AchievementsEditorComponent
   }
 
   doSave() {
-    const core = this.editing();
+    this.isSaving.set(true);
 
-    this.editing.set(core);
-
-    super.doSave();
+    setTimeout(() => {
+      const core = this.editing();
+      this.editing.set(core);
+      super.doSave();
+    }, 50);
   }
 
   resetAchievementType() {

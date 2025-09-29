@@ -1,29 +1,48 @@
 @let editingData = editing();
 
 <div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
-
   @for(tab of treeTabs(); let i = $index; track tab.name) {
-  <a role="tab" class="tab" [class.tab-active]="activeTab() === i" (click)="changeTab(i)">
+  <a
+    role="tab"
+    class="tab"
+    [class.tab-active]="activeTab() === i"
+    (click)="changeTab(i)"
+  >
     {{ tab.name }}
   </a>
   }
 
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
-    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()"
-      [class.btn-disabled]="!electronService.isInElectron()">Save</button>
+    <button
+      class="btn-sm btn btn-warning mr-3"
+      [class.btn-disabled]="isSaving()"
+      (click)="doBack()"
+    >
+      Go Back
+    </button>
+    <button
+      class="btn-sm btn btn-secondary"
+      (click)="doSave()"
+      [class.btn-disabled]="!electronService.isInElectron() || !canSave()"
+    >
+      Save
+    </button>
   </div>
-
 </div>
 
-@switch (activeTab()) {
-@case (0) {
+@switch (activeTab()) { @case (0) {
 <div class="flex flex-row gap-2">
   <div class="form-column">
     <div class="form-row">
       <app-input-floating-label>Display Name</app-input-floating-label>
-      <input [ngModel]="editingData.name" (ngModelChange)="update('name', $event)" type="text"
-        placeholder="Enter trait tree display name..." class="form-input" [class.has-error]="!satisfiesUnique()" />
+      <input
+        [ngModel]="editingData.name"
+        (ngModelChange)="update('name', $event)"
+        type="text"
+        placeholder="Enter trait tree display name..."
+        class="form-input"
+        [class.has-error]="!satisfiesUnique()"
+      />
     </div>
   </div>
 
@@ -39,8 +58,12 @@
       <div class="form-column">{{ tree }}</div>
       <div class="form-column button-column">
         <div class="form-row">
-          <button class="ml-2 btn btn-sm btn-info" (click)="moveTreeUp($index)" [class.btn-disabled]="$first"
-            floatUi="Move Up">
+          <button
+            class="ml-2 btn btn-sm btn-info"
+            (click)="moveTreeUp($index)"
+            [class.btn-disabled]="$first"
+            floatUi="Move Up"
+          >
             <ng-icon name="heroArrowTurnLeftUp"></ng-icon>
           </button>
         </div>
@@ -48,8 +71,12 @@
 
       <div class="form-column button-column">
         <div class="form-row">
-          <button class="ml-2 btn btn-sm btn-info" (click)="moveTreeDown($index)" [class.btn-disabled]="$last"
-            floatUi="Move Down">
+          <button
+            class="ml-2 btn btn-sm btn-info"
+            (click)="moveTreeDown($index)"
+            [class.btn-disabled]="$last"
+            floatUi="Move Down"
+          >
             <ng-icon name="heroArrowTurnRightDown"></ng-icon>
           </button>
         </div>
@@ -57,7 +84,11 @@
 
       <div class="form-column button-column">
         <div class="form-row">
-          <button class="ml-2 btn btn-sm btn-warning" (click)="changeTreeName($index)" floatUi="Rename">
+          <button
+            class="ml-2 btn btn-sm btn-warning"
+            (click)="changeTreeName($index)"
+            floatUi="Rename"
+          >
             <ng-icon name="heroPencil"></ng-icon>
           </button>
         </div>
@@ -65,7 +96,11 @@
 
       <div class="form-column button-column">
         <div class="form-row">
-          <button class="ml-2 btn btn-sm btn-warning" (click)="removeTree($index)" floatUi="Remove">
+          <button
+            class="ml-2 btn btn-sm btn-warning"
+            (click)="removeTree($index)"
+            floatUi="Remove"
+          >
             <ng-icon name="heroTrash"></ng-icon>
           </button>
         </div>
@@ -77,74 +112,105 @@
   <div class="form-column"></div>
 </div>
 
-<swal #addNewTree title="Add New Tree" text="Add a new trait tree." input="text" confirmButtonText="Add tree"
-  [inputAttributes]="{ maxlength: '20' }" [focusCancel]="true" (confirm)="addTraitTree($event)">
+<swal
+  #addNewTree
+  title="Add New Tree"
+  text="Add a new trait tree."
+  input="text"
+  confirmButtonText="Add tree"
+  [inputAttributes]="{ maxlength: '20' }"
+  [focusCancel]="true"
+  (confirm)="addTraitTree($event)"
+>
 </swal>
 
-<swal #renameTree title="Change Tree Name" text="Change the name of your tree." input="text"
-  confirmButtonText="Change tree name" [inputAttributes]="{ maxlength: '20' }" [showCancelButton]="true"
-  [focusCancel]="true">
+<swal
+  #renameTree
+  title="Change Tree Name"
+  text="Change the name of your tree."
+  input="text"
+  confirmButtonText="Change tree name"
+  [inputAttributes]="{ maxlength: '20' }"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+>
 </swal>
-}
-
-@default {
-@let treeName = editingData.data.treeOrder[activeTab() - 1];
-@let treeTab = editingData.data.trees[treeName];
-@let tree = treeTab.tree;
-
-@for(row of tree; let rowIndex = $index; track $index) {
+} @default { @let treeName = editingData.data.treeOrder[activeTab() - 1]; @let
+treeTab = editingData.data.trees[treeName]; @let tree = treeTab.tree; @for(row
+of tree; let rowIndex = $index; track $index) {
 <div class="flex flex-row">
-  @for(col of tree[$index].traits; let colIndex = $index;track $index + ' ' + col.name) {
+  @for(col of tree[$index].traits; let colIndex = $index;track $index + ' ' +
+  col.name) {
   <div class="flex-1">
     <div class="flex flex-col p-4">
       <div class="flex items-center justify-center">
-
-        @let stemInfo = lookupSTEMInfo(col.name);
-        @if(col.name && stemInfo) {
-        <app-icon class="min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]" [icon]="stemInfo.all.icon"
+        @let stemInfo = lookupSTEMInfo(col.name); @if(col.name && stemInfo) {
+        <app-icon
+          class="min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]"
+          [icon]="stemInfo.all.icon"
           [color]="stemInfo.all.color || stemInfo.trait.iconColor"
-          [bgColor]="stemInfo.all.bgColor || stemInfo.trait.iconBgColor || '#9ca3af'"
-          [borderColor]="stemInfo.trait.borderColor"></app-icon>
+          [bgColor]="
+            stemInfo.all.bgColor || stemInfo.trait.iconBgColor || '#9ca3af'
+          "
+          [borderColor]="stemInfo.trait.borderColor"
+        ></app-icon>
         } @else {
         <div class="min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px]"></div>
         }
       </div>
 
       <div class="form-row">
-        <app-input-trait [trait]="col.name" label="Trait" [allowSpells]="true"
-          (change)="changeTrait($event, tree, treeName, rowIndex, colIndex)"></app-input-trait>
+        <app-input-trait
+          [trait]="col.name"
+          label="Trait"
+          [allowSpells]="true"
+          (change)="changeTrait($event, tree, treeName, rowIndex, colIndex)"
+        ></app-input-trait>
       </div>
 
       <div class="form-row">
-        <app-input-trait [(trait)]="col.requires" label="Required Trait" [allowSpells]="true"
-          floatUi="If set, this trait cannot be taken until the user has the pre-requisite trait."></app-input-trait>
+        <app-input-trait
+          [(trait)]="col.requires"
+          label="Required Trait"
+          [allowSpells]="true"
+          floatUi="If set, this trait cannot be taken until the user has the pre-requisite trait."
+        ></app-input-trait>
       </div>
 
       <div class="form-row split">
         <div class="form-column">
           <div class="form-row">
             <app-input-floating-label>Max Trait Level</app-input-floating-label>
-            <input [(ngModel)]="col.maxLevel" min="1" type="number" class="form-input" />
+            <input
+              [(ngModel)]="col.maxLevel"
+              min="1"
+              type="number"
+              class="form-input"
+            />
           </div>
         </div>
 
         <div class="form-column flex items-center justify-center">
           <div class="form-row">
-            <label class="label cursor-pointer" floatUi="Whether or not the trait cost AP instead of TP.">
-              <input type="checkbox" [(ngModel)]="col.isAncient" class="checkbox" />
+            <label
+              class="label cursor-pointer"
+              floatUi="Whether or not the trait cost AP instead of TP."
+            >
+              <input
+                type="checkbox"
+                [(ngModel)]="col.isAncient"
+                class="checkbox"
+              />
               <span class="label-text">Is Ancient?</span>
             </label>
           </div>
         </div>
       </div>
-
     </div>
   </div>
   }
 </div>
-}
-}
-}
+} } }
 
 <app-debug-view>
   {{ editingData | json }}

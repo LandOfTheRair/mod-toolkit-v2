@@ -94,7 +94,7 @@ export class NpcsEditorComponent
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.npcId && this.satisfiesUnique();
+    return data.npcId && this.satisfiesUnique() && !this.isSaving();
   });
 
   public satisfiesUnique = computed(() => {
@@ -486,59 +486,63 @@ export class NpcsEditorComponent
   }
 
   doSave() {
-    const npc = this.editing();
-    npc.usableSkills = npc.usableSkills.filter((f) => f.result);
-    npc.baseEffects = npc.baseEffects.filter((f) => f.name);
-    npc.items.sack = npc.items.sack.filter((f) => f.result);
+    this.isSaving.set(true);
 
-    (this.equipmentColumns.flat(Infinity) as ItemSlotType[]).forEach(
-      (slot: ItemSlotType) => {
-        npc.items.equipment[slot] = npc.items.equipment[slot]?.filter(
-          (f) => f.result
-        );
-      }
-    );
+    setTimeout(() => {
+      const npc = this.editing();
+      npc.usableSkills = npc.usableSkills.filter((f) => f.result);
+      npc.baseEffects = npc.baseEffects.filter((f) => f.name);
+      npc.items.sack = npc.items.sack.filter((f) => f.result);
 
-    npc.drops = npc.drops.filter((d) => d.result);
-    npc.copyDrops = npc.copyDrops.filter((d) => d.result);
-    npc.dropPool.items = npc.dropPool.items.filter((d) => d.result);
-
-    npc.repMod = npc.repMod.filter((r) => r.delta);
-
-    ['leash', 'spawn', 'combat'].forEach((type) => {
-      const triggerType = type as keyof INPCDefinition['triggers'];
-
-      npc.triggers[triggerType].messages =
-        npc.triggers[triggerType].messages.filter(Boolean);
-
-      if (!npc.triggers[triggerType].sfx.name) {
-        delete (npc.triggers[triggerType] as any).sfx;
-      }
-
-      if (!npc.triggers[triggerType].messages.length) {
-        delete (npc.triggers[triggerType] as any).messages;
-      }
-
-      if (
-        !npc.triggers[triggerType].messages &&
-        !npc.triggers[triggerType].sfx
-      ) {
-        delete (npc.triggers as any)[triggerType];
-      }
-    });
-
-    if (Object.keys(npc.triggers ?? {}).length === 0) {
-      delete (npc as any).triggers;
-    }
-
-    Object.values(Skill).forEach((skill) => {
-      npc.skills[skill.toLowerCase() as SkillType] = skillXPFromLevel(
-        npc.skillLevels
+      (this.equipmentColumns.flat(Infinity) as ItemSlotType[]).forEach(
+        (slot: ItemSlotType) => {
+          npc.items.equipment[slot] = npc.items.equipment[slot]?.filter(
+            (f) => f.result
+          );
+        }
       );
-    });
 
-    this.editing.set(npc);
+      npc.drops = npc.drops.filter((d) => d.result);
+      npc.copyDrops = npc.copyDrops.filter((d) => d.result);
+      npc.dropPool.items = npc.dropPool.items.filter((d) => d.result);
 
-    super.doSave();
+      npc.repMod = npc.repMod.filter((r) => r.delta);
+
+      ['leash', 'spawn', 'combat'].forEach((type) => {
+        const triggerType = type as keyof INPCDefinition['triggers'];
+
+        npc.triggers[triggerType].messages =
+          npc.triggers[triggerType].messages.filter(Boolean);
+
+        if (!npc.triggers[triggerType].sfx.name) {
+          delete (npc.triggers[triggerType] as any).sfx;
+        }
+
+        if (!npc.triggers[triggerType].messages.length) {
+          delete (npc.triggers[triggerType] as any).messages;
+        }
+
+        if (
+          !npc.triggers[triggerType].messages &&
+          !npc.triggers[triggerType].sfx
+        ) {
+          delete (npc.triggers as any)[triggerType];
+        }
+      });
+
+      if (Object.keys(npc.triggers ?? {}).length === 0) {
+        delete (npc as any).triggers;
+      }
+
+      Object.values(Skill).forEach((skill) => {
+        npc.skills[skill.toLowerCase() as SkillType] = skillXPFromLevel(
+          npc.skillLevels
+        );
+      });
+
+      this.editing.set(npc);
+
+      super.doSave();
+    }, 50);
   }
 }

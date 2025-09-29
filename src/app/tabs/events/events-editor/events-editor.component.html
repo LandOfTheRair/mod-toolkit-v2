@@ -1,0 +1,281 @@
+@let editingData = editing();
+
+<div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
+  <div class="tab flex flex-row justify-end">
+    <button
+      class="btn-sm btn btn-warning mr-3"
+      [class.btn-disabled]="isSaving()"
+      (click)="doBack()"
+    >
+      Go Back
+    </button>
+    <button
+      class="btn-sm btn btn-secondary"
+      (click)="doSave()"
+      [class.btn-disabled]="!electronService.isInElectron() || !canSave()"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<div class="flex flex-row gap-2">
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-floating-label>Name</app-input-floating-label>
+      <input
+        [(ngModel)]="editingData.name"
+        (ngModelChange)="update('name', $event)"
+        type="text"
+        placeholder="Enter name..."
+        class="form-input"
+        [class.has-error]="!satisfiesUnique()"
+      />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Description</app-input-floating-label>
+      <input
+        [(ngModel)]="editingData.description"
+        (ngModelChange)="update('description', $event)"
+        type="text"
+        placeholder="Enter description (shows up in event panel)..."
+        class="form-input"
+      />
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-eventrarity
+            [(rarity)]="editingData.rarity"
+          ></app-input-eventrarity>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label
+            >Duration (seconds)</app-input-floating-label
+          >
+          <input
+            [ngModel]="editingData.duration"
+            (ngModelChange)="update('duration', $event)"
+            min="0"
+            type="number"
+            placeholder="Enter duration (seconds)..."
+            class="form-input"
+          />
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-floating-label
+            >Cooldown (seconds)</app-input-floating-label
+          >
+          <input
+            [(ngModel)]="editingData.cooldown"
+            (ngModelChange)="update('cooldown', $event)"
+            min="0"
+            type="number"
+            placeholder="Enter cooldown (seconds)..."
+            class="form-input"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>Start Message</app-input-floating-label>
+      <input
+        [(ngModel)]="editingData.startMessage"
+        (ngModelChange)="update('startMessage', $event)"
+        type="text"
+        placeholder="Enter start message (sent to lobby)..."
+        class="form-input"
+      />
+    </div>
+
+    <div class="form-row">
+      <app-input-floating-label>End Message</app-input-floating-label>
+      <input
+        [(ngModel)]="editingData.endMessage"
+        (ngModelChange)="update('endMessage', $event)"
+        type="text"
+        placeholder="Enter end message (sent to lobby)..."
+        class="form-input"
+      />
+    </div>
+  </div>
+
+  <div class="form-column">
+    <div class="form-row">
+      <app-input-map
+        [(map)]="editingData.map"
+        [defaultValue]="editingData.map"
+        label="Required Active Map"
+      ></app-input-map>
+    </div>
+
+    <div class="form-row">
+      <app-input-npc
+        (change)="editingData.npc = $event"
+        [defaultValue]="editingData.npc"
+        label="Required Alive NPC"
+      ></app-input-npc>
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-event
+            [defaultValue]="currentConflictEvent()"
+            label="Conflicting Events"
+            (change)="currentConflictEvent.set($event)"
+          ></app-input-event>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button
+            class="btn btn-accent btn-sm"
+            [disabled]="!currentConflictEvent() || isCurrentEventAConflict()"
+            (click)="addConflictEvent(currentConflictEvent())"
+          >
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(conflict of conflictsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          {{ conflict }}
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row w-full flex justify-end">
+          <button
+            class="ml-1 btn btn-error btn-sm"
+            (click)="removeConflict(conflict)"
+          >
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="form-column">
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row pl-1">
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not this event requires a previous event. If so, it will not spawn naturally."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.requiresPreviousEvent"
+              class="checkbox"
+            />
+            <span class="label-text">Requires Previous Event?</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-event
+            [defaultValue]="editingData.spawnEventOnFailure"
+            label="Start Event On Failure"
+            (change)="editingData.spawnEventOnFailure = $event"
+          ></app-input-event>
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-event
+            [defaultValue]="editingData.spawnEventOnSuccess"
+            label="Start Event On Success"
+            (change)="editingData.spawnEventOnSuccess = $event"
+          ></app-input-event>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <app-input-eventsuccesstype
+        [(successType)]="editingData.successMetrics.type"
+        label="Success Type"
+      ></app-input-eventsuccesstype>
+    </div>
+
+    @switch(editingData.successMetrics.type) { @case ('kills') {
+    <div class="form-row">
+      <app-input-floating-label>Kills</app-input-floating-label>
+      <input
+        [(ngModel)]="editingData.successMetrics.count"
+        min="0"
+        type="number"
+        placeholder="Enter kills required to succeed..."
+        class="form-input"
+      />
+    </div>
+
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-npc
+            [(npc)]="currentNPC"
+            label="NPCs To Kill"
+          ></app-input-npc>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button
+            class="btn btn-accent btn-sm"
+            [disabled]="!currentNPC() || hasNPC(currentNPC())"
+            (click)="addNPC(currentNPC())"
+          >
+            <ng-icon name="heroPlus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    @for(npc of npcKillsInOrder(); track $index) {
+    <div class="form-row split">
+      <div class="form-column">
+        <div class="form-row">
+          <app-sprite-with-inline-name
+            [name]="npc"
+            type="creatures"
+          ></app-sprite-with-inline-name>
+        </div>
+      </div>
+
+      <div class="form-column button-column">
+        <div class="form-row w-full flex justify-end">
+          <button class="ml-1 btn btn-error btn-sm" (click)="removeNPC($index)">
+            <ng-icon name="heroMinus"></ng-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    } } }
+  </div>
+</div>
+
+<app-debug-view>
+  {{ editingData | json }}
+</app-debug-view>

@@ -18,7 +18,9 @@ export class CoresEditorComponent
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.name && this.yamlText() && !this.yamlError();
+    return (
+      data.name && this.yamlText() && !this.yamlError() && !this.isSaving()
+    );
   });
 
   public satisfiesUnique = computed(() => {
@@ -64,13 +66,17 @@ export class CoresEditorComponent
   }
 
   doSave() {
-    const core = this.editing();
+    this.isSaving.set(true);
 
-    core.yaml = this.yamlText();
-    core.json = yaml.load(this.yamlText());
+    setTimeout(() => {
+      const core = this.editing();
 
-    this.editing.set(core);
+      core.yaml = this.yamlText();
+      core.json = yaml.load(this.yamlText());
 
-    super.doSave();
+      this.editing.set(core);
+
+      super.doSave();
+    }, 50);
   }
 }

@@ -1,32 +1,56 @@
 @let editingData = editing();
 
 <div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
-
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
-    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()"
-      [class.btn-disabled]="!electronService.isInElectron()">Save</button>
+    <button
+      class="btn-sm btn btn-warning mr-3"
+      [class.btn-disabled]="isSaving()"
+      (click)="doBack()"
+    >
+      Go Back
+    </button>
+    <button
+      class="btn-sm btn btn-secondary"
+      [class.btn-disabled]="!electronService.isInElectron() || !canSave()"
+      (click)="doSave()"
+    >
+      Save
+    </button>
   </div>
-
 </div>
 
 <div class="flex flex-row gap-2">
   <div class="form-column">
-
     <div class="form-row">
       <app-input-floating-label>File Name</app-input-floating-label>
-      <input [ngModel]="editingData.name" type="text" placeholder="Enter file name (no extension)..." class="form-input"
-        (ngModelChange)="update('name', $event)" [class.has-error]="!satisfiesUnique()" />
+      <input
+        [ngModel]="editingData.name"
+        type="text"
+        placeholder="Enter file name (no extension)..."
+        class="form-input"
+        (ngModelChange)="update('name', $event)"
+        [class.has-error]="!satisfiesUnique()"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Description</app-input-floating-label>
-      <input [(ngModel)]="editingData.desc" type="text" placeholder="Enter description..." class="form-input" />
+      <input
+        [(ngModel)]="editingData.desc"
+        type="text"
+        placeholder="Enter description..."
+        class="form-input"
+      />
     </div>
 
     <div class="form-row">
-      <ngs-code-editor class="editor-container" [theme]="'vs-dark'" [codeModel]="fileModel"
-        [options]="{ contextmenu: true }" (valueChanged)="onYamlChanged($event)"></ngs-code-editor>
+      <ngs-code-editor
+        class="editor-container"
+        [theme]="'vs-dark'"
+        [codeModel]="fileModel"
+        [options]="{ contextmenu: true }"
+        (valueChanged)="onYamlChanged($event)"
+      ></ngs-code-editor>
     </div>
 
     <div class="form-row form-error">

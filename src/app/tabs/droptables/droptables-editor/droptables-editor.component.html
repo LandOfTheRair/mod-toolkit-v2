@@ -1,37 +1,58 @@
 @let editingData = editing();
 
 <div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
-
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-warning mr-3" (click)="doBack()">Go Back</button>
-    <button class="btn-sm btn btn-secondary" [disabled]="!canSave()" (click)="doSave()"
-      [class.btn-disabled]="!electronService.isInElectron()">Save</button>
+    <button
+      class="btn-sm btn btn-warning mr-3"
+      [class.btn-disabled]="isSaving()"
+      (click)="doBack()"
+    >
+      Go Back
+    </button>
+    <button
+      class="btn-sm btn btn-secondary"
+      (click)="doSave()"
+      [class.btn-disabled]="!electronService.isInElectron() || !canSave()"
+    >
+      Save
+    </button>
   </div>
-
 </div>
 
 <div class="flex flex-row gap-2">
   <div class="form-column">
-
     <div class="form-row">
-      <app-input-map [(map)]="editingData.mapName"
-        (change)="update('regionName', undefined); update('isGlobal', false)"></app-input-map>
+      <app-input-map
+        [(map)]="editingData.mapName"
+        (change)="update('regionName', undefined); update('isGlobal', false)"
+      ></app-input-map>
     </div>
 
     <div class="form-row">
-      <app-input-region [(region)]="editingData.regionName"
-        (change)="update('mapName', undefined); update('isGlobal', false)"></app-input-region>
+      <app-input-region
+        [(region)]="editingData.regionName"
+        (change)="update('mapName', undefined); update('isGlobal', false)"
+      ></app-input-region>
     </div>
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer" floatUi="Whether or not this item should actually drop on every map.">
-        <input type="checkbox" [(ngModel)]="editingData.isGlobal"
-          (ngModelChange)="update('regionName', undefined); update('mapName', undefined); update('isGlobal', $event)"
-          class="checkbox" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not this item should actually drop on every map."
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="editingData.isGlobal"
+          (ngModelChange)="
+            update('regionName', undefined);
+            update('mapName', undefined);
+            update('isGlobal', $event)
+          "
+          class="checkbox"
+        />
         <span class="label-text">Is Global Droptable</span>
       </label>
     </div>
-
   </div>
 
   <div class="form-column">
@@ -44,8 +65,11 @@
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="btn btn-accent btn-sm" (click)="addItem(currentItem())"
-            [disabled]="!currentItem() || hasItem(currentItem())">
+          <button
+            class="btn btn-accent btn-sm"
+            (click)="addItem(currentItem())"
+            [disabled]="!currentItem() || hasItem(currentItem())"
+          >
             <ng-icon name="heroPlus"></ng-icon>
           </button>
         </div>
@@ -56,21 +80,37 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-sprite-with-inline-name [name]="drop.result" type="items"></app-sprite-with-inline-name>
+          <app-sprite-with-inline-name
+            [name]="drop.result"
+            type="items"
+          ></app-sprite-with-inline-name>
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row">
           <app-input-floating-label>Max Chance (1/X)</app-input-floating-label>
-          <input [(ngModel)]="drop.maxChance" min="1" type="number" placeholder="Choose chance..." class="form-input" />
+          <input
+            [(ngModel)]="drop.maxChance"
+            min="1"
+            type="number"
+            placeholder="Choose chance..."
+            class="form-input"
+          />
         </div>
       </div>
 
       <div class="form-column">
         <div class="form-row pl-1">
-          <label class="label cursor-pointer" floatUi="Whether or not to utilize LUK when trying to get this item.">
-            <input type="checkbox" [(ngModel)]="drop.noLuckBonus" class="checkbox" />
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not to utilize LUK when trying to get this item."
+          >
+            <input
+              type="checkbox"
+              [(ngModel)]="drop.noLuckBonus"
+              class="checkbox"
+            />
             <span class="label-text">Disallow LUK Bonus</span>
           </label>
         </div>
@@ -78,13 +118,18 @@
 
       <div class="form-column">
         <div class="form-row">
-          <app-input-holiday [(holiday)]="drop.requireHoliday"></app-input-holiday>
+          <app-input-holiday
+            [(holiday)]="drop.requireHoliday"
+          ></app-input-holiday>
         </div>
       </div>
 
       <div class="form-column button-column">
         <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeItem(drop.result)">
+          <button
+            class="ml-1 btn btn-error btn-sm"
+            (click)="removeItem(drop.result)"
+          >
             <ng-icon name="heroMinus"></ng-icon>
           </button>
         </div>

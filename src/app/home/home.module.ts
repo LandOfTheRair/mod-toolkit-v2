@@ -15,8 +15,6 @@ import { DependenciesComponent } from '../dependencies/dependencies.component';
 import { PinpointComponent } from '../pinpoint/pinpoint.component';
 import { QueryComponent } from '../query/query.component';
 import { SharedModule } from '../shared/shared.module';
-import { EventsEditorComponent } from '../tabs/achievements copy/events-editor/events-editor.component';
-import { EventsComponent } from '../tabs/achievements copy/events.component';
 import { AchievementsEditorComponent } from '../tabs/achievements/achievements-editor/achievements-editor.component';
 import { AchievementsComponent } from '../tabs/achievements/achievements.component';
 import { CoresEditorComponent } from '../tabs/cores/cores-editor/cores-editor.component';
@@ -25,6 +23,8 @@ import { DialogsEditorComponent } from '../tabs/dialogs/dialogs-editor/dialogs-e
 import { DialogsComponent } from '../tabs/dialogs/dialogs.component';
 import { DroptablesEditorComponent } from '../tabs/droptables/droptables-editor/droptables-editor.component';
 import { DroptablesComponent } from '../tabs/droptables/droptables.component';
+import { EventsEditorComponent } from '../tabs/events/events-editor/events-editor.component';
+import { EventsComponent } from '../tabs/events/events.component';
 import { ItemsEditorComponent } from '../tabs/items/items-editor/items-editor.component';
 import { ItemsComponent } from '../tabs/items/items.component';
 import { MapsComponent } from '../tabs/maps/maps.component';

@@ -16,7 +16,12 @@ export class SpawnersEditorComponent
 
   public canSave = computed(() => {
     const spawner = this.editing();
-    return spawner.tag && spawner.npcIds.length > 0 && this.satisfiesUnique();
+    return (
+      spawner.tag &&
+      spawner.npcIds.length > 0 &&
+      this.satisfiesUnique() &&
+      !this.isSaving()
+    );
   });
 
   public satisfiesUnique = computed(() => {
@@ -82,15 +87,19 @@ export class SpawnersEditorComponent
   }
 
   public doSave() {
-    const spawner = this.editing();
+    this.isSaving.set(true);
 
-    spawner.paths = spawner._paths ? spawner._paths.split('\n') : [];
-    delete spawner._paths;
+    setTimeout(() => {
+      const spawner = this.editing();
 
-    spawner.npcIds = spawner.npcIds.filter((s) => s.result);
+      spawner.paths = spawner._paths ? spawner._paths.split('\n') : [];
+      delete spawner._paths;
 
-    this.editing.set(spawner);
+      spawner.npcIds = spawner.npcIds.filter((s) => s.result);
 
-    super.doSave();
+      this.editing.set(spawner);
+
+      super.doSave();
+    }, 50);
   }
 }

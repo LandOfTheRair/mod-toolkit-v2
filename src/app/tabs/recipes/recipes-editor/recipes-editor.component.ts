@@ -33,7 +33,8 @@ export class RecipesEditorComponent
       data.name &&
       data.recipeType &&
       data.item &&
-      this.satisfiesUnique()
+      this.satisfiesUnique() &&
+      !this.isSaving()
     );
   });
 
@@ -83,11 +84,15 @@ export class RecipesEditorComponent
   }
 
   public doSave() {
-    const item = this.editing();
-    this.assignProps(item);
+    this.isSaving.set(true);
 
-    this.editing.set(item);
+    setTimeout(() => {
+      const item = this.editing();
+      this.assignProps(item);
 
-    super.doSave();
+      this.editing.set(item);
+
+      super.doSave();
+    }, 50);
   }
 }

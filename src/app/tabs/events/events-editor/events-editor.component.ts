@@ -18,7 +18,11 @@ export class EventsEditorComponent
   public canSave = computed(() => {
     const data = this.editing();
     return (
-      data.name && data.description && data.rarity && this.satisfiesUnique()
+      data.name &&
+      data.description &&
+      data.rarity &&
+      this.satisfiesUnique() &&
+      !this.isSaving()
     );
   });
 
@@ -51,11 +55,15 @@ export class EventsEditorComponent
   }
 
   doSave() {
-    const core = this.editing();
+    this.isSaving.set(true);
 
-    this.editing.set(core);
+    setTimeout(() => {
+      const core = this.editing();
 
-    super.doSave();
+      this.editing.set(core);
+
+      super.doSave();
+    }, 50);
   }
 
   public addConflictEvent(event: string | undefined) {
