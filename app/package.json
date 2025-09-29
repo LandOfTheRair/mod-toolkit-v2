@@ -6,7 +6,7 @@
   "repository": {
     "url": "https://github.com/LandOfTheRair/mod-toolkit-v2"
   },
-  "version": "1.7.20",
+  "version": "1.8.0",
   "main": "main.js",
   "private": true,
   "dependencies": {
