@@ -30,7 +30,7 @@ export class SpawnersEditorComponent
       'spawners',
       'tag',
       data.tag,
-      data._id
+      data._id,
     );
   });
 
@@ -54,10 +54,10 @@ export class SpawnersEditorComponent
     }));
   }
 
-  public removeNPC(index: number) {
+  public removeNPC(npcId: string) {
     this.editing.update((spawner) => ({
       ...spawner,
-      npcIds: spawner.npcIds.filter((s, i) => i !== index),
+      npcIds: spawner.npcIds.filter((s) => s.result !== npcId),
     }));
   }
 

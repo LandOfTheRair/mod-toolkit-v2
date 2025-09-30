@@ -1332,6 +1332,13 @@ export class AnalysisService {
       },
     };
 
+    const droptableEntries =
+      mod.drops.find((m) => m.mapName === mapName)?.drops ?? [];
+    droptableEntries.forEach((drop) => {
+      const itemId = drop.result;
+      itemRefs[itemId] = (itemRefs[itemId] ?? 0) + 1;
+    });
+
     Object.keys(itemRefs).forEach((itemId) => {
       if (itemId === 'none') return;
 

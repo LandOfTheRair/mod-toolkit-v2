@@ -99,9 +99,9 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label
-            >Initial Monster Spawn #</app-input-floating-label
-          >
+          <app-input-floating-label>
+            Initial Monster Spawn #
+          </app-input-floating-label>
           <input
             [(ngModel)]="editingData.initialSpawn"
             type="number"
@@ -114,9 +114,9 @@
 
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label
-            >Max Monsters Active</app-input-floating-label
-          >
+          <app-input-floating-label>
+            Max Monsters Active
+          </app-input-floating-label>
           <input
             [(ngModel)]="editingData.maxCreatures"
             type="number"
@@ -129,9 +129,9 @@
 
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label
-            >Max Monsters Total</app-input-floating-label
-          >
+          <app-input-floating-label>
+            Max Monsters Total
+          </app-input-floating-label>
           <input
             [(ngModel)]="editingData.maxSpawn"
             type="number"
@@ -304,20 +304,20 @@
       </label>
     </div>
 
-    @if(editingData.shouldStrip) {
-    <div class="form-row pl-1">
-      <label
-        class="label cursor-pointer"
-        floatUi="Stripping will happen on the spawner."
-      >
-        <input
-          type="checkbox"
-          [(ngModel)]="editingData.stripOnSpawner"
-          class="checkbox"
-        />
-        <span class="label-text">Strip on Spawner</span>
-      </label>
-    </div>
+    @if (editingData.shouldStrip) {
+      <div class="form-row pl-1">
+        <label
+          class="label cursor-pointer"
+          floatUi="Stripping will happen on the spawner."
+        >
+          <input
+            type="checkbox"
+            [(ngModel)]="editingData.stripOnSpawner"
+            class="checkbox"
+          />
+          <span class="label-text">Strip on Spawner</span>
+        </label>
+      </div>
     }
 
     <div class="form-row">
@@ -343,50 +343,50 @@
       />
     </div>
 
-    @if(editingData.shouldStrip) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Strip Radius</app-input-floating-label>
-          <input
-            [disabled]="editingData.stripOnSpawner"
-            [(ngModel)]="editingData.stripRadius"
-            type="number"
-            min="0"
-            placeholder="Enter strip radius..."
-            class="form-input"
-          />
+    @if (editingData.shouldStrip) {
+      <div class="form-row split">
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-floating-label>Strip Radius</app-input-floating-label>
+            <input
+              [disabled]="editingData.stripOnSpawner"
+              [(ngModel)]="editingData.stripRadius"
+              type="number"
+              min="0"
+              placeholder="Enter strip radius..."
+              class="form-input"
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Strip X</app-input-floating-label>
-          <input
-            [disabled]="editingData.stripOnSpawner"
-            [(ngModel)]="editingData.stripX"
-            type="number"
-            min="0"
-            placeholder="Enter strip X..."
-            class="form-input"
-          />
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-floating-label>Strip X</app-input-floating-label>
+            <input
+              [disabled]="editingData.stripOnSpawner"
+              [(ngModel)]="editingData.stripX"
+              type="number"
+              min="0"
+              placeholder="Enter strip X..."
+              class="form-input"
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Strip Y</app-input-floating-label>
-          <input
-            [disabled]="editingData.stripOnSpawner"
-            [(ngModel)]="editingData.stripY"
-            type="number"
-            min="0"
-            placeholder="Enter strip Y..."
-            class="form-input"
-          />
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-floating-label>Strip Y</app-input-floating-label>
+            <input
+              [disabled]="editingData.stripOnSpawner"
+              [(ngModel)]="editingData.stripY"
+              type="number"
+              min="0"
+              placeholder="Enter strip Y..."
+              class="form-input"
+            />
+          </div>
         </div>
       </div>
-    </div>
     }
   </div>
 
@@ -414,38 +414,41 @@
       </div>
     </div>
 
-    @for(npc of sortNPCIds(editingData.npcIds); track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-sprite-with-inline-name
-            [name]="npc.result"
-            type="creatures"
-          ></app-sprite-with-inline-name>
+    @for (npc of sortNPCIds(editingData.npcIds); track $index) {
+      <div class="form-row split">
+        <div class="form-column">
+          <div class="form-row">
+            <app-sprite-with-inline-name
+              [name]="npc.result"
+              type="creatures"
+            ></app-sprite-with-inline-name>
+          </div>
         </div>
-      </div>
 
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Weight</app-input-floating-label>
-          <input
-            [(ngModel)]="npc.chance"
-            min="0"
-            type="number"
-            placeholder="Choose value..."
-            class="form-input"
-          />
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-floating-label>Weight</app-input-floating-label>
+            <input
+              [(ngModel)]="npc.chance"
+              min="0"
+              type="number"
+              placeholder="Choose value..."
+              class="form-input"
+            />
+          </div>
         </div>
-      </div>
 
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeNPC($index)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
+        <div class="form-column button-column">
+          <div class="form-row w-full flex justify-end">
+            <button
+              class="ml-1 btn btn-error btn-sm"
+              (click)="removeNPC(npc.result)"
+            >
+              <ng-icon name="heroMinus"></ng-icon>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     }
   </div>
 </div>
