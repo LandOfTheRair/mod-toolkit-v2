@@ -1,6 +1,14 @@
+## <small>1.8.2 (2025-10-02)</small>
+
+* add modkit meta json ([5b5dca1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5b5dca1)), closes [#88](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/88)
+
+
+
 ## <small>1.8.1 (2025-09-30)</small>
 
 * factor in droptables for map analyze ([4c16303](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4c16303))
+* Release Patch 1.8.1 ([71e3bf8](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/71e3bf8))
+* Sync version ([0eb20e7](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0eb20e7))
 
 
 
