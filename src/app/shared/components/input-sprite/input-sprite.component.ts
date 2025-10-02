@@ -31,28 +31,34 @@ export class InputSpriteComponent {
       sprites.push(...mod.npcs.flatMap((n) => n.sprite));
     }
 
-    return sprites.reduce((acc, sprite) => {
-      return {
-        ...acc,
-        [sprite]: (acc[sprite] ?? 0) + 1,
-      };
-    }, {} as Record<number, number>);
+    return sprites.reduce(
+      (acc, sprite) => {
+        return {
+          ...acc,
+          [sprite]: (acc[sprite] ?? 0) + 1,
+        };
+      },
+      {} as Record<number, number>,
+    );
   });
 
   public pickerSprite = signal<number>(0);
 
   public iconPicker = viewChild<ElementRef<HTMLDialogElement>>('iconPicker');
 
-  public readonly maxSpriteCount = {
-    items: 1074,
-    creatures: 1875,
-  };
+  public maxSpriteCounts = computed(() => {
+    const meta = this.modService.json()['meta'] as any;
+    return {
+      items: meta.numItemSprites,
+      creatures: meta.numCreatureSprites,
+    };
+  });
 
   public iconArray = computed(() =>
-    Array(this.maxSpriteCount[this.type()])
+    Array(this.maxSpriteCounts()[this.type()])
       .fill(0)
       .map((_, i) => i)
-      .filter((i) => i % this.step() === 0)
+      .filter((i) => i % this.step() === 0),
   );
 
   changeIcon() {

@@ -12,8 +12,11 @@ import { ISpawnerData } from './spawner';
 import { ISTEM } from './stem';
 import { ITraitTree } from './trait-tree';
 
-export type ModJSONKey = 'bgm' | 'sfx' | 'macicons';
-export type ModJSON = Record<ModJSONKey, string[]>;
+export type ModJSONStringKey = 'bgm' | 'sfx' | 'macicons';
+export type ModJSONKey = ModJSONStringKey | 'meta';
+export type ModJSON = Record<ModJSONStringKey, string[]> & {
+  meta: { items: number; creatures: number };
+};
 
 export interface IModKitDependency {
   url: string;

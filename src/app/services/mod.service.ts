@@ -83,7 +83,7 @@ export class ModService {
   public activeDependencies = computed(() => {
     const myDeps = this.mod().meta.dependencies ?? [];
     return this.allDependencies().filter((f) =>
-      myDeps.map((d) => d.name).includes(f.meta.name)
+      myDeps.map((d) => d.name).includes(f.meta.name),
     );
   });
 
@@ -97,6 +97,10 @@ export class ModService {
     bgm: [],
     sfx: [],
     macicons: [],
+    meta: {
+      items: 1075,
+      creatures: 1875,
+    },
   });
 
   constructor() {
@@ -113,7 +117,7 @@ export class ModService {
         this.settingsService.createSettingsForMod(newModData.meta.id);
         this.localStorage.store('mod', newModData);
       },
-      { allowSignalWrites: true }
+      { allowSignalWrites: true },
     );
 
     (window as any).modService = this;
@@ -167,7 +171,7 @@ export class ModService {
   public removeModDependency(depName: string): void {
     const mod = this.mod();
     mod.meta.dependencies = mod.meta.dependencies.filter(
-      (f) => f.name !== depName
+      (f) => f.name !== depName,
     );
 
     this.updateMod(mod);
@@ -215,7 +219,7 @@ export class ModService {
 
   public modAdd<T extends HasIdentification>(
     key: keyof Omit<IModKit, 'meta'>,
-    data: T
+    data: T,
   ) {
     const mod = this.mod();
     const arr = mod[key] as unknown as T[];
@@ -229,7 +233,7 @@ export class ModService {
   public modEdit<T extends HasIdentification>(
     key: keyof Omit<IModKit, 'meta'>,
     oldData: T,
-    newData: T
+    newData: T,
   ) {
     const mod = this.mod();
     const arr = mod[key] as unknown as T[];
@@ -246,7 +250,7 @@ export class ModService {
 
   public modDelete<T extends HasIdentification>(
     key: keyof Omit<IModKit, 'meta'>,
-    data: T
+    data: T,
   ) {
     const mod = this.mod();
     const arr = mod[key] as unknown as T[];
@@ -262,10 +266,10 @@ export class ModService {
     containerKey: keyof Omit<IModKit, 'meta'>,
     checkProp: keyof T,
     checkValue: string,
-    myId: T['_id']
+    myId: T['_id'],
   ): boolean {
     return !!(this.mod()[containerKey] as unknown as T[]).find(
-      (t) => t._id !== myId && t[checkProp] === checkValue
+      (t) => t._id !== myId && t[checkProp] === checkValue,
     );
   }
 
@@ -336,7 +340,7 @@ export class ModService {
       if (droptable.mapName !== oldName) return;
 
       console.info(
-        `[Propagate Map] Updated droptable "${droptable.mapName}" Map: ${oldName} -> ${newName}`
+        `[Propagate Map] Updated droptable "${droptable.mapName}" Map: ${oldName} -> ${newName}`,
       );
       droptable.mapName = newName;
     });
@@ -365,7 +369,7 @@ export class ModService {
         if (rollable.result !== oldName) return;
 
         console.info(
-          `[Propagate NPC] Updated spawner "${spawner.tag}" NPC: ${oldName} -> ${newName}`
+          `[Propagate NPC] Updated spawner "${spawner.tag}" NPC: ${oldName} -> ${newName}`,
         );
         rollable.result = newName;
       });
@@ -376,7 +380,7 @@ export class ModService {
         if (id !== oldName) return;
 
         console.info(
-          `[Propagate NPC] Updated quest "${quest.name}" NPC: ${oldName} -> ${newName}`
+          `[Propagate NPC] Updated quest "${quest.name}" NPC: ${oldName} -> ${newName}`,
         );
         quest.requirements.npcIds[i] = newName;
       });
@@ -395,7 +399,7 @@ export class ModService {
       if (item.requirements?.quest !== oldName) return;
 
       console.info(
-        `[Propagate Quest] Updated requirements.quest for "${item.name}" item: ${oldName} -> ${newName}`
+        `[Propagate Quest] Updated requirements.quest for "${item.name}" item: ${oldName} -> ${newName}`,
       );
       item.requirements.quest = newName;
     });
@@ -516,7 +520,7 @@ export class ModService {
         if (rollable.result !== oldName) return;
 
         console.info(
-          `[Propagate Item] Updated containedItems for "${item.name}" item: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated containedItems for "${item.name}" item: ${oldName} -> ${newName}`,
         );
         rollable.result = newName;
       });
@@ -531,7 +535,7 @@ export class ModService {
             droptable.mapName ||
             droptable.regionName ||
             (droptable.isGlobal ? 'global' : '')
-          }" item: ${oldName} -> ${newName}`
+          }" item: ${oldName} -> ${newName}`,
         );
 
         drop.result = newName;
@@ -542,7 +546,7 @@ export class ModService {
       if (quest.requirements.item !== oldName) return;
 
       console.info(
-        `[Propagate Item] Updated quest "${quest.name}" item: ${oldName} -> ${newName}`
+        `[Propagate Item] Updated quest "${quest.name}" item: ${oldName} -> ${newName}`,
       );
 
       quest.requirements.item = newName;
@@ -554,7 +558,7 @@ export class ModService {
         if (npcScript.items.equipment[itemSlot] !== oldName) return;
 
         console.info(
-          `[Propagate Item] Updated NPC Script "${npcScript.name}" item#${itemSlot}: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated NPC Script "${npcScript.name}" item#${itemSlot}: ${oldName} -> ${newName}`,
         );
         npcScript.items.equipment[itemSlot] = newName;
       });
@@ -565,7 +569,7 @@ export class ModService {
         if (item.result !== oldName) return;
 
         console.info(
-          `[Propagate Item] Updated NPC "${npc.npcId}" item in sack: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated NPC "${npc.npcId}" item in sack: ${oldName} -> ${newName}`,
         );
 
         item.result = newName;
@@ -578,7 +582,7 @@ export class ModService {
           if (rollable.result !== oldName) return;
 
           console.info(
-            `[Propagate Item] Updated NPC "${npc.npcId}" item#${itemSlot}: ${oldName} -> ${newName}`
+            `[Propagate Item] Updated NPC "${npc.npcId}" item#${itemSlot}: ${oldName} -> ${newName}`,
           );
 
           rollable.result = newName;
@@ -589,7 +593,7 @@ export class ModService {
         if (rollable.result !== oldName) return;
 
         console.info(
-          `[Propagate Item] Updated NPC "${npc.npcId}" drop: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated NPC "${npc.npcId}" drop: ${oldName} -> ${newName}`,
         );
 
         rollable.result = newName;
@@ -599,7 +603,7 @@ export class ModService {
         if (rollable.result !== oldName) return;
 
         console.info(
-          `[Propagate Item] Updated NPC "${npc.npcId}" dropPool: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated NPC "${npc.npcId}" dropPool: ${oldName} -> ${newName}`,
         );
 
         rollable.result = newName;
@@ -607,7 +611,7 @@ export class ModService {
 
       if (npc.tansFor === oldName) {
         console.info(
-          `[Propagate Item] Updated NPC "${npc.npcId}" tans for item: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated NPC "${npc.npcId}" tans for item: ${oldName} -> ${newName}`,
         );
 
         npc.tansFor = newName;
@@ -617,7 +621,7 @@ export class ModService {
     mod.recipes.forEach((recipe) => {
       if (recipe.item === oldName) {
         console.info(
-          `[Propagate Item] Updated recipe "${recipe.name}" result item: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated recipe "${recipe.name}" result item: ${oldName} -> ${newName}`,
         );
 
         recipe.item = newName;
@@ -625,7 +629,7 @@ export class ModService {
 
       if (recipe.transferOwnerFrom === oldName) {
         console.info(
-          `[Propagate Item] Updated recipe "${recipe.name}" transfer owner item: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated recipe "${recipe.name}" transfer owner item: ${oldName} -> ${newName}`,
         );
 
         recipe.transferOwnerFrom = newName;
@@ -636,7 +640,7 @@ export class ModService {
         if (ing !== oldName) return;
 
         console.info(
-          `[Propagate Item] Updated recipe "${recipe.name}" ingredient#${i}: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated recipe "${recipe.name}" ingredient#${i}: ${oldName} -> ${newName}`,
         );
 
         ingredients[i] = newName;
@@ -645,7 +649,7 @@ export class ModService {
       recipe.ozIngredients?.forEach((ing) => {
         if (ing.display !== oldName) return;
         console.info(
-          `[Propagate Item] Updated recipe "${recipe.name}" ozIngredient: ${oldName} -> ${newName}`
+          `[Propagate Item] Updated recipe "${recipe.name}" ozIngredient: ${oldName} -> ${newName}`,
         );
 
         ing.display = newName;

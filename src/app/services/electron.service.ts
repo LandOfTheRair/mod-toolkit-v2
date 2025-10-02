@@ -5,6 +5,7 @@ import {
   IModKit,
   IModKitDependency,
   ModJSONKey,
+  ModJSONStringKey,
 } from '../../interfaces';
 import { importMod } from '../helpers/importer';
 import { DiffService } from './diff.service';
@@ -156,7 +157,7 @@ export class ElectronService {
     });
 
     window.api.receive('json', (jsonData) => {
-      this.modService.setJSON(jsonData.name as ModJSONKey, jsonData.data);
+      this.modService.setJSON(jsonData.name as ModJSONStringKey, jsonData.data);
     });
 
     // the mod has no backup, which means it was a clean export. it might need some reformatting to get it back in
@@ -229,7 +230,7 @@ export class ElectronService {
   }
 
   private requestAllJSON() {
-    const keys: ModJSONKey[] = ['sfx', 'bgm', 'macicons'];
+    const keys: ModJSONKey[] = ['sfx', 'bgm', 'macicons', 'meta'];
 
     keys.forEach((neededJSON) => {
       this.requestJSON(neededJSON);

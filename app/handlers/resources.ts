@@ -20,7 +20,7 @@ export async function updateResources(sendToUI: SendToUI) {
   fs.ensureDirSync(`${baseUrl}/resources/json`);
   fs.ensureDirSync(`${baseUrl}/resources/maps/__assets/spritesheets`);
   fs.ensureDirSync(
-    `${baseUrl}/resources/maps/src/content/__assets/spritesheets`
+    `${baseUrl}/resources/maps/src/content/__assets/spritesheets`,
   );
   fs.ensureDirSync(`${baseUrl}/resources/maps/src/content/maps/custom`);
 
@@ -43,12 +43,12 @@ export async function updateResources(sendToUI: SendToUI) {
 
         await fs.writeFile(
           `${baseUrl}/resources/maps/src/content/__assets/spritesheets/${sheet}.png`,
-          buffer
+          buffer,
         );
 
         await fs.copyFile(
           `${baseUrl}/resources/maps/src/content/__assets/spritesheets/${sheet}.png`,
-          `${baseUrl}/resources/maps/__assets/spritesheets/${sheet}.png`
+          `${baseUrl}/resources/maps/__assets/spritesheets/${sheet}.png`,
         );
       } catch (e) {
         sendToUI('notify', {
@@ -76,7 +76,7 @@ export async function updateResources(sendToUI: SendToUI) {
 
         await fs.writeFile(
           `${baseUrl}/resources/json/${json}.json`,
-          templateBuffer
+          templateBuffer,
         );
       } catch (e) {
         sendToUI('notify', {
@@ -101,7 +101,7 @@ export async function updateResources(sendToUI: SendToUI) {
 
       await fs.writeFile(
         `${baseUrl}/resources/maps/src/content/maps/custom/Template.json`,
-        templateBuffer
+        templateBuffer,
       );
     } catch (e) {
       sendToUI('notify', {
@@ -139,7 +139,7 @@ export async function updateResources(sendToUI: SendToUI) {
     dlgit(
       'LandOfTheRair/Content',
       `${baseUrl}/resources/content`,
-      async () => {}
+      async () => {},
     );
   };
 
@@ -162,12 +162,31 @@ export async function updateResources(sendToUI: SendToUI) {
     });
   };
 
+  const meta = async () => {
+    sendToUI('notify', { type: 'info', text: 'Downloading meta...' });
+
+    try {
+      const templateUrl = `https://play.rair.land/assets/generated/modkit-meta.json`;
+      const templateRes = await fetch(templateUrl);
+      const templateBuffer = Buffer.from(await templateRes.arrayBuffer());
+
+      await fs.writeFile(`${baseUrl}/resources/json/meta.json`, templateBuffer);
+    } catch (e) {
+      sendToUI('notify', {
+        type: 'error',
+        text: `Error downloading "${json}": ${e}`,
+      });
+      isUpdating = false;
+    }
+  };
+
   await sheets();
   await json();
   await template();
   await tiled();
   await validators();
   await assets();
+  await meta();
 
   fs.writeFileSync(`${baseUrl}/resources/.loaded`, '');
 
