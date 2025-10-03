@@ -1,6 +1,14 @@
+## <small>1.8.4 (2025-10-03)</small>
+
+* support new giveselfeffect action type ([5efdda8](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5efdda8))
+
+
+
 ## <small>1.8.3 (2025-10-03)</small>
 
 * fix effects being invalid ([eef429d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/eef429d))
+* Release Patch 1.8.3 ([59e4609](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/59e4609))
+* Sync version ([b88c960](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b88c960))
 
 
 
