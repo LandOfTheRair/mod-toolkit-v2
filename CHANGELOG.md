@@ -1,6 +1,14 @@
+## <small>1.8.3 (2025-10-03)</small>
+
+* fix effects being invalid ([eef429d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/eef429d))
+
+
+
 ## <small>1.8.2 (2025-10-02)</small>
 
 * add modkit meta json ([5b5dca1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5b5dca1)), closes [#88](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/88)
+* Release Patch 1.8.2 ([c4c5e33](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c4c5e33))
+* Sync version ([194ddfa](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/194ddfa))
 
 
 
