@@ -12,6 +12,7 @@ export enum DialogActionType {
   CheckItemCanUpgrade = 'checkItemCanUpgrade',
   AddUpgradeItem = 'addItemUpgrade',
   GiveEffect = 'giveEffect',
+  GiveSelfEffect = 'giveSelfEffect',
   GiveCurrency = 'giveCurrency',
   CheckQuest = 'checkQuest',
   UpdateQuest = 'updateQuest',
