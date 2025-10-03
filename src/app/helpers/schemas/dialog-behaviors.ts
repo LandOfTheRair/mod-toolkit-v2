@@ -86,6 +86,13 @@ export const dialogBehaviorSchemas: Record<DialogActionType, Schema> = {
     ['duration', true, isNumber],
     ['potency', false, isNumber],
   ],
+  [DialogActionType.CheckEffect]: [
+    ['type', true, is('checkEffect')],
+    ['effect', true, isString],
+    ['maxDistance', false, isNumber],
+    ['checkFailActions', false, isArray],
+    ['checkPassActions', true, isArray],
+  ],
   [DialogActionType.GiveSelfEffect]: [
     ['type', true, is('giveSelfEffect')],
     ['effect', true, isString],
