@@ -1,6 +1,14 @@
+## <small>1.8.5 (2025-10-03)</small>
+
+* support checkeffect ([df0a1e8](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/df0a1e8))
+
+
+
 ## <small>1.8.4 (2025-10-03)</small>
 
+* Release Patch 1.8.4 ([aacf80c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/aacf80c))
 * support new giveselfeffect action type ([5efdda8](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5efdda8))
+* Sync version ([12433c6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/12433c6))
 
 
 
