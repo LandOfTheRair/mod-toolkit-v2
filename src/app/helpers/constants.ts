@@ -306,6 +306,8 @@ weaponClasses.forEach((weaponType) => {
     'offhand',
     'returnsOnThrow',
     'canShoot',
+    'isBeltable',
+    'isSackable',
   );
 
   typePropDefaults[weaponType].tier = 1;
