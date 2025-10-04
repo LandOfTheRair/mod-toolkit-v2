@@ -10,5 +10,5 @@ export class InputAlignmentComponent {
   public alignment = model.required<AlignmentType | undefined>();
   public change = output<Alignment>();
 
-  public values = [...Object.keys(Alignment)];
+  public values = [...Object.values(Alignment)];
 }

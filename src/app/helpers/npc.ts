@@ -16,7 +16,7 @@ export const defaultNPC: () => INPCDefinition = () => ({
   monsterClass: undefined as unknown as MonsterClassType,
   baseClass: undefined as unknown as BaseClassType,
   affiliation: '',
-  alignment: 'Neutral' as AlignmentType,
+  alignment: 'neutral' as AlignmentType,
   cr: 0,
   hpMult: 1,
   stats: {
