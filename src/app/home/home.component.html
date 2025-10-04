@@ -37,136 +37,214 @@
               Actions
             </summary>
             <ul
-              class="z-30 top-6 right-1.5 w-72 bg-base-100 rounded-t-none p-2"
+              class="z-30 top-6 right-1.5 w-72 bg-base-100 rounded-t-none p-2 menu"
             >
               @if (electronService.isInElectron()) {
-                <li class="menu-title"><a>Mod Metadata</a></li>
                 <li>
-                  <a (click)="closeMenu()" [swal]="changeModName">
-                    Change Mod Name
-                  </a>
-                </li>
-                <li>
-                  <a (click)="closeMenu()" [swal]="changeModAuthor">
-                    Change Mod Author
-                  </a>
-                </li>
-                <li>
-                  <a (click)="closeMenu(); toggleDependencies()">
-                    Manage Dependencies
-                  </a>
-                </li>
+                  <details>
+                    <summary
+                      class="cursor-pointer menu-title flex justify-between items-center"
+                    >
+                      Mod Metadata
+                    </summary>
 
-                <li class="menu-title"><a>Mod I/O</a></li>
-                <li>
-                  <a (click)="closeMenu(); electronService.send('LOAD_MOD')">
-                    Load Mod
-                  </a>
-                </li>
-                <li>
-                  <a
-                    (click)="
-                      closeMenu(); electronService.send('ADDITIVE_LOAD_MOD')
-                    "
-                  >
-                    Import Mod
-                  </a>
+                    <ul>
+                      <li>
+                        <a (click)="closeMenu()" [swal]="changeModName">
+                          Change Mod Name
+                        </a>
+                      </li>
+                      <li>
+                        <a (click)="closeMenu()" [swal]="changeModAuthor">
+                          Change Mod Author
+                        </a>
+                      </li>
+                      <li>
+                        <a (click)="closeMenu(); toggleDependencies()">
+                          Manage Dependencies
+                        </a>
+                      </li>
+                    </ul>
+                  </details>
                 </li>
 
                 <li>
-                  <a (click)="closeMenu(); attemptExport()">Export Mod</a>
+                  <details>
+                    <summary
+                      class="cursor-pointer menu-title flex justify-between items-center"
+                    >
+                      Mod I/O
+                    </summary>
+
+                    <ul>
+                      <li>
+                        <a
+                          (click)="
+                            closeMenu(); electronService.send('LOAD_MOD')
+                          "
+                        >
+                          Load Mod
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          (click)="
+                            closeMenu();
+                            electronService.send('ADDITIVE_LOAD_MOD')
+                          "
+                        >
+                          Import Mod
+                        </a>
+                      </li>
+
+                      <li>
+                        <a (click)="closeMenu(); attemptExport()">Export Mod</a>
+                      </li>
+
+                      <li>
+                        <a (click)="closeMenu(); attemptPartialExport()">
+                          Export Partial Mod...
+                        </a>
+                      </li>
+                    </ul>
+                  </details>
                 </li>
 
                 <li>
-                  <a (click)="closeMenu(); attemptPartialExport()">
-                    Export Partial Mod...
-                  </a>
-                </li>
+                  <details>
+                    <summary
+                      class="cursor-pointer menu-title flex justify-between items-center"
+                    >
+                      Mod Testing
+                    </summary>
 
-                <li class="menu-title"><a>Mod Testing</a></li>
-                <li>
-                  <a
-                    (click)="
-                      closeMenu(); electronService.send('DOWNLOAD_MONGO')
-                    "
-                  >
-                    Install MongoDB...
-                  </a>
+                    <ul>
+                      <li>
+                        <a
+                          (click)="
+                            closeMenu(); electronService.send('DOWNLOAD_MONGO')
+                          "
+                        >
+                          Install MongoDB...
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          (click)="
+                            closeMenu(); electronService.send('DOWNLOAD_RAIR')
+                          "
+                        >
+                          Install Rair Server...
+                        </a>
+                      </li>
+                      <li>
+                        <a (click)="closeMenu(); toggleTester()">Test Mod!</a>
+                      </li>
+                    </ul>
+                  </details>
                 </li>
-                <li>
-                  <a
-                    (click)="closeMenu(); electronService.send('DOWNLOAD_RAIR')"
-                  >
-                    Install Rair Server...
-                  </a>
-                </li>
-                <li><a (click)="closeMenu(); toggleTester()">Test Mod!</a></li>
               }
 
-              <li class="menu-title">
-                <a>
-                  ModKit Utilities
-                  <span class="italic font-thin">
-                    (v.{{ electronService.version() }})
-                  </span>
-                </a>
-              </li>
-
               <li>
-                <a
-                  (click)="closeMenu()"
-                  target="_blank"
-                  href="https://rair.land/docs/modkit/"
-                >
-                  Help
-                </a>
-              </li>
-              <li>
-                <a (click)="closeMenu(); toggleModValidation()">
-                  Validate Mod {{ hasErrors() ? '❌' : '' }}
-                </a>
-              </li>
-              <li>
-                <a (click)="closeMenu(); toggleAnalyzing()">Analyze...</a>
-              </li>
-              <li>
-                <a (click)="closeMenu(); togglePinpointing()">Pinpoint...</a>
-              </li>
-              <li><a (click)="closeMenu(); toggleQuerying()">Query...</a></li>
-              <li>
-                <a (click)="closeMenu(); debugService.toggleDebug()">
-                  Debug Mode {{ debugService.isDebug() ? '☑' : '☐' }}
-                </a>
-              </li>
-
-              <li class="menu-title">
-                <a>
-                  Updates
-
-                  @if (!electronService.isInElectron()) {
+                <details>
+                  <summary
+                    class="cursor-pointer menu-title flex justify-between items-center"
+                  >
+                    ModKit Utilities
                     <span class="italic font-thin">
-                      (Last Updated:
-                      {{ modService.mod().meta.savedAt | date: 'shortDate' }})
+                      (v.{{ electronService.version() }})
                     </span>
-                  }
-                </a>
+                  </summary>
+
+                  <ul>
+                    <li>
+                      <a
+                        (click)="closeMenu()"
+                        target="_blank"
+                        href="https://rair.land/docs/modkit/"
+                      >
+                        Help
+                      </a>
+                    </li>
+                    <li>
+                      <a (click)="closeMenu(); toggleModValidation()">
+                        Validate Mod {{ hasErrors() ? '❌' : '' }}
+                      </a>
+                    </li>
+                    <li>
+                      <a (click)="closeMenu(); toggleAnalyzing()">Analyze...</a>
+                    </li>
+                    <li>
+                      <a (click)="closeMenu(); togglePinpointing()">
+                        Pinpoint...
+                      </a>
+                    </li>
+                    <li>
+                      <a (click)="closeMenu(); toggleQuerying()">Query...</a>
+                    </li>
+                    <li>
+                      <a (click)="closeMenu(); debugService.toggleDebug()">
+                        Debug Mode {{ debugService.isDebug() ? '☑' : '☐' }}
+                      </a>
+                    </li>
+                  </ul>
+                </details>
               </li>
+
               <li>
-                <a (click)="closeMenu(); updateResources()">Update Resources</a>
+                <details>
+                  <summary
+                    class="cursor-pointer menu-title flex justify-between items-center"
+                  >
+                    Updates
+
+                    @if (!electronService.isInElectron()) {
+                      <span class="italic font-thin">
+                        (Last Updated:
+                        {{ modService.mod().meta.savedAt | date: 'shortDate' }})
+                      </span>
+                    }
+                  </summary>
+
+                  <ul>
+                    <li>
+                      <a (click)="closeMenu(); updateResources()">
+                        Update Resources
+                      </a>
+                    </li>
+
+                    @if (electronService.isInElectron()) {
+                      <li>
+                        <a
+                          (click)="
+                            closeMenu(); modService.updateAutogenerated()
+                          "
+                        >
+                          Update Autogenerated Content
+                        </a>
+                      </li>
+
+                      <li>
+                        <details>
+                          <summary
+                            class="cursor-pointer menu-title flex justify-between items-center"
+                          >
+                            Danger Zone
+                          </summary>
+
+                          <ul>
+                            <li>
+                              <a (click)="closeMenu()" [swal]="resetMod">
+                                Reset Mod
+                              </a>
+                            </li>
+                          </ul>
+                        </details>
+                      </li>
+                    }
+                  </ul>
+                </details>
               </li>
-
-              @if (electronService.isInElectron()) {
-                <li>
-                  <a (click)="closeMenu(); modService.updateAutogenerated()">
-                    Update Autogenerated Content
-                  </a>
-                </li>
-
-                <li class="menu-title"><a>Danger Zone</a></li>
-                <li>
-                  <a (click)="closeMenu()" [swal]="resetMod">Reset Mod</a>
-                </li>
-              }
             </ul>
           </details>
         </li>
