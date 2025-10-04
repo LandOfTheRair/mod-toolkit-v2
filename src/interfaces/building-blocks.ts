@@ -41,6 +41,7 @@ export enum DamageClass {
   Water = 'water',
   Fire = 'fire',
   Ice = 'ice',
+  Lightning = 'lightning',
 
   // used for healing damage
   Heal = 'heal',
@@ -135,6 +136,7 @@ export enum Stat {
   WaterBoostPercent = 'waterBoostPercent',
   FireBoostPercent = 'fireBoostPercent',
   IceBoostPercent = 'iceBoostPercent',
+  LightningBoostPercent = 'lightningBoostPercent',
 
   // reflect stats
   PhysicalReflect = 'physicalDamageReflect',
@@ -153,6 +155,7 @@ export enum Stat {
   IceResist = 'iceResist',
   PoisonResist = 'poisonResist',
   DiseaseResist = 'diseaseResist',
+  lightningResist = 'lightningResist',
 
   // uncommon
   Move = 'move',

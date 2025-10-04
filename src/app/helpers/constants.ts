@@ -58,6 +58,7 @@ export const extraStats = sortBy(
     { stat: 'sonicBoostPercent', help: 'Adds raw sonic damage (%)' },
     { stat: 'waterBoostPercent', help: 'Adds raw water damage (%)' },
     { stat: 'fireBoostPercent', help: 'Adds raw fire damage (%)' },
+    { stat: 'lightningBoostPercent', help: 'Adds raw lightning damage (%)' },
     { stat: 'iceBoostPercent', help: 'Adds raw ice damage (%)' },
     {
       stat: 'physicalDamageReflect',
@@ -78,6 +79,10 @@ export const extraStats = sortBy(
     { stat: 'energyResist', help: 'Resist a raw amount of energy damage' },
     { stat: 'waterResist', help: 'Resist a raw amount of water damage' },
     { stat: 'fireResist', help: 'Resist a raw amount of fire damage' },
+    {
+      stat: 'lightningResist',
+      help: 'Resist a raw amount of lightning damage',
+    },
     { stat: 'iceResist', help: 'Resist a raw amount of ice damage' },
     { stat: 'poisonResist', help: 'Resist a raw amount of poison damage' },
     { stat: 'diseaseResist', help: 'Resist a raw amount of disease damage' },
@@ -149,6 +154,7 @@ export const damageClasses = sortBy([
   'water',
   'fire',
   'ice',
+  'lightning',
   'poison',
   'disease',
   'sonic',
