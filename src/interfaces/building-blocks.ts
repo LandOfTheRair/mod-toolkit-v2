@@ -65,6 +65,7 @@ export enum BaseClass {
   Healer = 'Healer',
   Warrior = 'Warrior',
   Arcanist = 'Arcanist',
+  Barbarian = 'Barbarian',
 }
 
 export type BaseClassType = `${BaseClass}`;
