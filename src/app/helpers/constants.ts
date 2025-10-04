@@ -13,7 +13,7 @@ export const coreStats = sortBy(
     { stat: 'luk', help: 'Core Stat - used for a few things' },
     { stat: 'cha', help: 'Core Stat - used to determine some shop costs' },
   ],
-  'stat'
+  'stat',
 );
 
 export const extraStats = sortBy(
@@ -139,7 +139,7 @@ export const extraStats = sortBy(
       help: 'Increase the restoration skill of the target',
     },
   ],
-  'stat'
+  'stat',
 );
 
 export const damageClasses = sortBy([
@@ -224,24 +224,6 @@ export const armorClasses = [
   'Tunic',
 ];
 
-export const itemTypes = [
-  'Axe',
-  'Conjuration',
-  'Dagger',
-  'Mace',
-  'Martial',
-  'Polearm',
-  'Ranged',
-  'Restoration',
-  'Shortsword',
-  'Staff',
-  'Sword',
-  'Thievery',
-  'Throwing',
-  'Twohanded',
-  'Wand',
-];
-
 export const typePropSets: Record<string, string[]> = {
   Arrow: ['shots', 'tier', 'damageClass'],
   Bottle: ['ounces'],
@@ -295,7 +277,7 @@ export const typePropPrimarySecondary: Record<
   Longsword: { p: 'sword' },
   Mace: { p: 'mace' },
   Shield: { p: 'mace' },
-  Shortbow: { p: 'ranged' },
+  Shortbow: { p: 'ranged', s: 'twohanded' },
   Shortsword: { p: 'shortsword' },
   Spear: { p: 'staff' },
   Staff: { p: 'staff' },
@@ -323,7 +305,7 @@ weaponClasses.forEach((weaponType) => {
     'twoHanded',
     'offhand',
     'returnsOnThrow',
-    'canShoot'
+    'canShoot',
   );
 
   typePropDefaults[weaponType].tier = 1;
@@ -344,15 +326,6 @@ weaponClasses.forEach((weaponType) => {
     typePropDefaults[weaponType].attackRange = 1;
   }
 
-  if (
-    ['Blunderbuss', 'Shortbow', 'Longbow', 'Greatmace', 'Greataxe'].includes(
-      weaponType
-    )
-  ) {
-    typePropDefaults[weaponType].twoHanded = true;
-    typePropDefaults[weaponType].secondaryType = 'Twohanded';
-  }
-
   if (['Crossbow', 'Shortbow', 'Longbow', 'Blunderbuss'].includes(weaponType)) {
     typePropDefaults[weaponType].canShoot = true;
     typePropDefaults[weaponType].attackRange = 4;
@@ -371,23 +344,16 @@ weaponClasses.forEach((weaponType) => {
 
   if (
     [
-      'Halberd',
       'Longbow',
       'Shortbow',
       'Blunderbuss',
+      'Halberd',
       'Greatsword',
       'Greataxe',
       'Greatmace',
     ].includes(weaponType)
   ) {
     typePropDefaults[weaponType].twoHanded = true;
-  }
-
-  if (['Halberd', 'Greatsword', 'Greataxe', 'Greatmace'].includes(weaponType)) {
-    typePropDefaults[weaponType].proneChance = 5;
-  }
-
-  if (['Longbow', 'Shortbow', 'Blunderbuss', 'Crossbow'].includes(weaponType)) {
     typePropDefaults[weaponType].proneChance = 5;
   }
 
