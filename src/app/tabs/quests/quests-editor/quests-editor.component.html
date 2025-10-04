@@ -27,6 +27,7 @@
         [(ngModel)]="editingData.name"
         (ngModelChange)="update('name', $event)"
         type="text"
+        autoTrim
         placeholder="Enter name..."
         class="form-input"
         [class.has-error]="!satisfiesUnique()"
@@ -39,6 +40,7 @@
         [(ngModel)]="editingData.giver"
         (ngModelChange)="update('giver', $event)"
         type="text"
+        autoTrim
         placeholder="Enter quest giver..."
         class="form-input"
       />
@@ -50,6 +52,7 @@
         [(ngModel)]="editingData.desc"
         (ngModelChange)="update('desc', $event)"
         type="text"
+        autoTrim
         placeholder="Enter description..."
         class="form-input"
       />
@@ -92,8 +95,9 @@
     <div class="form-row">
       <app-input-floating-label>On-Kill Message</app-input-floating-label>
       <input
-        [(ngModel)]="editingData.messages.kill"
+        [(ngModel)]="editingData.messages.kill!"
         type="text"
+        autoTrim
         placeholder="Enter message..."
         class="form-input"
       />
@@ -102,8 +106,9 @@
     <div class="form-row">
       <app-input-floating-label>Incomplete Message</app-input-floating-label>
       <input
-        [(ngModel)]="editingData.messages.incomplete"
+        [(ngModel)]="editingData.messages.incomplete!"
         type="text"
+        autoTrim
         placeholder="Enter message..."
         class="form-input"
       />
@@ -112,20 +117,22 @@
     <div class="form-row">
       <app-input-floating-label>On-Complete Message</app-input-floating-label>
       <input
-        [(ngModel)]="editingData.messages.complete"
+        [(ngModel)]="editingData.messages.complete!"
         type="text"
+        autoTrim
         placeholder="Enter message..."
         class="form-input"
       />
     </div>
 
     <div class="form-row">
-      <app-input-floating-label
-        >Permanently-Completed Message</app-input-floating-label
-      >
+      <app-input-floating-label>
+        Permanently-Completed Message
+      </app-input-floating-label>
       <input
-        [(ngModel)]="editingData.messages.permComplete"
+        [(ngModel)]="editingData.messages.permComplete!"
         type="text"
+        autoTrim
         placeholder="Enter message..."
         class="form-input"
       />
@@ -134,8 +141,9 @@
     <div class="form-row">
       <app-input-floating-label>Already-Has Message</app-input-floating-label>
       <input
-        [(ngModel)]="editingData.messages.alreadyHas"
+        [(ngModel)]="editingData.messages.alreadyHas!"
         type="text"
+        autoTrim
         placeholder="Enter message..."
         class="form-input"
       />
@@ -149,95 +157,105 @@
       ></app-input-questtype>
     </div>
 
-    @if(editingData.requirements.type !== 'none') {
-    <hr class="my-3" />
-    } @switch(editingData.requirements.type) { @case ('array') {
-    <div class="form-row">
-      <app-input-floating-label
-        >Array Size (Item Count)</app-input-floating-label
-      >
-      <input
-        [(ngModel)]="editingData.requirements.itemsRequired"
-        min="0"
-        type="number"
-        placeholder="Choose size..."
-        class="form-input"
-      />
-    </div>
-    } @case ('count') {
-    <div class="form-row">
-      <app-input-floating-label>Count Required</app-input-floating-label>
-      <input
-        [(ngModel)]="editingData.requirements.countRequired"
-        min="0"
-        type="number"
-        placeholder="Choose count..."
-        class="form-input"
-      />
-    </div>
-    } @case ('item') {
-    <div class="form-row">
-      <app-input-item
-        [item]="currentItem()"
-        (change)="editingData.requirements.item = $event"
-        [defaultValue]="editingData.requirements.item"
-      ></app-input-item>
-    </div>
-    } @case ('kill') {
-    <div class="form-row">
-      <app-input-floating-label>Kills Required</app-input-floating-label>
-      <input
-        [(ngModel)]="editingData.requirements.killsRequired"
-        min="0"
-        type="number"
-        placeholder="Choose kills..."
-        class="form-input"
-      />
-    </div>
-
-    <div class="form-row split">
-      <div class="form-column">
+    @if (editingData.requirements.type !== 'none') {
+      <hr class="my-3" />
+    }
+    @switch (editingData.requirements.type) {
+      @case ('array') {
         <div class="form-row">
-          <app-input-npc
-            [(npc)]="currentNPC"
-            label="Add NPC to Kill List"
-          ></app-input-npc>
+          <app-input-floating-label>
+            Array Size (Item Count)
+          </app-input-floating-label>
+          <input
+            [(ngModel)]="editingData.requirements.itemsRequired"
+            min="0"
+            type="number"
+            placeholder="Choose size..."
+            class="form-input"
+          />
         </div>
-      </div>
-
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button
-            class="btn btn-accent btn-sm"
-            [disabled]="!currentNPC() || hasNPC(currentNPC())"
-            (click)="addNPC(currentNPC())"
-          >
-            <ng-icon name="heroPlus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    @for(npc of editingData.requirements.npcIds; track $index) {
-    <div class="form-row split">
-      <div class="form-column">
+      }
+      @case ('count') {
         <div class="form-row">
-          <app-sprite-with-inline-name
-            [name]="npc"
-            type="creatures"
-          ></app-sprite-with-inline-name>
+          <app-input-floating-label>Count Required</app-input-floating-label>
+          <input
+            [(ngModel)]="editingData.requirements.countRequired"
+            min="0"
+            type="number"
+            placeholder="Choose count..."
+            class="form-input"
+          />
         </div>
-      </div>
+      }
+      @case ('item') {
+        <div class="form-row">
+          <app-input-item
+            [item]="currentItem()"
+            (change)="editingData.requirements.item = $event"
+            [defaultValue]="editingData.requirements.item"
+          ></app-input-item>
+        </div>
+      }
+      @case ('kill') {
+        <div class="form-row">
+          <app-input-floating-label>Kills Required</app-input-floating-label>
+          <input
+            [(ngModel)]="editingData.requirements.killsRequired"
+            min="0"
+            type="number"
+            placeholder="Choose kills..."
+            class="form-input"
+          />
+        </div>
 
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeNPC($index)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
+        <div class="form-row split">
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-npc
+                [(npc)]="currentNPC"
+                label="Add NPC to Kill List"
+              ></app-input-npc>
+            </div>
+          </div>
+
+          <div class="form-column button-column">
+            <div class="form-row w-full flex justify-end">
+              <button
+                class="btn btn-accent btn-sm"
+                [disabled]="!currentNPC() || hasNPC(currentNPC())"
+                (click)="addNPC(currentNPC())"
+              >
+                <ng-icon name="heroPlus"></ng-icon>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    } } }
+
+        @for (npc of editingData.requirements.npcIds; track $index) {
+          <div class="form-row split">
+            <div class="form-column">
+              <div class="form-row">
+                <app-sprite-with-inline-name
+                  [name]="npc"
+                  type="creatures"
+                ></app-sprite-with-inline-name>
+              </div>
+            </div>
+
+            <div class="form-column button-column">
+              <div class="form-row w-full flex justify-end">
+                <button
+                  class="ml-1 btn btn-error btn-sm"
+                  (click)="removeNPC($index)"
+                >
+                  <ng-icon name="heroMinus"></ng-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    }
   </div>
 
   <div class="form-column">
@@ -265,48 +283,51 @@
       </div>
     </div>
 
-    @for(reward of editingData.rewards; track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>{{ reward.type }}</app-input-floating-label>
-          <input
-            [(ngModel)]="reward.value"
-            min="0"
-            type="number"
-            placeholder="Choose value..."
-            class="form-input"
-          />
+    @for (reward of editingData.rewards; track $index) {
+      <div class="form-row split">
+        <div class="form-column">
+          <div class="form-row">
+            <app-input-floating-label>
+              {{ reward.type }}
+            </app-input-floating-label>
+            <input
+              [(ngModel)]="reward.value"
+              min="0"
+              type="number"
+              placeholder="Choose value..."
+              class="form-input"
+            />
+          </div>
         </div>
-      </div>
 
-      @if(reward.type === 'stat') {
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-stat [(stat)]="reward.statName"></app-input-stat>
-        </div>
-      </div>
-      } @if(reward.type === 'reputation') {
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-allegiance
-            [(allegiance)]="reward.statName"
-          ></app-input-allegiance>
-        </div>
-      </div>
-      }
+        @if (reward.type === 'stat') {
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-stat [(stat)]="reward.statName"></app-input-stat>
+            </div>
+          </div>
+        }
+        @if (reward.type === 'reputation') {
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-allegiance
+                [(allegiance)]="reward.statName"
+              ></app-input-allegiance>
+            </div>
+          </div>
+        }
 
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button
-            class="ml-1 btn btn-error btn-sm"
-            (click)="removeQuestReward($index)"
-          >
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
+        <div class="form-column button-column">
+          <div class="form-row w-full flex justify-end">
+            <button
+              class="ml-1 btn btn-error btn-sm"
+              (click)="removeQuestReward($index)"
+            >
+              <ng-icon name="heroMinus"></ng-icon>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     }
   </div>
 </div>

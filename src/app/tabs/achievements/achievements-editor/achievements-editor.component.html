@@ -62,9 +62,9 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label
-            >Icon Background Color</app-input-floating-label
-          >
+          <app-input-floating-label>
+            Icon Background Color
+          </app-input-floating-label>
           <input
             [(colorPicker)]="editingData.iconBgColor"
             [(ngModel)]="editingData.iconBgColor"
@@ -126,6 +126,7 @@
       <input
         [ngModel]="editingData.name"
         type="text"
+        autoTrim
         placeholder="Choose name..."
         class="form-input"
         (ngModelChange)="update('name', $event)"
@@ -138,6 +139,7 @@
       <input
         [(ngModel)]="editingData.desc"
         type="text"
+        autoTrim
         placeholder="Enter description..."
         class="form-input"
       />
@@ -146,9 +148,9 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label
-            >Achievement Points</app-input-floating-label
-          >
+          <app-input-floating-label>
+            Achievement Points
+          </app-input-floating-label>
           <input
             [(ngModel)]="editingData.ap"
             type="number"
@@ -203,95 +205,101 @@
       ></app-input-achievementtype>
     </div>
 
-    @switch(editingData.activationType) { @case ('level') {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-class
-            [(playerClass)]="editingData.requirements.level.baseClass"
-            label="Class"
-          ></app-input-class>
-        </div>
-      </div>
+    @switch (editingData.activationType) {
+      @case ('level') {
+        <div class="form-row split">
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-class
+                [(playerClass)]="editingData.requirements.level.baseClass"
+                label="Class"
+              ></app-input-class>
+            </div>
+          </div>
 
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Level</app-input-floating-label>
-          <input
-            [(ngModel)]="editingData.requirements.level.level"
-            type="number"
-            min="0"
-            placeholder="Choose level..."
-            class="form-input"
-          />
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-floating-label>Level</app-input-floating-label>
+              <input
+                [(ngModel)]="editingData.requirements.level.level"
+                type="number"
+                min="0"
+                placeholder="Choose level..."
+                class="form-input"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    } @case ('skill') {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-skill
-            [(skill)]="editingData.requirements.skill.skill"
-            label="Skill"
-          ></app-input-skill>
-        </div>
-      </div>
+      }
+      @case ('skill') {
+        <div class="form-row split">
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-skill
+                [(skill)]="editingData.requirements.skill.skill"
+                label="Skill"
+              ></app-input-skill>
+            </div>
+          </div>
 
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Level</app-input-floating-label>
-          <input
-            [(ngModel)]="editingData.requirements.skill.level"
-            type="number"
-            min="0"
-            placeholder="Choose skill level..."
-            class="form-input"
-          />
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-floating-label>Level</app-input-floating-label>
+              <input
+                [(ngModel)]="editingData.requirements.skill.level"
+                type="number"
+                min="0"
+                placeholder="Choose skill level..."
+                class="form-input"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    } @case ('tradeskill') {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-tradeskill
-            [(tradeskill)]="editingData.requirements.tradeskill.tradeskill"
-            label="Tradeskill"
-          ></app-input-tradeskill>
-        </div>
-      </div>
+      }
+      @case ('tradeskill') {
+        <div class="form-row split">
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-tradeskill
+                [(tradeskill)]="editingData.requirements.tradeskill.tradeskill"
+                label="Tradeskill"
+              ></app-input-tradeskill>
+            </div>
+          </div>
 
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Level</app-input-floating-label>
-          <input
-            [(ngModel)]="editingData.requirements.tradeskill.level"
-            type="number"
-            min="0"
-            placeholder="Choose tradeskill level..."
-            class="form-input"
-          />
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-floating-label>Level</app-input-floating-label>
+              <input
+                [(ngModel)]="editingData.requirements.tradeskill.level"
+                type="number"
+                min="0"
+                placeholder="Choose tradeskill level..."
+                class="form-input"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    } @case ('kill') {
-    <div class="form-row">
-      <app-input-npc
-        (change)="editingData.requirements.kill.npc = $event"
-        [defaultValue]="editingData.requirements.kill.npc"
-        label="Killed NPC"
-      ></app-input-npc>
-    </div>
-    } @case ('bindItem') {
-    <div class="form-row">
-      <app-input-item
-        (change)="editingData.requirements.bindItem.item = $event"
-        [defaultValue]="editingData.requirements.bindItem.item"
-        label="Bound Item"
-      ></app-input-item>
-    </div>
-    } }
+      }
+      @case ('kill') {
+        <div class="form-row">
+          <app-input-npc
+            (change)="editingData.requirements.kill.npc = $event"
+            [defaultValue]="editingData.requirements.kill.npc"
+            label="Killed NPC"
+          ></app-input-npc>
+        </div>
+      }
+      @case ('bindItem') {
+        <div class="form-row">
+          <app-input-item
+            (change)="editingData.requirements.bindItem.item = $event"
+            [defaultValue]="editingData.requirements.bindItem.item"
+            label="Bound Item"
+          ></app-input-item>
+        </div>
+      }
+    }
   </div>
 </div>
 

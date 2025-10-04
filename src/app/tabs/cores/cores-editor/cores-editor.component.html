@@ -26,6 +26,7 @@
       <input
         [ngModel]="editingData.name"
         type="text"
+        autoTrim
         placeholder="Enter file name (no extension)..."
         class="form-input"
         (ngModelChange)="update('name', $event)"
@@ -38,6 +39,7 @@
       <input
         [(ngModel)]="editingData.desc"
         type="text"
+        autoTrim
         placeholder="Enter description..."
         class="form-input"
       />

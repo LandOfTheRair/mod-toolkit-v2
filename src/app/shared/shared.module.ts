@@ -65,12 +65,13 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { SpriteWithInlineNameComponent } from './components/sprite-with-inline-name/sprite-with-inline-name.component';
 import { SpriteComponent } from './components/sprite/sprite.component';
 import { TestViewComponent } from './components/test-view/test-view.component';
-import { WebviewDirective } from './directives/';
+import { AutoTrimDirective, WebviewDirective } from './directives/';
 
 @NgModule({
   declarations: [
     PageNotFoundComponent,
     WebviewDirective,
+    AutoTrimDirective,
     SpriteComponent,
     InputSpriteComponent,
     InputFloatingLabelComponent,
@@ -139,6 +140,7 @@ import { WebviewDirective } from './directives/';
   ],
   exports: [
     WebviewDirective,
+    AutoTrimDirective,
     FormsModule,
     SpriteComponent,
     InputSpriteComponent,

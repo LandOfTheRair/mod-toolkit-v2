@@ -27,6 +27,7 @@
         [ngModel]="editingData.tag"
         (ngModelChange)="update('tag', $event)"
         type="text"
+        autoTrim
         placeholder="Enter spawner tag name..."
         class="form-input"
         [class.has-error]="!satisfiesUnique()"
@@ -249,6 +250,7 @@
       <input
         [(ngModel)]="editingData.npcAISettings[0]"
         type="text"
+        autoTrim
         placeholder="Enter spawner AI name..."
         class="form-input"
       />

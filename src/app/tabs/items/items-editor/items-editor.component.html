@@ -52,6 +52,7 @@
           <input
             [ngModel]="editingData.name"
             type="text"
+            autoTrim
             placeholder="Choose name..."
             class="form-input"
             (ngModelChange)="update('name', $event)"
@@ -236,6 +237,7 @@
           <app-input-floating-label>Description</app-input-floating-label>
           <input
             [(ngModel)]="editingData.desc"
+            autoTrim
             type="text"
             placeholder="Enter description..."
             class="form-input"
@@ -247,7 +249,8 @@
             Sense Description (optional)
           </app-input-floating-label>
           <input
-            [(ngModel)]="editingData.extendedDesc"
+            [(ngModel)]="editingData.extendedDesc!"
+            autoTrim
             type="text"
             placeholder="Enter sense description..."
             class="form-input"
@@ -392,15 +395,9 @@
               <div class="form-row split">
                 <div class="form-column">
                   <div class="form-row">
-                    <app-input-floating-label>
-                      Succor Map
-                    </app-input-floating-label>
-                    <input
-                      [(ngModel)]="editingData.succorInfo!.map"
-                      type="text"
-                      placeholder="Pick..."
-                      class="form-input"
-                    />
+                    <app-input-map
+                      [(map)]="editingData.succorInfo!.map"
+                    ></app-input-map>
                   </div>
                 </div>
                 <div class="form-column">
@@ -525,6 +522,7 @@
                       <input
                         [(ngModel)]="item.text"
                         type="text"
+                        autoTrim
                         placeholder="Enter page text..."
                         class="form-input"
                       />
@@ -734,6 +732,7 @@
             <input
               [(ngModel)]="editingData.useEffect!.extra!.tooltip"
               type="text"
+              autoTrim
               placeholder="Enter tooltip..."
               class="form-input"
             />
@@ -746,6 +745,7 @@
             <input
               [(ngModel)]="editingData.useEffect!.extra!.message"
               type="text"
+              autoTrim
               placeholder="Enter message..."
               class="form-input"
             />
@@ -984,6 +984,7 @@
           <app-input-floating-label>Cosmetic Name</app-input-floating-label>
           <input
             [(ngModel)]="editingData.cosmetic!.name"
+            autoTrim
             type="text"
             placeholder="Enter cosmetic name..."
             class="form-input"

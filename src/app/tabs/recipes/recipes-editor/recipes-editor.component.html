@@ -27,6 +27,7 @@
         [ngModel]="editingData.name"
         (ngModelChange)="update('name', $event)"
         type="text"
+        autoTrim
         placeholder="Enter recipe display name..."
         class="form-input"
         [class.has-error]="!satisfiesUnique()"
@@ -59,6 +60,7 @@
             [ngModel]="editingData.category"
             (ngModelChange)="update('category', $event)"
             type="text"
+            autoTrim
             placeholder="Enter recipe category name..."
             class="form-input"
           />
@@ -69,9 +71,9 @@
     <div class="form-row split">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label
-            >Min Skill Req'd To Use</app-input-floating-label
-          >
+          <app-input-floating-label>
+            Min Skill Req'd To Use
+          </app-input-floating-label>
           <input
             [(ngModel)]="editingData.requireSkill"
             type="number"
@@ -84,9 +86,9 @@
 
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label
-            >Max Skill Req'd For Skill Gain</app-input-floating-label
-          >
+          <app-input-floating-label>
+            Max Skill Req'd For Skill Gain
+          </app-input-floating-label>
           <input
             [(ngModel)]="editingData.maxSkillForGains"
             min="0"
@@ -199,58 +201,60 @@
   </div>
 
   <div class="form-column">
-    @for(ing of ingredients; track $index) {
-    <div class="form-row">
-      <app-input-item
-        [item]="ing()"
-        (change)="updateArray('ingredients', $index, $event)"
-        [defaultValue]="editingData.ingredients![$index]"
-        [label]="'Ingredient #' + ($index + 1)"
-      ></app-input-item>
-    </div>
+    @for (ing of ingredients; track $index) {
+      <div class="form-row">
+        <app-input-item
+          [item]="ing()"
+          (change)="updateArray('ingredients', $index, $event)"
+          [defaultValue]="editingData.ingredients![$index]"
+          [label]="'Ingredient #' + ($index + 1)"
+        ></app-input-item>
+      </div>
     }
   </div>
 
   <div class="form-column">
-    @for(ing of ozIngredients; track $index) {
-    @if(editingData.ozIngredients?.[$index]; as ozIng) {
-    <div class="form-row">
-      <app-input-item
-        (change)="ozIng.display = $event"
-        [defaultValue]="ozIng.display"
-        [label]="'Oz. Ingredient #' + ($index + 1)"
-      ></app-input-item>
-    </div>
-
-    <div class="form-row split">
-      <div class="form-column">
+    @for (ing of ozIngredients; track $index) {
+      @if (editingData.ozIngredients?.[$index]; as ozIng) {
         <div class="form-row">
-          <app-input-floating-label
-            >Oz. Ingredient Filter</app-input-floating-label
-          >
-          <input
-            [(ngModel)]="ozIng.filter"
-            type="text"
-            placeholder="Enter filter..."
-            class="form-input"
-          />
+          <app-input-item
+            (change)="ozIng.display = $event"
+            [defaultValue]="ozIng.display"
+            [label]="'Oz. Ingredient #' + ($index + 1)"
+          ></app-input-item>
         </div>
-      </div>
 
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>Oz. Required</app-input-floating-label>
-          <input
-            [(ngModel)]="ozIng.ounces"
-            min="0"
-            type="number"
-            placeholder="Enter ounces required..."
-            class="form-input"
-          />
+        <div class="form-row split">
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-floating-label>
+                Oz. Ingredient Filter
+              </app-input-floating-label>
+              <input
+                [(ngModel)]="ozIng.filter"
+                type="text"
+                autoTrim
+                placeholder="Enter filter..."
+                class="form-input"
+              />
+            </div>
+          </div>
+
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-floating-label>Oz. Required</app-input-floating-label>
+              <input
+                [(ngModel)]="ozIng.ounces"
+                min="0"
+                type="number"
+                placeholder="Enter ounces required..."
+                class="form-input"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    } }
+      }
+    }
   </div>
 </div>
 

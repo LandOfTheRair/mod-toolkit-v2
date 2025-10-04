@@ -1,15 +1,15 @@
 @let editingData = editing();
 
 <div role="tablist" class="tabs tabs-boxed rounded-none mb-3">
-  @for(tab of tabs; let i = $index; track tab.name) {
-  <a
-    role="tab"
-    class="tab"
-    [class.tab-active]="activeTab() === i"
-    (click)="changeTab(i)"
-  >
-    {{ tab.name }}
-  </a>
+  @for (tab of tabs; let i = $index; track tab.name) {
+    <a
+      role="tab"
+      class="tab"
+      [class.tab-active]="activeTab() === i"
+      (click)="changeTab(i)"
+    >
+      {{ tab.name }}
+    </a>
   }
 
   <div class="tab flex flex-row justify-end">
@@ -30,287 +30,299 @@
   </div>
 </div>
 
-@switch (activeTab()) { @case (0) {
-<div class="flex flex-row gap-2">
-  <div class="form-column">
-    <div class="form-row">
-      <app-input-mapnpc
-        [tag]="editingData.tag"
-        (change)="update('tag', $event)"
-      ></app-input-mapnpc>
-    </div>
-
-    <div class="form-row">
-      <app-input-floating-label>Name (optional)</app-input-floating-label>
-      <input
-        [(ngModel)]="editingData.name"
-        type="text"
-        placeholder="If unspecified, will be random"
-        class="form-input"
-      />
-    </div>
-
-    <div class="form-row">
-      <app-input-floating-label
-        >Affiliation (optional)</app-input-floating-label
-      >
-      <input
-        [(ngModel)]="editingData.affiliation"
-        type="text"
-        placeholder="The guild/tag for the NPC"
-        class="form-input"
-      />
-    </div>
-
-    <div class="form-row">
-      <app-input-floating-label>Level</app-input-floating-label>
-      <input
-        [(ngModel)]="editingData.level"
-        min="1"
-        type="number"
-        class="form-input"
-      />
-    </div>
-
-    <div class="form-row split">
+@switch (activeTab()) {
+  @case (0) {
+    <div class="flex flex-row gap-2">
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label>HP Min</app-input-floating-label>
+          <app-input-mapnpc
+            [tag]="editingData.tag"
+            (change)="update('tag', $event)"
+          ></app-input-mapnpc>
+        </div>
+
+        <div class="form-row">
+          <app-input-floating-label>Name (optional)</app-input-floating-label>
           <input
-            [(ngModel)]="editingData.hp.min"
+            [(ngModel)]="editingData.name!"
+            type="text"
+            autoTrim
+            placeholder="If unspecified, will be random"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-row">
+          <app-input-floating-label>
+            Affiliation (optional)
+          </app-input-floating-label>
+          <input
+            [(ngModel)]="editingData.affiliation!"
+            type="text"
+            autoTrim
+            placeholder="The guild/tag for the NPC"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-row">
+          <app-input-floating-label>Level</app-input-floating-label>
+          <input
+            [(ngModel)]="editingData.level"
             min="1"
             type="number"
             class="form-input"
           />
         </div>
-      </div>
 
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>HP Max</app-input-floating-label>
-          <input
-            [(ngModel)]="editingData.hp.max"
-            min="1"
-            type="number"
-            class="form-input"
-          />
+        <div class="form-row split">
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-floating-label>HP Min</app-input-floating-label>
+              <input
+                [(ngModel)]="editingData.hp.min"
+                min="1"
+                type="number"
+                class="form-input"
+              />
+            </div>
+          </div>
+
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-floating-label>HP Max</app-input-floating-label>
+              <input
+                [(ngModel)]="editingData.hp.max"
+                min="1"
+                type="number"
+                class="form-input"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="form-row split">
-      <div class="form-column">
+        <div class="form-row split">
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-floating-label>MP Min</app-input-floating-label>
+              <input
+                [(ngModel)]="editingData.mp.min"
+                min="0"
+                type="number"
+                class="form-input"
+              />
+            </div>
+          </div>
+
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-floating-label>MP Max</app-input-floating-label>
+              <input
+                [(ngModel)]="editingData.mp.max"
+                min="0"
+                type="number"
+                class="form-input"
+              />
+            </div>
+          </div>
+        </div>
+
         <div class="form-row">
-          <app-input-floating-label>MP Min</app-input-floating-label>
+          <app-input-alignment
+            [(alignment)]="editingData.alignment"
+          ></app-input-alignment>
+        </div>
+
+        <div class="form-row">
+          <app-input-hostility
+            [(hostility)]="editingData.hostility"
+          ></app-input-hostility>
+        </div>
+
+        <div class="form-row">
+          <app-input-allegiance
+            [(allegiance)]="editingData.allegiance"
+          ></app-input-allegiance>
+        </div>
+
+        <div class="form-row">
+          <app-input-floating-label>
+            Max Randomly Wander Distance
+          </app-input-floating-label>
           <input
-            [(ngModel)]="editingData.mp.min"
+            [(ngModel)]="editingData.maxWanderRandomlyDistance"
             min="0"
             type="number"
             class="form-input"
           />
         </div>
-      </div>
 
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-floating-label>MP Max</app-input-floating-label>
-          <input
-            [(ngModel)]="editingData.mp.max"
-            min="0"
-            type="number"
-            class="form-input"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="form-row">
-      <app-input-alignment
-        [(alignment)]="editingData.alignment"
-      ></app-input-alignment>
-    </div>
-
-    <div class="form-row">
-      <app-input-hostility
-        [(hostility)]="editingData.hostility"
-      ></app-input-hostility>
-    </div>
-
-    <div class="form-row">
-      <app-input-allegiance
-        [(allegiance)]="editingData.allegiance"
-      ></app-input-allegiance>
-    </div>
-
-    <div class="form-row">
-      <app-input-floating-label
-        >Max Randomly Wander Distance</app-input-floating-label
-      >
-      <input
-        [(ngModel)]="editingData.maxWanderRandomlyDistance"
-        min="0"
-        type="number"
-        class="form-input"
-      />
-    </div>
-
-    <div class="form-row pl-1">
-      <label
-        class="label cursor-pointer"
-        floatUi="Whether or not this NPC should wander and never leash. Makes the NPC hard to find."
-      >
-        <input
-          type="checkbox"
-          [(ngModel)]="editingData.noLeash"
-          class="checkbox"
-        />
-        <span class="label-text">No Leash</span>
-      </label>
-    </div>
-
-    <div class="form-row">
-      <button class="btn btn-accent btn-sm w-full" (click)="addBaseEffect()">
-        Add Base Effect
-      </button>
-    </div>
-
-    @for(baseEffect of editingData.baseEffects; track $index) {
-    <app-edit-baseeffect
-      [baseEffect]="baseEffect"
-      (remove)="removeBaseEffect($index)"
-    ></app-edit-baseeffect>
-    }
-  </div>
-
-  <div class="form-column">
-    @for(slot of slotsInOrder(); track $index) {
-    <div class="form-row">
-      <app-input-item
-        [label]="slot"
-        (change)="editingData.items.equipment[slot] = $event"
-        [defaultValue]="editingData.items.equipment[slot]"
-      ></app-input-item>
-    </div>
-    }
-  </div>
-
-  <div class="form-column">
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-stat
-            [(stat)]="currentStat"
-            [allowCore]="false"
-          ></app-input-stat>
-        </div>
-      </div>
-
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button
-            class="btn btn-accent btn-sm"
-            [disabled]="!currentStat() || hasStat(currentStat())"
-            (click)="addStat(currentStat())"
+        <div class="form-row pl-1">
+          <label
+            class="label cursor-pointer"
+            floatUi="Whether or not this NPC should wander and never leash. Makes the NPC hard to find."
           >
-            <ng-icon name="heroPlus"></ng-icon>
-          </button>
+            <input
+              type="checkbox"
+              [(ngModel)]="editingData.noLeash"
+              class="checkbox"
+            />
+            <span class="label-text">No Leash</span>
+          </label>
         </div>
-      </div>
-    </div>
 
-    @for(stat of statsInOrder(); track $index) {
-    <div class="form-row split">
-      <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label>{{ stat }}</app-input-floating-label>
-          <input
-            [(ngModel)]="editingData.otherStats[stat]"
-            type="number"
-            placeholder="Choose value..."
-            class="form-input"
-          />
-        </div>
-      </div>
-
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeStat(stat)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-    }
-  </div>
-
-  <div class="form-column">
-    <div class="form-row">
-      <button class="btn btn-accent btn-sm w-full" (click)="addSpell()">
-        Add Spell
-      </button>
-    </div>
-
-    @for(spell of editingData.usableSkills; track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-input-spell
-            [(spell)]="editingData.usableSkills[$index]"
-          ></app-input-spell>
-        </div>
-      </div>
-
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
           <button
-            class="ml-1 btn btn-error btn-sm"
-            (click)="removeSpell($index)"
+            class="btn btn-accent btn-sm w-full"
+            (click)="addBaseEffect()"
           >
-            <ng-icon name="heroMinus"></ng-icon>
+            Add Base Effect
           </button>
+        </div>
+
+        @for (baseEffect of editingData.baseEffects; track $index) {
+          <app-edit-baseeffect
+            [baseEffect]="baseEffect"
+            (remove)="removeBaseEffect($index)"
+          ></app-edit-baseeffect>
+        }
+      </div>
+
+      <div class="form-column">
+        @for (slot of slotsInOrder(); track $index) {
+          <div class="form-row">
+            <app-input-item
+              [label]="slot"
+              (change)="editingData.items.equipment[slot] = $event"
+              [defaultValue]="editingData.items.equipment[slot]"
+            ></app-input-item>
+          </div>
+        }
+      </div>
+
+      <div class="form-column">
+        <div class="form-row split">
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-stat
+                [(stat)]="currentStat"
+                [allowCore]="false"
+              ></app-input-stat>
+            </div>
+          </div>
+
+          <div class="form-column button-column">
+            <div class="form-row w-full flex justify-end">
+              <button
+                class="btn btn-accent btn-sm"
+                [disabled]="!currentStat() || hasStat(currentStat())"
+                (click)="addStat(currentStat())"
+              >
+                <ng-icon name="heroPlus"></ng-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        @for (stat of statsInOrder(); track $index) {
+          <div class="form-row split">
+            <div class="form-column">
+              <div class="form-row">
+                <app-input-floating-label>{{ stat }}</app-input-floating-label>
+                <input
+                  [(ngModel)]="editingData.otherStats[stat]"
+                  type="number"
+                  placeholder="Choose value..."
+                  class="form-input"
+                />
+              </div>
+            </div>
+
+            <div class="form-column button-column">
+              <div class="form-row w-full flex justify-end">
+                <button
+                  class="ml-1 btn btn-error btn-sm"
+                  (click)="removeStat(stat)"
+                >
+                  <ng-icon name="heroMinus"></ng-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="form-column">
+        <div class="form-row">
+          <button class="btn btn-accent btn-sm w-full" (click)="addSpell()">
+            Add Spell
+          </button>
+        </div>
+
+        @for (spell of editingData.usableSkills; track $index) {
+          <div class="form-row split">
+            <div class="form-column">
+              <div class="form-row">
+                <app-input-spell
+                  [(spell)]="editingData.usableSkills[$index]"
+                ></app-input-spell>
+              </div>
+            </div>
+
+            <div class="form-column button-column">
+              <div class="form-row w-full flex justify-end">
+                <button
+                  class="ml-1 btn btn-error btn-sm"
+                  (click)="removeSpell($index)"
+                >
+                  <ng-icon name="heroMinus"></ng-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  @case (1) {
+    <div class="flex flex-row gap-2">
+      <div class="form-column">
+        <div class="form-row">
+          <ngs-code-editor
+            class="editor-container"
+            [theme]="'vs-dark'"
+            [codeModel]="behaviorModel"
+            [options]="{ contextmenu: true }"
+            (valueChanged)="onBehaviorChanged($event)"
+          ></ngs-code-editor>
+        </div>
+
+        <div class="form-row form-error">
+          {{ behaviorError() }}
         </div>
       </div>
     </div>
-    }
-  </div>
-</div>
-} @case (1) {
-<div class="flex flex-row gap-2">
-  <div class="form-column">
-    <div class="form-row">
-      <ngs-code-editor
-        class="editor-container"
-        [theme]="'vs-dark'"
-        [codeModel]="behaviorModel"
-        [options]="{ contextmenu: true }"
-        (valueChanged)="onBehaviorChanged($event)"
-      ></ngs-code-editor>
-    </div>
+  }
+  @case (2) {
+    <div class="flex flex-row gap-2">
+      <div class="form-column">
+        <div class="form-row">
+          <ngs-code-editor
+            class="editor-container"
+            [theme]="'vs-dark'"
+            [codeModel]="dialogModel"
+            [options]="{ contextmenu: true }"
+            (valueChanged)="onDialogChanged($event)"
+          ></ngs-code-editor>
 
-    <div class="form-row form-error">
-      {{ behaviorError() }}
-    </div>
-  </div>
-</div>
-} @case (2) {
-<div class="flex flex-row gap-2">
-  <div class="form-column">
-    <div class="form-row">
-      <ngs-code-editor
-        class="editor-container"
-        [theme]="'vs-dark'"
-        [codeModel]="dialogModel"
-        [options]="{ contextmenu: true }"
-        (valueChanged)="onDialogChanged($event)"
-      ></ngs-code-editor>
-
-      <div class="form-row form-error">
-        {{ dialogError() }}
+          <div class="form-row form-error">
+            {{ dialogError() }}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-} }
+  }
+}
 
 <app-debug-view>
   {{ editingData | json }}

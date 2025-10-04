@@ -27,6 +27,7 @@
         [(ngModel)]="editingData.name"
         (ngModelChange)="update('name', $event)"
         type="text"
+        autoTrim
         placeholder="Enter name..."
         class="form-input"
         [class.has-error]="!satisfiesUnique()"
@@ -39,6 +40,7 @@
         [(ngModel)]="editingData.description"
         (ngModelChange)="update('description', $event)"
         type="text"
+        autoTrim
         placeholder="Enter description (shows up in event panel)..."
         class="form-input"
       />
@@ -55,9 +57,9 @@
 
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label
-            >Duration (seconds)</app-input-floating-label
-          >
+          <app-input-floating-label>
+            Duration (seconds)
+          </app-input-floating-label>
           <input
             [ngModel]="editingData.duration"
             (ngModelChange)="update('duration', $event)"
@@ -71,9 +73,9 @@
 
       <div class="form-column">
         <div class="form-row">
-          <app-input-floating-label
-            >Cooldown (seconds)</app-input-floating-label
-          >
+          <app-input-floating-label>
+            Cooldown (seconds)
+          </app-input-floating-label>
           <input
             [(ngModel)]="editingData.cooldown"
             (ngModelChange)="update('cooldown', $event)"
@@ -92,6 +94,7 @@
         [(ngModel)]="editingData.startMessage"
         (ngModelChange)="update('startMessage', $event)"
         type="text"
+        autoTrim
         placeholder="Enter start message (sent to lobby)..."
         class="form-input"
       />
@@ -103,6 +106,7 @@
         [(ngModel)]="editingData.endMessage"
         (ngModelChange)="update('endMessage', $event)"
         type="text"
+        autoTrim
         placeholder="Enter end message (sent to lobby)..."
         class="form-input"
       />
@@ -150,25 +154,25 @@
       </div>
     </div>
 
-    @for(conflict of conflictsInOrder(); track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          {{ conflict }}
+    @for (conflict of conflictsInOrder(); track $index) {
+      <div class="form-row split">
+        <div class="form-column">
+          <div class="form-row">
+            {{ conflict }}
+          </div>
         </div>
-      </div>
 
-      <div class="form-column">
-        <div class="form-row w-full flex justify-end">
-          <button
-            class="ml-1 btn btn-error btn-sm"
-            (click)="removeConflict(conflict)"
-          >
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
+        <div class="form-column">
+          <div class="form-row w-full flex justify-end">
+            <button
+              class="ml-1 btn btn-error btn-sm"
+              (click)="removeConflict(conflict)"
+            >
+              <ng-icon name="heroMinus"></ng-icon>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     }
   </div>
 
@@ -218,61 +222,67 @@
       ></app-input-eventsuccesstype>
     </div>
 
-    @switch(editingData.successMetrics.type) { @case ('kills') {
-    <div class="form-row">
-      <app-input-floating-label>Kills</app-input-floating-label>
-      <input
-        [(ngModel)]="editingData.successMetrics.count"
-        min="0"
-        type="number"
-        placeholder="Enter kills required to succeed..."
-        class="form-input"
-      />
-    </div>
-
-    <div class="form-row split">
-      <div class="form-column">
+    @switch (editingData.successMetrics.type) {
+      @case ('kills') {
         <div class="form-row">
-          <app-input-npc
-            [(npc)]="currentNPC"
-            label="NPCs To Kill"
-          ></app-input-npc>
+          <app-input-floating-label>Kills</app-input-floating-label>
+          <input
+            [(ngModel)]="editingData.successMetrics.count"
+            min="0"
+            type="number"
+            placeholder="Enter kills required to succeed..."
+            class="form-input"
+          />
         </div>
-      </div>
 
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button
-            class="btn btn-accent btn-sm"
-            [disabled]="!currentNPC() || hasNPC(currentNPC())"
-            (click)="addNPC(currentNPC())"
-          >
-            <ng-icon name="heroPlus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
+        <div class="form-row split">
+          <div class="form-column">
+            <div class="form-row">
+              <app-input-npc
+                [(npc)]="currentNPC"
+                label="NPCs To Kill"
+              ></app-input-npc>
+            </div>
+          </div>
 
-    @for(npc of npcKillsInOrder(); track $index) {
-    <div class="form-row split">
-      <div class="form-column">
-        <div class="form-row">
-          <app-sprite-with-inline-name
-            [name]="npc"
-            type="creatures"
-          ></app-sprite-with-inline-name>
+          <div class="form-column button-column">
+            <div class="form-row w-full flex justify-end">
+              <button
+                class="btn btn-accent btn-sm"
+                [disabled]="!currentNPC() || hasNPC(currentNPC())"
+                (click)="addNPC(currentNPC())"
+              >
+                <ng-icon name="heroPlus"></ng-icon>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="form-column button-column">
-        <div class="form-row w-full flex justify-end">
-          <button class="ml-1 btn btn-error btn-sm" (click)="removeNPC($index)">
-            <ng-icon name="heroMinus"></ng-icon>
-          </button>
-        </div>
-      </div>
-    </div>
-    } } }
+        @for (npc of npcKillsInOrder(); track $index) {
+          <div class="form-row split">
+            <div class="form-column">
+              <div class="form-row">
+                <app-sprite-with-inline-name
+                  [name]="npc"
+                  type="creatures"
+                ></app-sprite-with-inline-name>
+              </div>
+            </div>
+
+            <div class="form-column button-column">
+              <div class="form-row w-full flex justify-end">
+                <button
+                  class="ml-1 btn btn-error btn-sm"
+                  (click)="removeNPC($index)"
+                >
+                  <ng-icon name="heroMinus"></ng-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    }
   </div>
 </div>
 
