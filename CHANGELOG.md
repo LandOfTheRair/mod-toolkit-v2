@@ -1,6 +1,14 @@
+## <small>1.8.6 (2025-10-04)</small>
+
+* add barbarian class to core ([48c5029](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/48c5029))
+
+
+
 ## <small>1.8.5 (2025-10-03)</small>
 
+* Release Patch 1.8.5 ([59fb005](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/59fb005))
 * support checkeffect ([df0a1e8](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/df0a1e8))
+* Sync version ([3ee53e3](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3ee53e3))
 
 
 
