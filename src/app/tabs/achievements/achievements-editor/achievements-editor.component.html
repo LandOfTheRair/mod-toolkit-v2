@@ -152,7 +152,8 @@
             Achievement Points
           </app-input-floating-label>
           <input
-            [(ngModel)]="editingData.ap"
+            [ngModel]="editingData.ap"
+            (ngModelChange)="update('ap', $event)"
             type="number"
             min="0"
             placeholder="Choose AP..."
