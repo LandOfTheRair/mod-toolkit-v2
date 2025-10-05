@@ -32,9 +32,10 @@
       [rowData]="allData"
       [columnDefs]="tableColumns()"
       [pagination]="true"
-      [paginationPageSize]="20"
+      [paginationPageSize]="pageSize()"
       (filterChanged)="filterChanged.emit($event)"
       (gridReady)="onInitialize($event)"
+      (paginationChanged)="onPaginationChanged($event)"
     ></ag-grid-angular>
   </div>
 }

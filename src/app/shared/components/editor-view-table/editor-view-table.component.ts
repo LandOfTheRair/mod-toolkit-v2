@@ -4,7 +4,9 @@ import {
   FilterChangedEvent,
   FilterModel,
   GridReadyEvent,
+  PaginationChangedEvent,
 } from 'ag-grid-community';
+import { linkedQueryParam } from 'ngxtension/linked-query-param';
 import { ElectronService } from '../../../services/electron.service';
 
 @Component({
@@ -25,7 +27,15 @@ export class EditorViewTableComponent {
   public import = output<void>();
   public filterChanged = output<FilterChangedEvent>();
 
+  public pageSize = linkedQueryParam('pageSize', {
+    parse: (value) => parseInt(value ?? '20', 10),
+  });
+
   onInitialize($event: GridReadyEvent) {
     $event.api.setFilterModel(this.defaultFilterState() ?? {});
+  }
+
+  onPaginationChanged($event: PaginationChangedEvent) {
+    this.pageSize.set($event.api.paginationGetPageSize());
   }
 }
