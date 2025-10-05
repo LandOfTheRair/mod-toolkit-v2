@@ -1,6 +1,24 @@
+## <small>1.8.7 (2025-10-05)</small>
+
+* add directive ([58c6cb7](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/58c6cb7))
+* adjust menu to be more collapsible ([528dbe0](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/528dbe0))
+* closes #89 ([efcfc39](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/efcfc39)), closes [#89](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/89)
+* closes #90 ([a45e757](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a45e757)), closes [#90](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/90)
+* closes #91 ([81e6d91](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/81e6d91)), closes [#91](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/91)
+* closes #93 ([4d77ecc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4d77ecc)), closes [#93](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/93)
+* closes #94 ([9cd891f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9cd891f)), closes [#94](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/94)
+* closes #95 ([a046df5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a046df5)), closes [#95](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/95)
+* closes #96 ([fb1c660](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/fb1c660)), closes [#96](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/96)
+* closes #97 ([a6a3a5a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a6a3a5a)), closes [#97](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/97)
+* support electricity ([28c3147](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/28c3147))
+
+
+
 ## <small>1.8.6 (2025-10-04)</small>
 
 * add barbarian class to core ([48c5029](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/48c5029))
+* Release Patch 1.8.6 ([66c2e66](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/66c2e66))
+* Sync version ([518bcf1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/518bcf1))
 
 
 
