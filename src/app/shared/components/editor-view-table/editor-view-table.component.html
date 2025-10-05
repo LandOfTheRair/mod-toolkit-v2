@@ -1,22 +1,40 @@
 @let allData = tableItems();
 
-@if(allData.length === 0) {
-<div class="w-full h-full vh- flex flex-col flex-nowrap justify-center items-center text-center text-3xl">
-  You don't have any {{ dataType() }}.
+@if (allData.length === 0) {
+  <div
+    class="w-full h-full vh- flex flex-col flex-nowrap justify-center items-center text-center text-3xl"
+  >
+    You don't have any {{ dataType() }}.
 
-  <button class="mt-4 btn btn-secondary" (click)="create.emit()"
-    [class.btn-disabled]="!electronService.isInElectron()">Add one</button>
+    <button
+      class="mt-4 btn btn-secondary"
+      (click)="create.emit()"
+      [class.btn-disabled]="!electronService.isInElectron()"
+    >
+      Add one
+    </button>
 
-  @if(showImport()) {
-  <button class="mt-4 btn btn-secondary" (click)="import.emit()"
-    [class.btn-disabled]="!electronService.isInElectron()">Import one</button>
-  }
-</div>
-
+    @if (showImport()) {
+      <button
+        class="mt-4 btn btn-secondary"
+        (click)="import.emit()"
+        [class.btn-disabled]="!electronService.isInElectron()"
+      >
+        Import one
+      </button>
+    }
+  </div>
 } @else {
-<div>
-  <ag-grid-angular class="ag-theme-quartz-dark -m-6" [rowHeight]="70" [rowData]="allData" [columnDefs]="tableColumns()"
-    [pagination]="true" [paginationPageSize]="20" (filterChanged)="filterChanged.emit($event)"
-    (gridReady)="onInitialize($event)"></ag-grid-angular>
-</div>
+  <div>
+    <ag-grid-angular
+      class="ag-theme-quartz-dark -m-6 item-table"
+      [rowHeight]="70"
+      [rowData]="allData"
+      [columnDefs]="tableColumns()"
+      [pagination]="true"
+      [paginationPageSize]="20"
+      (filterChanged)="filterChanged.emit($event)"
+      (gridReady)="onInitialize($event)"
+    ></ag-grid-angular>
+  </div>
 }
