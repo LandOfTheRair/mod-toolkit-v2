@@ -22,16 +22,11 @@
 <div class="flex flex-row gap-2">
   <div class="form-column">
     <div class="form-row">
-      <app-input-floating-label>Tag</app-input-floating-label>
-      <input
-        [ngModel]="editingData.tag"
-        (ngModelChange)="update('tag', $event)"
-        type="text"
-        autoTrim
-        placeholder="Enter spawner tag name..."
-        class="form-input"
+      <app-input-mapspawner
+        [tag]="editingData.tag"
+        (change)="update('tag', $event)"
         [class.has-error]="!satisfiesUnique()"
-      />
+      ></app-input-mapspawner>
     </div>
 
     <div class="form-row">

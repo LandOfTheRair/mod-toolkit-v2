@@ -46,6 +46,7 @@ import { InputItemslotComponent } from './components/input-itemslot/input-itemsl
 import { InputMacrotypeComponent } from './components/input-macrotype/input-macrotype.component';
 import { InputMapComponent } from './components/input-map/input-map.component';
 import { InputMapnpcComponent } from './components/input-mapnpc/input-mapnpc.component';
+import { InputMapspawnerComponent } from './components/input-mapspawner/input-mapspawner.component';
 import { InputNpcComponent } from './components/input-npc/input-npc.component';
 import { InputQuestComponent } from './components/input-quest/input-quest.component';
 import { InputQuestrewardComponent } from './components/input-questreward/input-questreward.component';
@@ -106,6 +107,7 @@ import { AutoTrimDirective, WebviewDirective } from './directives/';
     InputQuesttypeComponent,
     InputQuestrewardComponent,
     InputMapnpcComponent,
+    InputMapspawnerComponent,
     SpriteWithInlineNameComponent,
     InputRecipeComponent,
     InputQuestComponent,
@@ -176,6 +178,7 @@ import { AutoTrimDirective, WebviewDirective } from './directives/';
     InputQuesttypeComponent,
     InputQuestrewardComponent,
     InputMapnpcComponent,
+    InputMapspawnerComponent,
     SpriteWithInlineNameComponent,
     InputRecipeComponent,
     InputQuestComponent,
