@@ -1,3 +1,9 @@
+## <small>1.8.8 (2025-10-08)</small>
+
+* fix(validators): fail validation if npc does not have a tag ([a28ad74](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a28ad74))
+
+
+
 ## <small>1.8.7 (2025-10-05)</small>
 
 * add directive ([58c6cb7](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/58c6cb7))
@@ -10,7 +16,9 @@
 * closes #95 ([a046df5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a046df5)), closes [#95](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/95)
 * closes #96 ([fb1c660](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/fb1c660)), closes [#96](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/96)
 * closes #97 ([a6a3a5a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a6a3a5a)), closes [#97](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/97)
+* Release Patch 1.8.7 ([217a1a8](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/217a1a8))
 * support electricity ([28c3147](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/28c3147))
+* Sync version ([99244e7](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/99244e7))
 
 
 
