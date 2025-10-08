@@ -1,5 +1,13 @@
+## <small>1.8.9 (2025-10-08)</small>
+
+* fix unapply message ref ([895c0fb](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/895c0fb))
+
+
+
 ## <small>1.8.8 (2025-10-08)</small>
 
+* Release Patch 1.8.8 ([23b2869](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/23b2869))
+* Sync version ([a226440](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a226440))
 * fix(validators): fail validation if npc does not have a tag ([a28ad74](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a28ad74))
 
 
