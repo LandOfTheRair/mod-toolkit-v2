@@ -44,7 +44,7 @@ export interface IEffectMeta {
 
   castMessage?: string;
   applyMessage?: string;
-  unapplyMesage?: string;
+  unapplyMessage?: string;
 
   castSfx?: string;
   applySfx?: string;
