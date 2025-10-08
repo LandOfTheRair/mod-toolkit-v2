@@ -13,6 +13,7 @@ import {
   checkMapBGMs,
   checkMapItems,
   checkMapNPCDialogs,
+  checkMapNPCs,
   checkMapObjects,
   checkMapProperties,
   checkMapSpawners,
@@ -45,7 +46,7 @@ import { validateSTEMProperties, validateSTEMs } from './validators/stem';
 export function validationMessagesForMod(
   mod: IModKit,
   classes: BaseClassType[],
-  json: ModJSON
+  json: ModJSON,
 ): ValidationMessageGroup[] {
   const validationContainer: ValidationMessageGroup[] = [
     checkItemStats(mod),
@@ -63,6 +64,7 @@ export function validationMessagesForMod(
     ...checkMapSpawners(mod),
     ...checkMapItems(mod),
     ...checkMapObjects(mod),
+    ...checkMapNPCs(mod),
     validateEvents(mod),
     validateDialogs(mod),
     validateDialogActions(mod),
@@ -104,7 +106,7 @@ export function validationMessagesForMod(
 export function numErrorsForMod(
   mod: IModKit,
   classes: BaseClassType[],
-  json: ModJSON
+  json: ModJSON,
 ): number {
   const validationMessages = validationMessagesForMod(mod, classes, json);
 

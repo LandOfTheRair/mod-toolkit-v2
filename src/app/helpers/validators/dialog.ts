@@ -30,6 +30,7 @@ export function checkMapNPCDialogs(mod: IModKit): ValidationMessageGroup {
 
   mod.maps.forEach((map) => {
     map.map.layers[9].objects.forEach((npc: any) => {
+      if (!npc.properties?.tag) return;
       addDialogCount(npc.properties.tag as string);
     });
   });
@@ -77,7 +78,7 @@ export function validateDialogActions(mod: IModKit): ValidationMessageGroup {
       const failures = validateSchema<any>(
         `${item.tag}->${action.type}`,
         action,
-        dialogBehaviorSchemas[action.type as DialogActionType]
+        dialogBehaviorSchemas[action.type as DialogActionType],
       );
       const validationFailures: ValidationMessage[] = failures.map((f) => ({
         type: 'error',
@@ -92,7 +93,7 @@ export function validateDialogActions(mod: IModKit): ValidationMessageGroup {
 
 export function validateDialogsItems(
   mod: IModKit,
-  validClasses: BaseClassType[]
+  validClasses: BaseClassType[],
 ): ValidationMessageGroup {
   const itemValidations: ValidationMessageGroup = {
     header: 'NPC Script Broken Item Refs',
@@ -102,7 +103,7 @@ export function validateDialogsItems(
   mod.dialogs.forEach((item) => {
     const extractedItemsFromDialog = extractAllItemsFromDialog(
       item,
-      validClasses
+      validClasses,
     );
 
     extractedItemsFromDialog.forEach((itemName) => {

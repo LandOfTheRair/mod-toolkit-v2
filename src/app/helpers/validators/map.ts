@@ -77,7 +77,7 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
             'StairsUp',
             'StairsDown',
             'Fall',
-          ].includes(f.type as string)
+          ].includes(f.type as string),
       )
       .forEach((teleport: any) => {
         const {
@@ -98,14 +98,14 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
               message: `${
                 map.name
               } has a teleport by ref to a map that doesn't exist (${posString(
-                teleport
+                teleport,
               )}): ${teleportTagMap}`,
             });
             return;
           }
 
           const hasRef = mapsByName[teleportTagMap].map.layers[8].objects.find(
-            (f: any) => f.properties?.teleportTag === teleportTagRef
+            (f: any) => f.properties?.teleportTag === teleportTagRef,
           );
 
           if (!hasRef) {
@@ -114,7 +114,7 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
               message: `${
                 map.name
               } has a teleport by ref that doesn't work (${posString(
-                teleport
+                teleport,
               )}): ${teleportTag} -> ${teleportTagRef} | ${teleportTagMap}`,
             });
           }
@@ -125,7 +125,7 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
               message: `${
                 map.name
               } has a teleport by position to a map that doesn't exist (${posString(
-                teleport
+                teleport,
               )}): ${teleportMap}`,
             });
             return;
@@ -139,7 +139,7 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
               message: `${
                 map.name
               } has a teleport that drops you onto a wall (${posString(
-                teleport
+                teleport,
               )}): ${teleportX},${teleportY}`,
             });
           }
@@ -172,7 +172,7 @@ export function checkMapObjects(mod: IModKit): ValidationMessageGroup[] {
             'StairsUp',
             'StairsDown',
             'Fall',
-          ].includes(f.type as string)
+          ].includes(f.type as string),
       )
       .forEach((obj: any) => {
         const { teleportTag, teleportTagMap, teleportX, teleportY } =
@@ -188,7 +188,7 @@ export function checkMapObjects(mod: IModKit): ValidationMessageGroup[] {
           message: `${
             map.name
           } has a teleport that has no valid teleport setup (${posString(
-            obj
+            obj,
           )})`,
         });
       });
@@ -206,14 +206,14 @@ export function checkMapObjects(mod: IModKit): ValidationMessageGroup[] {
           message: `${
             map.name
           } has a locker that is missing either a name or lockerId (${posString(
-            obj
+            obj,
           )})`,
         });
       });
 
     map.map.layers[8].objects
       .filter(
-        (f: any) => f.properties && ['Fillable'].includes(f.type as string)
+        (f: any) => f.properties && ['Fillable'].includes(f.type as string),
       )
       .forEach((obj: any) => {
         const { fillEffect, fillDesc } = obj.properties;
@@ -225,8 +225,32 @@ export function checkMapObjects(mod: IModKit): ValidationMessageGroup[] {
           message: `${
             map.name
           } has a fillable that is missing either a fillEffect or fillDesc (${posString(
-            obj
+            obj,
           )})`,
+        });
+      });
+
+    groups.push(mapValidations);
+  });
+
+  return groups;
+}
+
+export function checkMapNPCs(mod: IModKit): ValidationMessageGroup[] {
+  const groups: ValidationMessageGroup[] = [];
+
+  mod.maps.forEach((map) => {
+    const mapValidations: ValidationMessageGroup = {
+      header: `Map NPCs (${map.name})`,
+      messages: [],
+    };
+
+    map.map.layers[9].objects
+      .filter((f: any) => !f.properties?.tag)
+      .forEach((obj: any) => {
+        mapValidations.messages.push({
+          type: 'error',
+          message: `NPC does not have a tag (${obj.x / 64},${obj.y / 64 - 1}).`,
         });
       });
 
@@ -238,7 +262,7 @@ export function checkMapObjects(mod: IModKit): ValidationMessageGroup[] {
 
 export function checkMapBGMs(
   mod: IModKit,
-  json: ModJSON
+  json: ModJSON,
 ): ValidationMessageGroup[] {
   const groups: ValidationMessageGroup[] = [];
 
