@@ -17,7 +17,7 @@ export class AutoTrimDirective {
 
         this.timeoutHandle = setTimeout(() => {
           this.ngModel.set(
-            (newValue ?? '').replace(/\s+/g, ' ').trim() ?? newValue,
+            (newValue ?? '').toString().replace(/\s+/g, ' ').trim() ?? newValue,
           );
         }, 500);
       },
