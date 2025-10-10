@@ -51,7 +51,7 @@
     "@ngxpert/hot-toast": "3.0.0",
     "@sweetalert2/ngx-sweetalert2": "13.0.0",
     "@sweetalert2/theme-dark": "5.0.27",
-    "@tablefilter/alasql": "github:akhaneev/alasql",
+    "@tablefilter/alasql": "4.5.3-5",
     "ag-grid-angular": "32.0.2",
     "alasql": "4.6.6",
     "angular-svg-icon": "18.0.1",
