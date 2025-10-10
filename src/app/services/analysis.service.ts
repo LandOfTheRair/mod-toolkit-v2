@@ -29,6 +29,16 @@ import {
 import { ISTEM } from '../../interfaces/stem';
 import { ModService } from './mod.service';
 
+const classScaleStats: Record<BaseClassType, StatType> = {
+  Warrior: 'str',
+  Arcanist: 'int',
+  Barbarian: 'str',
+  Healer: 'wis',
+  Mage: 'int',
+  Thief: 'agi',
+  Traveller: 'int',
+};
+
 type WeaponTierInfo = {
   bonus: number[];
   damage: number[];
@@ -914,6 +924,10 @@ export class AnalysisService {
       .filter((m) => m[0] <= skill)
       .reverse()[0][1];
 
+    if (!spell) {
+      return { min: 0, max: 0 };
+    }
+
     const potencyMultiplier = spell.potencyMultiplier ?? 1;
 
     if (spell.spellMeta?.useSkillAsPotency) {
@@ -1447,16 +1461,6 @@ export class AnalysisService {
     const npc = mod.npcs.find((n) => n.npcId === npcId);
     if (!npc) return { entries: [] };
 
-    const classScaleStats: Record<BaseClassType, StatType> = {
-      Warrior: 'str',
-      Arcanist: 'int',
-      Barbarian: 'str',
-      Healer: 'wis',
-      Mage: 'int',
-      Thief: 'agi',
-      Traveller: 'int',
-    };
-
     const skillLevel = npc.skillLevels;
 
     const statGuess =
@@ -1491,6 +1495,79 @@ export class AnalysisService {
 
     return {
       entries: [npcReport],
+    };
+  }
+
+  public generateMapNPCDamageReport(mapName: string): AnalysisReport {
+    const mod = this.modService.mod();
+
+    const allMapNPCs: string[] = [];
+
+    const map = mod.maps.find((m) => m.name === mapName);
+    if (!map) return { entries: [] };
+
+    const allMapSpawners = map.map.layers[10].objects;
+    allMapSpawners.forEach((spawner: any) => {
+      if (!spawner.properties) return;
+      if (spawner.properties.lairName) {
+        allMapNPCs.push(spawner.properties.lairName as string);
+      }
+
+      const spawnerData = mod.spawners.find(
+        (s) => s.tag === spawner.properties.tag,
+      );
+      if (!spawnerData) return;
+
+      spawnerData.npcIds.forEach((rollable) => {
+        allMapNPCs.push(rollable.result);
+      });
+    });
+
+    const uniqueNPCs = uniq(allMapNPCs).sort();
+
+    const allReports: AnalysisReportDisplay[] = [];
+
+    uniqueNPCs.forEach((npcId) => {
+      const npc = mod.npcs.find((n) => n.npcId === npcId);
+      if (!npc) return { entries: [] };
+
+      const skillLevel = npc.skillLevels;
+
+      const statGuess =
+        classScaleStats[npc.baseClass ?? BaseClass.Traveller] ?? 'int';
+      const statValue = npc.stats?.[statGuess] ?? 1;
+
+      const npcReport: AnalysisReportDisplay = {
+        type: AnalysisDisplayType.Table,
+        table: {
+          title: `${npc.npcId} Spells Used (skill=${skillLevel}, ${statGuess}=${statValue})`,
+          headers: ['Spell Name', 'Min Potency', 'Max Potency'],
+          rows: [],
+        },
+      };
+
+      sortBy(npc.usableSkills, (skill) => skill.result).forEach((skill) => {
+        const spellData = mod.stems.find((s) => s.name === skill.result);
+        if (!spellData) return;
+
+        const damage = this.calculateSpellDamage(
+          spellData.spell,
+          skillLevel,
+          statValue,
+        );
+
+        npcReport.table.rows.push([
+          { pretext: spellData.name },
+          { pretext: damage.min.toFixed(0) },
+          { pretext: damage.max.toFixed(0) },
+        ]);
+      });
+
+      allReports.push(npcReport);
+    });
+
+    return {
+      entries: [...allReports],
     };
   }
 }

@@ -35,7 +35,9 @@
       @if (reportTypeName === 'spellpotency') {
         <app-input-spell [(spell)]="spellNameInput"></app-input-spell>
       }
-      @if (reportTypeName === 'mapcontent') {
+      @if (
+        reportTypeName === 'mapcontent' || reportTypeName === 'mapnpcdamage'
+      ) {
         <app-input-map [(map)]="mapNameInput"></app-input-map>
       }
       @if (reportTypeName === 'npcdamage') {

@@ -139,6 +139,13 @@ export class AnalysisComponent implements OnInit {
 
         return this.analysisService.generateNPCDamageReport(npcId);
       }
+
+      case AnalysisReportType.MapNPCDamage: {
+        const mapName = this.mapNameInput();
+        if (!mapName) return undefined;
+
+        return this.analysisService.generateMapNPCDamageReport(mapName);
+      }
     }
   });
 

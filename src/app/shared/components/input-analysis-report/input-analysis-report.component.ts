@@ -72,6 +72,13 @@ export class InputAnalysisReportComponent implements OnInit {
         desc: `NPC potency estimation report.`,
       },
       {
+        category: 'Potency Estimator',
+        value: 'Map NPC Potency',
+        type: AnalysisReportType.MapNPCDamage,
+        data: {},
+        desc: `NPC potency estimation report for an entire map.`,
+      },
+      {
         category: 'Item Progression (Singular)',
         value: 'Singular Weapon/Armor Type',
         type: AnalysisReportType.ProgressionSingle,
