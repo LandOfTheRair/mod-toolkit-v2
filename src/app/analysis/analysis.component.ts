@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { maxBy } from 'lodash';
 import { linkedQueryParam } from 'ngxtension/linked-query-param';
-import { AnalysisReportType, ItemClassType } from '../../interfaces';
+import { AnalysisReportType, ItemClass } from '../../interfaces';
 import { AnalysisService } from '../services/analysis.service';
 import { ModService } from '../services/mod.service';
 import { ReportModel } from '../shared/components/input-analysis-report/input-analysis-report.component';
@@ -25,19 +25,22 @@ export class AnalysisComponent implements OnInit {
   public defaultReport = linkedQueryParam<string | undefined>('rareport', {
     parse: (value) => value ?? undefined,
   });
-  public defaultItemclass = linkedQueryParam<string | undefined>(
+  public itemClassInput = linkedQueryParam<ItemClass | undefined>(
     'raitemclass',
     {
-      parse: (value) => value ?? undefined,
+      parse: (value) => value as ItemClass,
     },
   );
-  public defaultSpell = linkedQueryParam<string | undefined>('raspell', {
+  public spellNameInput = linkedQueryParam<string | undefined>('raspell', {
     parse: (value) => value ?? undefined,
   });
   public defaultTier = linkedQueryParam<string | undefined>('ratier', {
     parse: (value) => value ?? undefined,
   });
-  public defaultMap = linkedQueryParam<string | undefined>('map', {
+  public mapNameInput = linkedQueryParam<string | undefined>('ramap', {
+    parse: (value) => value ?? undefined,
+  });
+  public npcIdInput = linkedQueryParam<string | undefined>('ranpc', {
     parse: (value) => value ?? undefined,
   });
 
@@ -46,9 +49,6 @@ export class AnalysisComponent implements OnInit {
 
   public reportType = signal<AnalysisReportType | undefined>(undefined);
   public reportDataArgs = signal<ReportModel['data'] | undefined>(undefined);
-  public itemClassInput = signal<ItemClassType | undefined>(undefined);
-  public spellNameInput = signal<string | undefined>(undefined);
-  public mapNameInput = signal<string | undefined>(undefined);
   public tierInput = signal<number>(1);
 
   public maxTier = computed(() => {
@@ -61,7 +61,7 @@ export class AnalysisComponent implements OnInit {
     const reportArgs = this.reportDataArgs();
 
     const chosenItemClass = this.itemClassInput();
-    const chosenSpellName = this.spellNameInput();
+    const chosenSpellName = this.spellNameInput() ?? '';
     const chosenItemTier = this.tierInput();
 
     switch (reportType) {
@@ -132,6 +132,13 @@ export class AnalysisComponent implements OnInit {
 
         return this.analysisService.generateMapReport(mapName);
       }
+
+      case AnalysisReportType.NPCDamage: {
+        const npcId = this.npcIdInput();
+        if (!npcId) return undefined;
+
+        return this.analysisService.generateNPCDamageReport(npcId);
+      }
     }
   });
 
@@ -153,10 +160,11 @@ export class AnalysisComponent implements OnInit {
 
   public leaveSection() {
     this.defaultReport.set(undefined);
-    this.defaultItemclass.set(undefined);
-    this.defaultSpell.set(undefined);
+    this.itemClassInput.set(undefined);
+    this.spellNameInput.set(undefined);
     this.defaultTier.set(undefined);
-    this.defaultMap.set(undefined);
+    this.mapNameInput.set(undefined);
+    this.npcIdInput.set(undefined);
 
     this.exit.emit();
   }

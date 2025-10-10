@@ -7,6 +7,7 @@ export enum AnalysisReportType {
   ResistanceAcquisition = 'resistanceacquisition', // what your max expected resistance is from gear at a level
   TraitUsage = 'traitusage', // a list of all traits that are used and unused
   MapContent = 'mapcontent', // a list of all npcs and items in a map
+  NPCDamage = 'npcdamage', // a list of all npc spells and their expected potency
   StatUtilization = 'statutilization', // a list of all stats by utilization
   SpellUtilization = 'spellutilization', // a list of all spells by utilization
   SpellPotency = 'spellpotency', // a list of all skill/stat combos for spell damage estimation

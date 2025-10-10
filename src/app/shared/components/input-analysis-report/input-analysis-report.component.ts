@@ -65,6 +65,13 @@ export class InputAnalysisReportComponent implements OnInit {
         desc: `Level/skill varied damage calculator.`,
       },
       {
+        category: 'Potency Estimator',
+        value: 'NPC Potency',
+        type: AnalysisReportType.NPCDamage,
+        data: {},
+        desc: `NPC potency estimation report.`,
+      },
+      {
         category: 'Item Progression (Singular)',
         value: 'Singular Weapon/Armor Type',
         type: AnalysisReportType.ProgressionSingle,

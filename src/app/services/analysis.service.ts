@@ -7,6 +7,8 @@ import {
   AnalysisReportDisplay,
   ArmorClass,
   ArmorClasses,
+  BaseClass,
+  BaseClassType,
   EarClasses,
   FeetClasses,
   HandsClasses,
@@ -908,7 +910,7 @@ export class AnalysisService {
     stat: number,
   ): { min: number; max: number } {
     const calcSkill = skill + 1;
-    const maxMult = spell.skillMultiplierChanges
+    const maxMult = (spell?.skillMultiplierChanges ?? [[0, 1]])
       .filter((m) => m[0] <= skill)
       .reverse()[0][1];
 
@@ -1436,6 +1438,59 @@ export class AnalysisService {
 
     return {
       entries: [...allReports],
+    };
+  }
+
+  public generateNPCDamageReport(npcId: string): AnalysisReport {
+    const mod = this.modService.mod();
+
+    const npc = mod.npcs.find((n) => n.npcId === npcId);
+    if (!npc) return { entries: [] };
+
+    const classScaleStats: Record<BaseClassType, StatType> = {
+      Warrior: 'str',
+      Arcanist: 'int',
+      Barbarian: 'str',
+      Healer: 'wis',
+      Mage: 'int',
+      Thief: 'agi',
+      Traveller: 'int',
+    };
+
+    const skillLevel = npc.skillLevels;
+
+    const statGuess =
+      classScaleStats[npc.baseClass ?? BaseClass.Traveller] ?? 'int';
+    const statValue = npc.stats?.[statGuess] ?? 1;
+
+    const npcReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: `Spells Used (skill=${skillLevel}, ${statGuess}=${statValue})`,
+        headers: ['Spell Name', 'Min Potency', 'Max Potency'],
+        rows: [],
+      },
+    };
+
+    sortBy(npc.usableSkills, (skill) => skill.result).forEach((skill) => {
+      const spellData = mod.stems.find((s) => s.name === skill.result);
+      if (!spellData) return;
+
+      const damage = this.calculateSpellDamage(
+        spellData.spell,
+        skillLevel,
+        statValue,
+      );
+
+      npcReport.table.rows.push([
+        { pretext: spellData.name },
+        { pretext: damage.min.toFixed(0) },
+        { pretext: damage.max.toFixed(0) },
+      ]);
+    });
+
+    return {
+      entries: [npcReport],
     };
   }
 }

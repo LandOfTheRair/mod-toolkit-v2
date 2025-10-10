@@ -30,23 +30,19 @@
       ) {
         <app-input-itemclass
           [(itemClass)]="itemClassInput"
-          (change)="defaultItemclass.set($event)"
-          [defaultValue]="defaultItemclass()!"
         ></app-input-itemclass>
       }
       @if (reportTypeName === 'spellpotency') {
-        <app-input-spell
-          [(spell)]="spellNameInput"
-          (change)="defaultSpell.set($event)"
-          [defaultValue]="defaultSpell()!"
-        ></app-input-spell>
+        <app-input-spell [(spell)]="spellNameInput"></app-input-spell>
       }
       @if (reportTypeName === 'mapcontent') {
-        <app-input-map
-          [(map)]="mapNameInput"
-          (change)="defaultMap.set($event)"
-          [defaultValue]="defaultMap()!"
-        ></app-input-map>
+        <app-input-map [(map)]="mapNameInput"></app-input-map>
+      }
+      @if (reportTypeName === 'npcdamage') {
+        <app-input-npc
+          [defaultValue]="npcIdInput()"
+          (change)="npcIdInput.set($event)"
+        ></app-input-npc>
       }
     </div>
   </div>
