@@ -13,12 +13,12 @@ export function generateLoreScrolls(mod: IModKit): IItemDefinition[] {
   const allGems = mod.items.filter(
     (x) =>
       x.itemClass === 'Gem' &&
-      !['Solokar', 'Orikurnis'].some((region) => x.name.includes(region))
+      !['Solokar', 'Orikurnis'].some((region) => x.name.includes(region)),
   );
 
   const allGemScrollDescs = allGems.map((x) => {
     const allKeys = Object.keys(x.encrustGive?.stats ?? {}).map((z) =>
-      z.toUpperCase()
+      z.toUpperCase(),
     );
 
     const allGemEffects = [];
@@ -29,13 +29,13 @@ export function generateLoreScrolls(mod: IModKit): IItemDefinition[] {
 
     if (x.useEffect) {
       allGemEffects.push(
-        `grant the spell ${x.useEffect.name.toUpperCase()} when used`
+        `grant the spell ${x.useEffect.name.toUpperCase()} when used`,
       );
     }
 
     if (x.encrustGive?.strikeEffect) {
       allGemEffects.push(
-        `grant the on-hit spell ${x.encrustGive.strikeEffect.name.toUpperCase()} when encrusted`
+        `grant the on-hit spell ${x.encrustGive.strikeEffect.name.toUpperCase()} when encrusted`,
       );
     }
 
@@ -47,7 +47,7 @@ export function generateLoreScrolls(mod: IModKit): IItemDefinition[] {
 
     const bonusText = x.encrustGive?.slots
       ? `- be careful though, it can only be used in ${x.encrustGive?.slots.join(
-          ', '
+          ', ',
         )} equipment`
       : '';
 
@@ -71,7 +71,7 @@ export function generateLoreScrolls(mod: IModKit): IItemDefinition[] {
         isSackable: true,
         type: Skill.Martial,
       } as unknown as IItemDefinition;
-    }
+    },
   );
 
   return allGemLoreItems;
@@ -82,7 +82,7 @@ export function cleanOldLoreScrolls(mod: IModKit): void {
 
   mod.drops.forEach((droptable) => {
     droptable.drops = droptable.drops.filter(
-      (item) => !item.result.includes(LORE_PREFIX)
+      (item) => !item.result.includes(LORE_PREFIX),
     );
   });
 }
