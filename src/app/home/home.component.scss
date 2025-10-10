@@ -39,6 +39,11 @@
 
 .root-content {
   height: calc(100vh - 68px - 40px - 40px);
+
+  &.sub-page {
+    height: calc(100vh - 68px);
+  }
+
   overflow-y: auto;
   overflow-x: hidden;
 }

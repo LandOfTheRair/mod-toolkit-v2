@@ -255,7 +255,7 @@
 
 @if (isValidating()) {
   <div class="root-body">
-    <div class="root-content p-3">
+    <div class="root-content sub-page p-3">
       <div class="card bg-base-100 w-full shadow-xl">
         <div class="card-body">
           <app-validation
@@ -267,7 +267,7 @@
   </div>
 } @else if (isManagingDependencies()) {
   <div class="root-body">
-    <div class="root-content p-3">
+    <div class="root-content sub-page p-3">
       <div class="card bg-base-100 w-full shadow-xl">
         <div class="card-body">
           <app-dependencies
@@ -279,7 +279,7 @@
   </div>
 } @else if (pinpointService.isPinpointing()) {
   <div class="root-body">
-    <div class="root-content p-3">
+    <div class="root-content sub-page p-3">
       <div class="card bg-base-100 w-full shadow-xl">
         <div class="card-body">
           <app-pinpoint (exit)="resetSub()"></app-pinpoint>
@@ -289,7 +289,7 @@
   </div>
 } @else if (analysisService.isAnalyzing()) {
   <div class="root-body">
-    <div class="root-content p-3">
+    <div class="root-content sub-page p-3">
       <div class="card bg-base-100 w-full shadow-xl">
         <div class="card-body">
           <app-analysis (exit)="resetSub()"></app-analysis>
@@ -299,7 +299,7 @@
   </div>
 } @else if (queryService.isQuerying()) {
   <div class="root-body">
-    <div class="root-content p-3">
+    <div class="root-content sub-page p-3">
       <div class="card bg-base-100 w-full shadow-xl">
         <div class="card-body">
           <app-query (exit)="resetSub()"></app-query>
