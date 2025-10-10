@@ -1,5 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { get, sortBy, uniq } from 'lodash';
+import { linkedQueryParam } from 'ngxtension/linked-query-param';
 import { BaseClassType, INPCDefinition, Rollable } from '../../interfaces';
 import {
   extractAllItemsFromBehavior,
@@ -55,7 +56,9 @@ interface STEMUseDescriptor {
 export class PinpointService {
   private modService = inject(ModService);
 
-  public activePinpointTab = signal<number>(0);
+  public activePinpointTab = linkedQueryParam<number | undefined>('pptab', {
+    parse: (value) => parseInt(value ?? '0', 10),
+  });
   public isPinpointing = signal<boolean>(false);
 
   public pinpointMap = signal<string | undefined>(undefined);

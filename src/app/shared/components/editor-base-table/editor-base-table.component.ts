@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { FilterChangedEvent, FilterModel } from 'ag-grid-community';
 import { merge } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -9,15 +8,14 @@ import { NotifyService } from '../../../services/notify.service';
 import { URLService } from '../../../services/url.service';
 
 @Component({
-    selector: 'app-editor-base-table',
-    templateUrl: './editor-base-table.component.html',
-    styleUrl: './editor-base-table.component.scss',
-    standalone: false
+  selector: 'app-editor-base-table',
+  templateUrl: './editor-base-table.component.html',
+  styleUrl: './editor-base-table.component.scss',
+  standalone: false,
 })
 export class EditorBaseTableComponent<T extends HasIdentification>
   implements OnInit
 {
-  private route = inject(ActivatedRoute);
   private urlService = inject(URLService);
   protected notifyService = inject(NotifyService);
 
@@ -26,7 +24,7 @@ export class EditorBaseTableComponent<T extends HasIdentification>
 
   protected dataKey!: keyof Omit<IModKit, 'meta'>;
 
-  protected defaultData = () => ({} as T);
+  protected defaultData = () => ({}) as T;
 
   protected tableFilterState = signal<FilterModel | undefined>(undefined);
 
@@ -36,14 +34,14 @@ export class EditorBaseTableComponent<T extends HasIdentification>
 
   ngOnInit(): void {
     const state = this.localStorage.retrieve(
-      `${this.dataKey}-tablefilters`
+      `${this.dataKey}-tablefilters`,
     ) as FilterModel;
 
     if (state) {
       this.tableFilterState.set(state);
     }
 
-    const loadItemId = this.getURLSubProp('id');
+    const loadItemId = this.urlService.id();
     if (loadItemId) {
       const potentialItems: T[] = this.modService.mod()[
         this.dataKey
@@ -55,10 +53,6 @@ export class EditorBaseTableComponent<T extends HasIdentification>
         this.editExisting(item);
       }
     }
-  }
-
-  getURLSubProp(prop: string): string | null {
-    return this.route.snapshot.queryParamMap.get(prop);
   }
 
   public createNew() {
@@ -75,18 +69,15 @@ export class EditorBaseTableComponent<T extends HasIdentification>
 
     const finalItem = merge(defaultContent, clonedContent);
     this.editingData.set(finalItem);
-    this.urlService.trackURLChanges({
-      id: data._id,
-    });
+
+    this.urlService.id.set(data._id);
   }
 
   public cancelEditing() {
     this.isEditing.set(false);
     this.oldData.set(undefined);
 
-    this.urlService.trackURLChanges({
-      id: '',
-    });
+    this.urlService.id.set('');
   }
 
   public saveNewData(data: T) {
@@ -132,7 +123,7 @@ export class EditorBaseTableComponent<T extends HasIdentification>
 
     this.localStorage.store(
       `${this.dataKey}-tablefilters`,
-      this.tableFilterState()
+      this.tableFilterState(),
     );
   }
 }

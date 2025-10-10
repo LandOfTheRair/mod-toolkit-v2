@@ -2,31 +2,44 @@ import {
   Component,
   computed,
   inject,
-  input,
   OnInit,
   output,
   signal,
 } from '@angular/core';
 import { maxBy } from 'lodash';
+import { linkedQueryParam } from 'ngxtension/linked-query-param';
 import { AnalysisReportType, ItemClassType } from '../../interfaces';
 import { AnalysisService } from '../services/analysis.service';
 import { ModService } from '../services/mod.service';
 import { ReportModel } from '../shared/components/input-analysis-report/input-analysis-report.component';
 
 @Component({
-    selector: 'app-analysis',
-    templateUrl: './analysis.component.html',
-    styleUrl: './analysis.component.scss',
-    standalone: false
+  selector: 'app-analysis',
+  templateUrl: './analysis.component.html',
+  styleUrl: './analysis.component.scss',
+  standalone: false,
 })
 export class AnalysisComponent implements OnInit {
   public exit = output();
-  public changeURLProp = output<[string, string | undefined]>();
-  public defaultReport = input<string | null>();
-  public defaultItemclass = input<string | null>();
-  public defaultSpell = input<string | null>();
-  public defaultTier = input<string | null>();
-  public defaultMap = input<string | null>();
+
+  public defaultReport = linkedQueryParam<string | undefined>('rareport', {
+    parse: (value) => value ?? undefined,
+  });
+  public defaultItemclass = linkedQueryParam<string | undefined>(
+    'raitemclass',
+    {
+      parse: (value) => value ?? undefined,
+    },
+  );
+  public defaultSpell = linkedQueryParam<string | undefined>('raspell', {
+    parse: (value) => value ?? undefined,
+  });
+  public defaultTier = linkedQueryParam<string | undefined>('ratier', {
+    parse: (value) => value ?? undefined,
+  });
+  public defaultMap = linkedQueryParam<string | undefined>('map', {
+    parse: (value) => value ?? undefined,
+  });
 
   public analysisService = inject(AnalysisService);
   public modService = inject(ModService);
@@ -131,6 +144,16 @@ export class AnalysisComponent implements OnInit {
     this.reportType.set($event.type);
     this.reportDataArgs.set($event.data);
 
-    this.changeURLProp.emit(['report', $event.value]);
+    this.defaultReport.set($event.value);
+  }
+
+  public leaveSection() {
+    this.defaultReport.set(undefined);
+    this.defaultItemclass.set(undefined);
+    this.defaultSpell.set(undefined);
+    this.defaultTier.set(undefined);
+    this.defaultMap.set(undefined);
+
+    this.exit.emit();
   }
 }

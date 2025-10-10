@@ -1,291 +1,319 @@
 <div role="tablist" class="tabs tabs-boxed rounded-none">
-
-  @for(tab of tabOrder; track tab.name; let i = $index) {
-  <a role="tab" class="tab" [class.tab-active]="pinpointService.activePinpointTab() === i"
-    (click)="pinpointService.activePinpointTab.set(i); changeURLProp.emit(['pptab', i.toString()])">
-    {{ tab.name }}
-  </a>
+  @for (tab of tabOrder; track tab.name; let i = $index) {
+    <a
+      role="tab"
+      class="tab"
+      [class.tab-active]="pinpointService.activePinpointTab() === i"
+      (click)="pinpointService.activePinpointTab.set(i)"
+    >
+      {{ tab.name }}
+    </a>
   }
 
   <div class="tab flex flex-row justify-end">
-    <button class="btn-sm btn btn-success mr-3" (click)="pinpointService.togglePinpointing(); exit.emit()">Done</button>
+    <button
+      class="btn-sm btn btn-success mr-3"
+      (click)="pinpointService.togglePinpointing(); leaveSection()"
+    >
+      Done
+    </button>
   </div>
-
 </div>
-
 
 @switch (pinpointService.activePinpointTab()) {
-@case (0) {
-<div class="flex flex-row gap-2 mb-3">
-  <div class="form-column">
-    <div class="form-row">
-      <app-input-map [(map)]="pinpointService.pinpointMap" [defaultValue]="pinpointService.pinpointMap()"
-        (change)="changeURLProp.emit(['map', $event])"></app-input-map>
-    </div>
-  </div>
-</div>
-
-<div class="flex flex-row gap-2 flex-wrap w-full">
-  @for(entry of pinpointService.mapInformation(); track $index) {
-  <div class="xl:w-[45%] 2xl:w-[30%]">
-    <div class="flex flex-row">
-      @if(entry.npcName) {
-      <span class="ml-1">
-        <app-sprite-with-inline-name [type]="'creatures'" [name]="entry.npcName"></app-sprite-with-inline-name>
-      </span>
-      } @else {
-      <span class="ml-1">
-        {{ entry.originName }}
-      </span>
-      }
-
-      <span class="ml-1">
-        ➡️
-      </span>
-
-      @if(entry.itemName) {
-      <span class="ml-1">
-        <app-sprite-with-inline-name [type]="'items'" [name]="entry.itemName"></app-sprite-with-inline-name>
-      </span>
-      }
-
-      @if(entry.chance !== -1 && entry.maxChance !== -1) {
-      <span class="ml-1">
-        ({{ entry.chance }}/{{ entry.maxChance }})
-      </span>
-      }
-    </div>
-  </div>
-  }
-</div>
-}
-
-@case (1) {
-<div class="flex flex-row gap-2 mb-3">
-  <div class="form-column">
-    <div class="form-row">
-      <app-input-item (change)="pinpointService.searchItem($event); changeURLProp.emit(['item', $event])"
-        [defaultValue]="pinpointService.pinpointItem()"></app-input-item>
-    </div>
-  </div>
-</div>
-
-<div class="flex flex-row gap-2">
-
-  @let itemInfo = pinpointService.itemInformation();
-
-  @if(itemInfo.length === 0 && pinpointService.pinpointItem()) {
-  <div class="flex flex-row gap-2 flex-wrap w-full">
-    <div class="form-column">
-      <div class="form-row">
-        <p>No usages of this item could be found. It may be a lore item that wasn't added to a drop table, or it might
-          be
-          used in NPC dialog (which is not fully searchable).</p>
-      </div>
-    </div>
-  </div>
-  }
-
-  <div class="flex flex-row gap-2 flex-wrap w-full">
-    @for(entry of itemInfo; track $index) {
-    <div class="xl:w-[45%] 2xl:w-[30%]">
-      <div class="flex flex-row">
-
-        @if(entry.npcName) {
-        <span class="ml-1">
-          <app-sprite-with-inline-name [type]="'creatures'" [name]="entry.npcName"></app-sprite-with-inline-name>
-        </span>
-        }
-
-        @if(entry.containingItemName) {
-        <span class="ml-1">
-          <app-sprite-with-inline-name [type]="'items'" [name]="entry.containingItemName"></app-sprite-with-inline-name>
-        </span>
-        }
-
-        @if(entry.recipeName) {
-        <span class="ml-1">
-          RECIPE: {{ entry.recipeName }}
-        </span>
-        }
-
-        @if(entry.questName) {
-        <span class="ml-1">
-          QUEST: {{ entry.questName }}
-        </span>
-        }
-
-        @if(entry.droptableName) {
-        <span class="ml-1">
-          DROPS: {{ entry.droptableName }}
-        </span>
-        }
-
-        @if(entry.npcScriptName) {
-        <span class="ml-1">
-          SCRIPT: {{ entry.npcScriptName }}
-        </span>
-        }
-
-        @if(entry.mapAndObjectName) {
-        <span class="ml-1">
-          MAPOBJECT: {{ entry.mapAndObjectName }}
-        </span>
-        }
-
-        <span class="ml-1">
-          {{ entry.extraDescription }}
-        </span>
-      </div>
-    </div>
-    }
-  </div>
-</div>
-}
-
-@case (2) {
-<div class="flex flex-row gap-2 mb-3">
-  <div class="form-column">
-    <div class="form-row">
-      <app-input-npc (change)="pinpointService.searchNPC($event); changeURLProp.emit(['npc', $event])"
-        [defaultValue]="pinpointService.pinpointNPC()"></app-input-npc>
-    </div>
-  </div>
-</div>
-
-<div class="flex flex-row gap-2">
-  @let npcInfo = pinpointService.npcInformation();
-
-  <div class="form-column">
-
-    @if(npcInfo.uses.length === 0 && pinpointService.pinpointNPC()) {
-    <div class="flex flex-row gap-2 flex-wrap w-full">
+  @case (0) {
+    <div class="flex flex-row gap-2 mb-3">
       <div class="form-column">
         <div class="form-row">
-          <p>No usages of this NPC could be found. It may be a special event NPC.</p>
+          <app-input-map
+            [(map)]="pinpointService.pinpointMap"
+            [defaultValue]="pinpointService.pinpointMap()"
+            (change)="defaultMap.set($event)"
+          ></app-input-map>
         </div>
       </div>
     </div>
-    }
 
     <div class="flex flex-row gap-2 flex-wrap w-full">
-      @for(entry of npcInfo.uses; track $index) {
-      <div class="w-full">
-        <div class="flex flex-row">
-          @if(entry.questName) {
-          <span class="ml-1">QUEST {{ entry.questName }}</span>
-          }
-
-          @if(entry.spawnerName) {
-          <span class="ml-1">SPAWNER {{ entry.spawnerName }}</span>
-          }
-
-          @if(entry.stemName) {
-          <span class="ml-1">STEM {{ entry.stemName }}</span>
-          }
-
-          @if(entry.extraDescription) {
-          <span class="ml-1">{{ entry.extraDescription }}</span>
-          }
-        </div>
-      </div>
-      }
-    </div>
-  </div>
-
-  <div class="form-column">
-    <div class="flex flex-row gap-2 flex-wrap w-full">
-      @for(entry of npcInfo.drops; track $index) {
-      <div class="w-[45%]">
-        <div class="flex flex-row">
-          <span>
-            <app-sprite-with-inline-name [type]="'items'" [name]="entry.result"></app-sprite-with-inline-name>
-          </span>
-
-          @let maxChance = entry.maxChance ?? 1;
-          <span class="ml-1">
-            @if(entry.chance === -1) {
-            (100%)
+      @for (entry of pinpointService.mapInformation(); track $index) {
+        <div class="xl:w-[45%] 2xl:w-[30%]">
+          <div class="flex flex-row">
+            @if (entry.npcName) {
+              <span class="ml-1">
+                <app-sprite-with-inline-name
+                  [type]="'creatures'"
+                  [name]="entry.npcName"
+                ></app-sprite-with-inline-name>
+              </span>
+            } @else {
+              <span class="ml-1">
+                {{ entry.originName }}
+              </span>
             }
 
-            @else if(entry.chance < maxChance) { <!-- -->
-              ({{ entry.chance / maxChance | percent:'1.0-5' }})
-              }
+            <span class="ml-1">➡️</span>
 
-              @else {
-              (100% if equipped)
-              }
-          </span>
+            @if (entry.itemName) {
+              <span class="ml-1">
+                <app-sprite-with-inline-name
+                  [type]="'items'"
+                  [name]="entry.itemName"
+                ></app-sprite-with-inline-name>
+              </span>
+            }
+
+            @if (entry.chance !== -1 && entry.maxChance !== -1) {
+              <span class="ml-1">
+                ({{ entry.chance }}/{{ entry.maxChance }})
+              </span>
+            }
+          </div>
         </div>
-      </div>
       }
     </div>
-  </div>
-</div>
-}
+  }
 
-@case (3) {
-<div class="flex flex-row gap-2 mb-3">
-  <div class="form-column">
-    <div class="form-row">
-      <app-input-stem (change)="pinpointService.searchSTEM($event); changeURLProp.emit(['stem', $event])"
-        [defaultValue]="pinpointService.pinpointSTEM()"></app-input-stem>
-    </div>
-  </div>
-</div>
-
-
-<div class="flex flex-row gap-2">
-  @let stemInfo = pinpointService.stemInformation();
-
-  <div class="form-column">
-
-    @if(stemInfo.length === 0 && pinpointService.pinpointSTEM()) {
-    <div class="flex flex-row gap-2 flex-wrap w-full">
+  @case (1) {
+    <div class="flex flex-row gap-2 mb-3">
       <div class="form-column">
         <div class="form-row">
-          <p>No usages of this STEM could be found. It may be invoked only in code.</p>
+          <app-input-item
+            (change)="
+              pinpointService.searchItem($event); defaultItem.set($event)
+            "
+            [defaultValue]="pinpointService.pinpointItem()"
+          ></app-input-item>
         </div>
       </div>
     </div>
-    }
 
-    <div class="flex flex-row gap-2 flex-wrap w-full">
-      @for(entry of stemInfo; track $index) {
-      <div class="xl:w-[45%] 2xl:w-[30%]">
-        <div class="flex flex-row">
-          @if(entry.itemRandomTrait) {
-          <span class="ml-1">ITEMRANDOMTRAIT {{ entry.itemRandomTrait }}</span>
-          }
+    <div class="flex flex-row gap-2">
+      @let itemInfo = pinpointService.itemInformation();
 
-          @if(entry.itemTrait) {
-          <span class="ml-1">ITEMTRAIT {{ entry.itemTrait }}</span>
-          }
-
-          @if(entry.itemEffect) {
-          <span class="ml-1">ITEMEFFECT {{ entry.itemEffect }}</span>
-          }
-
-          @if(entry.npcBaseEffect) {
-          <span class="ml-1">NPCBASEEFFECT {{ entry.npcBaseEffect }}</span>
-          }
-
-          @if(entry.npcSkill) {
-          <span class="ml-1">NPCSKILL {{ entry.npcSkill }}</span>
-          }
-
-          @if(entry.npcTrait) {
-          <span class="ml-1">NPCTRAIT {{ entry.npcTrait }}</span>
-          }
-
-          @if(entry.traitTree) {
-          <span class="ml-1">TRAITTREE {{ entry.traitTree }}</span>
-          }
+      @if (itemInfo.length === 0 && pinpointService.pinpointItem()) {
+        <div class="flex flex-row gap-2 flex-wrap w-full">
+          <div class="form-column">
+            <div class="form-row">
+              <p>
+                No usages of this item could be found. It may be a lore item
+                that wasn't added to a drop table, or it might be used in NPC
+                dialog (which is not fully searchable).
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
       }
+
+      <div class="flex flex-row gap-2 flex-wrap w-full">
+        @for (entry of itemInfo; track $index) {
+          <div class="xl:w-[45%] 2xl:w-[30%]">
+            <div class="flex flex-row">
+              @if (entry.npcName) {
+                <span class="ml-1">
+                  <app-sprite-with-inline-name
+                    [type]="'creatures'"
+                    [name]="entry.npcName"
+                  ></app-sprite-with-inline-name>
+                </span>
+              }
+
+              @if (entry.containingItemName) {
+                <span class="ml-1">
+                  <app-sprite-with-inline-name
+                    [type]="'items'"
+                    [name]="entry.containingItemName"
+                  ></app-sprite-with-inline-name>
+                </span>
+              }
+
+              @if (entry.recipeName) {
+                <span class="ml-1">RECIPE: {{ entry.recipeName }}</span>
+              }
+
+              @if (entry.questName) {
+                <span class="ml-1">QUEST: {{ entry.questName }}</span>
+              }
+
+              @if (entry.droptableName) {
+                <span class="ml-1">DROPS: {{ entry.droptableName }}</span>
+              }
+
+              @if (entry.npcScriptName) {
+                <span class="ml-1">SCRIPT: {{ entry.npcScriptName }}</span>
+              }
+
+              @if (entry.mapAndObjectName) {
+                <span class="ml-1">
+                  MAPOBJECT: {{ entry.mapAndObjectName }}
+                </span>
+              }
+
+              <span class="ml-1">
+                {{ entry.extraDescription }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
     </div>
-  </div>
-</div>
-}
+  }
+
+  @case (2) {
+    <div class="flex flex-row gap-2 mb-3">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-npc
+            (change)="pinpointService.searchNPC($event); defaultNPC.set($event)"
+            [defaultValue]="pinpointService.pinpointNPC()"
+          ></app-input-npc>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-row gap-2">
+      @let npcInfo = pinpointService.npcInformation();
+
+      <div class="form-column">
+        @if (npcInfo.uses.length === 0 && pinpointService.pinpointNPC()) {
+          <div class="flex flex-row gap-2 flex-wrap w-full">
+            <div class="form-column">
+              <div class="form-row">
+                <p>
+                  No usages of this NPC could be found. It may be a special
+                  event NPC.
+                </p>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="flex flex-row gap-2 flex-wrap w-full">
+          @for (entry of npcInfo.uses; track $index) {
+            <div class="w-full">
+              <div class="flex flex-row">
+                @if (entry.questName) {
+                  <span class="ml-1">QUEST {{ entry.questName }}</span>
+                }
+
+                @if (entry.spawnerName) {
+                  <span class="ml-1">SPAWNER {{ entry.spawnerName }}</span>
+                }
+
+                @if (entry.stemName) {
+                  <span class="ml-1">STEM {{ entry.stemName }}</span>
+                }
+
+                @if (entry.extraDescription) {
+                  <span class="ml-1">{{ entry.extraDescription }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="form-column">
+        <div class="flex flex-row gap-2 flex-wrap w-full">
+          @for (entry of npcInfo.drops; track $index) {
+            <div class="w-[45%]">
+              <div class="flex flex-row">
+                <span>
+                  <app-sprite-with-inline-name
+                    [type]="'items'"
+                    [name]="entry.result"
+                  ></app-sprite-with-inline-name>
+                </span>
+
+                @let maxChance = entry.maxChance ?? 1;
+                <span class="ml-1">
+                  @if (entry.chance === -1) {
+                    (100%)
+                  } @else if (entry.chance < maxChance) {
+                    <!-- -->
+                    ({{ entry.chance / maxChance | percent: '1.0-5' }})
+                  } @else {
+                    (100% if equipped)
+                  }
+                </span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  @case (3) {
+    <div class="flex flex-row gap-2 mb-3">
+      <div class="form-column">
+        <div class="form-row">
+          <app-input-stem
+            (change)="
+              pinpointService.searchSTEM($event); defaultSTEM.set($event)
+            "
+            [defaultValue]="pinpointService.pinpointSTEM()"
+          ></app-input-stem>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-row gap-2">
+      @let stemInfo = pinpointService.stemInformation();
+
+      <div class="form-column">
+        @if (stemInfo.length === 0 && pinpointService.pinpointSTEM()) {
+          <div class="flex flex-row gap-2 flex-wrap w-full">
+            <div class="form-column">
+              <div class="form-row">
+                <p>
+                  No usages of this STEM could be found. It may be invoked only
+                  in code.
+                </p>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="flex flex-row gap-2 flex-wrap w-full">
+          @for (entry of stemInfo; track $index) {
+            <div class="xl:w-[45%] 2xl:w-[30%]">
+              <div class="flex flex-row">
+                @if (entry.itemRandomTrait) {
+                  <span class="ml-1">
+                    ITEMRANDOMTRAIT {{ entry.itemRandomTrait }}
+                  </span>
+                }
+
+                @if (entry.itemTrait) {
+                  <span class="ml-1">ITEMTRAIT {{ entry.itemTrait }}</span>
+                }
+
+                @if (entry.itemEffect) {
+                  <span class="ml-1">ITEMEFFECT {{ entry.itemEffect }}</span>
+                }
+
+                @if (entry.npcBaseEffect) {
+                  <span class="ml-1">
+                    NPCBASEEFFECT {{ entry.npcBaseEffect }}
+                  </span>
+                }
+
+                @if (entry.npcSkill) {
+                  <span class="ml-1">NPCSKILL {{ entry.npcSkill }}</span>
+                }
+
+                @if (entry.npcTrait) {
+                  <span class="ml-1">NPCTRAIT {{ entry.npcTrait }}</span>
+                }
+
+                @if (entry.traitTree) {
+                  <span class="ml-1">TRAITTREE {{ entry.traitTree }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
 }

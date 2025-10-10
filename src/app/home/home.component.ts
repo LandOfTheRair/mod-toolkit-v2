@@ -7,10 +7,8 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
-import { isUndefined } from 'lodash';
-import { LocalStorageService } from 'ngx-webstorage';
+import { linkedQueryParam } from 'ngxtension/linked-query-param';
 import { formatMod } from '../helpers/exporter';
 import { AnalysisService } from '../services/analysis.service';
 import { DebugService } from '../services/debug.service';
@@ -23,17 +21,14 @@ import { URLService } from '../services/url.service';
 import { ValidationService } from '../services/validation.service';
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss'],
-    standalone: false
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  standalone: false,
 })
 export class HomeComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private urlService = inject(URLService);
-
   private diffService = inject(DiffService);
-  private localStorage = inject(LocalStorageService);
+  public urlService = inject(URLService);
   public pinpointService = inject(PinpointService);
   public analysisService = inject(AnalysisService);
   public queryService = inject(QueryService);
@@ -46,7 +41,8 @@ export class HomeComponent implements OnInit {
   public menuRef = viewChild<ElementRef<HTMLElement>>('menu');
   public tester = viewChild<ElementRef<HTMLDialogElement>>('tester');
 
-  public activeTab = signal<number>(0);
+  public sub = linkedQueryParam<string>('sub');
+
   public isValidating = signal<boolean>(false);
   public isManagingDependencies = signal<boolean>(false);
 
@@ -121,12 +117,7 @@ export class HomeComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    const lastTab = (this.localStorage.retrieve('lasttab') as number) ?? 0;
-    const lastTabUrl = this.route.snapshot.queryParamMap.get('tab');
-
-    this.activeTab.set(lastTabUrl ? +lastTabUrl : lastTab);
-
-    const lastSub = this.route.snapshot.queryParamMap.get('sub');
+    const lastSub = this.urlService.sub() ?? '';
     switch (lastSub) {
       case 'validate': {
         return this.toggleModValidation();
@@ -148,14 +139,8 @@ export class HomeComponent implements OnInit {
   }
 
   changeTab(newTab: number) {
-    this.activeTab.set(newTab);
-
-    this.localStorage.store('lasttab', newTab);
-
-    this.urlService.trackURLChanges({
-      tab: newTab,
-      sub: '',
-    });
+    console.log('set', newTab);
+    this.urlService.activeTab.set(newTab);
   }
 
   closeMenu() {
@@ -226,9 +211,7 @@ export class HomeComponent implements OnInit {
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
 
-    this.urlService.trackURLChanges({
-      sub: 'dependencies',
-    });
+    this.urlService.sub.set('dependencies');
   }
 
   toggleModValidation() {
@@ -238,9 +221,7 @@ export class HomeComponent implements OnInit {
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
 
-    this.urlService.trackURLChanges({
-      sub: 'validate',
-    });
+    this.urlService.sub.set('validate');
   }
 
   togglePinpointing() {
@@ -250,9 +231,7 @@ export class HomeComponent implements OnInit {
     this.analysisService.toggleAnalyzing(false);
     this.queryService.toggleQuerying(false);
 
-    this.urlService.trackURLChanges({
-      sub: 'pinpoint',
-    });
+    this.urlService.sub.set('pinpoint');
   }
 
   toggleAnalyzing() {
@@ -262,9 +241,7 @@ export class HomeComponent implements OnInit {
     this.pinpointService.togglePinpointing(false);
     this.queryService.toggleQuerying(false);
 
-    this.urlService.trackURLChanges({
-      sub: 'analyze',
-    });
+    this.urlService.sub.set('analyze');
   }
 
   toggleQuerying() {
@@ -274,9 +251,7 @@ export class HomeComponent implements OnInit {
     this.pinpointService.togglePinpointing(false);
     this.analysisService.toggleAnalyzing(false);
 
-    this.urlService.trackURLChanges({
-      sub: 'query',
-    });
+    this.urlService.sub.set('query');
   }
 
   toggleTester() {
@@ -292,22 +267,7 @@ export class HomeComponent implements OnInit {
     void this.electronService.reloadExternalWebMod();
   }
 
-  getURLSubProp(prop: string): string | null {
-    return this.route.snapshot.queryParamMap.get(prop);
-  }
-
-  updateSubURLProp(prop: string, value: string | number | undefined) {
-    if (isUndefined(value)) return;
-
-    this.urlService.trackURLChanges({
-      [prop]: value,
-    });
-  }
-
   resetSub() {
-    this.urlService.trackURLChanges({
-      tab: this.activeTab(),
-      sub: '',
-    });
+    this.urlService.sub.set(undefined);
   }
 }

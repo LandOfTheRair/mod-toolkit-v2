@@ -16,7 +16,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {}), HomeRoutingModule],
+  imports: [
+    RouterModule.forRoot(routes, {
+      defaultQueryParamsHandling: 'merge',
+    }),
+    HomeRoutingModule,
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -2,7 +2,7 @@
   <div class="tab flex flex-row justify-end">
     <button
       class="btn-sm btn btn-success mr-3"
-      (click)="analysisService.toggleAnalyzing(); exit.emit()"
+      (click)="analysisService.toggleAnalyzing(); leaveSection()"
     >
       Done
     </button>
@@ -30,21 +30,21 @@
       ) {
         <app-input-itemclass
           [(itemClass)]="itemClassInput"
-          (change)="changeURLProp.emit(['itemclass', $event])"
+          (change)="defaultItemclass.set($event)"
           [defaultValue]="defaultItemclass()!"
         ></app-input-itemclass>
       }
       @if (reportTypeName === 'spellpotency') {
         <app-input-spell
           [(spell)]="spellNameInput"
-          (change)="changeURLProp.emit(['spell', $event])"
+          (change)="defaultSpell.set($event)"
           [defaultValue]="defaultSpell()!"
         ></app-input-spell>
       }
       @if (reportTypeName === 'mapcontent') {
         <app-input-map
           [(map)]="mapNameInput"
-          (change)="changeURLProp.emit(['map', $event])"
+          (change)="defaultMap.set($event)"
           [defaultValue]="defaultMap()!"
         ></app-input-map>
       }
@@ -62,7 +62,7 @@
           type="number"
           placeholder="Choose tier..."
           class="form-input"
-          (change)="changeURLProp.emit(['tier', tierInput().toString()])"
+          (change)="defaultTier.set(tierInput().toString())"
         />
       }
     </div>
