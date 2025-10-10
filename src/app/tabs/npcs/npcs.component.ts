@@ -13,9 +13,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = INPCDefinition;
 
 @Component({
-  selector: 'app-npcs',
-  templateUrl: './npcs.component.html',
-  styleUrl: './npcs.component.scss',
+    selector: 'app-npcs',
+    templateUrl: './npcs.component.html',
+    styleUrl: './npcs.component.scss',
+    standalone: false
 })
 export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
   private electronService = inject(ElectronService);

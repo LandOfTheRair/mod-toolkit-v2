@@ -7,9 +7,10 @@ import { AnalysisService } from '../../../services/analysis.service';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-stems-editor',
-  templateUrl: './stems-editor.component.html',
-  styleUrl: './stems-editor.component.scss',
+    selector: 'app-stems-editor',
+    templateUrl: './stems-editor.component.html',
+    styleUrl: './stems-editor.component.scss',
+    standalone: false
 })
 export class StemsEditorComponent
   extends EditorBaseComponent<ISTEM>

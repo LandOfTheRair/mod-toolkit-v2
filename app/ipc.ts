@@ -1,8 +1,8 @@
 import * as chokidar from 'chokidar';
 import { dialog, ipcMain } from 'electron';
 import * as fs from 'fs-extra';
-import * as md5File from 'md5-file';
-import * as recursiveReaddir from 'recursive-readdir';
+import md5File from 'md5-file';
+import recursiveReaddir from 'recursive-readdir';
 
 import * as path from 'path';
 

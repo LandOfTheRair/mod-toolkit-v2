@@ -10,9 +10,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = ITraitTree;
 
 @Component({
-  selector: 'app-trait-trees',
-  templateUrl: './trait-trees.component.html',
-  styleUrl: './trait-trees.component.scss',
+    selector: 'app-trait-trees',
+    templateUrl: './trait-trees.component.html',
+    styleUrl: './trait-trees.component.scss',
+    standalone: false
 })
 export class TraitTreesComponent extends EditorBaseTableComponent<EditingType> {
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'traitTrees';

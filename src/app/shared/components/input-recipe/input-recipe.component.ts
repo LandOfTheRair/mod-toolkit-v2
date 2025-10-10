@@ -14,9 +14,10 @@ import { ModService } from '../../../services/mod.service';
 type RecipeModel = { category: string; data: IRecipe; value: string };
 
 @Component({
-  selector: 'app-input-recipe',
-  templateUrl: './input-recipe.component.html',
-  styleUrl: './input-recipe.component.scss',
+    selector: 'app-input-recipe',
+    templateUrl: './input-recipe.component.html',
+    styleUrl: './input-recipe.component.scss',
+    standalone: false
 })
 export class InputRecipeComponent implements OnInit {
   private modService = inject(ModService);

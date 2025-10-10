@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra';
-import * as recursiveReadDir from 'recursive-readdir';
+import recursiveReadDir from 'recursive-readdir';
 import { SendToUI } from '../types';
 import { baseUrl } from './constants';
 

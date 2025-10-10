@@ -2,9 +2,10 @@ import { Component, computed, inject, model, output } from '@angular/core';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-mapspawner',
-  templateUrl: './input-mapspawner.component.html',
-  styleUrl: './input-mapspawner.component.scss',
+    selector: 'app-input-mapspawner',
+    templateUrl: './input-mapspawner.component.html',
+    styleUrl: './input-mapspawner.component.scss',
+    standalone: false
 })
 export class InputMapspawnerComponent {
   private modService = inject(ModService);

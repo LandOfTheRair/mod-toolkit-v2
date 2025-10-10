@@ -10,9 +10,10 @@ import { linkedQueryParam } from 'ngxtension/linked-query-param';
 import { ElectronService } from '../../../services/electron.service';
 
 @Component({
-  selector: 'app-editor-view-table',
-  templateUrl: './editor-view-table.component.html',
-  styleUrl: './editor-view-table.component.scss',
+    selector: 'app-editor-view-table',
+    templateUrl: './editor-view-table.component.html',
+    styleUrl: './editor-view-table.component.scss',
+    standalone: false
 })
 export class EditorViewTableComponent {
   public electronService = inject(ElectronService);

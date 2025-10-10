@@ -3,9 +3,10 @@ import { uniq } from 'lodash';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-region',
-  templateUrl: './input-region.component.html',
-  styleUrl: './input-region.component.scss',
+    selector: 'app-input-region',
+    templateUrl: './input-region.component.html',
+    styleUrl: './input-region.component.scss',
+    standalone: false
 })
 export class InputRegionComponent {
   private modService = inject(ModService);

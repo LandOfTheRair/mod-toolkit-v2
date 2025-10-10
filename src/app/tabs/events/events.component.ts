@@ -10,9 +10,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = IDynamicEventMeta;
 
 @Component({
-  selector: 'app-events',
-  templateUrl: './events.component.html',
-  styleUrl: './events.component.scss',
+    selector: 'app-events',
+    templateUrl: './events.component.html',
+    styleUrl: './events.component.scss',
+    standalone: false
 })
 export class EventsComponent extends EditorBaseTableComponent<EditingType> {
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'events';

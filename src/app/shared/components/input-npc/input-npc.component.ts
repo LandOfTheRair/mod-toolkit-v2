@@ -14,9 +14,10 @@ import { ModService } from '../../../services/mod.service';
 type NPCModel = { category: string; data: INPCDefinition; value: string };
 
 @Component({
-  selector: 'app-input-npc',
-  templateUrl: './input-npc.component.html',
-  styleUrl: './input-npc.component.scss',
+    selector: 'app-input-npc',
+    templateUrl: './input-npc.component.html',
+    styleUrl: './input-npc.component.scss',
+    standalone: false
 })
 export class InputNpcComponent implements OnInit {
   private modService = inject(ModService);

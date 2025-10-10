@@ -2,9 +2,10 @@ import { Component, input, model, output } from '@angular/core';
 import { BuffType } from '../../../../interfaces';
 
 @Component({
-  selector: 'app-input-bufftype',
-  templateUrl: './input-bufftype.component.html',
-  styleUrl: './input-bufftype.component.scss',
+    selector: 'app-input-bufftype',
+    templateUrl: './input-bufftype.component.html',
+    styleUrl: './input-bufftype.component.scss',
+    standalone: false
 })
 export class InputBufftypeComponent {
   public buffType = model.required<string | undefined>();

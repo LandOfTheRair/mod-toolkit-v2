@@ -5,9 +5,10 @@ import {
 } from '../../../../interfaces';
 
 @Component({
-  selector: 'app-input-questtype',
-  templateUrl: './input-questtype.component.html',
-  styleUrl: './input-questtype.component.scss',
+    selector: 'app-input-questtype',
+    templateUrl: './input-questtype.component.html',
+    styleUrl: './input-questtype.component.scss',
+    standalone: false
 })
 export class InputQuesttypeComponent {
   public questType = model.required<QuestRequirementTypeType | undefined>();

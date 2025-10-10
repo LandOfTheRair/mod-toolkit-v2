@@ -11,9 +11,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = ISpawnerData;
 
 @Component({
-  selector: 'app-spawners',
-  templateUrl: './spawners.component.html',
-  styleUrl: './spawners.component.scss',
+    selector: 'app-spawners',
+    templateUrl: './spawners.component.html',
+    styleUrl: './spawners.component.scss',
+    standalone: false
 })
 export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
   private electronService = inject(ElectronService);

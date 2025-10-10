@@ -2,9 +2,10 @@ import { Component, computed, inject, model, output } from '@angular/core';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-mapnpc',
-  templateUrl: './input-mapnpc.component.html',
-  styleUrl: './input-mapnpc.component.scss',
+    selector: 'app-input-mapnpc',
+    templateUrl: './input-mapnpc.component.html',
+    styleUrl: './input-mapnpc.component.scss',
+    standalone: false
 })
 export class InputMapnpcComponent {
   private modService = inject(ModService);

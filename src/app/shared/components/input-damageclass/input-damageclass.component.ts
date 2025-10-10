@@ -2,9 +2,10 @@ import { Component, model, output } from '@angular/core';
 import { DamageClass, DamageClassType } from '../../../../interfaces';
 
 @Component({
-  selector: 'app-input-damageclass',
-  templateUrl: './input-damageclass.component.html',
-  styleUrl: './input-damageclass.component.scss',
+    selector: 'app-input-damageclass',
+    templateUrl: './input-damageclass.component.html',
+    styleUrl: './input-damageclass.component.scss',
+    standalone: false
 })
 export class InputDamageclassComponent {
   public damageClass = model.required<DamageClassType | undefined>();

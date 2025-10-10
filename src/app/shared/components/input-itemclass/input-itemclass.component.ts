@@ -7,9 +7,10 @@ import {
 } from '../../../../interfaces';
 
 @Component({
-  selector: 'app-input-itemclass',
-  templateUrl: './input-itemclass.component.html',
-  styleUrl: './input-itemclass.component.scss',
+    selector: 'app-input-itemclass',
+    templateUrl: './input-itemclass.component.html',
+    styleUrl: './input-itemclass.component.scss',
+    standalone: false
 })
 export class InputItemclassComponent implements OnInit {
   public itemClass = model<ItemClassType>();

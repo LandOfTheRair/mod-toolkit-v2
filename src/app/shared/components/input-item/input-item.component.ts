@@ -14,9 +14,10 @@ import { ModService } from '../../../services/mod.service';
 type ItemModel = { category: string; data: IItemDefinition; value: string };
 
 @Component({
-  selector: 'app-input-item',
-  templateUrl: './input-item.component.html',
-  styleUrl: './input-item.component.scss',
+    selector: 'app-input-item',
+    templateUrl: './input-item.component.html',
+    styleUrl: './input-item.component.scss',
+    standalone: false
 })
 export class InputItemComponent implements OnInit {
   private modService = inject(ModService);

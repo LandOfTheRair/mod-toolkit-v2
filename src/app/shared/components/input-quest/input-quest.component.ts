@@ -12,9 +12,10 @@ import { IQuest } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-quest',
-  templateUrl: './input-quest.component.html',
-  styleUrl: './input-quest.component.scss',
+    selector: 'app-input-quest',
+    templateUrl: './input-quest.component.html',
+    styleUrl: './input-quest.component.scss',
+    standalone: false
 })
 export class InputQuestComponent implements OnInit {
   private modService = inject(ModService);

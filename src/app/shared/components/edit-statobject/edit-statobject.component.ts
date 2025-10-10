@@ -3,9 +3,10 @@ import { isNumber } from 'lodash';
 import { StatType } from '../../../../interfaces';
 
 @Component({
-  selector: 'app-edit-statobject',
-  templateUrl: './edit-statobject.component.html',
-  styleUrl: './edit-statobject.component.scss',
+    selector: 'app-edit-statobject',
+    templateUrl: './edit-statobject.component.html',
+    styleUrl: './edit-statobject.component.scss',
+    standalone: false
 })
 export class EditStatobjectComponent {
   public statObject = model.required<Partial<Record<StatType, number>>>();

@@ -9,9 +9,10 @@ const divisors: Record<SpriteType, number> = {
 };
 
 @Component({
-  selector: 'app-sprite',
-  templateUrl: './sprite.component.html',
-  styleUrl: './sprite.component.scss',
+    selector: 'app-sprite',
+    templateUrl: './sprite.component.html',
+    styleUrl: './sprite.component.scss',
+    standalone: false
 })
 export class SpriteComponent {
   private electronService = inject(ElectronService);

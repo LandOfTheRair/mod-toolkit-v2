@@ -111,14 +111,11 @@ export class ModService {
       this.updateMod(oldModData);
     }
 
-    effect(
-      () => {
-        const newModData = this.mod();
-        this.settingsService.createSettingsForMod(newModData.meta.id);
-        this.localStorage.store('mod', newModData);
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const newModData = this.mod();
+      this.settingsService.createSettingsForMod(newModData.meta.id);
+      this.localStorage.store('mod', newModData);
+    });
 
     (window as any).modService = this;
   }

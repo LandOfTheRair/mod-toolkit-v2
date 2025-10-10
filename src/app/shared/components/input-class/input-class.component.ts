@@ -10,9 +10,10 @@ import { BaseClassType } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-class',
-  templateUrl: './input-class.component.html',
-  styleUrl: './input-class.component.scss',
+    selector: 'app-input-class',
+    templateUrl: './input-class.component.html',
+    styleUrl: './input-class.component.scss',
+    standalone: false
 })
 export class InputClassComponent {
   private modService = inject(ModService);

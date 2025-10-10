@@ -5,9 +5,10 @@ import { defaultAchievementRequirements } from '../../../helpers';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-achievements-editor',
-  templateUrl: './achievements-editor.component.html',
-  styleUrl: './achievements-editor.component.scss',
+    selector: 'app-achievements-editor',
+    templateUrl: './achievements-editor.component.html',
+    styleUrl: './achievements-editor.component.scss',
+    standalone: false
 })
 export class AchievementsEditorComponent
   extends EditorBaseComponent<IAchievement>

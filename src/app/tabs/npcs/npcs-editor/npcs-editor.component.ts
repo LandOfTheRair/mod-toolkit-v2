@@ -16,9 +16,10 @@ import { levelFromSkillXP, skillXPFromLevel } from '../../../helpers/export';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-npcs-editor',
-  templateUrl: './npcs-editor.component.html',
-  styleUrl: './npcs-editor.component.scss',
+    selector: 'app-npcs-editor',
+    templateUrl: './npcs-editor.component.html',
+    styleUrl: './npcs-editor.component.scss',
+    standalone: false
 })
 export class NpcsEditorComponent
   extends EditorBaseComponent<INPCDefinition>

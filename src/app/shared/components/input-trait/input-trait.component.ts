@@ -10,9 +10,10 @@ import { sortBy } from 'lodash';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-trait',
-  templateUrl: './input-trait.component.html',
-  styleUrl: './input-trait.component.scss',
+    selector: 'app-input-trait',
+    templateUrl: './input-trait.component.html',
+    styleUrl: './input-trait.component.scss',
+    standalone: false
 })
 export class InputTraitComponent {
   private modService = inject(ModService);

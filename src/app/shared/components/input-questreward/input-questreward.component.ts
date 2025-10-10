@@ -2,9 +2,10 @@ import { Component, model, output } from '@angular/core';
 import { QuestRewardType, QuestRewardTypeType } from '../../../../interfaces';
 
 @Component({
-  selector: 'app-input-questreward',
-  templateUrl: './input-questreward.component.html',
-  styleUrl: './input-questreward.component.scss',
+    selector: 'app-input-questreward',
+    templateUrl: './input-questreward.component.html',
+    styleUrl: './input-questreward.component.scss',
+    standalone: false
 })
 export class InputQuestrewardComponent {
   public rewardType = model.required<QuestRewardTypeType | undefined>();

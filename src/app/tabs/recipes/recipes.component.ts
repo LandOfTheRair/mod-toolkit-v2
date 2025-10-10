@@ -11,9 +11,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = IRecipe;
 
 @Component({
-  selector: 'app-recipes',
-  templateUrl: './recipes.component.html',
-  styleUrl: './recipes.component.scss',
+    selector: 'app-recipes',
+    templateUrl: './recipes.component.html',
+    styleUrl: './recipes.component.scss',
+    standalone: false
 })
 export class RecipesComponent extends EditorBaseTableComponent<EditingType> {
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'recipes';

@@ -14,9 +14,10 @@ import { ModService } from '../services/mod.service';
 import { ReportModel } from '../shared/components/input-analysis-report/input-analysis-report.component';
 
 @Component({
-  selector: 'app-analysis',
-  templateUrl: './analysis.component.html',
-  styleUrl: './analysis.component.scss',
+    selector: 'app-analysis',
+    templateUrl: './analysis.component.html',
+    styleUrl: './analysis.component.scss',
+    standalone: false
 })
 export class AnalysisComponent implements OnInit {
   public exit = output();

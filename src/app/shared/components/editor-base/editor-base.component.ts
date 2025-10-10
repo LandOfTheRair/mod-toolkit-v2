@@ -16,9 +16,10 @@ import { ModService } from '../../../services/mod.service';
 type Tab = { name: string; visibleIf?: Signal<boolean> };
 
 @Component({
-  selector: 'app-editor-base',
-  templateUrl: './editor-base.component.html',
-  styleUrl: './editor-base.component.scss',
+    selector: 'app-editor-base',
+    templateUrl: './editor-base.component.html',
+    styleUrl: './editor-base.component.scss',
+    standalone: false
 })
 export class EditorBaseComponent<T extends HasIdentification>
   implements OnInit

@@ -11,9 +11,10 @@ type AllHeaderParams = IHeaderParams & {
 };
 
 @Component({
-  selector: 'app-header-buttons',
-  templateUrl: './header-buttons.component.html',
-  styleUrl: './header-buttons.component.scss',
+    selector: 'app-header-buttons',
+    templateUrl: './header-buttons.component.html',
+    styleUrl: './header-buttons.component.scss',
+    standalone: false
 })
 export class HeaderButtonsComponent implements IHeaderAngularComp {
   public electronService = inject(ElectronService);

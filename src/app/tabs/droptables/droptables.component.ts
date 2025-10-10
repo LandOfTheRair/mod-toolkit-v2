@@ -10,9 +10,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = IDroptable;
 
 @Component({
-  selector: 'app-droptables',
-  templateUrl: './droptables.component.html',
-  styleUrl: './droptables.component.scss',
+    selector: 'app-droptables',
+    templateUrl: './droptables.component.html',
+    styleUrl: './droptables.component.scss',
+    standalone: false
 })
 export class DroptablesComponent extends EditorBaseTableComponent<EditingType> {
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'drops';

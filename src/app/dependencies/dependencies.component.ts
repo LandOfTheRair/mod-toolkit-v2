@@ -3,9 +3,10 @@ import { ElectronService } from '../services/electron.service';
 import { ModService } from '../services/mod.service';
 
 @Component({
-  selector: 'app-dependencies',
-  templateUrl: './dependencies.component.html',
-  styleUrl: './dependencies.component.scss',
+    selector: 'app-dependencies',
+    templateUrl: './dependencies.component.html',
+    styleUrl: './dependencies.component.scss',
+    standalone: false
 })
 export class DependenciesComponent {
   public exit = output();

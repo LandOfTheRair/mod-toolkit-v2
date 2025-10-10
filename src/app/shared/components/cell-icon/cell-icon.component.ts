@@ -3,9 +3,10 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-cell-icon',
-  templateUrl: './cell-icon.component.html',
-  styleUrl: './cell-icon.component.scss',
+    selector: 'app-cell-icon',
+    templateUrl: './cell-icon.component.html',
+    styleUrl: './cell-icon.component.scss',
+    standalone: false
 })
 export class CellIconComponent implements ICellRendererAngularComp {
   public iconData = computed(() => {

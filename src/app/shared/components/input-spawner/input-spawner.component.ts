@@ -14,9 +14,10 @@ import { ModService } from '../../../services/mod.service';
 type ItemModel = { category: string; data: ISpawnerData; value: string };
 
 @Component({
-  selector: 'app-input-spawner',
-  templateUrl: './input-spawner.component.html',
-  styleUrl: './input-spawner.component.scss',
+    selector: 'app-input-spawner',
+    templateUrl: './input-spawner.component.html',
+    styleUrl: './input-spawner.component.scss',
+    standalone: false
 })
 export class InputSpawnerComponent implements OnInit {
   private modService = inject(ModService);

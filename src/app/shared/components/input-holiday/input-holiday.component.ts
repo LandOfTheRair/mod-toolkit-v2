@@ -9,9 +9,10 @@ import {
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-holiday',
-  templateUrl: './input-holiday.component.html',
-  styleUrl: './input-holiday.component.scss',
+    selector: 'app-input-holiday',
+    templateUrl: './input-holiday.component.html',
+    styleUrl: './input-holiday.component.scss',
+    standalone: false
 })
 export class InputHolidayComponent {
   private modService = inject(ModService);

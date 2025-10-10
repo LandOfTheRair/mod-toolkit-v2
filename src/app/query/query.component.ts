@@ -1,6 +1,6 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { CodeModel } from '@ngstack/code-editor';
-import * as alasql from 'alasql';
+import alasql from 'alasql';
 import * as _ from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 
@@ -11,6 +11,7 @@ import { QueryService } from '../services/query.service';
   selector: 'app-query',
   templateUrl: './query.component.html',
   styleUrl: './query.component.scss',
+  standalone: false,
 })
 export class QueryComponent {
   public exit = output();

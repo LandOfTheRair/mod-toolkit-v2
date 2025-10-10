@@ -10,9 +10,10 @@ import {
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-spell',
-  templateUrl: './input-spell.component.html',
-  styleUrl: './input-spell.component.scss',
+    selector: 'app-input-spell',
+    templateUrl: './input-spell.component.html',
+    styleUrl: './input-spell.component.scss',
+    standalone: false
 })
 export class InputSpellComponent implements OnInit {
   private modService = inject(ModService);

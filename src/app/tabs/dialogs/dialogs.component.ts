@@ -10,9 +10,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 
 type EditingType = INPCScript;
 @Component({
-  selector: 'app-dialogs',
-  templateUrl: './dialogs.component.html',
-  styleUrl: './dialogs.component.scss',
+    selector: 'app-dialogs',
+    templateUrl: './dialogs.component.html',
+    styleUrl: './dialogs.component.scss',
+    standalone: false
 })
 export class DialogsComponent extends EditorBaseTableComponent<EditingType> {
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'dialogs';

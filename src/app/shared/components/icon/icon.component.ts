@@ -2,9 +2,10 @@ import { Component, computed, HostBinding, inject, input } from '@angular/core';
 import { ElectronService } from '../../../services/electron.service';
 
 @Component({
-  selector: 'app-icon',
-  templateUrl: './icon.component.html',
-  styleUrl: './icon.component.scss',
+    selector: 'app-icon',
+    templateUrl: './icon.component.html',
+    styleUrl: './icon.component.scss',
+    standalone: false
 })
 export class IconComponent {
   private electronService = inject(ElectronService);

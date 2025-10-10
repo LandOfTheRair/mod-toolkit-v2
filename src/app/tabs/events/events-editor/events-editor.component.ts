@@ -4,9 +4,10 @@ import { IDynamicEventMeta, INPCDefinition } from '../../../../interfaces';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-events-editor',
-  templateUrl: './events-editor.component.html',
-  styleUrl: './events-editor.component.scss',
+    selector: 'app-events-editor',
+    templateUrl: './events-editor.component.html',
+    styleUrl: './events-editor.component.scss',
+    standalone: false
 })
 export class EventsEditorComponent
   extends EditorBaseComponent<IDynamicEventMeta>

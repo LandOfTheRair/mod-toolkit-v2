@@ -9,9 +9,10 @@ import {
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-sfx',
-  templateUrl: './input-sfx.component.html',
-  styleUrl: './input-sfx.component.scss',
+    selector: 'app-input-sfx',
+    templateUrl: './input-sfx.component.html',
+    styleUrl: './input-sfx.component.scss',
+    standalone: false
 })
 export class InputSfxComponent {
   private modService = inject(ModService);

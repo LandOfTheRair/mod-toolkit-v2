@@ -1,9 +1,10 @@
 import { Component, model, output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-tradeskill',
-  templateUrl: './input-tradeskill.component.html',
-  styleUrl: './input-tradeskill.component.scss',
+    selector: 'app-input-tradeskill',
+    templateUrl: './input-tradeskill.component.html',
+    styleUrl: './input-tradeskill.component.scss',
+    standalone: false
 })
 export class InputTradeskillComponent {
   public tradeskill = model.required<string>();

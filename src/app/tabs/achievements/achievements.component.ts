@@ -11,9 +11,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = IAchievement;
 
 @Component({
-  selector: 'app-achievements',
-  templateUrl: './achievements.component.html',
-  styleUrl: './achievements.component.scss',
+    selector: 'app-achievements',
+    templateUrl: './achievements.component.html',
+    styleUrl: './achievements.component.scss',
+    standalone: false
 })
 export class AchievementsComponent extends EditorBaseTableComponent<EditingType> {
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'achievements';

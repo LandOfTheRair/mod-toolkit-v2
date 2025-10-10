@@ -8,9 +8,10 @@ import {
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-quests-editor',
-  templateUrl: './quests-editor.component.html',
-  styleUrl: './quests-editor.component.scss',
+    selector: 'app-quests-editor',
+    templateUrl: './quests-editor.component.html',
+    styleUrl: './quests-editor.component.scss',
+    standalone: false
 })
 export class QuestsEditorComponent extends EditorBaseComponent<IQuest> {
   public canSave = computed(() => {

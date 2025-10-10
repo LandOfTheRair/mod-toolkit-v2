@@ -9,9 +9,10 @@ import { NotifyService } from '../../../services/notify.service';
 import { URLService } from '../../../services/url.service';
 
 @Component({
-  selector: 'app-editor-base-table',
-  templateUrl: './editor-base-table.component.html',
-  styleUrl: './editor-base-table.component.scss',
+    selector: 'app-editor-base-table',
+    templateUrl: './editor-base-table.component.html',
+    styleUrl: './editor-base-table.component.scss',
+    standalone: false
 })
 export class EditorBaseTableComponent<T extends HasIdentification>
   implements OnInit

@@ -25,6 +25,7 @@ const baseEffectList = [
   selector: 'app-input-effect',
   templateUrl: './input-effect.component.html',
   styleUrl: './input-effect.component.scss',
+  standalone: false,
 })
 export class InputEffectComponent {
   private modService = inject(ModService);
@@ -38,7 +39,7 @@ export class InputEffectComponent {
     const baseEffects = this.modService
       .mod()
       .stems.filter(
-        (s) => s._hasEffect && !['Attribute', 'Mood'].includes(s.name)
+        (s) => s._hasEffect && !['Attribute', 'Mood'].includes(s.name),
       );
 
     const baseSpells = this.modService
@@ -57,26 +58,23 @@ export class InputEffectComponent {
           desc: e.all.desc,
         })),
       ],
-      'value'
+      'value',
     );
   });
 
   constructor() {
-    effect(
-      () => {
-        const defaultItem = this.defaultValue();
-        if (defaultItem) {
-          const foundItem = this.values().find((i) => i.value === defaultItem);
-          this.effect.set(foundItem as unknown as { value: string });
-        }
-      },
-      { allowSignalWrites: true }
-    );
+    effect(() => {
+      const defaultItem = this.defaultValue();
+      if (defaultItem) {
+        const foundItem = this.values().find((i) => i.value === defaultItem);
+        this.effect.set(foundItem as unknown as { value: string });
+      }
+    });
   }
 
   public itemCompare(
     itemA: { value: string; desc: string },
-    itemB: { value: string; desc: string }
+    itemB: { value: string; desc: string },
   ): boolean {
     return itemA.value === itemB.value;
   }

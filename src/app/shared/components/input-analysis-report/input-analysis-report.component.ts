@@ -31,9 +31,10 @@ export type ReportModel = {
 };
 
 @Component({
-  selector: 'app-input-analysis-report',
-  templateUrl: './input-analysis-report.component.html',
-  styleUrl: './input-analysis-report.component.scss',
+    selector: 'app-input-analysis-report',
+    templateUrl: './input-analysis-report.component.html',
+    styleUrl: './input-analysis-report.component.scss',
+    standalone: false
 })
 export class InputAnalysisReportComponent implements OnInit {
   private modService = inject(ModService);

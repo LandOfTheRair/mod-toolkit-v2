@@ -25,9 +25,10 @@ type StatEdit = {
 type TraitSetting = 'none' | 'static' | 'random';
 
 @Component({
-  selector: 'app-items-editor',
-  templateUrl: './items-editor.component.html',
-  styleUrl: './items-editor.component.scss',
+    selector: 'app-items-editor',
+    templateUrl: './items-editor.component.html',
+    styleUrl: './items-editor.component.scss',
+    standalone: false
 })
 export class ItemsEditorComponent
   extends EditorBaseComponent<IItemDefinition>

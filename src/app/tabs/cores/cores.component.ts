@@ -10,9 +10,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = ICoreContent;
 
 @Component({
-  selector: 'app-cores',
-  templateUrl: './cores.component.html',
-  styleUrl: './cores.component.scss',
+    selector: 'app-cores',
+    templateUrl: './cores.component.html',
+    styleUrl: './cores.component.scss',
+    standalone: false
 })
 export class CoresComponent extends EditorBaseTableComponent<EditingType> {
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'cores';

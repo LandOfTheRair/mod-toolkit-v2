@@ -5,9 +5,10 @@ import { isArray } from 'lodash';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-cell-sprite',
-  templateUrl: './cell-sprite.component.html',
-  styleUrl: './cell-sprite.component.scss',
+    selector: 'app-cell-sprite',
+    templateUrl: './cell-sprite.component.html',
+    styleUrl: './cell-sprite.component.scss',
+    standalone: false
 })
 export class CellSpriteComponent implements ICellRendererAngularComp {
   private modService = inject(ModService);

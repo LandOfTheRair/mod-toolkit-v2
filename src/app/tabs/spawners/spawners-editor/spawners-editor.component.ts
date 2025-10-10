@@ -4,9 +4,10 @@ import { INPCDefinition, ISpawnerData, Rollable } from '../../../../interfaces';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-spawners-editor',
-  templateUrl: './spawners-editor.component.html',
-  styleUrl: './spawners-editor.component.scss',
+    selector: 'app-spawners-editor',
+    templateUrl: './spawners-editor.component.html',
+    styleUrl: './spawners-editor.component.scss',
+    standalone: false
 })
 export class SpawnersEditorComponent
   extends EditorBaseComponent<ISpawnerData>

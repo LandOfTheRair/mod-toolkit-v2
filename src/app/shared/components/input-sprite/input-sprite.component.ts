@@ -11,9 +11,10 @@ import {
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-sprite',
-  templateUrl: './input-sprite.component.html',
-  styleUrl: './input-sprite.component.scss',
+    selector: 'app-input-sprite',
+    templateUrl: './input-sprite.component.html',
+    styleUrl: './input-sprite.component.scss',
+    standalone: false
 })
 export class InputSpriteComponent {
   private modService = inject(ModService);

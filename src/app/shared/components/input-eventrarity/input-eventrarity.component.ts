@@ -5,9 +5,10 @@ import {
 } from '../../../../interfaces';
 
 @Component({
-  selector: 'app-input-eventrarity',
-  templateUrl: './input-eventrarity.component.html',
-  styleUrl: './input-eventrarity.component.scss',
+    selector: 'app-input-eventrarity',
+    templateUrl: './input-eventrarity.component.html',
+    styleUrl: './input-eventrarity.component.scss',
+    standalone: false
 })
 export class InputEventRarityComponent {
   public rarity = model.required<DynamicEventRarityType | undefined>();

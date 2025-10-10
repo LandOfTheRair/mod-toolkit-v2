@@ -2,9 +2,10 @@ import { Component, computed, inject, input } from '@angular/core';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-sprite-with-inline-name',
-  templateUrl: './sprite-with-inline-name.component.html',
-  styleUrl: './sprite-with-inline-name.component.scss',
+    selector: 'app-sprite-with-inline-name',
+    templateUrl: './sprite-with-inline-name.component.html',
+    styleUrl: './sprite-with-inline-name.component.scss',
+    standalone: false
 })
 export class SpriteWithInlineNameComponent {
   private modService = inject(ModService);

@@ -3,9 +3,10 @@ import { ItemClassType, StatType } from '../../../../interfaces';
 import { coreStats, extraStats } from '../../../helpers';
 
 @Component({
-  selector: 'app-input-stat',
-  templateUrl: './input-stat.component.html',
-  styleUrl: './input-stat.component.scss',
+    selector: 'app-input-stat',
+    templateUrl: './input-stat.component.html',
+    styleUrl: './input-stat.component.scss',
+    standalone: false
 })
 export class InputStatComponent {
   public stat = model.required<StatType | undefined>();

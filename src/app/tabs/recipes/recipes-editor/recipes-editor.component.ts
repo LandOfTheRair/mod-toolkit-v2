@@ -8,9 +8,10 @@ import {
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-recipes-editor',
-  templateUrl: './recipes-editor.component.html',
-  styleUrl: './recipes-editor.component.scss',
+    selector: 'app-recipes-editor',
+    templateUrl: './recipes-editor.component.html',
+    styleUrl: './recipes-editor.component.scss',
+    standalone: false
 })
 export class RecipesEditorComponent
   extends EditorBaseComponent<IRecipe>

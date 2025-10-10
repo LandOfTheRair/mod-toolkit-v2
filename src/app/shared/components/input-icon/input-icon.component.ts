@@ -12,9 +12,10 @@ import {
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-icon',
-  templateUrl: './input-icon.component.html',
-  styleUrl: './input-icon.component.scss',
+    selector: 'app-input-icon',
+    templateUrl: './input-icon.component.html',
+    styleUrl: './input-icon.component.scss',
+    standalone: false
 })
 export class InputIconComponent {
   private modService = inject(ModService);

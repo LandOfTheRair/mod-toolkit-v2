@@ -10,9 +10,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = IQuest;
 
 @Component({
-  selector: 'app-quests',
-  templateUrl: './quests.component.html',
-  styleUrl: './quests.component.scss',
+    selector: 'app-quests',
+    templateUrl: './quests.component.html',
+    styleUrl: './quests.component.scss',
+    standalone: false
 })
 export class QuestsComponent extends EditorBaseTableComponent<EditingType> {
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'quests';

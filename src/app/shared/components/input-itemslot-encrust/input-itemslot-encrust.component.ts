@@ -3,9 +3,10 @@ import { ItemSlotType } from '../../../../interfaces';
 import { itemSlots } from '../../../helpers/schemas/_helpers';
 
 @Component({
-  selector: 'app-input-itemslot-encrust',
-  templateUrl: './input-itemslot-encrust.component.html',
-  styleUrl: './input-itemslot-encrust.component.scss',
+    selector: 'app-input-itemslot-encrust',
+    templateUrl: './input-itemslot-encrust.component.html',
+    styleUrl: './input-itemslot-encrust.component.scss',
+    standalone: false
 })
 export class InputItemslotEncrustComponent {
   public itemSlots = model.required<string[]>();

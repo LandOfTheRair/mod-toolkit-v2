@@ -3,9 +3,10 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { ValidationService } from '../services/validation.service';
 
 @Component({
-  selector: 'app-validation',
-  templateUrl: './validation.component.html',
-  styleUrl: './validation.component.scss',
+    selector: 'app-validation',
+    templateUrl: './validation.component.html',
+    styleUrl: './validation.component.scss',
+    standalone: false
 })
 export class ValidationComponent {
   public exit = output();

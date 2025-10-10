@@ -11,9 +11,10 @@ import { uniq } from 'lodash';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-map',
-  templateUrl: './input-map.component.html',
-  styleUrl: './input-map.component.scss',
+    selector: 'app-input-map',
+    templateUrl: './input-map.component.html',
+    styleUrl: './input-map.component.scss',
+    standalone: false
 })
 export class InputMapComponent implements OnInit {
   private modService = inject(ModService);

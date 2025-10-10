@@ -5,9 +5,10 @@ import { ElectronService } from '../../../services/electron.service';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-test-view',
-  templateUrl: './test-view.component.html',
-  styleUrl: './test-view.component.scss',
+    selector: 'app-test-view',
+    templateUrl: './test-view.component.html',
+    styleUrl: './test-view.component.scss',
+    standalone: false
 })
 export class TestViewComponent implements OnInit {
   private modService = inject(ModService);

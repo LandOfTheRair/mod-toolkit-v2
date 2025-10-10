@@ -12,9 +12,10 @@ import { IDynamicEventMeta } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-event',
-  templateUrl: './input-event.component.html',
-  styleUrl: './input-event.component.scss',
+    selector: 'app-input-event',
+    templateUrl: './input-event.component.html',
+    styleUrl: './input-event.component.scss',
+    standalone: false
 })
 export class InputEventComponent implements OnInit {
   private modService = inject(ModService);

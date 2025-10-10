@@ -2,9 +2,10 @@ import { Component, inject, input, OnInit, output } from '@angular/core';
 import { PinpointService } from '../services/pinpoint.service';
 
 @Component({
-  selector: 'app-pinpoint',
-  templateUrl: './pinpoint.component.html',
-  styleUrl: './pinpoint.component.scss',
+    selector: 'app-pinpoint',
+    templateUrl: './pinpoint.component.html',
+    styleUrl: './pinpoint.component.scss',
+    standalone: false
 })
 export class PinpointComponent implements OnInit {
   public exit = output();

@@ -43,9 +43,10 @@ export function defaultTree(name: string): ITraitTreeTab {
 }
 
 @Component({
-  selector: 'app-trait-trees-editor',
-  templateUrl: './trait-trees-editor.component.html',
-  styleUrl: './trait-trees-editor.component.scss',
+    selector: 'app-trait-trees-editor',
+    templateUrl: './trait-trees-editor.component.html',
+    styleUrl: './trait-trees-editor.component.scss',
+    standalone: false
 })
 export class TraitTreesEditorComponent
   extends EditorBaseComponent<ITraitTree>

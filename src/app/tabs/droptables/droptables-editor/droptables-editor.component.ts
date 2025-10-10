@@ -9,9 +9,10 @@ import {
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-droptables-editor',
-  templateUrl: './droptables-editor.component.html',
-  styleUrl: './droptables-editor.component.scss',
+    selector: 'app-droptables-editor',
+    templateUrl: './droptables-editor.component.html',
+    styleUrl: './droptables-editor.component.scss',
+    standalone: false
 })
 export class DroptablesEditorComponent extends EditorBaseComponent<IDroptable> {
   public currentItem = signal<IItemDefinition | undefined>(undefined);

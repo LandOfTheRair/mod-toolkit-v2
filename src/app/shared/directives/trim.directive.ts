@@ -2,6 +2,7 @@ import { Directive, effect, model } from '@angular/core';
 
 @Directive({
   selector: '[autoTrim]',
+  standalone: false,
 })
 export class AutoTrimDirective {
   public ngModel = model<string>('ngModel');
@@ -9,19 +10,16 @@ export class AutoTrimDirective {
   private timeoutHandle!: ReturnType<typeof setTimeout>;
 
   constructor() {
-    effect(
-      () => {
-        clearTimeout(this.timeoutHandle);
+    effect(() => {
+      clearTimeout(this.timeoutHandle);
 
-        const newValue = this.ngModel();
+      const newValue = this.ngModel();
 
-        this.timeoutHandle = setTimeout(() => {
-          this.ngModel.set(
-            (newValue ?? '').toString().replace(/\s+/g, ' ').trim() ?? newValue,
-          );
-        }, 500);
-      },
-      { allowSignalWrites: true },
-    );
+      this.timeoutHandle = setTimeout(() => {
+        this.ngModel.set(
+          (newValue ?? '').toString().replace(/\s+/g, ' ').trim() ?? newValue,
+        );
+      }, 500);
+    });
   }
 }

@@ -13,9 +13,10 @@ import {
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-dialogs-editor',
-  templateUrl: './dialogs-editor.component.html',
-  styleUrl: './dialogs-editor.component.scss',
+    selector: 'app-dialogs-editor',
+    templateUrl: './dialogs-editor.component.html',
+    styleUrl: './dialogs-editor.component.scss',
+    standalone: false
 })
 export class DialogsEditorComponent
   extends EditorBaseComponent<INPCScript>

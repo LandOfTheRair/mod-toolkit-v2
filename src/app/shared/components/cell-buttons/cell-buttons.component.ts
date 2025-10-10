@@ -5,9 +5,10 @@ import { ICellRendererParams } from 'ag-grid-community';
 import { ElectronService } from '../../../services/electron.service';
 
 @Component({
-  selector: 'app-cell-buttons',
-  templateUrl: './cell-buttons.component.html',
-  styleUrl: './cell-buttons.component.scss',
+    selector: 'app-cell-buttons',
+    templateUrl: './cell-buttons.component.html',
+    styleUrl: './cell-buttons.component.scss',
+    standalone: false
 })
 export class CellButtonsComponent implements ICellRendererAngularComp {
   public electronService = inject(ElectronService);

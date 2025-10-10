@@ -1,9 +1,10 @@
 import { Component, computed, model, output } from '@angular/core';
 
 @Component({
-  selector: 'app-input-achievementtype',
-  templateUrl: './input-achievementtype.component.html',
-  styleUrl: './input-achievementtype.component.scss',
+    selector: 'app-input-achievementtype',
+    templateUrl: './input-achievementtype.component.html',
+    styleUrl: './input-achievementtype.component.scss',
+    standalone: false
 })
 export class InputAchievementTypeComponent {
   public achievementType = model.required<string | undefined>();

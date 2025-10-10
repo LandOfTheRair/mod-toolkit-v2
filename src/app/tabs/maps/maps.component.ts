@@ -18,9 +18,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = IEditorMap;
 
 @Component({
-  selector: 'app-maps',
-  templateUrl: './maps.component.html',
-  styleUrl: './maps.component.scss',
+    selector: 'app-maps',
+    templateUrl: './maps.component.html',
+    styleUrl: './maps.component.scss',
+    standalone: false
 })
 export class MapsComponent extends EditorBaseTableComponent<EditingType> {
   private electronService = inject(ElectronService);

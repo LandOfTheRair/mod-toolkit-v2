@@ -14,22 +14,19 @@ export class DiffService {
   public exportMod = signal<IModKit | null>(null);
 
   constructor() {
-    effect(
-      () => {
-        const exportWhenReady = this.exportWhenReady();
-        const modToCompareAgainst = this.modToCompareAgainst();
-        const myMod = this.myMod();
+    effect(() => {
+      const exportWhenReady = this.exportWhenReady();
+      const modToCompareAgainst = this.modToCompareAgainst();
+      const myMod = this.myMod();
 
-        if (!exportWhenReady) return;
-        if (!modToCompareAgainst) return;
-        if (!myMod) return;
+      if (!exportWhenReady) return;
+      if (!modToCompareAgainst) return;
+      if (!myMod) return;
 
-        this.saveModDiff();
+      this.saveModDiff();
 
-        this.exportWhenReady.set(false);
-      },
-      { allowSignalWrites: true },
-    );
+      this.exportWhenReady.set(false);
+    });
   }
 
   public setMyMod(mod: IModKit): void {

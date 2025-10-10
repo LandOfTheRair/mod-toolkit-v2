@@ -20,9 +20,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = ISTEM;
 
 @Component({
-  selector: 'app-stems',
-  templateUrl: './stems.component.html',
-  styleUrl: './stems.component.scss',
+    selector: 'app-stems',
+    templateUrl: './stems.component.html',
+    styleUrl: './stems.component.scss',
+    standalone: false
 })
 export class StemsComponent extends EditorBaseTableComponent<EditingType> {
   private pinpointService = inject(PinpointService);

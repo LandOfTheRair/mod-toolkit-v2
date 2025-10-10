@@ -12,9 +12,10 @@ import { ISTEM } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-stem',
-  templateUrl: './input-stem.component.html',
-  styleUrl: './input-stem.component.scss',
+    selector: 'app-input-stem',
+    templateUrl: './input-stem.component.html',
+    styleUrl: './input-stem.component.scss',
+    standalone: false
 })
 export class InputStemComponent implements OnInit {
   private modService = inject(ModService);

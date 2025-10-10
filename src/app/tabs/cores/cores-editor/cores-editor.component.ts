@@ -6,9 +6,10 @@ import { ICoreContent } from '../../../../interfaces';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-  selector: 'app-cores-editor',
-  templateUrl: './cores-editor.component.html',
-  styleUrl: './cores-editor.component.scss',
+    selector: 'app-cores-editor',
+    templateUrl: './cores-editor.component.html',
+    styleUrl: './cores-editor.component.scss',
+    standalone: false
 })
 export class CoresEditorComponent
   extends EditorBaseComponent<ICoreContent>
