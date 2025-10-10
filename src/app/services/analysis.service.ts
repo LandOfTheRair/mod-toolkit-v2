@@ -826,6 +826,82 @@ export class AnalysisService {
     };
   }
 
+  public generateSpellUtilizationReport(): AnalysisReport {
+    const allSpells = this.modService.mod().stems.filter((s) => s._hasSpell);
+
+    const allItems = this.modService.mod().items;
+    const allNPCs = this.modService.mod().npcs;
+    const allTraitTrees = this.modService.mod().traitTrees;
+
+    const spellReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: `Spell Stat Utilization (${allSpells.length} spells)`,
+        headers: [
+          'Spell',
+          'Total Uses',
+          'Trait Tree Usages',
+          'Item Usages',
+          'NPC Usages',
+        ],
+        rows: [],
+      },
+    };
+
+    sortBy(allSpells, (s) => s.name).forEach((stem) => {
+      const spellName = stem.name;
+
+      const baseTrees = allTraitTrees.map((t) => ({
+        name: t.name,
+        traits: Object.values(t.data.trees).filter((trait) =>
+          trait.tree.some((node) =>
+            node.traits.some((m) => m.name === stem.name),
+          ),
+        ),
+      }));
+
+      const usingItems = allItems.filter(
+        (item) =>
+          item.useEffect?.name === spellName ||
+          item.strikeEffect?.name === spellName ||
+          item.trapEffect?.name === spellName ||
+          item.breakEffect?.name === spellName ||
+          item.encrustGive?.strikeEffect?.name === spellName,
+      );
+
+      const usingNPCs = allNPCs.filter((npc) =>
+        npc.usableSkills?.some((s) => s.result === spellName),
+      );
+
+      const usingTrees = baseTrees.filter((t) => t.traits.length > 0);
+
+      spellReport.table.rows.push([
+        { pretext: spellName, tooltip: stem.all.desc },
+        {
+          pretext: this.formatEntryEmphasizeZero(
+            usingItems.length + usingNPCs.length + usingTrees.length,
+          ),
+        },
+        {
+          pretext: this.formatEntryEmphasizeZero(usingTrees.length),
+          tooltip: usingTrees.map((t) => t.name).join(', '),
+        },
+        {
+          pretext: this.formatEntryEmphasizeZero(usingItems.length),
+          tooltip: usingItems.map((i) => i.name).join(', '),
+        },
+        {
+          pretext: this.formatEntryEmphasizeZero(usingNPCs.length),
+          tooltip: usingNPCs.map((n) => n.npcId).join(', '),
+        },
+      ]);
+    });
+
+    return {
+      entries: [spellReport],
+    };
+  }
+
   public calculateSpellDamage(
     spell: ISTEM['spell'],
     skill: number,

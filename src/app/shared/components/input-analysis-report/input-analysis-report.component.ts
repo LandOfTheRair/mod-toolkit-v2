@@ -31,10 +31,10 @@ export type ReportModel = {
 };
 
 @Component({
-    selector: 'app-input-analysis-report',
-    templateUrl: './input-analysis-report.component.html',
-    styleUrl: './input-analysis-report.component.scss',
-    standalone: false
+  selector: 'app-input-analysis-report',
+  templateUrl: './input-analysis-report.component.html',
+  styleUrl: './input-analysis-report.component.scss',
+  standalone: false,
 })
 export class InputAnalysisReportComponent implements OnInit {
   private modService = inject(ModService);
@@ -45,7 +45,7 @@ export class InputAnalysisReportComponent implements OnInit {
   public defaultValue = input<string>();
 
   public allMaps = computed(() =>
-    this.modService.mod().maps.map((map) => map.name)
+    this.modService.mod().maps.map((map) => map.name),
   );
 
   public values = computed(() => {
@@ -141,6 +141,13 @@ export class InputAnalysisReportComponent implements OnInit {
       },
       {
         category: 'Miscellaneous',
+        value: 'Spell Utilization',
+        type: AnalysisReportType.SpellUtilization,
+        data: {},
+        desc: 'A breakdown of each spells utilization across npcs, players, and items.',
+      },
+      {
+        category: 'Miscellaneous',
         value: 'Stat Utilization',
         type: AnalysisReportType.StatUtilization,
         data: {},
@@ -148,10 +155,10 @@ export class InputAnalysisReportComponent implements OnInit {
       },
       {
         category: 'Miscellaneous',
-        value: 'Traits',
+        value: 'Trait Utilization',
         type: AnalysisReportType.TraitUsage,
         data: {},
-        desc: 'A breakdown of trait usage, including unused traits.',
+        desc: 'A breakdown of trait utilization, including unused traits.',
       },
     ] as ReportModel[];
   });
@@ -159,7 +166,7 @@ export class InputAnalysisReportComponent implements OnInit {
   ngOnInit() {
     if (this.defaultValue()) {
       const defaultObj = this.values().find(
-        (f) => f.value === this.defaultValue()
+        (f) => f.value === this.defaultValue(),
       );
       if (!defaultObj) return;
 

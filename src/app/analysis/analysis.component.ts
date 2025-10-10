@@ -85,6 +85,10 @@ export class AnalysisComponent implements OnInit {
         return this.analysisService.generateStatUtilizationReport();
       }
 
+      case AnalysisReportType.SpellUtilization: {
+        return this.analysisService.generateSpellUtilizationReport();
+      }
+
       case AnalysisReportType.TraitUsage: {
         return this.analysisService.generateTraitReport();
       }
