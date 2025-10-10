@@ -30,24 +30,24 @@
     @let spriteCounts = usedSprites();
 
     <div class="relative flex flex-wrap overflow-y-scroll max-h-[70vh]">
-      @for(icon of iconArray(); track $index) {
-      <div
-        class="relative p-1 flex-1 m-2 bg-gray-400 min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px] outline-2 outline-offset-2 hover:outline-dashed outline-primary"
-      >
-        <app-sprite
-          [class.outline]="icon === pickerSprite()"
-          [sprite]="icon"
-          [type]="type()"
-          (click)="pickerSprite.set(icon)"
-        ></app-sprite>
-
+      @for (icon of iconArray(); track $index) {
         <div
-          class="badge badge-primary absolute top-0 right-0"
-          [class.badge-success]="!spriteCounts[icon]"
+          class="relative p-1 flex-1 m-2 bg-gray-400 min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px] outline-2 outline-offset-2 hover:outline-dashed outline-primary"
+          [class.outline]="icon === pickerSprite()"
         >
-          {{ spriteCounts[icon] || 0 }}
+          <app-sprite
+            [sprite]="icon"
+            [type]="type()"
+            (click)="pickerSprite.set(icon)"
+          ></app-sprite>
+
+          <div
+            class="badge badge-primary absolute top-0 right-0"
+            [class.badge-success]="!spriteCounts[icon]"
+          >
+            {{ spriteCounts[icon] || 0 }}
+          </div>
         </div>
-      </div>
       }
     </div>
 
