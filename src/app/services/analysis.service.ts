@@ -1207,6 +1207,7 @@ export class AnalysisService {
       'fireResist',
       'iceResist',
       'waterResist',
+      'lightningResist',
       'sonicResist',
     ];
 
