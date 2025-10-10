@@ -1,6 +1,35 @@
+## 1.9.0 (2025-10-10)
+
+* Add lightning resist ([79c506d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/79c506d))
+* add lint to bypass a rule I do not caer about ([9850ee2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9850ee2))
+* better checking for spawner lairname prop ([4ca5629](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4ca5629))
+* closes #101 ([7cc9f7a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7cc9f7a)), closes [#101](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/101)
+* closes #102 ([2897a94](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2897a94)), closes [#102](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/102)
+* closes #103 ([e7acc07](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e7acc07)), closes [#103](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/103)
+* closes #598 ([f0ae68a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f0ae68a)), closes [#598](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/598)
+* closes #599 ([eec4cf7](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/eec4cf7)), closes [#599](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/599)
+* closes #92 ([fb7681a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/fb7681a)), closes [#92](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/92)
+* closes #98 ([476ba06](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/476ba06)), closes [#98](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/98)
+* creatures summoned will no longer show up as warnings ([6badf29](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6badf29))
+* fix build, fix monaco errors ([9ba8c70](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9ba8c70))
+* fix more warnings ([f700766](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f700766))
+* fix subpage heights ([033164a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/033164a))
+* fix swal ([4aca9c6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4aca9c6))
+* fix url handling to do less prop drilling and be easier to maintain ([7f4be85](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7f4be85))
+* make ng select taller ([097ddb9](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/097ddb9))
+* really fix issue ([27c0d31](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/27c0d31))
+* remove lint error on standalone ([1c8e85d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1c8e85d))
+* resources won't count against warnings ([1d994c1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1d994c1))
+* slight fix for autotrim ([d5ebd76](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d5ebd76))
+* upgrade to ng19 ([978615d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/978615d))
+
+
+
 ## <small>1.8.9 (2025-10-08)</small>
 
 * fix unapply message ref ([895c0fb](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/895c0fb))
+* Release Patch 1.8.9 ([18afbb2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/18afbb2))
+* Sync version ([5698984](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5698984))
 
 
 
