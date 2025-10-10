@@ -18,6 +18,10 @@
 }
 
 .ng-select {
+  .ng-dropdown-panel .ng-dropdown-panel-items {
+    max-height: 400px;
+  }
+
   &.ng-select-multiple {
     .ng-value {
       color: oklch(var(--inc));
