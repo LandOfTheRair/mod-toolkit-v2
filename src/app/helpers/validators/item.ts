@@ -1,5 +1,6 @@
 import { get, groupBy } from 'lodash';
 import {
+  BaseClassType,
   IItemDefinition,
   IModKit,
   ItemSlot,
@@ -7,6 +8,7 @@ import {
   ValidationMessage,
   ValidationMessageGroup,
 } from '../../../interfaces';
+import { extractAllItemsFromDialog } from '../data';
 import { formatItems } from '../export';
 import { itemSchema } from '../schemas';
 import { validateSchema } from '../schemas/_helpers';
@@ -108,7 +110,10 @@ export function checkItemDescriptions(mod: IModKit): ValidationMessageGroup {
   return itemValidations;
 }
 
-export function checkItemUses(mod: IModKit): ValidationMessageGroup {
+export function checkItemUses(
+  mod: IModKit,
+  validClasses: BaseClassType[],
+): ValidationMessageGroup {
   const itemValidations: ValidationMessageGroup = {
     header: 'Unused Items',
     messages: [],
@@ -183,6 +188,11 @@ export function checkItemUses(mod: IModKit): ValidationMessageGroup {
         addItemCount(item);
       }
     });
+
+    const dialogItems = extractAllItemsFromDialog(dialog, validClasses);
+    dialogItems.forEach((item) => {
+      addItemCount(item);
+    });
   });
 
   Object.keys(itemCounts)
@@ -195,7 +205,11 @@ export function checkItemUses(mod: IModKit): ValidationMessageGroup {
         item.includes('Lore Scroll') ||
         item.includes('Rune Scroll') ||
         item.includes('Solokar') ||
-        item.includes('Orikurnis')
+        item.includes('Orikurnis') ||
+        item.includes('Avatar') ||
+        item.includes('Bandit Cave') ||
+        item.includes('Conjured') ||
+        item.includes('Enemy')
       )
         return;
 
@@ -220,7 +234,7 @@ export function validateItems(mod: IModKit): ValidationMessageGroup {
     const failures = validateSchema<IItemDefinition>(
       item.name,
       item,
-      itemSchema
+      itemSchema,
     );
     const validationFailures: ValidationMessage[] = failures.map((f) => ({
       type: 'error',
@@ -271,7 +285,7 @@ export function nonexistentItems(mod: IModKit): ValidationMessageGroup {
             type: 'error',
             message: `${checkRollable.result} ([npc] ${npc.npcId} -> ${itemslot}) does not exist.`,
           });
-        }
+        },
       );
     });
 

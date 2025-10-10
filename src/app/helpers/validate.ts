@@ -51,7 +51,7 @@ export function validationMessagesForMod(
   const validationContainer: ValidationMessageGroup[] = [
     checkItemStats(mod),
     checkItemDescriptions(mod),
-    checkItemUses(mod),
+    checkItemUses(mod, classes),
     checkMapNPCDialogs(mod),
     checkNPCUsages(mod),
     checkNPCs(mod),
