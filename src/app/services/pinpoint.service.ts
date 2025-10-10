@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { get, sortBy, uniq, uniqBy } from 'lodash';
+import { get, sortBy, uniq } from 'lodash';
 import { BaseClassType, INPCDefinition, Rollable } from '../../interfaces';
 import {
   extractAllItemsFromBehavior,
@@ -183,7 +183,7 @@ export class PinpointService {
 
   private getItemUsesFromNPC(
     ref: INPCDefinition,
-    item: string
+    item: string,
   ): ItemUseDescriptor[] {
     const drops: ItemUseDescriptor[] =
       ref.drops
@@ -215,7 +215,7 @@ export class PinpointService {
         .flat(2) ?? [];
 
     const equipment: ItemUseDescriptor[] = Object.values(
-      ref.items?.equipment ?? {}
+      ref.items?.equipment ?? {},
     )
       .flat()
       .filter((r) => r.result === item)
@@ -261,7 +261,7 @@ export class PinpointService {
 
     const allSpawners = uniq(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      mapData.layers[10].objects.map((o: any) => o.properties.tag as string)
+      mapData.layers[10].objects.map((o: any) => o.properties.tag as string),
     );
     if (allSpawners.length === 0) return [];
 
@@ -283,7 +283,7 @@ export class PinpointService {
     ]);
 
     const allNPCRefs = allNPCNames.map((m) =>
-      mod.npcs.find((npc) => npc.npcId === m)
+      mod.npcs.find((npc) => npc.npcId === m),
     );
     if (allNPCRefs.length === 0) return [];
 
@@ -306,7 +306,7 @@ export class PinpointService {
     const region = mapData.properties.region;
 
     const dropTables = mod.drops.filter(
-      (m) => m.mapName === map || m.regionName === region || m.isGlobal
+      (m) => m.mapName === map || m.regionName === region || m.isGlobal,
     );
 
     return dropTables
@@ -329,14 +329,14 @@ export class PinpointService {
 
   private getItemUses(
     item: string,
-    validClasses: BaseClassType[]
+    validClasses: BaseClassType[],
   ): ItemUseDescriptor[] {
     const mod = this.modService.mod();
 
     // gather usages
     const containingItems =
       mod.items.filter((f) =>
-        f.containedItems?.find((c) => c.result === item)
+        f.containedItems?.find((c) => c.result === item),
       ) ?? [];
 
     const recipeUses =
@@ -344,25 +344,25 @@ export class PinpointService {
         (r) =>
           r.item === item ||
           r.ingredients?.some((i) => i === item) ||
-          r.ozIngredients?.some((i) => i.display === item)
+          r.ozIngredients?.some((i) => i.display === item),
       ) ?? [];
 
     const questUses = mod.quests.filter((q) => q.requirements.item === item);
 
     const npcScriptUses = mod.dialogs.filter((sc) =>
-      Object.values(sc.items?.equipment ?? {}).some((s) => s === item)
+      Object.values(sc.items?.equipment ?? {}).some((s) => s === item),
     );
 
     const npcDialogUses = mod.dialogs.filter((sc) =>
-      extractAllItemsFromDialog(sc, validClasses).some((s) => s === item)
+      extractAllItemsFromDialog(sc, validClasses).some((s) => s === item),
     );
 
     const npcBehaviorUses = mod.dialogs.filter((sc) =>
-      extractAllItemsFromBehavior(sc).some((s) => s === item)
+      extractAllItemsFromBehavior(sc).some((s) => s === item),
     );
 
     const droptableUses = mod.drops.filter((f) =>
-      f.drops.some((d) => d.result === item)
+      f.drops.some((d) => d.result === item),
     );
 
     const heldItemsOnMap = mod.maps
@@ -394,7 +394,7 @@ export class PinpointService {
       (c) => ({
         containingItemName: c.name,
         extraDescription: 'CONTAINS',
-      })
+      }),
     );
 
     const recipeDescs: ItemUseDescriptor[] = recipeUses.map((r) => ({
@@ -407,13 +407,9 @@ export class PinpointService {
       extraDescription: 'REQUIRED',
     }));
 
-    const npcDescs: ItemUseDescriptor[] = uniqBy(
-      sortBy(mod.npcs, 'npcId')
-        .map((n) => this.getItemUsesFromNPC(n, item))
-        .filter((f) => f.length > 0)
-        .flat(),
-      'npcName'
-    );
+    const npcDescs: ItemUseDescriptor[] = sortBy(mod.npcs, 'npcId')
+      .flatMap((n) => this.getItemUsesFromNPC(n, item))
+      .filter(Boolean);
 
     const heldDescs: ItemUseDescriptor[] = heldItemsOnMap
       .map((m) => {
@@ -475,7 +471,7 @@ export class PinpointService {
     const lairMaps: NPCUseDescriptor[] = mod.maps
       .map((m) => {
         const lairSpawners = m.map.layers[10].objects.filter(
-          (o: any) => o.properties.lairName === npc
+          (o: any) => o.properties.lairName === npc,
         );
 
         return lairSpawners.map((spawner: any) => ({
@@ -494,7 +490,7 @@ export class PinpointService {
     const relatedSpawnerUses = mod.maps
       .map((m) => {
         const foundSpawners = m.map.layers[10].objects.filter((o: any) =>
-          relatedSpawners.includes(o.properties.tag as string)
+          relatedSpawners.includes(o.properties.tag as string),
         );
 
         return foundSpawners.map((spawner: any) => ({
@@ -515,7 +511,7 @@ export class PinpointService {
     const relatedSTEMs = mod.stems
       .filter(
         (f) =>
-          f._hasSpell && f.spell?.spellMeta?.creatureSummoned?.includes(npc)
+          f._hasSpell && f.spell?.spellMeta?.creatureSummoned?.includes(npc),
       )
       .map((s) => ({
         stemName: s._gameId,
@@ -543,8 +539,8 @@ export class PinpointService {
       m.map.layers[10].objects.some(
         (o: any) =>
           o.properties.lairName === npc ||
-          allPossibleSpawners.includes(o.properties.tag as string)
-      )
+          allPossibleSpawners.includes(o.properties.tag as string),
+      ),
     );
 
     const allMapNames = allMaps.map((m) => m.name);
@@ -554,7 +550,7 @@ export class PinpointService {
       (d) =>
         d.isGlobal ||
         (d.mapName && allMapNames.includes(d.mapName)) ||
-        (d.regionName && allMapRegions.includes(d.regionName))
+        (d.regionName && allMapRegions.includes(d.regionName)),
     );
 
     return [
