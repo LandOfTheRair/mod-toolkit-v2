@@ -86,7 +86,7 @@ export function editMapObjects(
   oldValue: string,
   newValue: string,
   layer: number,
-  propName: string
+  propName: string,
 ) {
   fs.readdirSync(`${baseUrl}/resources/maps/src/content/maps/custom`).forEach(
     (file) => {
@@ -103,7 +103,7 @@ export function editMapObjects(
         console.log(
           `[Propagate MapObject] Updated map object @ ${object.x / 64},${
             object.y / 64 - 1
-          } "${oldValue}" in map "${file}": ${oldValue} -> ${newValue}`
+          } "${oldValue}" in map "${file}": ${oldValue} -> ${newValue}`,
         );
 
         object.properties[propName] = newValue;
@@ -113,7 +113,7 @@ export function editMapObjects(
       if (didWrite) {
         fs.writeJSONSync(path, json);
       }
-    }
+    },
   );
 }
 
@@ -129,7 +129,7 @@ export function editMapSpawnerNames(oldName: string, newName: string) {
         if (spawner.properties.tag !== oldName) return;
 
         console.log(
-          `[Propagate Spawner] Updated spawner "${oldName}" in map "${file}": ${oldName} -> ${newName}`
+          `[Propagate Spawner] Updated spawner "${oldName}" in map "${file}": ${oldName} -> ${newName}`,
         );
 
         spawner.properties.tag = newName;
@@ -139,7 +139,7 @@ export function editMapSpawnerNames(oldName: string, newName: string) {
       if (didWrite) {
         fs.writeJSONSync(path, json);
       }
-    }
+    },
   );
 }
 
@@ -152,10 +152,10 @@ export function editMapCreatureNames(oldName: string, newName: string) {
       let didWrite = false;
 
       json.layers[10].objects.forEach((spawner: any) => {
-        if (spawner.properties.lairName !== oldName) return;
+        if (spawner.properties?.lairName !== oldName) return;
 
         console.log(
-          `[Propagate NPC] Updated lair name "${oldName}" in map "${file}": ${oldName} -> ${newName}`
+          `[Propagate NPC] Updated lair name "${oldName}" in map "${file}": ${oldName} -> ${newName}`,
         );
 
         spawner.properties.lairName = newName;
@@ -165,6 +165,6 @@ export function editMapCreatureNames(oldName: string, newName: string) {
       if (didWrite) {
         fs.writeJSONSync(path, json);
       }
-    }
+    },
   );
 }
