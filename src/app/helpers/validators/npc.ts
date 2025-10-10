@@ -45,6 +45,10 @@ export function checkNPCUsages(mod: IModKit) {
       if (spawner.properties?.lairName) {
         addItemCount(spawner.properties.lairName as string);
       }
+
+      if (spawner.properties?.resourceName) {
+        addItemCount(spawner.properties.resourceName as string);
+      }
     });
   });
 
