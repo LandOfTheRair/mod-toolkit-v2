@@ -48,6 +48,13 @@ export function checkNPCUsages(mod: IModKit) {
     });
   });
 
+  mod.stems.forEach((stem) => {
+    if (!stem._hasSpell) return;
+    stem.spell.spellMeta?.creatureSummoned?.forEach((npcId) => {
+      addItemCount(npcId);
+    });
+  });
+
   Object.keys(itemCounts).forEach((item) => {
     if (itemCounts[item] > 0) return;
 
@@ -99,7 +106,7 @@ export function validateNPCs(mod: IModKit): ValidationMessageGroup {
     const failures = validateSchema<INPCDefinition>(
       item.npcId,
       item,
-      npcSchema
+      npcSchema,
     );
     const validationFailures: ValidationMessage[] = failures.map((f) => ({
       type: 'error',
