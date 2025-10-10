@@ -1550,11 +1550,9 @@ export class AnalysisService {
         const spellData = mod.stems.find((s) => s.name === skill.result);
         if (!spellData) return;
 
-        const damage = this.calculateSpellDamage(
-          spellData.spell,
-          skillLevel,
-          statValue,
-        );
+        const damage = spellData._hasSpell
+          ? this.calculateSpellDamage(spellData.spell, skillLevel, statValue)
+          : { min: 0, max: 0 };
 
         npcReport.table.rows.push([
           { pretext: spellData.name },
