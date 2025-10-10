@@ -35,8 +35,7 @@
             "prefix": "app",
             "style": "kebab-case"
           }
-        ],
-        "jsdoc/newline-after-description": 0
+        ]
       }
     },
     {

@@ -30,7 +30,7 @@ export function checkItemStats(mod: IModKit): ValidationMessageGroup {
     }
 
     const destroysOnDrop = get(item, 'destroyOnDrop');
-    if (destroysOnDrop) {
+    if (destroysOnDrop && !item.name.includes('Enemy') && item.sprite > 0) {
       itemValidations.messages.push({
         type: 'warning',
         message: `${item.name} destroys on drop.`,

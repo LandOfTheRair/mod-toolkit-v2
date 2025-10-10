@@ -47,7 +47,15 @@ import { AssetsService } from './services/assets.service';
       appendTo: 'body',
     }),
     SweetAlert2Module.forRoot({
-      provideSwal: () => import('sweetalert2/dist/sweetalert2.js'),
+      provideSwal: () =>
+        import('sweetalert2/dist/sweetalert2.js').then(({ default: swal }) =>
+          swal.mixin({
+            theme: 'dark',
+            reverseButtons: true,
+            showCancelButton: true,
+            focusCancel: true,
+          }),
+        ),
     }),
     NgIconsModule.withIcons({
       ...appIcons,
@@ -68,7 +76,7 @@ import { AssetsService } from './services/assets.service';
     provideHotToastConfig(),
     provideNgxWebstorage(
       withNgxWebstorageConfig({ separator: ':', caseSensitive: true }),
-      withLocalStorage()
+      withLocalStorage(),
     ),
     provideNgIconsConfig({
       size: '1.5em',
