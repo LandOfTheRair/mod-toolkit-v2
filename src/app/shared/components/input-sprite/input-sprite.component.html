@@ -32,7 +32,7 @@
     <div class="relative flex flex-wrap overflow-y-scroll max-h-[70vh]">
       @for (icon of iconArray(); track $index) {
         <div
-          class="relative p-1 flex-1 m-2 bg-gray-400 min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px] outline-2 outline-offset-2 hover:outline-dashed outline-secondary"
+          class="relative p-1 flex-1 m-2 bg-gray-400 min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px] outline-2 outline-offset-2 hover:outline-dashed outline-primary"
           [class.outline]="icon === pickerSprite()"
         >
           <app-sprite

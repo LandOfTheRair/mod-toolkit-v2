@@ -12,10 +12,10 @@ import {
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-    selector: 'app-input-icon',
-    templateUrl: './input-icon.component.html',
-    styleUrl: './input-icon.component.scss',
-    standalone: false
+  selector: 'app-input-icon',
+  templateUrl: './input-icon.component.html',
+  styleUrl: './input-icon.component.scss',
+  standalone: false,
 })
 export class InputIconComponent {
   private modService = inject(ModService);
@@ -31,6 +31,22 @@ export class InputIconComponent {
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   public values = computed(() => this.modService.json()['macicons']);
+
+  public usedIcons = computed(() => {
+    const mod = this.modService.mod();
+    const icons: string[] = [];
+    icons.push(...mod.stems.flatMap((n) => n.all.icon));
+
+    return icons.reduce(
+      (acc, icon) => {
+        return {
+          ...acc,
+          [icon]: (acc[icon] ?? 0) + 1,
+        };
+      },
+      {} as Record<string, number>,
+    );
+  });
 
   public pickerIcon = signal<string | undefined>('');
 
