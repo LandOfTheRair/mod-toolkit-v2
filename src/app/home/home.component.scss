@@ -51,3 +51,7 @@
 a.btn-disabled {
   opacity: 0.5;
 }
+
+.card-height {
+  height: calc(100vh - 68px - 40px - 40px - 48px - 24px);
+}

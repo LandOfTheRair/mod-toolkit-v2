@@ -61,6 +61,7 @@
     "monaco-editor": "0.54.0",
     "ngx-color-picker": "17.0.0",
     "ngx-float-ui": "19.0.1",
+    "ngx-vflow": "1.16.1",
     "ngx-webstorage": "19.0.1",
     "ngxtension": "6.0.0",
     "pdfmake": "0.2.20",

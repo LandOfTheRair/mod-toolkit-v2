@@ -10,6 +10,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxFloatUiModule } from 'ngx-float-ui';
 
+import { VflowComponent } from 'ngx-vflow';
 import { AnalysisComponent } from '../analysis/analysis.component';
 import { DependenciesComponent } from '../dependencies/dependencies.component';
 import { PinpointComponent } from '../pinpoint/pinpoint.component';
@@ -19,6 +20,7 @@ import { AchievementsEditorComponent } from '../tabs/achievements/achievements-e
 import { AchievementsComponent } from '../tabs/achievements/achievements.component';
 import { CoresEditorComponent } from '../tabs/cores/cores-editor/cores-editor.component';
 import { CoresComponent } from '../tabs/cores/cores.component';
+import { DialogsEditorVisualComponent } from '../tabs/dialogs/dialogs-editor-visual/dialogs-editor-visual.component';
 import { DialogsEditorComponent } from '../tabs/dialogs/dialogs-editor/dialogs-editor.component';
 import { DialogsComponent } from '../tabs/dialogs/dialogs.component';
 import { DroptablesEditorComponent } from '../tabs/droptables/droptables-editor/droptables-editor.component';
@@ -76,6 +78,7 @@ import { HomeComponent } from './home.component';
     DependenciesComponent,
     EventsComponent,
     EventsEditorComponent,
+    DialogsEditorVisualComponent,
   ],
   imports: [
     CommonModule,
@@ -87,7 +90,8 @@ import { HomeComponent } from './home.component';
     NgIconsModule,
     CodeEditorModule,
     ColorPickerModule,
+    VflowComponent,
   ],
-  exports: [QueryComponent],
+  exports: [],
 })
 export class HomeModule {}

@@ -13,10 +13,10 @@ import {
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
 
 @Component({
-    selector: 'app-dialogs-editor',
-    templateUrl: './dialogs-editor.component.html',
-    styleUrl: './dialogs-editor.component.scss',
-    standalone: false
+  selector: 'app-dialogs-editor',
+  templateUrl: './dialogs-editor.component.html',
+  styleUrl: './dialogs-editor.component.scss',
+  standalone: false,
 })
 export class DialogsEditorComponent
   extends EditorBaseComponent<INPCScript>
@@ -27,6 +27,7 @@ export class DialogsEditorComponent
     { name: 'Core Stats' },
     { name: 'Behaviors' },
     { name: 'Dialog' },
+    { name: 'Dialog Visualizer' },
   ];
 
   public behaviorText = signal<string>('[]');
@@ -80,6 +81,15 @@ export class DialogsEditorComponent
       yaml.load(text);
     } catch (e: unknown) {
       return (e as Error).message;
+    }
+  });
+
+  public dialogTree = computed(() => {
+    const text = this.dialogText();
+    try {
+      return yaml.load(text) as Record<string, any>;
+    } catch (e: unknown) {
+      return {};
     }
   });
 
