@@ -53,7 +53,7 @@ export function isArrayOfAtMostLength(length: number): SchemaValidator {
 export function isObjectWith(keys: string[]): SchemaValidator {
   return (val: any) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    if (Object.keys(val).length !== keys.length) return false;
+    if (Object.keys(val ?? {}).length !== keys.length) return false;
     return keys.every((k) => !isUndefined(val[k]));
   };
 }
@@ -61,10 +61,10 @@ export function isObjectWith(keys: string[]): SchemaValidator {
 export function isObjectWithFailure(keys: string[]): SchemaValidatorMessage {
   return (val: any) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    if (Object.keys(val).length !== keys.length)
+    if (Object.keys(val ?? {}).length !== keys.length)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      return `keys: ${keys.join(', ')} vs ${Object.keys(val).join(
-        ', '
+      return `keys: ${keys.join(', ')} vs ${Object.keys(val ?? {}).join(
+        ', ',
       )} is of different length`;
     return `keys: ${keys
       .filter((k) => isUndefined(val[k]))
@@ -80,11 +80,11 @@ export function isObjectWithSome(keys: string[]): SchemaValidator {
 }
 
 export function isObjectWithSomeFailure(
-  keys: string[]
+  keys: string[],
 ): SchemaValidatorMessage {
   return (val: any) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    return `extraneous keys: ${Object.keys(val)
+    return `extraneous keys: ${Object.keys(val ?? {})
       .map((k) => (keys.includes(k) ? '' : k))
       .filter(Boolean)
       .join(', ')}`;
@@ -98,11 +98,11 @@ export function isPartialObjectOf<T>(possibleVals: T[]): SchemaValidator {
 }
 
 export function isPartialObjectOfFailure<T>(
-  possibleVals: T[]
+  possibleVals: T[],
 ): SchemaValidatorMessage {
   return (val: any) =>
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    `extraneous keys: ${Object.keys(val)
+    `extraneous keys: ${Object.keys(val ?? {})
       .map((k) => (possibleVals.includes(k as T) ? '' : k))
       .filter(Boolean)
       .join(', ')}`;
@@ -110,14 +110,14 @@ export function isPartialObjectOfFailure<T>(
 
 export const isPartialStatObject = isPartialObjectOf<Stat>(Object.values(Stat));
 export const isPartialStatObjectFailure = isPartialObjectOfFailure<Stat>(
-  Object.values(Stat)
+  Object.values(Stat),
 );
 
 export const isPartialSkillObject = isPartialObjectOf<Skill>(
-  Object.values(Skill)
+  Object.values(Skill),
 );
 export const isPartialSkillObjectFailure = isPartialObjectOfFailure<Skill>(
-  Object.values(Skill)
+  Object.values(Skill),
 );
 
 export const isPartialEquipmentObject = isPartialObjectOf<ItemSlot>(itemSlots);
@@ -125,7 +125,7 @@ export const isPartialEquipmentObjectFailure =
   isPartialObjectOfFailure<ItemSlot>(itemSlots);
 
 export const isPartialReputationObject = isPartialObjectOf<Allegiance>(
-  Object.values(Allegiance)
+  Object.values(Allegiance),
 );
 export const isPartialReputationObjectFailure =
   isPartialObjectOfFailure<Allegiance>(Object.values(Allegiance));
@@ -156,7 +156,7 @@ export function isDialogItemSlot(val: any): boolean {
 
 export function isTraitObject(val: any): boolean {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return Object.keys(val).every((k) => isInteger(val[k]));
+  return Object.keys(val ?? {}).every((k) => isInteger(val[k]));
 }
 
 export function isStat(val: any): boolean {
@@ -208,12 +208,12 @@ export function isRandomStatObject(val: any): boolean {
   const allStats = Object.values(Stat);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return Object.keys(val).every(
+  return Object.keys(val ?? {}).every(
     (stat) =>
       allStats.includes(stat as Stat) &&
       isObjectWith(['min', 'max'])(val[stat]) &&
       isInteger(val[stat].min) &&
-      isInteger(val[stat].max)
+      isInteger(val[stat].max),
   );
 }
 
@@ -249,13 +249,13 @@ export function isQuestReward(val: any): boolean {
 export function isTraitTreeObject(val: any): boolean {
   return (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    Object.keys(val)
+    Object.keys(val ?? {})
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       .map((v) => val[v])
       .every((t) => {
         return t.tree.every((tab: { traits: ITraitTreeRowTrait[] }) => {
           return tab.traits.every((trait) =>
-            trait.name ? trait.maxLevel > 0 : true
+            trait.name ? trait.maxLevel > 0 : true,
           );
         });
       })
@@ -334,7 +334,7 @@ export function isRandomNumber(num: any) {
 export function validateSchema<T extends HasIdentification>(
   label: string,
   obj: T,
-  schema: Schema
+  schema: Schema,
 ): string[] {
   const errors: string[] = [];
 
@@ -344,7 +344,7 @@ export function validateSchema<T extends HasIdentification>(
     if (isUndefined(value)) {
       if (required)
         errors.push(
-          `Property '${prop}' is required, but absent in '${label}'.`
+          `Property '${prop}' is required, but absent in '${label}'.`,
         );
       return;
     }
@@ -353,19 +353,21 @@ export function validateSchema<T extends HasIdentification>(
       errors.push(
         `Property '${prop}' (value: ${value}) does not pass validation for '${label}' (${
           message?.(value) ?? 'no additional information provided'
-        }).`
+        }).`,
       );
   });
 
   const basePropsSchema = schema
     .filter((x) => !x[0].includes('.'))
     .map((x) => x[0]);
-  const baseObjProps = Object.keys(obj).filter((x) => !['_id'].includes(x));
+  const baseObjProps = Object.keys(obj ?? {}).filter(
+    (x) => !['_id'].includes(x),
+  );
 
   const diff = difference(baseObjProps, basePropsSchema);
   if (diff.length > 0) {
     errors.push(
-      `Properties ${diff.join(',')} are in '${label}' but not in schema.`
+      `Properties ${diff.join(',')} are in '${label}' but not in schema.`,
     );
   }
 

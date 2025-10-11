@@ -10,6 +10,7 @@ import * as handlers from './handlers';
 import * as helpers from './helpers';
 
 import { baseUrl } from './helpers';
+import { mainError, mainLog } from './helpers/logging';
 import { SendToUI } from './types';
 
 let watcher: any = null;
@@ -47,15 +48,14 @@ export async function watchMaps(sendToUI: SendToUI) {
     const newHash = await md5File(pathToHash);
 
     if (fileHashes[pathToHash] === newHash) {
-      console.log(`Ignoring file update; contents unchanged.`);
+      mainLog(`Ignoring file update; contents unchanged.`);
       return;
     }
 
     fileHashes[pathToHash] = newHash;
 
-    console.log(
-      `[Map Update]`,
-      `${pathToHash} has changed. Sending update to client...`,
+    mainLog(
+      `[Map Update] ${pathToHash} has changed. Sending update to client...`,
     );
     const map = path.basename(filePath, '.json');
     updateMap(map);
@@ -84,6 +84,7 @@ export function setupIPC(sendToUI: SendToUI) {
       });
       sendToUI('resourcedone');
     } catch (e: any) {
+      mainError(e);
       sendToUI('notify', { type: 'error', text: e.message });
     }
   });
@@ -108,6 +109,7 @@ export function setupIPC(sendToUI: SendToUI) {
       const map = handlers.newMap(name, data.creator);
       sendToUI('newmap', { name, map });
     } catch (e) {
+      mainError(e);
       sendToUI('notify', {
         type: 'error',
         text: 'Could not create that map name.',
@@ -120,6 +122,7 @@ export function setupIPC(sendToUI: SendToUI) {
       handlers.renameMap(data.oldName, data.newName);
       sendToUI('renamemap', data);
     } catch (e) {
+      mainError(e);
       sendToUI('notify', {
         type: 'error',
         text: 'A map by that name already exists.',
@@ -131,6 +134,7 @@ export function setupIPC(sendToUI: SendToUI) {
     try {
       handlers.removeMap(data.mapName);
     } catch (e) {
+      mainError(e);
       sendToUI('notify', {
         type: 'error',
         text: 'Could not fully delete map for some reason.',
@@ -143,6 +147,7 @@ export function setupIPC(sendToUI: SendToUI) {
       handlers.copyMap(data.mapName);
       sendToUI('copymap', data);
     } catch (e) {
+      mainError(e);
       sendToUI('notify', {
         type: 'error',
         text: 'A map by that name already exists.',
@@ -158,6 +163,7 @@ export function setupIPC(sendToUI: SendToUI) {
     try {
       handlers.editMap(name, map);
     } catch (e) {
+      mainError(e);
       sendToUI('notify', { type: 'error', text: 'Tiled is not installed.' });
     }
   });
@@ -226,7 +232,8 @@ export function setupIPC(sendToUI: SendToUI) {
       helpers.saveSpecificJSON(res, fullMod);
       sendToUI('notify', { type: 'info', text: `Saved ${res}!` });
       sendToUI('updatesetting', { setting: 'autosaveFilePath', value: res });
-    } catch {
+    } catch (e) {
+      mainError(e);
       sendToUI('notify', { type: 'error', text: `Failed to save ${res}!` });
     }
   });
@@ -248,7 +255,9 @@ export function setupIPC(sendToUI: SendToUI) {
 
       helpers.saveSpecificJSON(res, fullMod);
       sendToUI('notify', { type: 'info', text: `Saved ${res}!` });
-    } catch {
+    } catch (e) {
+      mainError(e);
+
       sendToUI('notify', { type: 'error', text: `Failed to save ${res}!` });
     }
   });
@@ -267,8 +276,7 @@ export function setupIPC(sendToUI: SendToUI) {
         await fs.writeJSON(backupPath, fullMod, { spaces: 2 });
         await fs.move(backupPath, quicksaveFilepath, { overwrite: true });
       } catch (e) {
-        console.error('Could not quick save?');
-        console.error(e);
+        mainError(e);
       }
     },
   );

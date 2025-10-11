@@ -2,6 +2,7 @@ import * as fs from 'fs-extra';
 import recursiveReadDir from 'recursive-readdir';
 import { SendToUI } from '../types';
 import { baseUrl } from './constants';
+import { mainError } from './logging';
 
 const depDir = `${baseUrl}/resources/dependencies`;
 
@@ -42,7 +43,8 @@ export async function addDependency(sendToUI: SendToUI, data: any) {
     });
 
     sendToUI('adddependency', { name: resJson.meta.name, url: data });
-  } catch {
+  } catch (e) {
+    mainError(e);
     sendToUI('notify', {
       type: 'error',
       text: 'Malformed mod URL!',

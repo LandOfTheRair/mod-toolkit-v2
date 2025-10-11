@@ -1,8 +1,9 @@
-import * as admZip from 'adm-zip';
+import admZip from 'adm-zip';
 import * as dlgit from 'download-github-repo';
 import * as fs from 'fs-extra';
 
 import { baseUrl } from '../helpers';
+import { mainError } from '../helpers/logging';
 import { SendToUI } from '../types';
 
 let isUpdating = false;
@@ -51,6 +52,7 @@ export async function updateResources(sendToUI: SendToUI) {
           `${baseUrl}/resources/maps/__assets/spritesheets/${sheet}.png`,
         );
       } catch (e) {
+        mainError(e);
         sendToUI('notify', {
           type: 'error',
           text: `Error downloading "${sheet}": ${e}`,
@@ -79,6 +81,7 @@ export async function updateResources(sendToUI: SendToUI) {
           templateBuffer,
         );
       } catch (e) {
+        mainError(e);
         sendToUI('notify', {
           type: 'error',
           text: `Error downloading "${json}": ${e}`,
@@ -104,6 +107,7 @@ export async function updateResources(sendToUI: SendToUI) {
         templateBuffer,
       );
     } catch (e) {
+      mainError(e);
       sendToUI('notify', {
         type: 'error',
         text: `Error downloading Template: ${e}`,
@@ -126,6 +130,7 @@ export async function updateResources(sendToUI: SendToUI) {
 
       fs.rmSync(`${baseUrl}/resources/Tiled.zip`);
     } catch (e) {
+      mainError(e);
       sendToUI('notify', {
         type: 'error',
         text: `Error downloading Tiled: ${e}`,
@@ -172,6 +177,7 @@ export async function updateResources(sendToUI: SendToUI) {
 
       await fs.writeFile(`${baseUrl}/resources/json/meta.json`, templateBuffer);
     } catch (e) {
+      mainError(e);
       sendToUI('notify', {
         type: 'error',
         text: `Error downloading "${json}": ${e}`,

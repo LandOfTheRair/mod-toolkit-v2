@@ -1,6 +1,7 @@
 import * as childProcess from 'child_process';
 import * as fs from 'fs-extra';
 import { baseUrl } from '../helpers';
+import { mainLog } from '../helpers/logging';
 
 export const fixTiledMapPaths = (map: any) => {
   map.tilesets.forEach((tileset: any) => {
@@ -100,7 +101,7 @@ export function editMapObjects(
       json.layers?.[layer].objects.forEach((object: any) => {
         if (object.properties?.[propName] !== oldValue) return;
 
-        console.log(
+        mainLog(
           `[Propagate MapObject] Updated map object @ ${object.x / 64},${
             object.y / 64 - 1
           } "${oldValue}" in map "${file}": ${oldValue} -> ${newValue}`,
@@ -128,7 +129,7 @@ export function editMapSpawnerNames(oldName: string, newName: string) {
       json.layers[10].objects.forEach((spawner: any) => {
         if (spawner.properties.tag !== oldName) return;
 
-        console.log(
+        mainLog(
           `[Propagate Spawner] Updated spawner "${oldName}" in map "${file}": ${oldName} -> ${newName}`,
         );
 
@@ -154,7 +155,7 @@ export function editMapCreatureNames(oldName: string, newName: string) {
       json.layers[10].objects.forEach((spawner: any) => {
         if (spawner.properties?.lairName !== oldName) return;
 
-        console.log(
+        mainLog(
           `[Propagate NPC] Updated lair name "${oldName}" in map "${file}": ${oldName} -> ${newName}`,
         );
 

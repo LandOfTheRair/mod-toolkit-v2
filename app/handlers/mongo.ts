@@ -1,7 +1,8 @@
-import * as admZip from 'adm-zip';
+import admZip from 'adm-zip';
 import * as fs from 'fs-extra';
 
 import { baseUrl } from '../helpers';
+import { mainError } from '../helpers/logging';
 import { SendToUI } from '../types';
 
 export async function downloadMongo(sendToUI: SendToUI) {
@@ -31,12 +32,12 @@ export async function downloadMongo(sendToUI: SendToUI) {
 
     fs.renameSync(
       `${baseUrl}/resources/mongodb-win32-x86_64-windows-5.0.6`,
-      `${baseUrl}/resources/mongodb`
+      `${baseUrl}/resources/mongodb`,
     );
     fs.ensureDirSync(`${baseUrl}/resources/mongodb/data`);
     fs.ensureDirSync(`${baseUrl}/resources/mongodb/data/db`);
   } catch (e) {
-    console.log(e);
+    mainError(e);
     sendToUI('notify', { type: 'error', text: 'MongoDB download failed!' });
   }
 }

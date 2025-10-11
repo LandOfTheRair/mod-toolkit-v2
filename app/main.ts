@@ -1,23 +1,14 @@
 import { app, BrowserWindow, ipcMain, protocol, screen, shell } from 'electron';
-import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as handlers from './handlers';
 import { baseUrl } from './helpers';
+import { getMainLog, mainLog } from './helpers/logging';
 import { setupIPC, watchMaps } from './ipc';
 import { SendToUI } from './types';
 
 const isDevelopment = !app.isPackaged;
-
-log.transports.file.level = 'info';
-
-log.transports.file.resolvePathFn = () =>
-  path.join(app.getAppPath(), 'logs/main.log');
-
-process.on('uncaughtException', (err) => {
-  log.error(err);
-});
 
 const Config = require('electron-config');
 const config = new Config();
@@ -78,7 +69,7 @@ const handleSetup = async () => {
     });
   });
 
-  autoUpdater.logger = log;
+  autoUpdater.logger = getMainLog();
   autoUpdater.checkForUpdatesAndNotify();
 };
 
@@ -168,7 +159,7 @@ async function createWindow(): Promise<BrowserWindow> {
 }
 
 try {
-  console.log(`Starting in ${isDevelopment ? 'dev' : 'prod'} mode...`);
+  mainLog(`Starting in ${isDevelopment ? 'dev' : 'prod'} mode...`);
 
   protocol.registerSchemesAsPrivileged([
     { scheme: 'lotr', privileges: { bypassCSP: true, supportFetchAPI: true } },
