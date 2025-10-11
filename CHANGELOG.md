@@ -1,8 +1,17 @@
+## <small>1.9.2 (2025-10-11)</small>
+
+* closes #104 ([0d70f2b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0d70f2b)), closes [#104](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/104)
+* closes #109 ([ed2ba5e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ed2ba5e)), closes [#109](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/109)
+
+
+
 ## <small>1.9.1 (2025-10-11)</small>
 
 * better logging, fixes ([7145ee1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7145ee1))
 * closes #108 ([f382081](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f382081)), closes [#108](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/108)
 * hide things that arent spells ([3deb723](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3deb723))
+* Release Patch 1.9.1 ([aa3ca8a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/aa3ca8a))
+* Sync version ([9132a43](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9132a43))
 
 
 
