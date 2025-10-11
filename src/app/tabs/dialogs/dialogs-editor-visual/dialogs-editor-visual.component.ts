@@ -7,8 +7,6 @@ import { DialogsEditorVisualNodeComponent } from '../dialogs-editor-visual-node/
 
 /**
  * TODO:
- * - custom handles on different sides depending on if fail/success: https://www.ngx-vflow.org/features/custom-handles (fail connects right to left, success connects bottom to top)
- *  - layout/etc: https://github.com/artem-mangilev/ngx-vflow/discussions/220
  * - list each keyword in a pill list on the left side
  */
 

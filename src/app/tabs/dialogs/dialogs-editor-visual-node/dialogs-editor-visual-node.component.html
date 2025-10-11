@@ -5,13 +5,7 @@
 >
   @if (info) {
     <div>
-      <div>
-        {{ info.actionInfo.type }}
-      </div>
-
-      <div>{{ info.id }}</div>
-
-      <div>{{ info.parentId }}</div>
+      {{ info.actionInfo.type }}
     </div>
 
     <handle type="source" position="bottom" [id]="'out-success'" />
