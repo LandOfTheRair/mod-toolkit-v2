@@ -1,3 +1,11 @@
+## <small>1.9.1 (2025-10-11)</small>
+
+* better logging, fixes ([7145ee1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7145ee1))
+* closes #108 ([f382081](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f382081)), closes [#108](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/108)
+* hide things that arent spells ([3deb723](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3deb723))
+
+
+
 ## 1.9.0 (2025-10-10)
 
 * Add lightning resist ([79c506d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/79c506d))
@@ -18,9 +26,11 @@
 * fix url handling to do less prop drilling and be easier to maintain ([7f4be85](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7f4be85))
 * make ng select taller ([097ddb9](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/097ddb9))
 * really fix issue ([27c0d31](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/27c0d31))
+* Release Minor 1.9.0 ([0bd5ffe](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0bd5ffe))
 * remove lint error on standalone ([1c8e85d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1c8e85d))
 * resources won't count against warnings ([1d994c1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1d994c1))
 * slight fix for autotrim ([d5ebd76](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d5ebd76))
+* Sync version ([d842e76](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d842e76))
 * upgrade to ng19 ([978615d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/978615d))
 
 
