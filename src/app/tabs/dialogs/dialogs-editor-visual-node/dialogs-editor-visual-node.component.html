@@ -4,11 +4,21 @@
   class="w-[300px] h-[100px] background-[#a6a086] text-[var(--tab-color)] border border-[var(--tab-bg)] rounded-lg p-2 flex justify-center items-center px-2"
 >
   @if (info) {
-    <div>{{ info.actionInfo.type }}</div>
-    <div>{{ info.actionInfo.id }}</div>
-    <div>{{ info.actionInfo.parentId }}</div>
-  }
+    <div>
+      <div>
+        {{ info.actionInfo.type }}
+      </div>
 
-  <handle type="source" position="right" />
-  <handle type="target" position="left" />
+      <div>{{ info.id }}</div>
+
+      <div>{{ info.parentId }}</div>
+    </div>
+
+    <handle type="source" position="bottom" [id]="'out-success'" />
+    <handle type="target" [position]="info.targetHandlePosition" [id]="'in'" />
+
+    @if (info.hasRightSourceHandle) {
+      <handle type="source" position="right" [id]="'out-fail'" />
+    }
+  }
 </div>

@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { LocalStorageService } from 'ngx-webstorage';
+import { linkedQueryParam, paramToNumber } from 'ngxtension/linked-query-param';
 import { HasIdentification } from '../../../../interfaces';
 import { id } from '../../../helpers/id';
 import { ElectronService } from '../../../services/electron.service';
@@ -16,10 +17,10 @@ import { ModService } from '../../../services/mod.service';
 type Tab = { name: string; visibleIf?: Signal<boolean> };
 
 @Component({
-    selector: 'app-editor-base',
-    templateUrl: './editor-base.component.html',
-    styleUrl: './editor-base.component.scss',
-    standalone: false
+  selector: 'app-editor-base',
+  templateUrl: './editor-base.component.html',
+  styleUrl: './editor-base.component.scss',
+  standalone: false,
 })
 export class EditorBaseComponent<T extends HasIdentification>
   implements OnInit
@@ -31,7 +32,9 @@ export class EditorBaseComponent<T extends HasIdentification>
   public readonly key: string = '';
   public readonly tabs: Tab[] = [];
 
-  public activeTab = signal<number>(0);
+  public activeTab = linkedQueryParam<number | undefined>(`subtab`, {
+    parse: paramToNumber({ defaultValue: 0 }),
+  });
 
   public editing = model.required<T>();
 
@@ -42,7 +45,6 @@ export class EditorBaseComponent<T extends HasIdentification>
 
   public changeTab(tab: number) {
     this.activeTab.set(tab);
-    this.localStorage.store(`${this.key}-tabs`, tab);
   }
 
   public update(key: keyof T, value: any) {
@@ -78,6 +80,7 @@ export class EditorBaseComponent<T extends HasIdentification>
   }
 
   doBack() {
+    this.activeTab.set(undefined);
     this.goBack.emit();
   }
 
