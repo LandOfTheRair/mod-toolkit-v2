@@ -1,7 +1,15 @@
+## <small>1.9.3 (2025-10-11)</small>
+
+* fix electron loading ([839fc85](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/839fc85))
+
+
+
 ## <small>1.9.2 (2025-10-11)</small>
 
 * closes #104 ([0d70f2b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0d70f2b)), closes [#104](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/104)
 * closes #109 ([ed2ba5e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ed2ba5e)), closes [#109](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/109)
+* Release Patch 1.9.2 ([d17abdf](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d17abdf))
+* Sync version ([6f9ab5f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6f9ab5f))
 
 
 
