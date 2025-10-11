@@ -151,8 +151,10 @@ async function createWindow(): Promise<BrowserWindow> {
     require('electron-reloader')(module);
     await win.loadURL('http://localhost:4200');
   } else {
-    const url = new URL(path.join('file:', __dirname, 'index.html'));
-    await win.loadURL(url.href);
+    let pathIndex = './index.html';
+    const fullPath = path.join(__dirname, pathIndex);
+    const url = `file://${path.resolve(fullPath).replace(/\\/g, '/')}`;
+    await win.loadURL(url);
   }
 
   return win;
