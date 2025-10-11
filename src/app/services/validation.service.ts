@@ -1,4 +1,5 @@
-import { computed, inject, Injectable } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { IModKit, ValidationMessageGroup } from '../../interfaces';
 import { validationMessagesForMod } from '../helpers';
 import { ModService } from './mod.service';
 
@@ -8,12 +9,7 @@ import { ModService } from './mod.service';
 export class ValidationService {
   private modService = inject(ModService);
 
-  public validationMessages = computed(() => {
-    const mod = this.modService.mod();
-    const classes = this.modService.availableClasses();
-    const json = this.modService.json();
-    return validationMessagesForMod(mod, classes, json);
-  });
+  public validationMessages = signal<ValidationMessageGroup[]>([]);
 
   public numErrors = computed(() => {
     const validationMessages = this.validationMessages();
@@ -22,4 +18,20 @@ export class ValidationService {
       .flat()
       .filter((vdn) => vdn.type === 'error').length;
   });
+
+  constructor() {
+    effect(() => {
+      const mod = this.modService.mod();
+      if (!mod) return;
+
+      void this.recalculateValidationMessages(mod);
+    });
+  }
+
+  private async recalculateValidationMessages(mod: IModKit) {
+    const classes = this.modService.availableClasses();
+    const json = this.modService.json();
+    const messages = await validationMessagesForMod(mod, classes, json);
+    this.validationMessages.set(messages);
+  }
 }
