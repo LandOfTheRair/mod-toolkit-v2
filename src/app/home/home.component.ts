@@ -139,7 +139,6 @@ export class HomeComponent implements OnInit {
   }
 
   changeTab(newTab: number) {
-    console.log('set', newTab);
     this.urlService.activeTab.set(newTab);
   }
 

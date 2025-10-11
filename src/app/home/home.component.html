@@ -183,6 +183,13 @@
                       <a (click)="closeMenu(); toggleQuerying()">Query...</a>
                     </li>
                     <li>
+                      <a
+                        (click)="closeMenu(); electronService.send('OPEN_LOGS')"
+                      >
+                        Open log folder...
+                      </a>
+                    </li>
+                    <li>
                       <a (click)="closeMenu(); debugService.toggleDebug()">
                         Debug Mode {{ debugService.isDebug() ? '☑' : '☐' }}
                       </a>

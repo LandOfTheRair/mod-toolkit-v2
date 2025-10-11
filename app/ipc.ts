@@ -1,5 +1,5 @@
 import * as chokidar from 'chokidar';
-import { dialog, ipcMain } from 'electron';
+import { app, dialog, ipcMain, shell } from 'electron';
 import * as fs from 'fs-extra';
 import md5File from 'md5-file';
 import recursiveReaddir from 'recursive-readdir';
@@ -386,5 +386,9 @@ export function setupIPC(sendToUI: SendToUI) {
 
   ipcMain.on('ADD_DEPENDENCY', async (e: any, data: any) => {
     helpers.addDependency(sendToUI, data);
+  });
+
+  ipcMain.on('OPEN_LOGS', () => {
+    shell.openPath(`${path.join(app.getAppPath())}/logs`);
   });
 }
