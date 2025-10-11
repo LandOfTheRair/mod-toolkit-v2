@@ -8,6 +8,7 @@ import {
   output,
 } from '@angular/core';
 import { sortBy } from 'lodash';
+import { ISTEM } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
 const baseEffectList = [
@@ -33,6 +34,7 @@ export class InputEffectComponent {
   public effect = model<{ value: string } | undefined>();
   public label = input<string>('Effect');
   public defaultValue = input<string>();
+  public additionalEffectFromSTEM = input<ISTEM>();
   public change = output<string>();
 
   public values = computed(() => {
@@ -46,20 +48,27 @@ export class InputEffectComponent {
       .mod()
       .stems.filter((s) => s._hasSpell && !s._hasEffect);
 
-    return sortBy(
-      [
-        ...baseEffectList,
-        ...baseEffects.map((e) => ({
-          value: e._gameId,
-          desc: e.all.desc,
-        })),
-        ...baseSpells.map((e) => ({
-          value: e._gameId,
-          desc: e.all.desc,
-        })),
-      ],
-      'value',
-    );
+    const baseEffectListToSort = [
+      ...baseEffectList,
+      ...baseEffects.map((e) => ({
+        value: e._gameId,
+        desc: e.all.desc,
+      })),
+      ...baseSpells.map((e) => ({
+        value: e._gameId,
+        desc: e.all.desc,
+      })),
+    ];
+
+    const additionalEffectFromSTEM = this.additionalEffectFromSTEM();
+    if (additionalEffectFromSTEM) {
+      baseEffectListToSort.push({
+        value: additionalEffectFromSTEM._gameId,
+        desc: additionalEffectFromSTEM.all.desc,
+      });
+    }
+
+    return sortBy(baseEffectListToSort, 'value');
   });
 
   constructor() {

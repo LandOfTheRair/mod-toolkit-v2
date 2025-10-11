@@ -529,6 +529,9 @@
             floatUi="Only set this if your spell effect is simple and has no tick effects."
             [defaultValue]="editingData.spell.spellMeta.linkedEffectName"
             (change)="editingData.spell.spellMeta.linkedEffectName = $event"
+            [additionalEffectFromSTEM]="
+              editingData._gameId ? editingData : undefined
+            "
             label="Linked Effect"
           ></app-input-effect>
         </div>
@@ -867,6 +870,9 @@
               <app-input-effect
                 [(effect)]="currentSpellFizzleEffect"
                 label="Add Fizzle Effect"
+                [additionalEffectFromSTEM]="
+                  editingData._gameId ? editingData : undefined
+                "
               ></app-input-effect>
             </div>
           </div>
@@ -1456,6 +1462,9 @@
             [defaultValue]="editingData.effect.effectMeta.effectRef"
             (change)="editingData.effect.effectMeta.effectRef = $event"
             label="Effect Ref"
+            [additionalEffectFromSTEM]="
+              editingData._gameId ? editingData : undefined
+            "
           ></app-input-effect>
         </div>
 
@@ -1464,6 +1473,9 @@
             [defaultValue]="editingData.effect.effectMeta.recentlyRef"
             (change)="editingData.effect.effectMeta.recentlyRef = $event"
             label="Recently Ref"
+            [additionalEffectFromSTEM]="
+              editingData._gameId ? editingData : undefined
+            "
           ></app-input-effect>
         </div>
 
