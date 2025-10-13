@@ -1,0 +1,13 @@
+<app-input-prop-editor
+  [propName]="'Item Name (or substitution)'"
+  [(propData)]="itemName"
+  [propType]="'string'"
+></app-input-prop-editor>
+
+<div class="mt-4">
+  <app-input-item
+    [defaultValue]="itemName()"
+    (change)="itemName.set($event)"
+    label="Item"
+  ></app-input-item>
+</div>

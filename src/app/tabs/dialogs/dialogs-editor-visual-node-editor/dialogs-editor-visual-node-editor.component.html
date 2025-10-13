@@ -1,9 +1,547 @@
-<div class="border-b border-[var(--tab-bg)]">
+@let actionData = actionClone();
+
+<div class="border-b border-[var(--tab-bg)] mb-4">
   <h2 class="text-lg font-bold p-2 flex justify-between">
     Action Editor
 
-    <button class="btn btn-xs" (click)="unselect.emit()">&times;</button>
+    <div class="flex gap-2">
+      <button class="btn btn-xs btn-info" (click)="save.emit(actionData)">
+        Save
+      </button>
+      <button class="btn btn-xs" (click)="unselect.emit()">&times;</button>
+    </div>
   </h2>
 </div>
 
-{{ action() | json }}
+<app-input-dialogactiontype
+  [(dialogType)]="actionData.type"
+  (dialogTypeChange)="changeTypes($event)"
+></app-input-dialogactiontype>
+
+<app-input-prop-editor
+  [propName]="'Max Distance'"
+  [(propData)]="actionData.maxDistance"
+  [propType]="'number'"
+></app-input-prop-editor>
+
+@switch (actionData.type) {
+  @case ('checkLevel') {
+    <app-input-prop-editor
+      [propName]="'Required Level'"
+      [(propData)]="castToAny().level"
+      [propType]="'number'"
+    ></app-input-prop-editor>
+  }
+
+  @case ('checkHoliday') {
+    <div class="mt-4">
+      <app-input-holiday [(holiday)]="castToAny().holiday"></app-input-holiday>
+    </div>
+  }
+
+  @case ('checkAnyHostilesNearby') {
+    <app-input-prop-editor
+      [propName]="'Check Range'"
+      [(propData)]="castToAny().range"
+      [propType]="'number'"
+    ></app-input-prop-editor>
+  }
+
+  @case ('checkQuest') {
+    <div class="mt-4">
+      <app-input-quest
+        [(quest)]="castToAny().quest"
+        [defaultValue]="castToAny().quest"
+      ></app-input-quest>
+    </div>
+  }
+
+  @case ('hasQuest') {
+    <div class="mt-4">
+      <app-input-quest
+        [(quest)]="castToAny().quest"
+        [defaultValue]="castToAny().quest"
+      ></app-input-quest>
+    </div>
+  }
+
+  @case ('giveQuest') {
+    <div class="mt-4">
+      <app-input-quest
+        [(quest)]="castToAny().quest"
+        [defaultValue]="castToAny().quest"
+      ></app-input-quest>
+    </div>
+  }
+
+  @case ('updateQuest') {
+    <div class="mt-4">
+      <app-input-quest
+        [(quest)]="castToAny().quest"
+        [defaultValue]="castToAny().quest"
+      ></app-input-quest>
+    </div>
+
+    <app-input-prop-editor
+      [propName]="'Array Item To Update'"
+      [(propData)]="castToAny().arrayItem"
+      [propType]="'string'"
+    ></app-input-prop-editor>
+  }
+
+  @case ('checkDailyQuest') {
+    <app-input-prop-editor
+      [propName]="'NPC Name'"
+      [(propData)]="castToAny().npc"
+      [propType]="'string'"
+    ></app-input-prop-editor>
+
+    <div class="mt-4">
+      @for (quest of castToAny().quests; track $index) {
+        <div class="flex items-center gap-2 mb-2">
+          <app-input-quest
+            class="flex-1"
+            [(quest)]="castToAny().quests[$index]"
+            [defaultValue]="castToAny().quests[$index]"
+          ></app-input-quest>
+
+          @if ($index !== 0 || ($index !== 0 && $last)) {
+            <button
+              class="btn btn-sm btn-error"
+              (click)="removeDailyQuest($index)"
+            >
+              &times;
+            </button>
+          } @else {
+            <button class="btn btn-sm btn-success" (click)="addDailyQuest()">
+              +
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @case ('giveDailyQuest') {
+    <app-input-prop-editor
+      [propName]="'NPC Name'"
+      [(propData)]="castToAny().npc"
+      [propType]="'string'"
+    ></app-input-prop-editor>
+
+    <div class="mt-4">
+      @for (quest of castToAny().quests; track $index) {
+        <div class="flex items-center gap-2 mb-2">
+          <app-input-quest
+            class="flex-1"
+            [(quest)]="castToAny().quests[$index]"
+            [defaultValue]="castToAny().quests[$index]"
+          ></app-input-quest>
+
+          @if ($index !== 0 || ($index !== 0 && $last)) {
+            <button
+              class="btn btn-sm btn-error"
+              (click)="removeDailyQuest($index)"
+            >
+              &times;
+            </button>
+          } @else {
+            <button class="btn btn-sm btn-success" (click)="addDailyQuest()">
+              +
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @case ('giveEffect') {
+    <div class="mt-4">
+      <app-input-effect
+        [(effect)]="castToAny().effect"
+        [defaultValue]="castToAny().effect"
+      ></app-input-effect>
+    </div>
+
+    <app-input-prop-editor
+      [propName]="'Duration'"
+      [(propData)]="castToAny().duration"
+      [propType]="'number'"
+    ></app-input-prop-editor>
+
+    <app-input-prop-editor
+      [propName]="'Potency'"
+      [(propData)]="castToAny().potency"
+      [propType]="'number'"
+    ></app-input-prop-editor>
+  }
+
+  @case ('giveSelfEffect') {
+    <div class="mt-4">
+      <app-input-effect
+        [(effect)]="castToAny().effect"
+        [defaultValue]="castToAny().effect"
+      ></app-input-effect>
+    </div>
+
+    <app-input-prop-editor
+      [propName]="'Duration'"
+      [(propData)]="castToAny().duration"
+      [propType]="'number'"
+    ></app-input-prop-editor>
+
+    <app-input-prop-editor
+      [propName]="'Potency'"
+      [(propData)]="castToAny().potency"
+      [propType]="'number'"
+    ></app-input-prop-editor>
+  }
+
+  @case ('checkEffect') {
+    <div class="mt-4">
+      <app-input-effect
+        [(effect)]="castToAny().effect"
+        [defaultValue]="castToAny().effect"
+      ></app-input-effect>
+    </div>
+  }
+
+  @case ('giveCurrency') {
+    <div class="mt-4">
+      <app-input-currency
+        [(currency)]="castToAny().currency"
+      ></app-input-currency>
+    </div>
+
+    <app-input-prop-editor
+      [propName]="'Amount'"
+      [(propData)]="castToAny().amount"
+      [propType]="'number'"
+    ></app-input-prop-editor>
+  }
+
+  @case ('grantAchievement') {
+    <div class="mt-4">
+      <app-input-achievement
+        [(achievement)]="castToAny().achievementName"
+      ></app-input-achievement>
+    </div>
+  }
+
+  @case ('dropItems') {
+    <div class="mt-4">
+      <app-input-item
+        label="Item to Drop"
+        [(item)]="castToAny().item"
+        [defaultValue]="castToAny().item"
+      ></app-input-item>
+    </div>
+
+    <app-input-prop-editor
+      [propName]="'Amount'"
+      [(propData)]="castToAny().amount"
+      [propType]="'number'"
+    ></app-input-prop-editor>
+  }
+
+  @case ('killSelfSilently') {
+    <app-input-prop-editor
+      [propName]="'Leave Message'"
+      [(propData)]="castToAny().leaveMessage"
+      [propType]="'string'"
+    ></app-input-prop-editor>
+  }
+
+  @case ('checkItemCanUpgrade') {
+    <div class="mt-4">
+      <app-input-itemslot [(itemSlot)]="castToAny().slot"></app-input-itemslot>
+    </div>
+
+    <app-input-item-behavior
+      [(itemName)]="castToAny().upgrade"
+    ></app-input-item-behavior>
+  }
+
+  @case ('addItemUpgrade') {
+    <div class="mt-4">
+      <app-input-itemslot [(itemSlot)]="castToAny().slot"></app-input-itemslot>
+    </div>
+
+    <app-input-item-behavior
+      [(itemName)]="castToAny().upgrade"
+    ></app-input-item-behavior>
+  }
+
+  @case ('giveItem') {
+    <app-input-item-dialogitem
+      [(dialogItem)]="castToAny().item"
+    ></app-input-item-dialogitem>
+
+    <div class="mt-4">
+      @for (slot of castToAny().slot; track $index) {
+        <div class="flex items-center gap-2 mb-2">
+          <app-input-itemslot
+            class="flex-1"
+            [(itemSlot)]="castToAny().slot[$index]"
+          ></app-input-itemslot>
+
+          @if ($index !== 0 || ($index !== 0 && $last)) {
+            <button class="btn btn-sm btn-error" (click)="removeSlot($index)">
+              &times;
+            </button>
+          } @else {
+            <button class="btn btn-sm btn-success" (click)="addSlot()">
+              +
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @case ('takeItem') {
+    <app-input-item-dialogitem
+      [(dialogItem)]="castToAny().item"
+    ></app-input-item-dialogitem>
+
+    <div class="mt-4">
+      @for (slot of castToAny().slot; track $index) {
+        <div class="flex items-center gap-2 mb-2">
+          <app-input-itemslot
+            class="flex-1"
+            [allowSack]="true"
+            [(itemSlot)]="castToAny().slot[$index]"
+          ></app-input-itemslot>
+
+          @if ($index !== 0 || ($index !== 0 && $last)) {
+            <button class="btn btn-sm btn-error" (click)="removeSlot($index)">
+              &times;
+            </button>
+          } @else {
+            <button class="btn btn-sm btn-success" (click)="addSlot()">
+              +
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @case ('checkNoItem') {
+    <app-input-item-dialogitem
+      [(dialogItem)]="castToAny().item"
+    ></app-input-item-dialogitem>
+
+    <div class="mt-4">
+      @for (slot of castToAny().slot; track $index) {
+        <div class="flex items-center gap-2 mb-2">
+          <app-input-itemslot
+            class="flex-1"
+            [allowSack]="true"
+            [(itemSlot)]="castToAny().slot[$index]"
+          ></app-input-itemslot>
+
+          @if ($index !== 0 || ($index !== 0 && $last)) {
+            <button class="btn btn-sm btn-error" (click)="removeSlot($index)">
+              &times;
+            </button>
+          } @else {
+            <button class="btn btn-sm btn-success" (click)="addSlot()">
+              +
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @case ('checkNoItem') {
+    <app-input-prop-editor
+      floatUi="Whether or not the hands should be checked for having this item."
+      [propName]="'Check hands?'"
+      [(propData)]="castToAny().fromHands"
+      [propType]="'boolean'"
+    ></app-input-prop-editor>
+
+    <div class="mt-4">
+      @for (slot of castToAny().slot; track $index) {
+        <div class="flex items-center gap-2 mb-2">
+          <app-input-itemslot
+            class="flex-1"
+            [allowSack]="true"
+            [(itemSlot)]="castToAny().slot[$index]"
+          ></app-input-itemslot>
+
+          @if ($index !== 0 || ($index !== 0 && $last)) {
+            <button class="btn btn-sm btn-error" (click)="removeSlot($index)">
+              &times;
+            </button>
+          } @else {
+            <button class="btn btn-sm btn-success" (click)="addSlot()">
+              +
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @case ('checkItem') {
+    <app-input-prop-editor
+      floatUi="Whether or not the hands should be checked for having this item."
+      [propName]="'Check hands?'"
+      [(propData)]="castToAny().fromHands"
+      [propType]="'boolean'"
+    ></app-input-prop-editor>
+
+    <app-input-prop-editor
+      floatUi="Whether or not the sack should be checked for having this item."
+      [propName]="'Check sack?'"
+      [(propData)]="castToAny().fromSack"
+      [propType]="'boolean'"
+    ></app-input-prop-editor>
+
+    <app-input-item-dialogitem
+      [(dialogItem)]="castToAny().item"
+    ></app-input-item-dialogitem>
+
+    <div class="mt-4">
+      @for (slot of castToAny().slot; track $index) {
+        <div class="flex items-center gap-2 mb-2">
+          <app-input-itemslot
+            class="flex-1"
+            [allowSack]="true"
+            [(itemSlot)]="castToAny().slot[$index]"
+          ></app-input-itemslot>
+
+          @if ($index !== 0 || ($index !== 0 && $last)) {
+            <button class="btn btn-sm btn-error" (click)="removeSlot($index)">
+              &times;
+            </button>
+          } @else {
+            <button class="btn btn-sm btn-success" (click)="addSlot()">
+              +
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <app-input-prop-editor
+      [propName]="'Check Property'"
+      [(propData)]="castToAny().checkProperty"
+      [propType]="'string'"
+    ></app-input-prop-editor>
+
+    <div class="flex gap-2">
+      <app-input-prop-editor
+        class="flex-1"
+        [propName]="'Check Property Value'"
+        [(propData)]="castToAny().checkValue"
+        [propType]="checkPropertyValueType()"
+      ></app-input-prop-editor>
+
+      <ng-select
+        [(ngModel)]="checkPropertyValueType"
+        (change)="swapPropertyValueType()"
+        [clearable]="false"
+        class="form-control pt-5"
+        [items]="['string', 'number']"
+      ></ng-select>
+    </div>
+  }
+
+  @case ('checkNearbyNPCsAndDropItems') {
+    <app-input-item-behavior
+      [(itemName)]="castToAny().item"
+    ></app-input-item-behavior>
+
+    <div class="mt-4">
+      @for (slot of castToAny().npcs; track $index) {
+        <div class="flex items-center gap-2 mb-2">
+          <app-input-npc
+            class="flex-1"
+            [defaultValue]="castToAny().npcs[$index]"
+            (change)="castToAny().npcs[$index] = $event"
+          ></app-input-npc>
+
+          @if ($index !== 0 || ($index !== 0 && $last)) {
+            <button class="btn btn-sm btn-error" (click)="removeSlot($index)">
+              &times;
+            </button>
+          } @else {
+            <button class="btn btn-sm btn-success" (click)="addSlot()">
+              +
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @case ('modifyItem') {
+    <div class="mt-4">
+      @for (slot of castToAny().slot; track $index) {
+        <div class="flex items-center gap-2 mb-2">
+          <app-input-itemslot
+            class="flex-1"
+            [allowSack]="true"
+            [(itemSlot)]="castToAny().slot[$index]"
+          ></app-input-itemslot>
+
+          @if ($index !== 0 || ($index !== 0 && $last)) {
+            <button class="btn btn-sm btn-error" (click)="removeSlot($index)">
+              &times;
+            </button>
+          } @else {
+            <button class="btn btn-sm btn-success" (click)="addSlot()">
+              +
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="mt-4">
+      <app-input-json [(json)]="castToAny().mods"></app-input-json>
+    </div>
+  }
+
+  @case ('chat') {
+    <div class="mt-4">
+      <div class="my-2 text-lg pl-1">Messages</div>
+
+      @for (slot of castToAny().options; track $index) {
+        <div class="flex items-start gap-2 mb-4">
+          <app-input-dialog-chat
+            class="flex-1"
+            [(chat)]="castToAny().options[$index]"
+          ></app-input-dialog-chat>
+
+          <div class="mt-5">
+            @if ($index !== 0 || ($index !== 0 && $last)) {
+              <button
+                class="btn btn-sm btn-error"
+                (click)="removeOption($index)"
+              >
+                &times;
+              </button>
+            } @else {
+              <button class="btn btn-sm btn-success" (click)="addOption()">
+                +
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  @default {
+    <div class="p-2">No editor for action type "{{ actionData.type }}"</div>
+  }
+}
+
+<app-debug-view>
+  {{ actionData | json }}
+</app-debug-view>

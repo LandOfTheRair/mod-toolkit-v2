@@ -1,14 +1,6 @@
 import { Component, input, model } from '@angular/core';
 
-type PropType =
-  | 'string'
-  | 'number'
-  | 'boolean'
-  | 'damageClass'
-  | 'succorInfo'
-  | 'containedItems'
-  | 'recipe'
-  | 'bookPages';
+type PropType = 'string' | 'number' | 'boolean';
 
 @Component({
   selector: 'app-input-prop-editor',

@@ -21,6 +21,9 @@ export class DialogsEditorVisualNodeComponent extends CustomNodeComponent<Dialog
       data.upgrade ||
       data.holiday ||
       data.level ||
+      data.item ||
+      data.achievementName ||
+      truncate((data.leaveMessage as string) ?? '', { length: 30 }) ||
       truncate((data.message as string) ?? '', { length: 30 })) as string;
   });
 }

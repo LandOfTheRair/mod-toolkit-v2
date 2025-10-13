@@ -43,6 +43,7 @@
               }
             ],
             "styles": [
+              "node_modules/vanilla-jsoneditor/themes/jse-theme-dark.css",
               "node_modules/ngx-float-ui/css/theme-dark.css",
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/@ngxpert/hot-toast/src/styles/styles.scss",

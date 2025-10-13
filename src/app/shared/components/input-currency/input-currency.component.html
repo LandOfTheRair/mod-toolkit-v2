@@ -1,0 +1,11 @@
+<div class="relative">
+  <ng-select
+    class="form-control"
+    [items]="values"
+    [(ngModel)]="currency"
+    placeholder="Select currency..."
+    (change)="change.emit($event)"
+  ></ng-select>
+
+  <app-input-floating-label>Currency</app-input-floating-label>
+</div>

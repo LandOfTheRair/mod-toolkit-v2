@@ -1,10 +1,10 @@
 import {
   Component,
   computed,
-  effect,
   inject,
   input,
   model,
+  OnInit,
   output,
 } from '@angular/core';
 import { sortBy } from 'lodash';
@@ -28,7 +28,7 @@ const baseEffectList = [
   styleUrl: './input-effect.component.scss',
   standalone: false,
 })
-export class InputEffectComponent {
+export class InputEffectComponent implements OnInit {
   private modService = inject(ModService);
 
   public effect = model<{ value: string } | undefined>();
@@ -71,14 +71,15 @@ export class InputEffectComponent {
     return sortBy(baseEffectListToSort, 'value');
   });
 
-  constructor() {
-    effect(() => {
-      const defaultItem = this.defaultValue();
-      if (defaultItem) {
-        const foundItem = this.values().find((i) => i.value === defaultItem);
+  ngOnInit() {
+    const defaultItem = this.defaultValue();
+    if (defaultItem) {
+      const foundItem = this.values().find((i) => i.value === defaultItem);
+
+      setTimeout(() => {
         this.effect.set(foundItem as unknown as { value: string });
-      }
-    });
+      }, 50);
+    }
   }
 
   public itemCompare(

@@ -9,13 +9,12 @@ import {
 } from '@angular/core';
 import { cloneDeep } from 'lodash';
 import { Edge, NodeSelectedChange, VflowComponent } from 'ngx-vflow';
-import { DialogEditorNode, IDialogTree } from '../../../../interfaces';
+import {
+  DialogEditorNode,
+  IDialogAction,
+  IDialogTree,
+} from '../../../../interfaces';
 import { DialogsEditorVisualNodeComponent } from '../dialogs-editor-visual-node/dialogs-editor-visual-node.component';
-
-/**
- * TODO:
- * - better previews for each node
- */
 
 @Component({
   selector: 'app-dialogs-editor-visual',
@@ -26,7 +25,9 @@ import { DialogsEditorVisualNodeComponent } from '../dialogs-editor-visual-node/
 export class DialogsEditorVisualComponent {
   public dialogTree = input.required<IDialogTree>();
 
-  private dialogTreeRef = computed(() => cloneDeep(this.dialogTree() ?? {}));
+  private dialogTreeRef = computed(() =>
+    cloneDeep(this.dialogTree() ?? { keyword: {} }),
+  );
 
   public nodes = signal<DialogEditorNode<any>[]>([]);
   public edges = signal<Edge[]>([]);
@@ -209,7 +210,9 @@ export class DialogsEditorVisualComponent {
     (this.vflow() as any).nodeModels().forEach((nodeModel: any) => {
       nodeModel.selected.set(false);
     });
+  }
 
-    console.log('node unselected');
+  public saveNode(nodeData: IDialogAction) {
+    console.log(nodeData);
   }
 }

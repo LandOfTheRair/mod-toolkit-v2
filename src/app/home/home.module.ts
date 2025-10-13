@@ -10,6 +10,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxFloatUiModule } from 'ngx-float-ui';
 
+import { NgSelectModule } from '@ng-select/ng-select';
 import { VflowComponent } from 'ngx-vflow';
 import { AnalysisComponent } from '../analysis/analysis.component';
 import { DependenciesComponent } from '../dependencies/dependencies.component';
@@ -93,6 +94,7 @@ import { HomeComponent } from './home.component';
     CodeEditorModule,
     ColorPickerModule,
     VflowComponent,
+    NgSelectModule,
   ],
   exports: [],
 })

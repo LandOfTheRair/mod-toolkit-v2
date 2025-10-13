@@ -14,10 +14,10 @@ import { ModService } from '../../../services/mod.service';
 type ItemModel = { category: string; data: IItemDefinition; value: string };
 
 @Component({
-    selector: 'app-input-item',
-    templateUrl: './input-item.component.html',
-    styleUrl: './input-item.component.scss',
-    standalone: false
+  selector: 'app-input-item',
+  templateUrl: './input-item.component.html',
+  styleUrl: './input-item.component.scss',
+  standalone: false,
 })
 export class InputItemComponent implements OnInit {
   private modService = inject(ModService);
@@ -46,7 +46,7 @@ export class InputItemComponent implements OnInit {
           data: i,
           value: i.name,
           index: idx + 1,
-        }))
+        })),
       )
       .flat();
 
@@ -64,7 +64,10 @@ export class InputItemComponent implements OnInit {
     const defaultItem = this.defaultValue();
     if (defaultItem) {
       const foundItem = this.values().find((i) => i.value === defaultItem);
-      this.item.set(foundItem);
+
+      setTimeout(() => {
+        this.item.set(foundItem);
+      }, 50);
     }
   }
 

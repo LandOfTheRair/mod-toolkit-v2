@@ -68,6 +68,13 @@ import { SpriteComponent } from './components/sprite/sprite.component';
 import { TestViewComponent } from './components/test-view/test-view.component';
 import { AutoTrimDirective, WebviewDirective } from './directives/';
 import { InputPropEditorComponent } from './components/input-prop-editor/input-prop-editor.component';
+import { InputDialogactiontypeComponent } from './components/input-dialogactiontype/input-dialogactiontype.component';
+import { InputCurrencyComponent } from './components/input-currency/input-currency.component';
+import { InputAchievementComponent } from './components/input-achievement/input-achievement.component';
+import { InputItemBehaviorComponent } from './components/input-item-behavior/input-item-behavior.component';
+import { InputItemDialogitemComponent } from './components/input-item-dialogitem/input-item-dialogitem.component';
+import { InputJsonComponent } from './components/input-json/input-json.component';
+import { InputDialogChatComponent } from './components/input-dialog-chat/input-dialog-chat.component';
 
 @NgModule({
   declarations: [
@@ -129,6 +136,13 @@ import { InputPropEditorComponent } from './components/input-prop-editor/input-p
     InputEventComponent,
     InputEventSuccessTypeComponent,
     InputPropEditorComponent,
+    InputDialogactiontypeComponent,
+    InputCurrencyComponent,
+    InputAchievementComponent,
+    InputItemBehaviorComponent,
+    InputItemDialogitemComponent,
+    InputJsonComponent,
+    InputDialogChatComponent,
   ],
   imports: [
     CommonModule,
@@ -201,6 +215,13 @@ import { InputPropEditorComponent } from './components/input-prop-editor/input-p
     InputEventComponent,
     InputEventSuccessTypeComponent,
     InputPropEditorComponent,
+    InputDialogactiontypeComponent,
+    InputCurrencyComponent,
+    InputAchievementComponent,
+    InputItemBehaviorComponent,
+    InputItemDialogitemComponent,
+    InputJsonComponent,
+    InputDialogChatComponent,
   ],
 })
 export class SharedModule {}

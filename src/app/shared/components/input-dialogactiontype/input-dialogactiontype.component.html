@@ -1,0 +1,29 @@
+<div class="relative">
+  <ng-select
+    class="form-control"
+    [clearable]="false"
+    [items]="values()"
+    [bindValue]="'value'"
+    [(ngModel)]="dialogType"
+    placeholder="Select dialog action type..."
+    (change)="change.emit($event)"
+  >
+    <ng-template ng-label-tmp let-item="item">
+      <div class="text-white">
+        {{ item.value }}
+      </div>
+    </ng-template>
+
+    <ng-template ng-option-tmp let-item="item">
+      <div class="relative">
+        <div class="text-white">
+          {{ item.value }}
+        </div>
+
+        <p class="text-white text-sm italic">{{ item.desc }}</p>
+      </div>
+    </ng-template>
+  </ng-select>
+
+  <app-input-floating-label>Dialog Action Type</app-input-floating-label>
+</div>

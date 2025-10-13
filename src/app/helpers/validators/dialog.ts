@@ -75,6 +75,9 @@ export function validateDialogActions(mod: IModKit): ValidationMessageGroup {
     const allActions = getAllDialogActions(item);
 
     allActions.forEach((action) => {
+      if (!action || !dialogBehaviorSchemas[action.type as DialogActionType])
+        return;
+
       const failures = validateSchema<any>(
         `${item.tag}->${action.type}`,
         action,

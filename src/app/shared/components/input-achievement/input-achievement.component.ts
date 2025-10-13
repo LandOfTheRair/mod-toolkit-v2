@@ -8,48 +8,50 @@ import {
   output,
 } from '@angular/core';
 import { sortBy } from 'lodash';
-import { IQuest } from '../../../../interfaces';
+import { IAchievement } from '../../../../interfaces';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-  selector: 'app-input-quest',
-  templateUrl: './input-quest.component.html',
-  styleUrl: './input-quest.component.scss',
+  selector: 'app-input-achievement',
   standalone: false,
+  templateUrl: './input-achievement.component.html',
+  styleUrl: './input-achievement.component.scss',
 })
-export class InputQuestComponent implements OnInit {
+export class InputAchievementComponent implements OnInit {
   private modService = inject(ModService);
 
-  public quest = model<IQuest | undefined>();
+  public achievement = model<IAchievement | undefined>();
+  public label = input<string>('Achievement');
   public defaultValue = input<string>();
-  public label = input<string>('Quest');
   public change = output<string>();
 
   public values = computed(() => {
     const mod = this.modService.mod();
     const activeDependencies = this.modService.activeDependencies();
 
-    const myModQuests = mod.quests.map((i) => ({
+    const myModAchievements = mod.achievements.map((i) => ({
       category: `${mod.meta.name} (Current)`,
       data: i,
+      desc: i.desc,
       value: i.name,
-      desc: `[${i.giver}] ${i.desc}`,
       index: 0,
     }));
 
-    const depQuests = activeDependencies
+    const depAchievements = activeDependencies
       .map((dep, idx) =>
-        dep.quests.map((i) => ({
+        dep.achievements.map((i) => ({
           category: dep.meta.name,
           data: i,
+          desc: i.desc,
           value: i.name,
-          desc: `[${i.giver}] ${i.desc}`,
           index: idx + 1,
         })),
       )
       .flat();
 
-    return [...sortBy([...myModQuests, ...depQuests], ['index', 'value'])];
+    return [
+      ...sortBy([...myModAchievements, ...depAchievements], ['index', 'value']),
+    ];
   });
 
   ngOnInit() {
@@ -58,19 +60,8 @@ export class InputQuestComponent implements OnInit {
       const foundItem = this.values().find((i) => i.value === defaultItem);
 
       setTimeout(() => {
-        this.quest.set(foundItem as unknown as IQuest);
+        this.achievement.set(foundItem as unknown as IAchievement);
       }, 50);
     }
-  }
-
-  public itemCompare(
-    itemA: { value: string; desc: string },
-    itemB: { value: string; desc: string },
-  ): boolean {
-    return itemA.value === itemB.value;
-  }
-
-  public search(term: string, item: { value: string }) {
-    return item.value.toLowerCase().includes(term.toLowerCase());
   }
 }

@@ -1,0 +1,24 @@
+@let item = dialogItem();
+
+@if (isObject()) {
+  <div class="mt-4">
+    <app-input-item
+      [defaultValue]="item.name"
+      (change)="item.name = $event"
+      label="Item"
+    ></app-input-item>
+  </div>
+
+  <app-input-prop-editor
+    [propName]="'Item Amount'"
+    [(propData)]="item.amount"
+    [propType]="'number'"
+  ></app-input-prop-editor>
+
+  <app-input-prop-editor
+    floatUi="Whether or not the quantity checked should exactly match."
+    [propName]="'Check exact amount?'"
+    [(propData)]="item.exact"
+    [propType]="'boolean'"
+  ></app-input-prop-editor>
+}

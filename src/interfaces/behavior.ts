@@ -1,4 +1,4 @@
-import { Currency, Holiday, ItemSlot } from './building-blocks';
+import { Currency, Holiday, ItemSlot, StatType } from './building-blocks';
 import { IItem } from './item';
 
 export enum DialogActionType {
@@ -39,7 +39,7 @@ export interface IDialogItem {
 
 // requirements for some dialog options
 export interface IDialogChatRequirement {
-  stat?: string;
+  stat?: StatType;
   statValue?: number;
   holiday?: Holiday;
 }
@@ -177,20 +177,12 @@ export interface IDialogCheckNPCsAndDropItemsAction {
 export interface IDialogChatActionOption {
   text: string;
   action: string;
-  requirement?: IDialogChatRequirement;
+  requirement: IDialogChatRequirement;
 }
 
 export interface IDialogChatAction {
-  displayNPCSprite?: number;
-  displayNPCName?: string;
-  displayNPCUUID?: string;
-  displayItemName?: string;
-  displayItemSprite?: number;
-  displayTitle?: string;
   maxDistance?: number;
   message: string;
-  width?: string;
-  extraClasses?: string[];
   options: IDialogChatActionOption[];
 }
 
