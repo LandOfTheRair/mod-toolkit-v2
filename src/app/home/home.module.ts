@@ -20,6 +20,7 @@ import { AchievementsEditorComponent } from '../tabs/achievements/achievements-e
 import { AchievementsComponent } from '../tabs/achievements/achievements.component';
 import { CoresEditorComponent } from '../tabs/cores/cores-editor/cores-editor.component';
 import { CoresComponent } from '../tabs/cores/cores.component';
+import { DialogsEditorVisualNodeEditorComponent } from '../tabs/dialogs/dialogs-editor-visual-node-editor/dialogs-editor-visual-node-editor.component';
 import { DialogsEditorVisualComponent } from '../tabs/dialogs/dialogs-editor-visual/dialogs-editor-visual.component';
 import { DialogsEditorComponent } from '../tabs/dialogs/dialogs-editor/dialogs-editor.component';
 import { DialogsComponent } from '../tabs/dialogs/dialogs.component';
@@ -79,6 +80,7 @@ import { HomeComponent } from './home.component';
     EventsComponent,
     EventsEditorComponent,
     DialogsEditorVisualComponent,
+    DialogsEditorVisualNodeEditorComponent,
   ],
   imports: [
     CommonModule,

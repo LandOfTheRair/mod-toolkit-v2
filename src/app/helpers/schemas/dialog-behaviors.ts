@@ -151,16 +151,6 @@ export const dialogBehaviorSchemas: Record<DialogActionType, Schema> = {
     ['checkFailActions', false, isArray],
     ['checkPassActions', true, isArray],
   ],
-  [DialogActionType.CheckAlignment]: [
-    ['type', true, is('checkAlignment')],
-    ['alignment', true, isString],
-    ['checkFailActions', false, isArray],
-    ['checkPassActions', true, isArray],
-  ],
-  [DialogActionType.SetAlignment]: [
-    ['type', true, is('setAlignment')],
-    ['alignment', true, isString],
-  ],
   [DialogActionType.CheckNPCsAndDropItems]: [
     ['type', true, is('checkNearbyNPCsAndDropItems')],
     ['npcs', true, isArrayOf(isString)],

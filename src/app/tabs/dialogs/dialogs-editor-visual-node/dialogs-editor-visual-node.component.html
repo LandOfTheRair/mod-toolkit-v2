@@ -1,11 +1,26 @@
 @let info = data();
 
 <div
-  class="w-[300px] h-[100px] background-[#a6a086] text-[var(--tab-color)] border border-[var(--tab-bg)] rounded-lg p-2 flex justify-center items-center px-2"
+  selectable
+  [class.border-primary]="selected()"
+  class="w-[300px] h-[100px] background-[#a6a086] text-[var(--tab-color)] border border-[var(--tab-bg)] rounded-lg p-2 flex justify-center items-center px-2 cursor-pointer relative object-contain overflow-hidden"
 >
   @if (info) {
-    <div>
+    @if (info.actionInfo.maxDistance) {
+      <div
+        class="absolute top-0 right-0 badge badge-accent rounded-none rounded-bl-lg"
+      >
+        maxDist: {{ info.actionInfo.maxDistance }}
+      </div>
+    }
+    <div class="text-center">
       {{ info.actionInfo.type }}
+
+      @if (helperText(); as helpText) {
+        <br />
+        <br />
+        {{ helpText }}
+      }
     </div>
 
     <handle type="source" position="bottom" [id]="'out-success'" />

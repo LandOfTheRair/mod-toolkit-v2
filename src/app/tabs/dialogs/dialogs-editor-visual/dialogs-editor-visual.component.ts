@@ -1,13 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { Component, effect, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { cloneDeep } from 'lodash';
-import { Edge } from 'ngx-vflow';
-import { DialogEditorNode } from '../../../../interfaces';
+import { Edge, NodeSelectedChange, VflowComponent } from 'ngx-vflow';
+import { DialogEditorNode, IDialogTree } from '../../../../interfaces';
 import { DialogsEditorVisualNodeComponent } from '../dialogs-editor-visual-node/dialogs-editor-visual-node.component';
 
 /**
  * TODO:
- * - list each keyword in a pill list on the left side
+ * - better previews for each node
  */
 
 @Component({
@@ -17,28 +24,39 @@ import { DialogsEditorVisualNodeComponent } from '../dialogs-editor-visual-node/
   styleUrl: './dialogs-editor-visual.component.scss',
 })
 export class DialogsEditorVisualComponent {
-  public dialogTree = input.required<Record<string, any>>();
+  public dialogTree = input.required<IDialogTree>();
+
+  private dialogTreeRef = computed(() => cloneDeep(this.dialogTree() ?? {}));
 
   public nodes = signal<DialogEditorNode<any>[]>([]);
   public edges = signal<Edge[]>([]);
+  public selectedNode = signal<DialogEditorNode<any> | undefined>(undefined);
+
+  public currentKeyword = signal<string>('hello');
+  public allKeywords = computed(() =>
+    Object.keys(this.dialogTreeRef().keyword ?? {}),
+  );
+
+  public vflow = viewChild<VflowComponent>('vflow');
 
   private currentColumn = 0;
 
   constructor() {
     effect(() => {
-      this.parseNodesAndEdges(cloneDeep(this.dialogTree()));
+      this.parseDialogTreeKeyword(this.dialogTree(), this.currentKeyword());
     });
   }
 
-  private parseNodesAndEdges(dialogTree: Record<string, any>) {
-    const root = dialogTree.keyword as Record<string, any>;
+  private parseDialogTreeKeyword(tree: IDialogTree, keyword: string) {
+    const root = tree.keyword;
     if (!root) return;
+
+    const keywordContainer = root[keyword];
+    if (!keywordContainer.actions) return;
 
     this.currentColumn = 0;
 
-    const hello = root.hello;
-
-    const allNodes = this.recurseNode(hello.actions, 'root', 0, 0);
+    const allNodes = this.recurseNode(keywordContainer.actions, 'root', 0, 0);
 
     const allEdges: Edge[] = [];
 
@@ -57,6 +75,13 @@ export class DialogsEditorVisualComponent {
           center: {
             type: 'default',
             text: node.data.from,
+            style: {
+              color: '#ff',
+              background: '#1d232a',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              fontSize: '12px',
+            },
           },
         };
 
@@ -101,17 +126,20 @@ export class DialogsEditorVisualComponent {
         type: DialogsEditorVisualNodeComponent,
 
         draggable: false,
-        point: { x: xPos * 450, y: yPos * 200 },
+        point: { x: xPos * 500, y: yPos * 200 },
         width: 300,
 
         data: {
           actionInfo: node,
           id: nodeId,
           parentId: nodeIdx === 0 ? parent : `${baseId}-${nodeIdx - 1}`,
-          from: extra.from ? `${extra.from}#${nodeIdx}` : undefined,
+          from: extra.from ? `${extra.from}#${nodeIdx + 1}` : undefined,
           targetHandlePosition:
-            nodeIdx === 0 && extra.from === 'fail' ? 'left' : 'top',
-          hasRightSourceHandle: !!node.checkPassActions,
+            nodeIdx === 0 && ['fail', 'questComplete'].includes(extra.from)
+              ? 'left'
+              : 'top',
+          hasRightSourceHandle:
+            !!node.checkPassActions || node.questCompleteActions,
         },
 
         id: nodeId,
@@ -129,8 +157,6 @@ export class DialogsEditorVisualComponent {
             { from: 'success' },
           ),
         );
-
-        delete ret.data.actionInfo.checkPassActions;
       }
 
       if (ret.data.actionInfo.checkFailActions) {
@@ -145,11 +171,45 @@ export class DialogsEditorVisualComponent {
             { from: 'fail' },
           ),
         );
+      }
 
-        delete ret.data.actionInfo.checkFailActions;
+      if (ret.data.actionInfo.questCompleteActions) {
+        this.currentColumn += 1;
+
+        nodeRets.push(
+          ...this.recurseNode(
+            ret.data.actionInfo.questCompleteActions,
+            nodeId,
+            yPos,
+            this.currentColumn,
+            { from: 'questComplete' },
+          ),
+        );
       }
     }
 
     return nodeRets;
+  }
+
+  public changeKeyword(newKeyword: string) {
+    this.currentKeyword.set(newKeyword);
+    this.unselectNode();
+  }
+
+  public selectNode(node: NodeSelectedChange) {
+    if (!node.selected) return;
+
+    const nodeId = node.id;
+    const nodeData = this.nodes().find((n) => n.id === nodeId);
+    this.selectedNode.set(nodeData);
+  }
+
+  public unselectNode() {
+    this.selectedNode.set(undefined);
+    (this.vflow() as any).nodeModels().forEach((nodeModel: any) => {
+      nodeModel.selected.set(false);
+    });
+
+    console.log('node unselected');
   }
 }

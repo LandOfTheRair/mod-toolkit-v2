@@ -1,4 +1,4 @@
-import { Alignment, Currency, Holiday, ItemSlot } from './building-blocks';
+import { Currency, Holiday, ItemSlot } from './building-blocks';
 import { IItem } from './item';
 
 export enum DialogActionType {
@@ -23,8 +23,6 @@ export enum DialogActionType {
   HasQuest = 'hasQuest',
   GiveDailyQuest = 'giveDailyQuest',
   CheckLevel = 'checkLevel',
-  CheckAlignment = 'checkAlignment',
-  SetAlignment = 'setAlignment',
   CheckNPCsAndDropItems = 'checkNearbyNPCsAndDropItems',
   CheckAnyHostilesNearby = 'checkAnyHostilesNearby',
   DropItems = 'dropItems',
@@ -40,7 +38,7 @@ export interface IDialogItem {
 }
 
 // requirements for some dialog options
-export interface IDialogRequirement {
+export interface IDialogChatRequirement {
   stat?: string;
   statValue?: number;
   holiday?: Holiday;
@@ -72,19 +70,6 @@ export interface IDialogCheckDailyQuestAction {
   maxDistance?: number;
 }
 
-export interface IDialogGiveSelfEffectAction {
-  effect: string;
-  duration: number;
-  potency?: number;
-}
-
-export interface IDialogCheckEffectAction {
-  effect: string;
-  maxDistance?: number;
-  checkPassActions: IDialogAction[];
-  checkFailActions: IDialogAction[];
-}
-
 export interface IDialogGiveQuestAction {
   quest: string;
   maxDistance?: number;
@@ -98,6 +83,20 @@ export interface IDialogGiveDailyQuestAction {
 export interface IDialogGiveEffectAction {
   effect: string;
   duration: number;
+  potency?: number;
+}
+
+export interface IDialogGiveSelfEffectAction {
+  effect: string;
+  duration: number;
+  potency?: number;
+}
+
+export interface IDialogCheckEffectAction {
+  effect: string;
+  maxDistance?: number;
+  checkPassActions: IDialogAction[];
+  checkFailActions: IDialogAction[];
 }
 
 export interface IDialogGiveCurrencyAction {
@@ -162,12 +161,6 @@ export interface IDialogCheckHolidayAction {
   checkFailActions: IDialogAction[];
 }
 
-export interface IDialogCheckAlignmentAction {
-  alignment: Alignment;
-  checkPassActions: IDialogAction[];
-  checkFailActions: IDialogAction[];
-}
-
 export interface IDialogCheckNearbyHostilesAction {
   range: number;
   checkPassActions: IDialogAction[];
@@ -181,14 +174,10 @@ export interface IDialogCheckNPCsAndDropItemsAction {
   checkFailActions: IDialogAction[];
 }
 
-export interface IDialogSetAlignmentAction {
-  alignment: Alignment;
-}
-
 export interface IDialogChatActionOption {
   text: string;
   action: string;
-  requirement?: IDialogRequirement;
+  requirement?: IDialogChatRequirement;
 }
 
 export interface IDialogChatAction {
@@ -214,15 +203,34 @@ export interface IKillSelfSilentlyAction {
   leaveMessage?: string;
 }
 
+export interface IGrantAchievementAction {
+  achievementName: string;
+}
+
 export type IDialogAction = IDialogChatAction &
   IDialogCheckItemAction &
+  IDialogCheckNPCsAndDropItemsAction &
   IDialogGiveItemAction &
   IDialogTakeItemAction &
+  IDialogCheckHolidayAction &
   IDialogGiveEffectAction &
   IDialogCheckLevelAction &
-  IDialogCheckAlignmentAction &
-  IDialogSetAlignmentAction &
+  IDialogGiveCurrencyAction &
+  IDialogModifyItemAction &
+  IDialogGiveDailyQuestAction &
+  IDialogUpdateQuestAction &
+  IDialogGiveQuestAction &
+  IDialogCheckEffectAction &
+  IDialogCheckQuestAction &
+  IDialogCheckNoItemAction &
+  IDialogCheckNearbyHostilesAction &
+  IDialogGiveSelfEffectAction &
   IDialogCheckItemCanUpgradeAction &
+  IDropItemsAction &
+  IDialogHasQuestAction &
+  IDialogCheckDailyQuestAction &
+  IKillSelfSilentlyAction &
+  IGrantAchievementAction &
   IDialogAddItemUpgradeAction & {
     type: DialogActionType;
     maxDistance?: number;

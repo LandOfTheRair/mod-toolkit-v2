@@ -67,6 +67,7 @@ import { SpriteWithInlineNameComponent } from './components/sprite-with-inline-n
 import { SpriteComponent } from './components/sprite/sprite.component';
 import { TestViewComponent } from './components/test-view/test-view.component';
 import { AutoTrimDirective, WebviewDirective } from './directives/';
+import { InputPropEditorComponent } from './components/input-prop-editor/input-prop-editor.component';
 
 @NgModule({
   declarations: [
@@ -127,6 +128,7 @@ import { AutoTrimDirective, WebviewDirective } from './directives/';
     InputEventRarityComponent,
     InputEventComponent,
     InputEventSuccessTypeComponent,
+    InputPropEditorComponent,
   ],
   imports: [
     CommonModule,
@@ -198,6 +200,7 @@ import { AutoTrimDirective, WebviewDirective } from './directives/';
     InputEventRarityComponent,
     InputEventComponent,
     InputEventSuccessTypeComponent,
+    InputPropEditorComponent,
   ],
 })
 export class SharedModule {}

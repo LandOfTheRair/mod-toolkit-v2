@@ -1,0 +1,9 @@
+<div class="border-b border-[var(--tab-bg)]">
+  <h2 class="text-lg font-bold p-2 flex justify-between">
+    Action Editor
+
+    <button class="btn btn-xs" (click)="unselect.emit()">&times;</button>
+  </h2>
+</div>
+
+{{ action() | json }}

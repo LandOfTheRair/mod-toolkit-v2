@@ -1,8 +1,39 @@
-<vflow
-  class="w-full h-full node-container"
-  view="auto"
-  [alignmentHelper]="true"
-  [nodes]="nodes()"
-  [edges]="edges()"
-  [background]="'#1d232a'"
-></vflow>
+<div
+  class="relative flex w-full h-full border-t border-[var(--tab-border)] gap-2"
+>
+  <div class="w-[200px] flex flex-col border-r border-[var(--tab-border)] pr-2">
+    @for (keyword of allKeywords(); track $index) {
+      <button
+        class="p-2 m-1 rounded cursor-pointer btn w-full"
+        [class.btn-info]="currentKeyword() === keyword"
+        (click)="changeKeyword(keyword)"
+      >
+        {{ keyword }}
+      </button>
+    }
+  </div>
+
+  <div class="flex-1 p-2">
+    <vflow
+      #vflow
+      class="w-full h-full node-container"
+      view="auto"
+      [alignmentHelper]="true"
+      [nodes]="nodes()"
+      [edges]="edges()"
+      [background]="'#1d232a'"
+      (onNodesChange.select.single)="selectNode($event)"
+    ></vflow>
+  </div>
+
+  @if (selectedNode(); as selected) {
+    <div
+      class="absolute right-0 top-0 bottom-0 w-[400px] z-10 bg-base-100 border-l border-[var(--tab-border)] p-2 overflow-auto"
+    >
+      <app-dialogs-editor-visual-node-editor
+        (unselect)="unselectNode()"
+        [action]="selected.data.actionInfo"
+      ></app-dialogs-editor-visual-node-editor>
+    </div>
+  }
+</div>

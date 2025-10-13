@@ -350,39 +350,25 @@
         @for (prop of extraProps(); track $index) {
           @switch (propTypes[prop]) {
             @case ('string') {
-              <div class="form-row">
-                <app-input-floating-label>{{ prop }}</app-input-floating-label>
-                <input
-                  [(ngModel)]="editingData[prop]"
-                  type="text"
-                  placeholder="Pick..."
-                  class="form-input"
-                />
-              </div>
+              <app-input-prop-editor
+                [propData]="editingData[prop]"
+                [propName]="prop"
+                [propType]="'string'"
+              ></app-input-prop-editor>
             }
             @case ('number') {
-              <div class="form-row">
-                <app-input-floating-label>{{ prop }}</app-input-floating-label>
-                <input
-                  [(ngModel)]="editingData[prop]"
-                  type="number"
-                  min="0"
-                  placeholder="Pick..."
-                  class="form-input"
-                />
-              </div>
+              <app-input-prop-editor
+                [propData]="editingData[prop]"
+                [propName]="prop"
+                [propType]="'number'"
+              ></app-input-prop-editor>
             }
             @case ('boolean') {
-              <div class="form-row pl-1">
-                <label class="label cursor-pointer">
-                  <input
-                    type="checkbox"
-                    [(ngModel)]="editingData[prop]"
-                    class="checkbox"
-                  />
-                  <span class="label-text">{{ prop }}</span>
-                </label>
-              </div>
+              <app-input-prop-editor
+                [propData]="editingData[prop]"
+                [propName]="prop"
+                [propType]="'boolean'"
+              ></app-input-prop-editor>
             }
             @case ('damageClass') {
               <div class="form-row">

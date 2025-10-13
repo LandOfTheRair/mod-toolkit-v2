@@ -1,0 +1,40 @@
+@let prop = propName();
+@let type = propType();
+
+@switch (type) {
+  @case ('string') {
+    <div class="form-row">
+      <app-input-floating-label>{{ prop }}</app-input-floating-label>
+      <input
+        [(ngModel)]="propData"
+        type="text"
+        placeholder="Pick..."
+        class="form-input"
+      />
+    </div>
+  }
+  @case ('number') {
+    <div class="form-row">
+      <app-input-floating-label>{{ prop }}</app-input-floating-label>
+      <input
+        [(ngModel)]="propData"
+        type="number"
+        min="0"
+        placeholder="Pick..."
+        class="form-input"
+      />
+    </div>
+  }
+  @case ('boolean') {
+    <div class="form-row pl-1">
+      <label class="label cursor-pointer">
+        <input type="checkbox" [(ngModel)]="propData" class="checkbox" />
+        <span class="label-text">{{ prop }}</span>
+      </label>
+    </div>
+  }
+
+  @default {
+    {{ prop }} ({{ type }}) has no editor.
+  }
+}
