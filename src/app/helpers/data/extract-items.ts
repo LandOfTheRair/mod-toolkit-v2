@@ -19,13 +19,9 @@ export function getAllNodesFromDialog(dialogEntry: any): any[] {
   return nodes.flat(Infinity);
 }
 
-export function getAllDialogActions(dialog: INPCScript): any[] {
-  return Object.keys(dialog.dialog ?? {})
-    .flatMap((k) =>
-      Object.keys(dialog.dialog[k] ?? {}).map(
-        (d) => dialog.dialog[k][d]?.actions ?? [],
-      ),
-    )
+export function getAllDialogActions(npcScript: INPCScript): any[] {
+  return Object.keys(npcScript.dialog?.keyword ?? {})
+    .flatMap((k) => npcScript.dialog?.keyword?.[k]?.actions ?? [])
     .flat()
     .map((a: any) => getAllNodesFromDialog(a))
     .flat(Infinity);

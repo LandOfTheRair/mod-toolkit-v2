@@ -49,11 +49,12 @@ export class DialogsEditorVisualComponent {
   }
 
   private parseDialogTreeKeyword(tree: IDialogTree, keyword: string) {
+    console.log(tree, keyword);
     const root = tree.keyword;
     if (!root) return;
 
     const keywordContainer = root[keyword];
-    if (!keywordContainer.actions) return;
+    if (!keywordContainer || !keywordContainer.actions) return;
 
     this.currentColumn = 0;
 

@@ -1,3 +1,4 @@
+import { IDialogTree } from './behavior';
 import {
   AlignmentType,
   AllegianceType,
@@ -221,7 +222,7 @@ export interface INPCScript extends HasIdentification {
   items: {
     equipment: Record<ItemSlotType, string>;
   };
-  dialog: Record<string, any>;
+  dialog: IDialogTree;
   allegiance: AllegianceType;
   alignment: AlignmentType;
   behaviors: IBehavior[];

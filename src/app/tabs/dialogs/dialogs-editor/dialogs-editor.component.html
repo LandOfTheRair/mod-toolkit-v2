@@ -304,25 +304,6 @@
     </div>
   }
   @case (2) {
-    <div class="flex flex-row gap-2">
-      <div class="form-column">
-        <div class="form-row">
-          <ngs-code-editor
-            class="editor-container"
-            [theme]="'vs-dark'"
-            [codeModel]="dialogModel"
-            [options]="{ contextmenu: true }"
-            (valueChanged)="onDialogChanged($event)"
-          ></ngs-code-editor>
-
-          <div class="form-row form-error">
-            {{ dialogError() }}
-          </div>
-        </div>
-      </div>
-    </div>
-  }
-  @case (3) {
     <div class="flex flex-row gap-2 h-full">
       <div class="form-column h-full">
         <div class="form-row h-full">
@@ -332,11 +313,16 @@
             </div>
           } @else {
             <app-dialogs-editor-visual
-              [dialogTree]="dialogTree()"
+              [dialogTree]="editingData.dialog"
             ></app-dialogs-editor-visual>
           }
         </div>
       </div>
+    </div>
+  }
+  @case (3) {
+    <div class="flex flex-row gap-2 json-container">
+      <app-input-json [json]="editingData.dialog"></app-input-json>
     </div>
   }
 }

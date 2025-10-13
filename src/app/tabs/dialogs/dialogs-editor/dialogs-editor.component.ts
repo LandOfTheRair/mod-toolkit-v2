@@ -27,7 +27,7 @@ export class DialogsEditorComponent
     { name: 'Core Stats' },
     { name: 'Behaviors' },
     { name: 'Dialog' },
-    { name: 'Dialog Visualizer' },
+    { name: 'Dialog (JSON)' },
   ];
 
   public behaviorText = signal<string>('[]');
@@ -37,12 +37,6 @@ export class DialogsEditorComponent
     language: 'yaml',
     uri: 'behaviors.yml',
     value: '[]',
-  };
-
-  public readonly dialogModel: CodeModel = {
-    language: 'yaml',
-    uri: 'dialogs.yml',
-    value: 'keyword: {}',
   };
 
   public currentStat = signal<StatType | undefined>(undefined);
@@ -84,15 +78,6 @@ export class DialogsEditorComponent
     }
   });
 
-  public dialogTree = computed(() => {
-    const text = this.dialogText();
-    try {
-      return yaml.load(text) as Record<string, any>;
-    } catch (e: unknown) {
-      return {};
-    }
-  });
-
   ngOnInit(): void {
     const npc = this.editing();
 
@@ -100,13 +85,6 @@ export class DialogsEditorComponent
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       this.behaviorText.set(yaml.dump(npc.behaviors));
       this.behaviorModel.value = this.behaviorText();
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    if (Object.keys(npc.dialog?.keyword ?? {}).length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      this.dialogText.set(yaml.dump(npc.dialog));
-      this.dialogModel.value = this.dialogText();
     }
 
     npc.items ??= {
@@ -193,7 +171,6 @@ export class DialogsEditorComponent
       const npc = this.editing();
       npc.usableSkills = npc.usableSkills.filter(Boolean);
 
-      npc.dialog = yaml.load(this.dialogText()) as Record<string, any>;
       npc.behaviors = yaml.load(this.behaviorText()) as IBehavior[];
 
       this.editing.set(npc);
