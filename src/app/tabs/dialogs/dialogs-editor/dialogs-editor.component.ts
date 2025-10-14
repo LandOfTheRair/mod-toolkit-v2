@@ -1,10 +1,7 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
-import { CodeModel } from '@ngstack/code-editor';
-import * as yaml from 'js-yaml';
 import { isNumber } from 'lodash';
 
 import {
-  IBehavior,
   INPCScript,
   ItemSlot,
   ItemSlotType,
@@ -30,19 +27,11 @@ export class DialogsEditorComponent
     { name: 'Dialog (JSON)' },
   ];
 
-  public behaviorText = signal<string>('[]');
-
-  public readonly behaviorModel: CodeModel = {
-    language: 'yaml',
-    uri: 'behaviors.yml',
-    value: '[]',
-  };
-
   public currentStat = signal<StatType | undefined>(undefined);
 
   public canSave = computed(() => {
     const data = this.editing();
-    return data.tag && !this.behaviorError() && !this.isSaving();
+    return data.tag && !this.isSaving();
   });
 
   public slotsInOrder = computed(() => {
@@ -54,23 +43,11 @@ export class DialogsEditorComponent
     return Object.keys(npc.otherStats ?? {}).sort() as StatType[];
   });
 
-  public behaviorError = computed(() => {
-    const text = this.behaviorText();
-    try {
-      yaml.load(text);
-    } catch (e: unknown) {
-      return (e as Error).message;
-    }
-  });
-
   ngOnInit(): void {
     const npc = this.editing();
 
-    if (npc.behaviors?.length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      this.behaviorText.set(yaml.dump(npc.behaviors));
-      this.behaviorModel.value = this.behaviorText();
-    }
+    npc.behaviors ??= [];
+    npc.dialog ??= { keyword: {} };
 
     npc.items ??= {
       equipment: {} as any,
@@ -121,10 +98,6 @@ export class DialogsEditorComponent
     this.editing.set(npc);
   }
 
-  public onBehaviorChanged(behaviorText: string) {
-    this.behaviorText.set(behaviorText);
-  }
-
   public addBaseEffect() {
     const npc = this.editing();
     npc.baseEffects.push({
@@ -151,8 +124,6 @@ export class DialogsEditorComponent
     setTimeout(() => {
       const npc = this.editing();
       npc.usableSkills = npc.usableSkills.filter(Boolean);
-
-      npc.behaviors = yaml.load(this.behaviorText()) as IBehavior[];
 
       this.editing.set(npc);
 

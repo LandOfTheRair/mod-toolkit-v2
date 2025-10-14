@@ -19,8 +19,8 @@
   </div>
 </div>
 
-<div class="flex flex-row gap-2">
-  <div class="form-column">
+<div class="flex flex-row gap-2 h-full">
+  <div class="form-column h-full">
     <div class="form-row">
       <app-input-floating-label>File Name</app-input-floating-label>
       <input
@@ -45,18 +45,8 @@
       />
     </div>
 
-    <div class="form-row">
-      <ngs-code-editor
-        class="editor-container"
-        [theme]="'vs-dark'"
-        [codeModel]="fileModel"
-        [options]="{ contextmenu: true }"
-        (valueChanged)="onYamlChanged($event)"
-      ></ngs-code-editor>
-    </div>
-
-    <div class="form-row form-error">
-      {{ yamlError() }}
+    <div class="form-row json-container">
+      <app-input-json [json]="editingData.json"></app-input-json>
     </div>
   </div>
 </div>
