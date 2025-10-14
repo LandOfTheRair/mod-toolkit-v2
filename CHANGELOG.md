@@ -1,6 +1,23 @@
+## 1.10.0 (2025-10-14)
+
+* add view mode fully for npc dialog editor ([a782b54](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a782b54))
+* build fix ([53e4ac9](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/53e4ac9))
+* clean text, remove todo ([39ca05d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/39ca05d))
+* closes #110 ([45996bf](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/45996bf)), closes [#110](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/110)
+* closes #45 ([9ff642f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9ff642f)), closes [#45](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/45)
+* dispaly works! ([5472702](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5472702))
+* move some things around to fix typings/etc ([e12b65f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e12b65f))
+* ref #112, closes #110 ([7cf2f03](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7cf2f03)), closes [#110](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/110)
+* start new dialog vis ([ba19bad](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ba19bad))
+* visualizer in a good spot; need to work on the info pane ([c69a90d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c69a90d))
+
+
+
 ## <small>1.9.3 (2025-10-11)</small>
 
 * fix electron loading ([839fc85](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/839fc85))
+* Release Patch 1.9.3 ([fb5322e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/fb5322e))
+* Sync version ([96446a1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/96446a1))
 
 
 
