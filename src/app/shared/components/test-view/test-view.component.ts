@@ -1,14 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CodeModel } from '@ngstack/code-editor';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ElectronService } from '../../../services/electron.service';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-    selector: 'app-test-view',
-    templateUrl: './test-view.component.html',
-    styleUrl: './test-view.component.scss',
-    standalone: false
+  selector: 'app-test-view',
+  templateUrl: './test-view.component.html',
+  styleUrl: './test-view.component.scss',
+  standalone: false,
 })
 export class TestViewComponent implements OnInit {
   private modService = inject(ModService);
@@ -24,13 +23,7 @@ export class TestViewComponent implements OnInit {
     y: 4,
     openClient: true,
     databaseOverride: '',
-    otherProps: '{\n  \n}',
-  };
-
-  public readonly dialogModel: CodeModel = {
-    language: 'json',
-    uri: 'charstats.json',
-    value: '{\n  \n}',
+    otherProps: {},
   };
 
   ngOnInit() {
@@ -43,7 +36,6 @@ export class TestViewComponent implements OnInit {
       this.settings.openClient = settings.openClient;
       this.settings.otherProps = settings.otherProps;
       this.settings.databaseOverride = settings.databaseOverride;
-      this.dialogModel.value = settings.otherProps;
     }
   }
 
@@ -69,7 +61,7 @@ export class TestViewComponent implements OnInit {
       map: this.settings.map,
       settings: this.settings,
       openClient: this.settings.openClient,
-      ...JSON.parse(this.settings.otherProps),
+      ...this.settings.otherProps,
     });
 
     this.electronService.send('TEST_MOD', {

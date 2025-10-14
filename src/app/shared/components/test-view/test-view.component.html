@@ -6,34 +6,68 @@
 
     <div class="form-row">
       <app-input-floating-label>Character Level</app-input-floating-label>
-      <input [(ngModel)]="settings.level" min="1" type="number" class="form-input" (change)="saveSettings()" />
+      <input
+        [(ngModel)]="settings.level"
+        min="1"
+        type="number"
+        class="form-input"
+        (change)="saveSettings()"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Map</app-input-floating-label>
-      <app-input-map [(map)]="settings.map" [defaultValue]="''" (mapChange)="saveSettings()"></app-input-map>
+      <app-input-map
+        [(map)]="settings.map"
+        [defaultValue]="''"
+        (mapChange)="saveSettings()"
+      ></app-input-map>
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Map X</app-input-floating-label>
-      <input [(ngModel)]="settings.x" min="0" type="number" class="form-input" (change)="saveSettings()" />
+      <input
+        [(ngModel)]="settings.x"
+        min="0"
+        type="number"
+        class="form-input"
+        (change)="saveSettings()"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Map Y</app-input-floating-label>
-      <input [(ngModel)]="settings.y" min="0" type="number" class="form-input" (change)="saveSettings()" />
+      <input
+        [(ngModel)]="settings.y"
+        min="0"
+        type="number"
+        class="form-input"
+        (change)="saveSettings()"
+      />
     </div>
 
     <div class="form-row">
       <app-input-floating-label>Database Override URL</app-input-floating-label>
-      <input [(ngModel)]="settings.databaseOverride" type="text"
-        placeholder="If unspecified, will start the MongoDB installed with ModKit" class="form-input"
-        (change)="saveSettings()" />
+      <input
+        [(ngModel)]="settings.databaseOverride"
+        type="text"
+        placeholder="If unspecified, will start the MongoDB installed with ModKit"
+        class="form-input"
+        (change)="saveSettings()"
+      />
     </div>
 
     <div class="form-row pl-1">
-      <label class="label cursor-pointer" floatUi="Whether or not to open the game client.">
-        <input type="checkbox" [(ngModel)]="settings.openClient" class="checkbox" (change)="saveSettings()" />
+      <label
+        class="label cursor-pointer"
+        floatUi="Whether or not to open the game client."
+      >
+        <input
+          type="checkbox"
+          [(ngModel)]="settings.openClient"
+          class="checkbox"
+          (change)="saveSettings()"
+        />
         <span class="label-text">Open Client?</span>
       </label>
     </div>
@@ -44,21 +78,28 @@
       Extra Character Settings
 
       <span
-        floatUi="If this JSON is not valid, you can't test the mod. If you're having trouble, reach out to someone to help, or reset this to: {}">
+        floatUi="If this JSON is not valid, you can't test the mod. If you're having trouble, reach out to someone to help, or reset this to: {}"
+      >
         {{ isValidJSON() ? '✅' : '❌' }}
       </span>
     </h2>
 
-    <ngs-code-editor class="editor-container" [theme]="'vs-dark'" [codeModel]="dialogModel"
-      (valueChanged)="onSettingsChanged($event)"></ngs-code-editor>
+    <app-input-json [json]="settings.otherProps"></app-input-json>
   </div>
 </div>
 
 <div class="modal-action mt-2 flex">
   <div class="flex-1">
-    <button class="btn btn-sm btn-primary" (click)="testMod()"
-      [disabled]="!settings.map || !settings.x || !settings.y || !isValidJSON()">Test Mod!</button>
-    <button class="ml-2 btn btn-sm btn-error" (click)="killMod()">Kill LotR/MongoDB</button>
+    <button
+      class="btn btn-sm btn-primary"
+      (click)="testMod()"
+      [disabled]="!settings.map || !settings.x || !settings.y || !isValidJSON()"
+    >
+      Test Mod!
+    </button>
+    <button class="ml-2 btn btn-sm btn-error" (click)="killMod()">
+      Kill LotR/MongoDB
+    </button>
   </div>
 
   <div class="flex-1 flex justify-end">
