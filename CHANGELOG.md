@@ -1,3 +1,9 @@
+## <small>1.10.1 (2025-10-14)</small>
+
+* fix copydrop removal ([91d268b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/91d268b))
+
+
+
 ## 1.10.0 (2025-10-14)
 
 * add view mode fully for npc dialog editor ([a782b54](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a782b54))
@@ -8,7 +14,9 @@
 * dispaly works! ([5472702](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5472702))
 * move some things around to fix typings/etc ([e12b65f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e12b65f))
 * ref #112, closes #110 ([7cf2f03](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7cf2f03)), closes [#110](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/110)
+* Release Minor 1.10.0 ([c822ae4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c822ae4))
 * start new dialog vis ([ba19bad](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ba19bad))
+* Sync version ([066b09b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/066b09b))
 * visualizer in a good spot; need to work on the info pane ([c69a90d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c69a90d))
 
 
