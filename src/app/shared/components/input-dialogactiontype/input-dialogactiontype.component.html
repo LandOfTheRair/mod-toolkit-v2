@@ -5,6 +5,7 @@
     [items]="values()"
     [bindValue]="'value'"
     [(ngModel)]="dialogType"
+    [searchFn]="search"
     placeholder="Select dialog action type..."
     (change)="change.emit($event)"
   >

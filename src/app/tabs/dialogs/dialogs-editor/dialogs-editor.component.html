@@ -307,15 +307,9 @@
     <div class="flex flex-row gap-2 h-full">
       <div class="form-column h-full">
         <div class="form-row h-full">
-          @if (dialogError()) {
-            <div class="text-center">
-              Visualizer cannot load if your dialog has errors.
-            </div>
-          } @else {
-            <app-dialogs-editor-visual
-              [dialogTree]="editingData.dialog"
-            ></app-dialogs-editor-visual>
-          }
+          <app-dialogs-editor-visual
+            [(dialogTree)]="editingData.dialog"
+          ></app-dialogs-editor-visual>
         </div>
       </div>
     </div>

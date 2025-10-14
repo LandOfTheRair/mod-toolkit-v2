@@ -7,6 +7,10 @@ export type DialogNodeData = {
   from?: string;
   targetHandlePosition: 'left' | 'top';
   hasRightSourceHandle?: boolean;
+
+  nodeIndex: number;
+  nodePath: string;
+  nodeFrom: string;
 };
 
 export type DialogEditorNode<T> = Node<T> & {

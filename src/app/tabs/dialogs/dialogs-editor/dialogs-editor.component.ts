@@ -31,7 +31,6 @@ export class DialogsEditorComponent
   ];
 
   public behaviorText = signal<string>('[]');
-  public dialogText = signal<string>('keyword: {}');
 
   public readonly behaviorModel: CodeModel = {
     language: 'yaml',
@@ -43,12 +42,7 @@ export class DialogsEditorComponent
 
   public canSave = computed(() => {
     const data = this.editing();
-    return (
-      data.tag &&
-      !this.dialogError() &&
-      !this.behaviorError() &&
-      !this.isSaving()
-    );
+    return data.tag && !this.behaviorError() && !this.isSaving();
   });
 
   public slotsInOrder = computed(() => {
@@ -62,15 +56,6 @@ export class DialogsEditorComponent
 
   public behaviorError = computed(() => {
     const text = this.behaviorText();
-    try {
-      yaml.load(text);
-    } catch (e: unknown) {
-      return (e as Error).message;
-    }
-  });
-
-  public dialogError = computed(() => {
-    const text = this.dialogText();
     try {
       yaml.load(text);
     } catch (e: unknown) {
@@ -138,10 +123,6 @@ export class DialogsEditorComponent
 
   public onBehaviorChanged(behaviorText: string) {
     this.behaviorText.set(behaviorText);
-  }
-
-  public onDialogChanged(dialogText: string) {
-    this.dialogText.set(dialogText);
   }
 
   public addBaseEffect() {

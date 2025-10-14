@@ -2,7 +2,7 @@ import {
   Component,
   computed,
   effect,
-  input,
+  model,
   output,
   signal,
 } from '@angular/core';
@@ -21,7 +21,7 @@ import {
   styleUrl: './dialogs-editor-visual-node-editor.component.scss',
 })
 export class DialogsEditorVisualNodeEditorComponent {
-  public action = input.required<IDialogAction>();
+  public action = model.required<IDialogAction>();
   public save = output<IDialogAction>();
   public unselect = output<void>();
 
@@ -136,6 +136,10 @@ export class DialogsEditorVisualNodeEditorComponent {
     }
 
     this.actionClone.set(newTypeObj);
+  }
+
+  public saveData() {
+    this.save.emit(this.actionClone());
   }
 
   addDailyQuest() {

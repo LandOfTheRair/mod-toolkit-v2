@@ -53,4 +53,8 @@ export class InputDialogactiontypeComponent {
       desc: descriptions[value as DialogActionType],
     }));
   });
+
+  public search(term: string, item: { value: string }) {
+    return item.value.toLowerCase().includes(term.toLowerCase());
+  }
 }

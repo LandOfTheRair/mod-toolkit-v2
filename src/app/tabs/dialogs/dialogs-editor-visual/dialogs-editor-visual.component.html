@@ -11,6 +11,25 @@
         {{ keyword }}
       </button>
     }
+
+    <button
+      class="p-2 m-1 rounded cursor-pointer btn btn-success w-full"
+      [swal]="addKeyword"
+    >
+      + Add
+    </button>
+
+    <swal
+      #addKeyword
+      title="Add NPC Dialog Keyword"
+      text="Enter a keyword for the NPC dialog."
+      input="text"
+      confirmButtonText="Add Keyword"
+      [inputAttributes]="{ maxlength: '20' }"
+      [showCancelButton]="true"
+      [focusCancel]="true"
+      (confirm)="addNewKeyword($event)"
+    ></swal>
   </div>
 
   <div class="flex-1 p-2">
@@ -30,11 +49,15 @@
     <div
       class="absolute right-0 top-0 bottom-0 w-[400px] z-10 bg-base-100 border-l border-[var(--tab-border)] p-2 overflow-auto"
     >
-      <app-dialogs-editor-visual-node-editor
-        (unselect)="unselectNode()"
-        (save)="saveNode($event)"
-        [action]="selected.data.actionInfo"
-      ></app-dialogs-editor-visual-node-editor>
+      @if (isSelectingNode()) {
+        loading...
+      } @else {
+        <app-dialogs-editor-visual-node-editor
+          (unselect)="unselectNode()"
+          (save)="saveNode($event)"
+          [action]="selected.data.actionInfo"
+        ></app-dialogs-editor-visual-node-editor>
+      }
     </div>
   }
 </div>

@@ -14,24 +14,26 @@
   [propType]="'string'"
 ></app-input-prop-editor>
 
-<div class="mt-4">
-  <app-input-holiday
-    label="Holiday Requirement"
-    [(holiday)]="chatData.requirement.holiday"
-  ></app-input-holiday>
-</div>
+@if (chatData.requirement) {
+  <div class="mt-4">
+    <app-input-holiday
+      label="Holiday Requirement"
+      [(holiday)]="chatData.requirement.holiday"
+    ></app-input-holiday>
+  </div>
 
-<div class="mt-4">
-  <app-input-stat
-    label="Stat Requirement"
-    [defaultValue]="chatData.requirement.stat"
-    (change)="chatData.requirement.stat = $event"
-  ></app-input-stat>
-</div>
+  <div class="mt-4">
+    <app-input-stat
+      label="Stat Requirement"
+      [defaultValue]="chatData.requirement.stat"
+      (change)="chatData.requirement.stat = $event"
+    ></app-input-stat>
+  </div>
 
-<app-input-prop-editor
-  class="flex-1"
-  [propName]="'Stat Requirement Value'"
-  [(propData)]="chatData.requirement.statValue"
-  [propType]="'number'"
-></app-input-prop-editor>
+  <app-input-prop-editor
+    class="flex-1"
+    [propName]="'Stat Requirement Value'"
+    [(propData)]="chatData.requirement.statValue"
+    [propType]="'number'"
+  ></app-input-prop-editor>
+}

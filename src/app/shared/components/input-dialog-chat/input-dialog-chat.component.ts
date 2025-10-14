@@ -11,9 +11,11 @@ export class InputDialogChatComponent implements OnInit {
   public chat = model.required<IDialogChatActionOption>();
 
   ngOnInit() {
-    this.chat.update((c) => {
-      c.requirement ??= {};
-      return c;
-    });
+    setTimeout(() => {
+      this.chat.update((c) => {
+        c.requirement ??= {};
+        return c;
+      });
+    }, 50);
   }
 }

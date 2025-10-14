@@ -3,17 +3,21 @@ import {
   Component,
   computed,
   effect,
-  input,
+  inject,
+  model,
   signal,
   viewChild,
 } from '@angular/core';
-import { cloneDeep } from 'lodash';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { cloneDeep, get, set } from 'lodash';
 import { Edge, NodeSelectedChange, VflowComponent } from 'ngx-vflow';
 import {
+  DialogActionType,
   DialogEditorNode,
   IDialogAction,
   IDialogTree,
 } from '../../../../interfaces';
+import { DialogNodeEditorService } from '../../../services/dialog-node-editor.service';
 import { DialogsEditorVisualNodeComponent } from '../dialogs-editor-visual-node/dialogs-editor-visual-node.component';
 
 @Component({
@@ -23,14 +27,16 @@ import { DialogsEditorVisualNodeComponent } from '../dialogs-editor-visual-node/
   styleUrl: './dialogs-editor-visual.component.scss',
 })
 export class DialogsEditorVisualComponent {
-  public dialogTree = input.required<IDialogTree>();
+  private dialogNodeService = inject(DialogNodeEditorService);
 
-  private dialogTreeRef = computed(() =>
-    cloneDeep(this.dialogTree() ?? { keyword: {} }),
-  );
+  public dialogTree = model.required<IDialogTree>();
+
+  private dialogTreeRef = signal<IDialogTree>({ keyword: {} });
 
   public nodes = signal<DialogEditorNode<any>[]>([]);
   public edges = signal<Edge[]>([]);
+
+  public isSelectingNode = signal<boolean>(false);
   public selectedNode = signal<DialogEditorNode<any> | undefined>(undefined);
 
   public currentKeyword = signal<string>('hello');
@@ -44,12 +50,52 @@ export class DialogsEditorVisualComponent {
 
   constructor() {
     effect(() => {
-      this.parseDialogTreeKeyword(this.dialogTree(), this.currentKeyword());
+      const newTree = cloneDeep(this.dialogTree());
+      this.dialogTreeRef.set(newTree);
     });
+
+    effect(() => {
+      this.parseDialogTreeKeyword(this.dialogTreeRef(), this.currentKeyword());
+    });
+
+    this.dialogNodeService.addCheckPassAction$
+      .pipe(takeUntilDestroyed())
+      .subscribe(({ nodePath }) => {
+        this.addAction(nodePath, 'checkPassActions');
+      });
+
+    this.dialogNodeService.removeCheckPassAction$
+      .pipe(takeUntilDestroyed())
+      .subscribe(({ nodePath, index }) => {
+        this.removeAction(nodePath, index, 'checkPassActions');
+      });
+
+    this.dialogNodeService.addCheckFailAction$
+      .pipe(takeUntilDestroyed())
+      .subscribe(({ nodePath }) => {
+        this.addAction(nodePath, 'checkFailActions');
+      });
+
+    this.dialogNodeService.removeCheckFailAction$
+      .pipe(takeUntilDestroyed())
+      .subscribe(({ nodePath, index }) => {
+        this.removeAction(nodePath, index, 'checkFailActions');
+      });
+
+    this.dialogNodeService.addQuestCompleteAction$
+      .pipe(takeUntilDestroyed())
+      .subscribe(({ nodePath }) => {
+        this.addAction(nodePath, 'questCompleteActions');
+      });
+
+    this.dialogNodeService.removeQuestCompleteAction$
+      .pipe(takeUntilDestroyed())
+      .subscribe(({ nodePath, index }) => {
+        this.removeAction(nodePath, index, 'questCompleteActions');
+      });
   }
 
   private parseDialogTreeKeyword(tree: IDialogTree, keyword: string) {
-    console.log(tree, keyword);
     const root = tree.keyword;
     if (!root) return;
 
@@ -113,11 +159,14 @@ export class DialogsEditorVisualComponent {
   ): DialogEditorNode<any>[] {
     const nodeRets: DialogEditorNode<any>[] = [];
 
+    const parentPath = extra.path ?? '';
     const baseId = `${parent}.${row}`;
 
     for (let nodeIdx = 0; nodeIdx < nodes.length; nodeIdx++) {
       const node = nodes[nodeIdx];
       if (!node) continue;
+
+      const myPath = parentPath ? `${parentPath}.${nodeIdx}` : `${nodeIdx}`;
 
       const xPos = col;
       const yPos = row + nodeIdx;
@@ -129,10 +178,14 @@ export class DialogsEditorVisualComponent {
 
         draggable: false,
         point: { x: xPos * 500, y: yPos * 200 },
-        width: 300,
+        width: 350,
+        height: 150,
 
         data: {
           actionInfo: node,
+          nodeFrom: extra.from ?? '',
+          nodeIndex: nodeIdx,
+          nodePath: myPath,
           id: nodeId,
           parentId: nodeIdx === 0 ? parent : `${baseId}-${nodeIdx - 1}`,
           from: extra.from ? `${extra.from}#${nodeIdx + 1}` : undefined,
@@ -156,7 +209,7 @@ export class DialogsEditorVisualComponent {
             nodeId,
             yPos + 1,
             xPos,
-            { from: 'success' },
+            { path: `${myPath}.checkPassActions`, from: 'success' },
           ),
         );
       }
@@ -170,7 +223,7 @@ export class DialogsEditorVisualComponent {
             nodeId,
             yPos,
             this.currentColumn,
-            { from: 'fail' },
+            { path: `${myPath}.checkFailActions`, from: 'fail' },
           ),
         );
       }
@@ -184,7 +237,10 @@ export class DialogsEditorVisualComponent {
             nodeId,
             yPos,
             this.currentColumn,
-            { from: 'questComplete' },
+            {
+              path: `${myPath}.questCompleteActions`,
+              from: 'questComplete',
+            },
           ),
         );
       }
@@ -198,12 +254,32 @@ export class DialogsEditorVisualComponent {
     this.unselectNode();
   }
 
+  public addNewKeyword(newKeyword: string) {
+    if (!newKeyword.trim()) return;
+    if (this.allKeywords().includes(newKeyword)) return;
+
+    const tree = this.dialogTreeRef();
+    tree.keyword = tree.keyword ?? {};
+    tree.keyword[newKeyword] = {
+      actions: [this.defaultActionData()],
+    };
+
+    this.dialogTree.set(tree);
+    this.changeKeyword(newKeyword);
+  }
+
   public selectNode(node: NodeSelectedChange) {
     if (!node.selected) return;
 
     const nodeId = node.id;
     const nodeData = this.nodes().find((n) => n.id === nodeId);
-    this.selectedNode.set(nodeData);
+
+    this.isSelectingNode.set(true);
+
+    setTimeout(() => {
+      this.selectedNode.set(nodeData);
+      this.isSelectingNode.set(false);
+    }, 50);
   }
 
   public unselectNode() {
@@ -214,6 +290,62 @@ export class DialogsEditorVisualComponent {
   }
 
   public saveNode(nodeData: IDialogAction) {
-    console.log(nodeData);
+    const path = this.selectedNode()?.data.nodePath;
+    if (!path) return;
+
+    const treeData = this.dialogTree();
+
+    set(
+      treeData.keyword[this.currentKeyword()].actions,
+      path.split('.'),
+      nodeData,
+    );
+
+    this.dialogTree.set(cloneDeep(treeData));
+
+    this.unselectNode();
+  }
+
+  private defaultActionData(): IDialogAction {
+    return {
+      type: DialogActionType.Chat,
+      message: 'Hello, ${ name }!',
+      options: [{ text: 'Goodbye.', action: 'noop', requirement: {} }],
+    } as IDialogAction;
+  }
+
+  private addAction(
+    nodePath: string,
+    type: 'checkPassActions' | 'checkFailActions' | 'questCompleteActions',
+  ) {
+    const treeData = this.dialogTree();
+    const actions = treeData.keyword?.[this.currentKeyword()]?.actions;
+    if (!actions) return;
+
+    const parentPath = nodePath.split('.');
+    const targetNode = get(actions, parentPath) as IDialogAction;
+    if (!targetNode || !targetNode[type]) return;
+
+    targetNode[type].push(this.defaultActionData());
+
+    this.dialogTree.set(cloneDeep(treeData));
+  }
+
+  private removeAction(
+    nodePath: string,
+    index: number,
+    type: 'checkPassActions' | 'checkFailActions' | 'questCompleteActions',
+  ) {
+    const treeData = this.dialogTree();
+    const actions = treeData.keyword?.[this.currentKeyword()]?.actions;
+    if (!actions) return;
+
+    const parentPath = nodePath.split('.').slice(0, -2);
+    const targetNode = get(actions, parentPath) as IDialogAction;
+    if (!targetNode || !targetNode[type]) return;
+
+    targetNode[type].splice(index, 1);
+
+    this.dialogTree.set(cloneDeep(treeData));
   }
 }

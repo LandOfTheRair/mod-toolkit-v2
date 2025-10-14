@@ -1,19 +1,80 @@
 @let info = data();
 
+<swal
+  #removeNode
+  title="Remove Node?"
+  text="This cannot be undone. Are you sure you want to remove it?"
+  confirmButtonText="Yes, remove"
+  icon="warning"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  (confirm)="removeThisNode()"
+></swal>
+
 <div
   selectable
   [class.border-primary]="selected()"
-  class="w-[300px] h-[100px] background-[#a6a086] text-[var(--tab-color)] border border-[var(--tab-bg)] rounded-lg p-2 flex justify-center items-center px-2 cursor-pointer relative object-contain overflow-hidden"
+  class="w-[300px] h-[125px] background-[#a6a086] text-[var(--tab-color)] border border-[var(--tab-bg)] rounded-lg flex justify-center cursor-pointer relative object-contain overflow-hidden"
 >
   @if (info) {
+    <div class="w-full h-full absolute z-100">
+      @if (info.actionInfo.checkFailActions) {
+        <button
+          class="btn btn-success btn-xs rounded-full rounded-r-none absolute right-0 top-1/2 -translate-y-1/2"
+          (click)="
+            addNodeChild('checkFailActions');
+            $event.preventDefault();
+            $event.stopPropagation()
+          "
+        >
+          +
+        </button>
+      }
+      @if (info.actionInfo.checkPassActions) {
+        <button
+          class="btn btn-success btn-xs rounded-full rounded-b-none absolute bottom-0 left-1/2 -translate-x-1/2"
+          (click)="
+            addNodeChild('checkPassActions');
+            $event.preventDefault();
+            $event.stopPropagation()
+          "
+        >
+          +
+        </button>
+      }
+
+      @if (info.actionInfo.questCompleteActions) {
+        <button
+          class="btn btn-success btn-xs rounded-full rounded-r-none absolute right-0 top-1/2 -translate-y-1/2"
+          (click)="
+            addNodeChild('questCompleteActions');
+            $event.preventDefault();
+            $event.stopPropagation()
+          "
+        >
+          +
+        </button>
+      }
+    </div>
+
     @if (info.actionInfo.maxDistance) {
       <div
-        class="absolute top-0 right-0 badge badge-accent rounded-none rounded-bl-lg"
+        class="absolute top-0 left-0 badge badge-accent rounded-none rounded-br-lg"
       >
         maxDist: {{ info.actionInfo.maxDistance }}
       </div>
     }
-    <div class="text-center">
+
+    @if (info.nodeFrom) {
+      <button
+        class="absolute top-0 right-0 btn btn-error btn-xs rounded-none rounded-bl-lg"
+        [swal]="removeNode"
+      >
+        &times;
+      </button>
+    }
+
+    <div class="text-center p-2">
       {{ info.actionInfo.type }}
 
       @if (helperText(); as helpText) {

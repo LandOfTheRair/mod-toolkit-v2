@@ -36,7 +36,9 @@ export class InputStatComponent implements OnInit {
   ngOnInit() {
     const defaultValue = this.defaultValue();
     if (defaultValue && this.values().includes(defaultValue)) {
-      this.stat.set(defaultValue);
+      setTimeout(() => {
+        this.stat.set(defaultValue);
+      }, 50);
     }
   }
 }
