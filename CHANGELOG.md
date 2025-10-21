@@ -1,6 +1,14 @@
+## <small>1.10.3 (2025-10-21)</small>
+
+* closes #117 ([c595c0a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c595c0a)), closes [#117](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/117)
+
+
+
 ## <small>1.10.2 (2025-10-21)</small>
 
 * closes #116 ([cd60725](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/cd60725)), closes [#116](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/116)
+* Release Patch 1.10.2 ([5d4acec](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/5d4acec))
+* Sync version ([d0c7de3](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d0c7de3))
 
 
 
