@@ -25,10 +25,10 @@ type StatEdit = {
 type TraitSetting = 'none' | 'static' | 'random';
 
 @Component({
-    selector: 'app-items-editor',
-    templateUrl: './items-editor.component.html',
-    styleUrl: './items-editor.component.scss',
-    standalone: false
+  selector: 'app-items-editor',
+  templateUrl: './items-editor.component.html',
+  styleUrl: './items-editor.component.scss',
+  standalone: false,
 })
 export class ItemsEditorComponent
   extends EditorBaseComponent<IItemDefinition>
@@ -260,6 +260,10 @@ export class ItemsEditorComponent
         );
       });
     }
+
+    const { isSackable, isBeltable } = typePropDefaults[newItemClass] ?? {};
+    this.update('isSackable', isSackable ?? false);
+    this.update('isBeltable', isBeltable ?? false);
   }
 
   public addStat(stat: StatType, value = 0) {

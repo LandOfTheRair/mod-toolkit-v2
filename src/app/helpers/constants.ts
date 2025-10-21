@@ -230,6 +230,25 @@ export const armorClasses = [
   'Tunic',
 ];
 
+export const sackableArmorClasses = [
+  'Amulet',
+  'Bracers',
+  'Boots',
+  'Claws',
+  'Cloak',
+  'Earring',
+  'Fur',
+  'Gloves',
+  'Hat',
+  'Helm',
+  'Robe',
+  'Ring',
+  'Sash',
+  'Saucer',
+  'Skull',
+  'Tunic',
+];
+
 export const typePropSets: Record<string, string[]> = {
   Arrow: ['shots', 'tier', 'damageClass'],
   Bottle: ['ounces'],
@@ -414,4 +433,9 @@ armorClasses.forEach((armorType) => {
   }
 
   typePropSets[armorType] = [...new Set(typePropSets[armorType])];
+});
+
+sackableArmorClasses.forEach((armorType) => {
+  typePropDefaults[armorType] = typePropDefaults[armorType] || {};
+  typePropDefaults[armorType].isSackable = true;
 });
