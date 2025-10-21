@@ -301,7 +301,11 @@ export enum Holiday {
 export enum MonsterClass {
   Beast = 'Beast',
   Dragon = 'Dragon',
+  Elemental = 'Elemental',
   Humanoid = 'Humanoid',
+  Insect = 'Insect',
+  Plant = 'Plant',
+  Rock = 'Rock',
   Undead = 'Undead',
 }
 
