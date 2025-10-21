@@ -146,6 +146,10 @@ export class AnalysisComponent implements OnInit {
 
         return this.analysisService.generateMapNPCDamageReport(mapName);
       }
+
+      case AnalysisReportType.ProgressionStat: {
+        return this.analysisService.generateStatProgressionReport();
+      }
     }
   });
 

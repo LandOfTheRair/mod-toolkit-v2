@@ -138,6 +138,15 @@ export class InputAnalysisReportComponent implements OnInit {
         desc: 'A global and individual breakdown of each weapon type, including average stats per bracket.',
       },
       {
+        category: 'Stat Report',
+        value: 'Stats Per Level',
+        type: AnalysisReportType.ProgressionStat,
+        data: {
+          itemClasses: weaponClasses,
+        },
+        desc: 'A breakdown of each stat average per 5 level bucket.',
+      },
+      {
         category: 'Miscellaneous',
         value: 'Map Content',
         type: AnalysisReportType.MapContent,

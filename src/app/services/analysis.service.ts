@@ -1,5 +1,15 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { chunk, difference, get, sortBy, sum, sumBy, uniq } from 'lodash';
+import {
+  chunk,
+  difference,
+  get,
+  groupBy,
+  meanBy,
+  sortBy,
+  sum,
+  sumBy,
+  uniq,
+} from 'lodash';
 import {
   AnalysisDisplayRow,
   AnalysisDisplayType,
@@ -1566,6 +1576,62 @@ export class AnalysisService {
 
     return {
       entries: [...allReports],
+    };
+  }
+
+  public generateStatProgressionReport(): AnalysisReport {
+    const items = this.modService.mod().items;
+
+    const itemBuckets = groupBy(items, (i) =>
+      Math.floor((i.requirements?.level ?? 0) / 5),
+    );
+
+    console.log(itemBuckets);
+
+    const statReport: AnalysisReportDisplay = {
+      type: AnalysisDisplayType.Table,
+      table: {
+        title: `Stat Progress By Level Bucket`,
+        headers: [
+          'Stat Name',
+          ...Object.keys(itemBuckets).map(
+            (l) => `Levels ${+l * 5} - ${+l * 5 + 4}`,
+          ),
+        ],
+        rows: [],
+      },
+    };
+
+    const allStats = Object.values(Stat);
+
+    allStats.forEach((stat) => {
+      const row: AnalysisDisplayRow[] = [{ pretext: stat }];
+
+      Object.keys(itemBuckets).forEach((bucketKey) => {
+        const bucketItems = itemBuckets[bucketKey];
+        const itemsWithStat = bucketItems.filter(
+          (i) => !i.destroyOnDrop && (i.stats?.[stat as StatType] ?? 0) > 0,
+        );
+
+        const statAvg = meanBy(
+          itemsWithStat,
+          (i) => i.stats?.[stat as StatType] ?? 0,
+        );
+
+        row.push({
+          pretext:
+            itemsWithStat.length > 0
+              ? `${statAvg.toFixed(1)} (${itemsWithStat.length})`
+              : '',
+          tooltip: itemsWithStat.map((t) => t.name).join(', '),
+        });
+      });
+
+      statReport.table.rows.push(row);
+    });
+
+    return {
+      entries: [statReport],
     };
   }
 }

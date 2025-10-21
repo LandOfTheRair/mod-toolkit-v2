@@ -13,6 +13,7 @@ export enum AnalysisReportType {
   SpellUtilization = 'spellutilization', // a list of all spells by utilization
   SpellPotency = 'spellpotency', // a list of all skill/stat combos for spell damage estimation
   WeaponPotency = 'weaponpotency', // a list of all skill/stat combos for weapon damage estimation
+  ProgressionStat = 'progressionstat', // a list of all stats by level for progression tracking
 }
 
 export enum AnalysisDisplayType {
