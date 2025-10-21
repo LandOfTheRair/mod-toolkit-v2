@@ -1,6 +1,14 @@
+## <small>1.10.2 (2025-10-21)</small>
+
+* closes #116 ([cd60725](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/cd60725)), closes [#116](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/116)
+
+
+
 ## <small>1.10.1 (2025-10-14)</small>
 
 * fix copydrop removal ([91d268b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/91d268b))
+* Release Patch 1.10.1 ([97215b9](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/97215b9))
+* Sync version ([2874818](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2874818))
 
 
 
