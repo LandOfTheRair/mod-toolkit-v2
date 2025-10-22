@@ -1,6 +1,14 @@
+## <small>1.10.5 (2025-10-22)</small>
+
+* closes #118 ([0b03297](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/0b03297)), closes [#118](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/118)
+
+
+
 ## <small>1.10.4 (2025-10-21)</small>
 
 * add new typings ([f72d568](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f72d568))
+* Release Patch 1.10.4 ([cd7ec83](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/cd7ec83))
+* Sync version ([d2609be](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d2609be))
 
 
 
