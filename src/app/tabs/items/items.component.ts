@@ -13,10 +13,10 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = IItemDefinition;
 
 @Component({
-    selector: 'app-items',
-    templateUrl: './items.component.html',
-    styleUrl: './items.component.scss',
-    standalone: false
+  selector: 'app-items',
+  templateUrl: './items.component.html',
+  styleUrl: './items.component.scss',
+  standalone: false,
 })
 export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
   private pinpointService = inject(PinpointService);
@@ -62,6 +62,12 @@ export class ItemsComponent extends EditorBaseTableComponent<EditingType> {
       flex: 1,
       cellDataType: 'text',
       filter: 'agTextColumnFilter',
+    },
+    {
+      field: 'tier',
+      flex: 1,
+      cellDataType: 'number',
+      filter: 'agNumberColumnFilter',
     },
     {
       field: 'requirements.level',

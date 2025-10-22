@@ -351,21 +351,21 @@
           @switch (propTypes[prop]) {
             @case ('string') {
               <app-input-prop-editor
-                [propData]="editingData[prop]"
+                [(propData)]="editingData[prop]"
                 [propName]="prop"
                 [propType]="'string'"
               ></app-input-prop-editor>
             }
             @case ('number') {
               <app-input-prop-editor
-                [propData]="editingData[prop]"
+                [(propData)]="editingData[prop]"
                 [propName]="prop"
                 [propType]="'number'"
               ></app-input-prop-editor>
             }
             @case ('boolean') {
               <app-input-prop-editor
-                [propData]="editingData[prop]"
+                [(propData)]="editingData[prop]"
                 [propName]="prop"
                 [propType]="'boolean'"
               ></app-input-prop-editor>
