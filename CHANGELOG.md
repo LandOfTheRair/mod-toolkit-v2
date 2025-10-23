@@ -1,6 +1,14 @@
+## <small>1.10.10 (2025-10-23)</small>
+
+* try this to fix? ([42dd3b4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/42dd3b4))
+
+
+
 ## <small>1.10.9 (2025-10-23)</small>
 
 * p -> div ([66450dc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/66450dc))
+* Release Patch 1.10.9 ([c2fadf3](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c2fadf3))
+* Sync version ([55a9bf6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/55a9bf6))
 
 
 
