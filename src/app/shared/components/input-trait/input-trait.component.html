@@ -10,12 +10,12 @@
     (change)="change.emit($event?.value)"
   >
     <ng-template ng-option-tmp let-item="item">
-      <div class="relative">
+      <div class="relative p-0">
         <div class="text-white">
           {{ item.value }}
         </div>
 
-        <p class="text-white text-sm italic whitespace-break-spaces">
+        <p class="text-white text-sm italic whitespace-break-spaces p-0 m-0">
           {{ item.desc }}
         </p>
       </div>
