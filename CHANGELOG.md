@@ -1,5 +1,13 @@
+## <small>1.10.11 (2025-10-23)</small>
+
+* this is dumb but it's fine ([083170c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/083170c))
+
+
+
 ## <small>1.10.10 (2025-10-23)</small>
 
+* Release Patch 1.10.10 ([94dd211](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/94dd211))
+* Sync version ([a482186](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a482186))
 * try this to fix? ([42dd3b4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/42dd3b4))
 
 
