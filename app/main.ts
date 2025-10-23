@@ -17,6 +17,8 @@ let win: BrowserWindow | null = null;
 const args = process.argv.slice(1);
 const serve = args.some((val) => val === '--serve');
 
+const showDevTools = process.argv.includes('--dev');
+
 const sendToUI: SendToUI = (d: string, i?: any) => {
   win?.webContents.send(d, i);
 };
@@ -120,7 +122,7 @@ async function createWindow(): Promise<BrowserWindow> {
     win?.show();
     handleSetup();
 
-    if (isDevelopment) {
+    if (isDevelopment || showDevTools) {
       win?.webContents.openDevTools();
     }
   });
