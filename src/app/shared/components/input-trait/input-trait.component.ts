@@ -74,4 +74,14 @@ export class InputTraitComponent {
 
     return sortBy(traitsOrdered, ['group', 'value']);
   });
+
+  public search(
+    term: string,
+    item: { value: string; group: string; desc: string },
+  ) {
+    return (
+      item.value.toLowerCase().includes(term.toLowerCase()) ||
+      item.group.toLowerCase().includes(term.toLowerCase())
+    );
+  }
 }

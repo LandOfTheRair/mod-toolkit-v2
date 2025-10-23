@@ -116,7 +116,6 @@ export class AnalysisService {
 
     const dataRows: AnalysisDisplayRow[] = sorted.map((i) => ({
       itemName: i.name,
-      posttext: `(Level ${i.requirements?.level ?? 0})`,
     }));
 
     const report: AnalysisReportDisplay = {

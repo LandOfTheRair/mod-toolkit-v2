@@ -1,23 +1,20 @@
 <div class="relative">
   <ng-select
     class="form-control"
-    [bindLabel]="'value'"
-    [bindValue]="'value'"
+    bindLabel="value"
+    bindValue="value"
     [groupBy]="'group'"
+    [searchFn]="search"
     [items]="values()"
     [(ngModel)]="spell"
     placeholder="Select spell..."
     (change)="change.emit($event)"
   >
     <ng-template ng-option-tmp let-item="item">
-      <div class="relative p-0">
-        <div class="text-white">
-          {{ item.value }}
-        </div>
-
-        <div class="text-white text-sm italic whitespace-break-spaces p-0 m-0">
-          {{ item.desc }}
-        </div>
+      <div class="text-white whitespace-break-spaces">
+        <span class="font-bold">{{ item.value }}</span>
+        <br />
+        {{ item.desc }}
       </div>
     </ng-template>
   </ng-select>

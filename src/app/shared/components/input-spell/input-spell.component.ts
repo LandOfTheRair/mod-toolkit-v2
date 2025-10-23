@@ -65,8 +65,14 @@ export class InputSpellComponent implements OnInit {
     return sortBy(spellsOrdered, ['group', 'value']);
   });
 
-  public search(term: string, item: { value: string }) {
-    return item.value.toLowerCase().includes(term.toLowerCase());
+  public search(
+    term: string,
+    item: { value: string; group: string; desc: string },
+  ) {
+    return (
+      item.value.toLowerCase().includes(term.toLowerCase()) ||
+      item.group.toLowerCase().includes(term.toLowerCase())
+    );
   }
 
   ngOnInit() {
