@@ -1,23 +1,31 @@
 import admZip from 'adm-zip';
-import * as dlgit from 'download-github-repo';
+import dlgit from 'download-github-repo';
 import * as fs from 'fs-extra';
 
 import { baseUrl } from '../helpers';
-import { mainError } from '../helpers/logging';
+import { mainError, mainLog } from '../helpers/logging';
 import { SendToUI } from '../types';
 
 let isUpdating = false;
 
 export async function updateResources(sendToUI: SendToUI) {
-  if (isUpdating) throw new Error('Currently updating, please wait.');
+  mainLog('Updating resources...');
+
+  if (isUpdating) {
+    mainError(new Error('Currently updating, please wait.'));
+    return;
+  }
+
   isUpdating = true;
 
   if (fs.existsSync(`${baseUrl}/resources/.loaded`)) {
+    mainLog('Removing previous loaded indicator...');
     fs.rmSync(`${baseUrl}/resources/.loaded`);
   }
 
   sendToUI('notify', { type: 'info', text: 'Creating directory structure...' });
 
+  fs.ensureDirSync(`${baseUrl}/resources`);
   fs.ensureDirSync(`${baseUrl}/resources/json`);
   fs.ensureDirSync(`${baseUrl}/resources/maps/__assets/spritesheets`);
   fs.ensureDirSync(
@@ -27,6 +35,7 @@ export async function updateResources(sendToUI: SendToUI) {
 
   fs.ensureDirSync(`${baseUrl}/resources/content`);
   fs.rmdirSync(`${baseUrl}/resources/content`, { recursive: true });
+  fs.ensureDirSync(`${baseUrl}/resources/content`);
 
   const sheets = async () => {
     const spritesheets = ['creatures', 'decor', 'items', 'terrain', 'walls'];
@@ -51,6 +60,11 @@ export async function updateResources(sendToUI: SendToUI) {
           `${baseUrl}/resources/maps/src/content/__assets/spritesheets/${sheet}.png`,
           `${baseUrl}/resources/maps/__assets/spritesheets/${sheet}.png`,
         );
+
+        sendToUI('notify', {
+          type: 'success',
+          text: `Downloaded spritesheet "${sheet}"!`,
+        });
       } catch (e) {
         mainError(e);
         sendToUI('notify', {
@@ -80,6 +94,11 @@ export async function updateResources(sendToUI: SendToUI) {
           `${baseUrl}/resources/json/${json}.json`,
           templateBuffer,
         );
+
+        sendToUI('notify', {
+          type: 'success',
+          text: `Downloaded content "${json}"!`,
+        });
       } catch (e) {
         mainError(e);
         sendToUI('notify', {
@@ -106,6 +125,11 @@ export async function updateResources(sendToUI: SendToUI) {
         `${baseUrl}/resources/maps/src/content/maps/custom/Template.json`,
         templateBuffer,
       );
+
+      sendToUI('notify', {
+        type: 'success',
+        text: `Downloaded map template!`,
+      });
     } catch (e) {
       mainError(e);
       sendToUI('notify', {
@@ -129,6 +153,11 @@ export async function updateResources(sendToUI: SendToUI) {
       adm.extractAllTo(`${baseUrl}/resources`);
 
       fs.rmSync(`${baseUrl}/resources/Tiled.zip`);
+
+      sendToUI('notify', {
+        type: 'success',
+        text: `Downloaded Tiled!`,
+      });
     } catch (e) {
       mainError(e);
       sendToUI('notify', {
@@ -137,15 +166,6 @@ export async function updateResources(sendToUI: SendToUI) {
       });
       isUpdating = false;
     }
-  };
-
-  const validators = async () => {
-    sendToUI('notify', { type: 'info', text: 'Downloading validators...' });
-    dlgit(
-      'LandOfTheRair/Content',
-      `${baseUrl}/resources/content`,
-      async () => {},
-    );
   };
 
   const assets = async () => {
@@ -164,6 +184,11 @@ export async function updateResources(sendToUI: SendToUI) {
       fs.writeJSONSync(`${baseUrl}/resources/json/sfx.json`, allSfx);
       fs.writeJSONSync(`${baseUrl}/resources/json/bgm.json`, allBgm);
       fs.writeJSONSync(`${baseUrl}/resources/json/macicons.json`, allIcon);
+
+      sendToUI('notify', {
+        type: 'success',
+        text: `Downloaded core assets!`,
+      });
     });
   };
 
@@ -176,6 +201,11 @@ export async function updateResources(sendToUI: SendToUI) {
       const templateBuffer = Buffer.from(await templateRes.arrayBuffer());
 
       await fs.writeFile(`${baseUrl}/resources/json/meta.json`, templateBuffer);
+
+      sendToUI('notify', {
+        type: 'success',
+        text: `Downloaded meta data!`,
+      });
     } catch (e) {
       mainError(e);
       sendToUI('notify', {
@@ -190,7 +220,6 @@ export async function updateResources(sendToUI: SendToUI) {
   await json();
   await template();
   await tiled();
-  await validators();
   await assets();
   await meta();
 

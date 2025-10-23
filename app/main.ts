@@ -20,7 +20,7 @@ const serve = args.some((val) => val === '--serve');
 const showDevTools = process.argv.includes('--dev');
 
 const sendToUI: SendToUI = (d: string, i?: any) => {
-  mainLog(`Sending to UI: ${d}`);
+  mainLog(`Sending to UI: ${d} ${i ? JSON.stringify(i) : '(no data)'}`);
   win?.webContents.send(d, i);
 };
 
