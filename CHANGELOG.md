@@ -1,7 +1,16 @@
+## <small>1.10.7 (2025-10-23)</small>
+
+* attempt to clean up dropdowns ([de57ff6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/de57ff6))
+* make spell input class-based ([825de0a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/825de0a))
+
+
+
 ## <small>1.10.6 (2025-10-23)</small>
 
 * closes #119 ([07f729c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/07f729c)), closes [#119](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/119)
 * closes #120 ([757d952](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/757d952)), closes [#120](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/120)
+* Release Patch 1.10.6 ([2cecbd4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/2cecbd4))
+* Sync version ([a9d8c83](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a9d8c83))
 
 
 
