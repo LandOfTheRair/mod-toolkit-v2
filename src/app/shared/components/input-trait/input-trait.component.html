@@ -1,14 +1,23 @@
 <div class="relative">
-  <ng-select class="form-control" [items]="values()" [(ngModel)]="trait" bindLabel="value" bindValue="value"
-    placeholder="Select trait..." (change)="change.emit($event?.value)">
-
+  <ng-select
+    class="form-control"
+    [items]="values()"
+    [groupBy]="'group'"
+    [(ngModel)]="trait"
+    bindLabel="value"
+    bindValue="value"
+    placeholder="Select trait..."
+    (change)="change.emit($event?.value)"
+  >
     <ng-template ng-option-tmp let-item="item">
       <div class="relative">
         <div class="text-white">
           {{ item.value }}
         </div>
 
-        <p class="text-white text-sm italic whitespace-break-spaces">{{ item.desc }}</p>
+        <p class="text-white text-sm italic whitespace-break-spaces">
+          {{ item.desc }}
+        </p>
       </div>
     </ng-template>
   </ng-select>

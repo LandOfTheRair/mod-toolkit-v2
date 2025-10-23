@@ -10,10 +10,10 @@ import { sortBy } from 'lodash';
 import { ModService } from '../../../services/mod.service';
 
 @Component({
-    selector: 'app-input-trait',
-    templateUrl: './input-trait.component.html',
-    styleUrl: './input-trait.component.scss',
-    standalone: false
+  selector: 'app-input-trait',
+  templateUrl: './input-trait.component.html',
+  styleUrl: './input-trait.component.scss',
+  standalone: false,
 })
 export class InputTraitComponent {
   private modService = inject(ModService);
@@ -26,16 +26,52 @@ export class InputTraitComponent {
   public values = computed(() => {
     const allowSpells = this.allowSpells();
 
-    const baseTraits = this.modService
-      .mod()
-      .stems.filter((s) => (s._hasTrait && allowSpells ? true : !s._hasSpell));
+    const baseTraits = this.modService.mod().stems.filter((s) => {
+      if (!s._hasTrait) return false;
 
-    return sortBy(
-      baseTraits.map((t) => ({
-        value: t._gameId,
-        desc: t.all.desc,
-      })),
-      'value'
-    );
+      return allowSpells ? true : !s._hasSpell;
+    });
+
+    const traitTrees = this.modService.mod().traitTrees;
+    const traitsInEachTree: Record<string, string[]> = {};
+
+    traitTrees.forEach((tree) => {
+      Object.keys(tree.data.trees).forEach((treeName) => {
+        const subtree = tree.data.trees[treeName];
+        subtree.tree.forEach((level) => {
+          level.traits.forEach((traitData) => {
+            if (!traitData.name) return;
+
+            if (tree.name === 'Core') {
+              traitsInEachTree[traitData.name] ??= [];
+              traitsInEachTree[traitData.name].push(`Shared - Core`);
+              return;
+            }
+
+            if (traitData.isAncient) {
+              traitsInEachTree[traitData.name] ??= [];
+              traitsInEachTree[traitData.name].push(`Shared - Ancient`);
+              return;
+            }
+
+            traitsInEachTree[traitData.name] ??= [];
+            traitsInEachTree[traitData.name].push(
+              `Class - ${tree.name} - ${treeName}`,
+            );
+          });
+        });
+      });
+    });
+
+    const traitsOrdered = baseTraits.flatMap((trait) => {
+      const trees = traitsInEachTree[trait._gameId] ?? ['Other'];
+      return trees.flatMap((tree) => ({
+        value: trait._gameId,
+        desc: trait.all.desc,
+        group: tree,
+      }));
+    });
+
+    return sortBy(traitsOrdered, ['group', 'value']);
   });
 }
