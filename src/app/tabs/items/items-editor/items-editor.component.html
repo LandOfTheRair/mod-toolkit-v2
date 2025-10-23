@@ -895,6 +895,7 @@
           <app-input-floating-label>Required Level</app-input-floating-label>
           <input
             [(ngModel)]="editingData.requirements!.level"
+            (ngModelChange)="changeItemLevel($event)"
             type="number"
             min="0"
             placeholder="Enter required level..."

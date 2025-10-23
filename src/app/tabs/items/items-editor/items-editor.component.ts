@@ -503,6 +503,21 @@ export class ItemsEditorComponent
     return sortBy(items);
   }
 
+  public changeItemLevel(newLevel: number) {
+    let tier = 1;
+    if (newLevel >= 7) tier = 2;
+    if (newLevel >= 12) tier = 3;
+    if (newLevel >= 15) tier = 4;
+    if (newLevel >= 20) tier = 5;
+    if (newLevel >= 25) tier = 6;
+    if (newLevel >= 35) tier = 7;
+    if (newLevel >= 45) tier = 8;
+    if (newLevel >= 50) tier = 9;
+    if (newLevel >= 60) tier = 10;
+
+    this.update('tier', tier);
+  }
+
   public doSave() {
     this.isSaving.set(true);
 
