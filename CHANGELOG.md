@@ -1,7 +1,15 @@
+## <small>1.10.8 (2025-10-23)</small>
+
+* add dev mode flag ([a32dbcc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a32dbcc))
+
+
+
 ## <small>1.10.7 (2025-10-23)</small>
 
 * attempt to clean up dropdowns ([de57ff6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/de57ff6))
 * make spell input class-based ([825de0a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/825de0a))
+* Release Patch 1.10.7 ([eb50d3a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/eb50d3a))
+* Sync version ([8023817](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8023817))
 
 
 
