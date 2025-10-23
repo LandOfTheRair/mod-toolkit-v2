@@ -1,6 +1,14 @@
+## <small>1.10.13 (2025-10-23)</small>
+
+* fix resource download error ([9061817](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9061817))
+
+
+
 ## <small>1.10.12 (2025-10-23)</small>
 
 * more logging ([61e7566](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/61e7566))
+* Release Patch 1.10.12 ([17991d4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/17991d4))
+* Sync version ([05c121c](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/05c121c))
 
 
 
