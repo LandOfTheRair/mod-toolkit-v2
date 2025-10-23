@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as handlers from './handlers';
 import { baseUrl } from './helpers';
-import { getMainLog, mainLog } from './helpers/logging';
+import { getMainLog, mainError, mainLog } from './helpers/logging';
 import { setupIPC, watchMaps } from './ipc';
 import { SendToUI } from './types';
 
@@ -20,6 +20,7 @@ const serve = args.some((val) => val === '--serve');
 const showDevTools = process.argv.includes('--dev');
 
 const sendToUI: SendToUI = (d: string, i?: any) => {
+  mainLog(`Sending to UI: ${d}`);
   win?.webContents.send(d, i);
 };
 
@@ -119,10 +120,12 @@ async function createWindow(): Promise<BrowserWindow> {
   }
 
   win.once('ready-to-show', () => {
+    mainLog(`Showing window and running setup...`);
     win?.show();
     handleSetup();
 
     if (isDevelopment || showDevTools) {
+      mainLog(`Showing dev tools...`);
       win?.webContents.openDevTools();
     }
   });
@@ -135,10 +138,12 @@ async function createWindow(): Promise<BrowserWindow> {
 
   win.webContents.setWindowOpenHandler(({ url }: any) => {
     shell.openExternal(url);
+    mainLog(`Opening external url: ${url}`);
     return { action: 'deny' };
   });
 
   win.on('close', () => {
+    mainLog(`Closing window and saving config...`);
     config.set('winBounds', win?.getBounds());
   });
 
@@ -147,12 +152,14 @@ async function createWindow(): Promise<BrowserWindow> {
   });
 
   if (serve) {
+    mainLog(`Serving application (not running in prod mode)...`);
     const debug = require('electron-debug');
     debug();
 
     require('electron-reloader')(module);
     await win.loadURL('http://localhost:4200');
   } else {
+    mainLog(`Loading production HTML...`);
     let pathIndex = './index.html';
     const fullPath = path.join(__dirname, pathIndex);
     const url = `file://${path.resolve(fullPath).replace(/\\/g, '/')}`;
@@ -172,16 +179,19 @@ try {
   app.on('ready', createWindow);
 
   app.on('window-all-closed', () => {
+    mainLog(`Closing all windows...`);
     if (process.platform !== 'darwin') {
       app.quit();
     }
   });
 
   app.on('activate', () => {
+    mainLog(`Activating...`);
     if (win === null) {
       createWindow();
     }
   });
 } catch (e) {
+  mainError(e);
   throw e;
 }
