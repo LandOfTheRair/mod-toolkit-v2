@@ -1,6 +1,14 @@
+## <small>1.10.9 (2025-10-23)</small>
+
+* p -> div ([66450dc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/66450dc))
+
+
+
 ## <small>1.10.8 (2025-10-23)</small>
 
 * add dev mode flag ([a32dbcc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a32dbcc))
+* Release Patch 1.10.8 ([932451a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/932451a))
+* Sync version ([1b077fc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1b077fc))
 
 
 
