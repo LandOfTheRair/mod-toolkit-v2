@@ -1,4 +1,4 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit } from '@angular/core';
 
 import { ICoreContent } from '../../../../interfaces';
 import { EditorBaseComponent } from '../../../shared/components/editor-base/editor-base.component';
@@ -13,11 +13,9 @@ export class CoresEditorComponent
   extends EditorBaseComponent<ICoreContent>
   implements OnInit
 {
-  public currentItem = signal<ICoreContent | undefined>(undefined);
-
   public canSave = computed(() => {
     const data = this.editing();
-    return data.name && !this.isSaving();
+    return data.name && data.json && !this.isSaving();
   });
 
   public satisfiesUnique = computed(() => {

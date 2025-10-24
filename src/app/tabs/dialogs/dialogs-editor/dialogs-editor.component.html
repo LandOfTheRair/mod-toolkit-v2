@@ -286,7 +286,7 @@
   }
   @case (1) {
     <div class="flex flex-row gap-2 json-container">
-      <app-input-json [json]="editingData.behaviors"></app-input-json>
+      <app-input-json [(json)]="editingData.behaviors"></app-input-json>
     </div>
   }
   @case (2) {
@@ -302,7 +302,7 @@
   }
   @case (3) {
     <div class="flex flex-row gap-2 json-container">
-      <app-input-json [json]="editingData.dialog"></app-input-json>
+      <app-input-json [(json)]="editingData.dialog"></app-input-json>
     </div>
   }
 }

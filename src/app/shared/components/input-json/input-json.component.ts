@@ -17,7 +17,15 @@ export class InputJsonComponent implements OnInit {
     if (!jsonEditor) return;
 
     const updateJSON = (updated: any) => {
-      this.json.set(updated.json);
+      if (updated.text) {
+        this.json.set(JSON.parse(updated.text as string));
+        return;
+      }
+
+      if (updated.json) {
+        this.json.set(updated.json);
+        return;
+      }
     };
 
     createJSONEditor({
