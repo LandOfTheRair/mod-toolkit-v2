@@ -1,6 +1,14 @@
+## <small>1.10.16 (2025-10-24)</small>
+
+* allow a build to happen ([3eee0f5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3eee0f5))
+
+
+
 ## <small>1.10.15 (2025-10-24)</small>
 
+* Release Patch 1.10.15 ([c8c6ca6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c8c6ca6))
 * swallow the error ([8c601a6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8c601a6))
+* Sync version ([cf05f7b](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/cf05f7b))
 
 
 
