@@ -1,6 +1,14 @@
+## <small>1.10.14 (2025-10-24)</small>
+
+* fix issue with json editors ([a1df6e1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a1df6e1))
+
+
+
 ## <small>1.10.13 (2025-10-23)</small>
 
 * fix resource download error ([9061817](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9061817))
+* Release Patch 1.10.13 ([e82fbc4](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e82fbc4))
+* Sync version ([e8b1e11](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/e8b1e11))
 
 
 
