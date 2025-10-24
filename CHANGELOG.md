@@ -1,6 +1,14 @@
+## <small>1.10.15 (2025-10-24)</small>
+
+* swallow the error ([8c601a6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8c601a6))
+
+
+
 ## <small>1.10.14 (2025-10-24)</small>
 
 * fix issue with json editors ([a1df6e1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a1df6e1))
+* Release Patch 1.10.14 ([40b9247](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/40b9247))
+* Sync version ([03fc3b1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/03fc3b1))
 
 
 
