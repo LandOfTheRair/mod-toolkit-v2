@@ -20,7 +20,9 @@ export class InputJsonComponent implements OnInit {
       if (updated.text) {
         try {
           this.json.set(JSON.parse(updated.text as string));
-        } catch {}
+        } catch (e) {
+          console.error(e);
+        }
         return;
       }
 
