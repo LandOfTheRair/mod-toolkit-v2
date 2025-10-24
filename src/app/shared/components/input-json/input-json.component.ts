@@ -18,7 +18,9 @@ export class InputJsonComponent implements OnInit {
 
     const updateJSON = (updated: any) => {
       if (updated.text) {
-        this.json.set(JSON.parse(updated.text as string));
+        try {
+          this.json.set(JSON.parse(updated.text as string));
+        } catch {}
         return;
       }
 
