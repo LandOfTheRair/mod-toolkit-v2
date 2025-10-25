@@ -1,6 +1,14 @@
+## <small>1.10.17 (2025-10-25)</small>
+
+* closes #122 ([7188378](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7188378)), closes [#122](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/122)
+
+
+
 ## <small>1.10.16 (2025-10-24)</small>
 
 * allow a build to happen ([3eee0f5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/3eee0f5))
+* Release Patch 1.10.16 ([ec17640](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ec17640))
+* Sync version ([4eedb5e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4eedb5e))
 
 
 
