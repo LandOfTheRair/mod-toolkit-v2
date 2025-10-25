@@ -56,15 +56,7 @@ export class ElectronService {
     effect(() => {
       const mod = this.modService.mod();
 
-      const quicksaveFilepath = this.quicksaveFilepath();
-      if (quicksaveFilepath) {
-        this.send('SAVE_MOD_WITH_BACKUP', {
-          modData: mod,
-          quicksaveFilepath,
-        });
-      } else {
-        this.send('BACKUP_MOD', mod);
-      }
+      this.saveMod(mod);
     });
 
     effect(() => {
@@ -75,6 +67,18 @@ export class ElectronService {
         modData: diff,
       });
     });
+  }
+
+  private saveMod(mod: IModKit) {
+    const quicksaveFilepath = this.quicksaveFilepath();
+    if (quicksaveFilepath) {
+      this.send('SAVE_MOD_WITH_BACKUP', {
+        modData: mod,
+        quicksaveFilepath,
+      });
+    } else {
+      this.send('BACKUP_MOD', mod);
+    }
   }
 
   public async reloadExternalWebMod() {

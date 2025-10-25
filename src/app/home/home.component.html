@@ -106,6 +106,13 @@
                           Export Partial Mod...
                         </a>
                       </li>
+
+                      <li>
+                        <a (click)="debugService.toggleExportingBackups()">
+                          Export Backups
+                          {{ debugService.isExportingBackups() ? '☑' : '☐' }}
+                        </a>
+                      </li>
                     </ul>
                   </details>
                 </li>
@@ -190,7 +197,7 @@
                       </a>
                     </li>
                     <li>
-                      <a (click)="closeMenu(); debugService.toggleDebug()">
+                      <a (click)="debugService.toggleDebug()">
                         Debug Mode {{ debugService.isDebug() ? '☑' : '☐' }}
                       </a>
                     </li>

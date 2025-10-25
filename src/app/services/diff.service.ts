@@ -97,7 +97,7 @@ export class DiffService {
     const diff = this.generateModDiff();
     if (!diff) return;
 
-    const formatted = formatMod(diff);
+    const formatted = formatMod(diff, false);
     delete formatted.meta._backup;
 
     this.exportMod.set(formatted);

@@ -1,13 +1,13 @@
 import { IModKit } from '../../interfaces';
 import { formatItems, formatNPCs, formatSpawners } from './export';
 
-export function formatMod(modData: IModKit): IModKit {
+export function formatMod(modData: IModKit, shouldBackup: boolean): IModKit {
   const backup = structuredClone(modData);
 
   const exported: IModKit = {
     meta: {
       ...structuredClone(modData.meta),
-      _backup: backup,
+      _backup: shouldBackup ? backup : undefined,
     },
 
     npcs: formatNPCs(modData.npcs),

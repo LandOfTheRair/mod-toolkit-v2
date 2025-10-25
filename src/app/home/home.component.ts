@@ -150,7 +150,10 @@ export class HomeComponent implements OnInit {
     const saveMod = () => {
       this.electronService.send('SAVE_MOD', {
         shouldExport: true,
-        modData: formatMod(this.modService.mod()),
+        modData: formatMod(
+          this.modService.mod(),
+          this.debugService.isExportingBackups(),
+        ),
       });
     };
 
