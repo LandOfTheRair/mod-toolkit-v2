@@ -1,6 +1,14 @@
+## <small>1.10.18 (2025-10-27)</small>
+
+* make macro-only reselectable again ([29eef87](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/29eef87))
+
+
+
 ## <small>1.10.17 (2025-10-25)</small>
 
 * closes #122 ([7188378](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/7188378)), closes [#122](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/122)
+* Release Patch 1.10.17 ([85382d6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/85382d6))
+* Sync version ([ef2a7c1](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/ef2a7c1))
 
 
 
