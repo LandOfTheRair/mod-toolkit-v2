@@ -1309,6 +1309,7 @@ export class AnalysisService {
       'iceResist',
       'waterResist',
       'lightningResist',
+      'acidResist',
       'sonicResist',
     ];
 

@@ -3,6 +3,7 @@ export type DamageType =
   | 'necrotic'
   | 'fire'
   | 'lightning'
+  | 'acid'
   | 'ice'
   | 'water'
   | 'energy'
@@ -20,6 +21,7 @@ export const MagicClasses: Record<DamageType, boolean> = {
   energy: true,
   poison: true,
   disease: true,
+  acid: false,
   sonic: false,
 };
 
