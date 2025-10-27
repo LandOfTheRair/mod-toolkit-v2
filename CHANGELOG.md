@@ -1,6 +1,14 @@
+## <small>1.10.19 (2025-10-27)</small>
+
+* add acid damage type ([28d86c6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/28d86c6))
+
+
+
 ## <small>1.10.18 (2025-10-27)</small>
 
 * make macro-only reselectable again ([29eef87](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/29eef87))
+* Release Patch 1.10.18 ([d02ab50](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/d02ab50))
+* Sync version ([6ec199d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6ec199d))
 
 
 
