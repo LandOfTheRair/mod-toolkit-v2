@@ -29,9 +29,9 @@ export class InputSpellComponent implements OnInit {
     const allowMacros = this.allowMacro();
 
     const baseSpells = this.modService.mod().stems.filter((s) => {
-      if (!s._hasSpell) return false;
+      if (allowMacros && s._hasMacro) return true;
 
-      return allowMacros ? true : !s._hasMacro;
+      return s._hasSpell;
     });
 
     const traitTrees = this.modService.mod().traitTrees;
