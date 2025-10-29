@@ -130,10 +130,10 @@ export function checkMapTeleports(mod: IModKit): ValidationMessageGroup[] {
             });
             return;
           }
-
-          const wallLayer = mapsByName[teleportMap].map.layers[4].data;
+          const wallLayer = mapsByName[teleportMap].map.layers[4];
           const coordinate = teleportY * wallLayer.width + teleportX;
-          if (wallLayer[coordinate]) {
+
+          if (wallLayer.data[coordinate]) {
             mapValidations.messages.push({
               type: 'error',
               message: `${
