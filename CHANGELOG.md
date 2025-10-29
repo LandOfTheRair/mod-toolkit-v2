@@ -1,6 +1,14 @@
+## <small>1.10.20 (2025-10-29)</small>
+
+* fix modkit teleport validations ([bd295cd](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/bd295cd))
+
+
+
 ## <small>1.10.19 (2025-10-27)</small>
 
 * add acid damage type ([28d86c6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/28d86c6))
+* Release Patch 1.10.19 ([8e3df2a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/8e3df2a))
+* Sync version ([dbdf1ed](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/dbdf1ed))
 
 
 
