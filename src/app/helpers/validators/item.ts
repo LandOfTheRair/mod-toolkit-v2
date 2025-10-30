@@ -43,7 +43,7 @@ export function checkItemStats(mod: IModKit): ValidationMessageGroup {
 
 export function checkItemDescriptions(mod: IModKit): ValidationMessageGroup {
   const itemValidations: ValidationMessageGroup = {
-    header: 'Duplicate Item Descriptions',
+    header: 'Item Descriptions',
     messages: [],
   };
 
@@ -59,6 +59,14 @@ export function checkItemDescriptions(mod: IModKit): ValidationMessageGroup {
       item.name.includes('Enemy')
     )
       return;
+
+    if (item.desc === 'an item') {
+      itemValidations.messages.push({
+        type: 'warning',
+        message: `${item.name} has a generic description of "an item". Consider updating it to be more specific.`,
+      });
+      return;
+    }
 
     // if the description matches
     const descMatch = itemDescs[item.desc];
