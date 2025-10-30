@@ -1,6 +1,14 @@
+## <small>1.10.21 (2025-10-30)</small>
+
+* add validation for 'an item' ([6be2d69](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6be2d69))
+
+
+
 ## <small>1.10.20 (2025-10-29)</small>
 
 * fix modkit teleport validations ([bd295cd](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/bd295cd))
+* Release Patch 1.10.20 ([865a46e](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/865a46e))
+* Sync version ([35b3660](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/35b3660))
 
 
 
