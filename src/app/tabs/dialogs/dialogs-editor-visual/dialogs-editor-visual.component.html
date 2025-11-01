@@ -3,13 +3,24 @@
 >
   <div class="w-[200px] flex flex-col border-r border-[var(--tab-border)] pr-2">
     @for (keyword of allKeywords(); track $index) {
-      <button
-        class="p-2 m-1 rounded cursor-pointer btn w-full"
-        [class.btn-info]="currentKeyword() === keyword"
-        (click)="changeKeyword(keyword)"
-      >
-        {{ keyword }}
-      </button>
+      <div class="flex">
+        <button
+          class="p-2 m-1 rounded cursor-pointer btn w-full flex-1"
+          [class.btn-info]="currentKeyword() === keyword"
+          (click)="changeKeyword(keyword)"
+        >
+          {{ keyword }}
+        </button>
+
+        @if (keyword !== 'hello') {
+          <button
+            class="p-2 m-1 rounded cursor-pointer btn-error btn-outline"
+            (click)="removeKeyword(keyword)"
+          >
+            -
+          </button>
+        }
+      </div>
     }
 
     <button

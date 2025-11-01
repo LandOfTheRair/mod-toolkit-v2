@@ -254,6 +254,18 @@ export class DialogsEditorVisualComponent {
     this.unselectNode();
   }
 
+  public removeKeyword(keyword: string) {
+    const tree = this.dialogTreeRef();
+    if (!tree.keyword || !tree.keyword[keyword]) return;
+    delete tree.keyword[keyword];
+
+    this.dialogTree.set(tree);
+
+    if (keyword === this.currentKeyword()) {
+      this.changeKeyword('hello');
+    }
+  }
+
   public addNewKeyword(newKeyword: string) {
     if (!newKeyword.trim()) return;
     if (this.allKeywords().includes(newKeyword)) return;
