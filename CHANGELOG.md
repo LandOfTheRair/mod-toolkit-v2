@@ -1,6 +1,16 @@
+## <small>1.10.23 (2025-11-01)</small>
+
+* can remove hello again ([a43879d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a43879d))
+* hide maxdist when undefined ([1b1ebe3](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1b1ebe3))
+* remove awkward button movement in node editor ([39c5a3a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/39c5a3a))
+
+
+
 ## <small>1.10.22 (2025-11-01)</small>
 
 * closes #121 ([4e3be1a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4e3be1a)), closes [#121](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/121)
+* Release Patch 1.10.22 ([a1af434](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a1af434))
+* Sync version ([9921bcc](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9921bcc))
 * fix: allow for removing keywords ([6465ba0](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6465ba0)), closes [#123](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/123)
 
 
