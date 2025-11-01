@@ -20,7 +20,7 @@
     <div class="w-full h-full absolute z-100">
       @if (info.actionInfo.checkFailActions) {
         <button
-          class="btn btn-success btn-xs rounded-full rounded-r-none absolute right-0 top-1/2 -translate-y-1/2"
+          class="action-btn btn btn-success btn-xs rounded-full rounded-r-none absolute right-0 top-1/2 -translate-y-1/2"
           (click)="
             addNodeChild('checkFailActions');
             $event.preventDefault();
@@ -32,7 +32,7 @@
       }
       @if (info.actionInfo.checkPassActions) {
         <button
-          class="btn btn-success btn-xs rounded-full rounded-b-none absolute bottom-0 left-1/2 -translate-x-1/2"
+          class="action-btn btn btn-success btn-xs rounded-full rounded-b-none absolute bottom-0 left-1/2 -translate-x-1/2"
           (click)="
             addNodeChild('checkPassActions');
             $event.preventDefault();
@@ -45,7 +45,7 @@
 
       @if (info.actionInfo.questCompleteActions) {
         <button
-          class="btn btn-success btn-xs rounded-full rounded-r-none absolute right-0 top-1/2 -translate-y-1/2"
+          class="action-btn btn btn-success btn-xs rounded-full rounded-r-none absolute right-0 top-1/2 -translate-y-1/2"
           (click)="
             addNodeChild('questCompleteActions');
             $event.preventDefault();
@@ -57,7 +57,7 @@
       }
     </div>
 
-    @if (info.actionInfo.maxDistance) {
+    @if (info.actionInfo.maxDistance !== undefined) {
       <div
         class="absolute top-0 left-0 badge badge-accent rounded-none rounded-br-lg"
       >

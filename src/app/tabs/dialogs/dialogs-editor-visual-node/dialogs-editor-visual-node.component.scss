@@ -1,3 +1,12 @@
 :host {
   position: relative;
 }
+
+.btn:active:focus,
+.action-btn,
+.action-btn:active:focus,
+.action-btn:focus,
+.action-btn:active:hover {
+  animation: none !important;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) !important;
+}
