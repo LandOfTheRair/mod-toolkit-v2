@@ -57,7 +57,10 @@
       }
     </div>
 
-    @if (info.actionInfo.maxDistance !== undefined) {
+    @if (
+      info.actionInfo.maxDistance !== undefined &&
+      info.actionInfo.maxDistance !== null
+    ) {
       <div
         class="absolute top-0 left-0 badge badge-accent rounded-none rounded-br-lg"
       >
