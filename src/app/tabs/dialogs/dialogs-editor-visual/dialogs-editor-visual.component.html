@@ -12,14 +12,12 @@
           {{ keyword }}
         </button>
 
-        @if (keyword !== 'hello') {
-          <button
-            class="p-2 m-1 rounded cursor-pointer btn-error btn-outline"
-            (click)="removeKeyword(keyword)"
-          >
-            -
-          </button>
-        }
+        <button
+          class="p-2 m-1 rounded cursor-pointer btn-error btn-outline"
+          (click)="removeKeyword(keyword)"
+        >
+          -
+        </button>
       </div>
     }
 

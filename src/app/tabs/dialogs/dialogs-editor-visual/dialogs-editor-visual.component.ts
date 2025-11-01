@@ -100,7 +100,11 @@ export class DialogsEditorVisualComponent {
     if (!root) return;
 
     const keywordContainer = root[keyword];
-    if (!keywordContainer || !keywordContainer.actions) return;
+    if (!keywordContainer || !keywordContainer.actions) {
+      this.edges.set([]);
+      this.nodes.set([]);
+      return;
+    }
 
     this.currentColumn = 0;
 
@@ -263,6 +267,10 @@ export class DialogsEditorVisualComponent {
 
     if (keyword === this.currentKeyword()) {
       this.changeKeyword('hello');
+    }
+
+    if (Object.keys(tree.keyword ?? {}).length === 0) {
+      this.changeKeyword('');
     }
   }
 
