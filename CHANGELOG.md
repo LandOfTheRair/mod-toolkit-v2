@@ -1,6 +1,15 @@
+## <small>1.10.22 (2025-11-01)</small>
+
+* closes #121 ([4e3be1a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/4e3be1a)), closes [#121](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/121)
+* fix: allow for removing keywords ([6465ba0](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6465ba0)), closes [#123](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/123)
+
+
+
 ## <small>1.10.21 (2025-10-30)</small>
 
 * add validation for 'an item' ([6be2d69](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6be2d69))
+* Release Patch 1.10.21 ([f4cce28](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/f4cce28))
+* Sync version ([6d1e168](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/6d1e168))
 
 
 
