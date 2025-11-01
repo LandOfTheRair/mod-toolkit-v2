@@ -1,3 +1,4 @@
+import DiscordRPC from 'discord-rpc';
 import { app, BrowserWindow, ipcMain, protocol, screen, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import * as fs from 'fs';
@@ -195,3 +196,45 @@ try {
   mainError(e);
   throw e;
 }
+const DISCORD_CLIENT_ID = '410478620096856064';
+
+DiscordRPC.register(DISCORD_CLIENT_ID);
+
+let startTimestamp: Date | undefined;
+
+const rpc = new DiscordRPC.Client({ transport: 'ipc' });
+
+const setActivity = () => {
+  if (!rpc || !win) return;
+
+  win.webContents
+    .executeJavaScript('window.modTitle')
+    .then(function (modTitle) {
+      if (!modTitle) {
+        rpc.clearActivity();
+        startTimestamp = undefined;
+        return;
+      }
+
+      if (!startTimestamp) startTimestamp = new Date();
+
+      rpc.setActivity({
+        startTimestamp,
+        state: 'ModKit',
+        details: `Working on ${modTitle}`,
+        largeImageKey: 'game-image',
+      });
+    });
+};
+
+rpc.on('ready', function () {
+  setActivity();
+
+  setInterval(function () {
+    setActivity();
+  }, 15000);
+});
+
+rpc.login({ clientId: DISCORD_CLIENT_ID }).catch(function (err: any) {
+  console.error(err);
+});

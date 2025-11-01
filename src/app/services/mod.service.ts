@@ -115,6 +115,8 @@ export class ModService {
       const newModData = this.mod();
       this.settingsService.createSettingsForMod(newModData.meta.id);
       this.localStorage.store('mod', newModData);
+
+      (window as any).modTitle = newModData.meta.name;
     });
 
     (window as any).modService = this;
