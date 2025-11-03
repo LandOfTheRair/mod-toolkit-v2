@@ -18,6 +18,12 @@
         {{ modService.modAuthor() }}
       </a>
     }
+
+    @if (currentlyEditingText(); as editingName) {
+      <span class="badge badge-primary">
+        {{ editingName }}
+      </span>
+    }
   </div>
 
   @if (electronService.isLoaded()) {

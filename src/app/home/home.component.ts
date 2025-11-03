@@ -46,6 +46,13 @@ export class HomeComponent implements OnInit {
   public isValidating = signal<boolean>(false);
   public isManagingDependencies = signal<boolean>(false);
 
+  public currentlyEditingText = computed(() => {
+    const item = this.electronService.currentlyEditingObject();
+    if (!item) return '';
+
+    return (item.npcId ?? item.tag ?? item.name ?? '') as string;
+  });
+
   public hasErrors = computed(() => {
     const classes = this.modService.availableClasses();
     const json = this.modService.json();

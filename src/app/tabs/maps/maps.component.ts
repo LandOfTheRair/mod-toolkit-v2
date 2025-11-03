@@ -9,7 +9,6 @@ import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { ColDef } from 'ag-grid-community';
 import { IEditorMap } from '../../../interfaces/map';
 import { id } from '../../helpers';
-import { ElectronService } from '../../services/electron.service';
 import { PinpointService } from '../../services/pinpoint.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
@@ -18,13 +17,12 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = IEditorMap;
 
 @Component({
-    selector: 'app-maps',
-    templateUrl: './maps.component.html',
-    styleUrl: './maps.component.scss',
-    standalone: false
+  selector: 'app-maps',
+  templateUrl: './maps.component.html',
+  styleUrl: './maps.component.scss',
+  standalone: false,
 })
 export class MapsComponent extends EditorBaseTableComponent<EditingType> {
-  private electronService = inject(ElectronService);
   private pinpointService = inject(PinpointService);
 
   public newSwal = viewChild<SwalComponent>('newSwal');

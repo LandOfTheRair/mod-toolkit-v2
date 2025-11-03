@@ -1,9 +1,8 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { ColDef } from 'ag-grid-community';
 
 import { IModKit, ISpawnerData } from '../../../interfaces';
 import { defaultSpawner, id } from '../../helpers';
-import { ElectronService } from '../../services/electron.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { EditorBaseTableComponent } from '../../shared/components/editor-base-table/editor-base-table.component';
 import { HeaderButtonsComponent } from '../../shared/components/header-buttons/header-buttons.component';
@@ -11,14 +10,12 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = ISpawnerData;
 
 @Component({
-    selector: 'app-spawners',
-    templateUrl: './spawners.component.html',
-    styleUrl: './spawners.component.scss',
-    standalone: false
+  selector: 'app-spawners',
+  templateUrl: './spawners.component.html',
+  styleUrl: './spawners.component.scss',
+  standalone: false,
 })
 export class SpawnersComponent extends EditorBaseTableComponent<EditingType> {
-  private electronService = inject(ElectronService);
-
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'spawners';
 
   public defaultData = defaultSpawner;

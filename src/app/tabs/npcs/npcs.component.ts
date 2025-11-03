@@ -3,7 +3,6 @@ import { ColDef } from 'ag-grid-community';
 
 import { IModKit, INPCDefinition } from '../../../interfaces';
 import { defaultNPC, id } from '../../helpers';
-import { ElectronService } from '../../services/electron.service';
 import { PinpointService } from '../../services/pinpoint.service';
 import { CellButtonsComponent } from '../../shared/components/cell-buttons/cell-buttons.component';
 import { CellSpriteComponent } from '../../shared/components/cell-sprite/cell-sprite.component';
@@ -13,13 +12,12 @@ import { HeaderButtonsComponent } from '../../shared/components/header-buttons/h
 type EditingType = INPCDefinition;
 
 @Component({
-    selector: 'app-npcs',
-    templateUrl: './npcs.component.html',
-    styleUrl: './npcs.component.scss',
-    standalone: false
+  selector: 'app-npcs',
+  templateUrl: './npcs.component.html',
+  styleUrl: './npcs.component.scss',
+  standalone: false,
 })
 export class NpcsComponent extends EditorBaseTableComponent<EditingType> {
-  private electronService = inject(ElectronService);
   private pinpointService = inject(PinpointService);
 
   protected dataKey: keyof Omit<IModKit, 'meta'> = 'npcs';

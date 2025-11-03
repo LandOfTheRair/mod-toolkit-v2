@@ -3,6 +3,7 @@ import { FilterChangedEvent, FilterModel } from 'ag-grid-community';
 import { merge } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import { HasIdentification, IModKit } from '../../../../interfaces';
+import { ElectronService } from '../../../services/electron.service';
 import { ModService } from '../../../services/mod.service';
 import { NotifyService } from '../../../services/notify.service';
 import { URLService } from '../../../services/url.service';
@@ -17,6 +18,7 @@ export class EditorBaseTableComponent<T extends HasIdentification>
   implements OnInit
 {
   private urlService = inject(URLService);
+  protected electronService = inject(ElectronService);
   protected notifyService = inject(NotifyService);
 
   private localStorage = inject(LocalStorageService);
@@ -70,11 +72,15 @@ export class EditorBaseTableComponent<T extends HasIdentification>
     const finalItem = merge(defaultContent, clonedContent);
     this.editingData.set(finalItem);
 
+    this.electronService.currentlyEditingObject.set(finalItem);
+
     this.urlService.id.set(data._id);
   }
 
   public cancelEditing() {
     this.isEditing.set(false);
+    this.electronService.currentlyEditingObject.set(undefined);
+
     this.oldData.set(undefined);
 
     this.urlService.id.set('');
@@ -86,6 +92,7 @@ export class EditorBaseTableComponent<T extends HasIdentification>
     }
 
     this.isEditing.set(false);
+    this.electronService.currentlyEditingObject.set(undefined);
 
     const oldItem = this.oldData();
     if (oldItem) {

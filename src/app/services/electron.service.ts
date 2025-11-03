@@ -42,6 +42,8 @@ export class ElectronService {
   public version = signal<string>('web');
   public baseUrl = signal<string>('');
 
+  public currentlyEditingObject = signal<any>(undefined);
+
   private quicksaveFilepath = computed(() => {
     const mod = this.modService.mod();
     const settings = this.settingsService.allSettings()[mod.meta.id];
