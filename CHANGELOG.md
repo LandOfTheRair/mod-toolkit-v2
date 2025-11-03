@@ -1,8 +1,16 @@
+## <small>1.10.24 (2025-11-03)</small>
+
+* add title of currently editing thing to top bar. disable multi-editing. closes #636 ([fa9fe8d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/fa9fe8d)), closes [#636](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/636)
+
+
+
 ## <small>1.10.23 (2025-11-01)</small>
 
 * can remove hello again ([a43879d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/a43879d))
 * hide maxdist when undefined ([1b1ebe3](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1b1ebe3))
+* Release Patch 1.10.23 ([cbf1e3f](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/cbf1e3f))
 * remove awkward button movement in node editor ([39c5a3a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/39c5a3a))
+* Sync version ([9d74229](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/9d74229))
 
 
 
