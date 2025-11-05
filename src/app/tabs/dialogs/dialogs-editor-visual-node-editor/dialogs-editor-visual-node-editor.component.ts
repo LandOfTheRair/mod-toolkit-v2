@@ -107,6 +107,7 @@ export class DialogsEditorVisualNodeEditorComponent {
         DialogActionType.ModifyItem,
         DialogActionType.TakeItem,
         DialogActionType.CheckItem,
+        DialogActionType.MergeAndGiveItem,
       ].includes(newType)
     ) {
       (newTypeObj as any).item = {
@@ -122,6 +123,7 @@ export class DialogsEditorVisualNodeEditorComponent {
         DialogActionType.TakeItem,
         DialogActionType.CheckItem,
         DialogActionType.CheckNoItem,
+        DialogActionType.MergeAndGiveItem,
       ].includes(newType)
     ) {
       (newTypeObj as any).slot = ['' as ItemSlot];

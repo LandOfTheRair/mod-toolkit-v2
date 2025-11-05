@@ -48,8 +48,9 @@
   @case ('checkQuest') {
     <div class="mt-4">
       <app-input-quest
-        [(quest)]="castToAny().quest"
+        [quest]="castToAny().quest"
         [defaultValue]="castToAny().quest"
+        (change)="castToAny().quest = $event"
       ></app-input-quest>
     </div>
   }
@@ -57,8 +58,9 @@
   @case ('hasQuest') {
     <div class="mt-4">
       <app-input-quest
-        [(quest)]="castToAny().quest"
+        [quest]="castToAny().quest"
         [defaultValue]="castToAny().quest"
+        (change)="castToAny().quest = $event"
       ></app-input-quest>
     </div>
   }
@@ -66,8 +68,9 @@
   @case ('giveQuest') {
     <div class="mt-4">
       <app-input-quest
-        [(quest)]="castToAny().quest"
+        [quest]="castToAny().quest"
         [defaultValue]="castToAny().quest"
+        (change)="castToAny().quest = $event"
       ></app-input-quest>
     </div>
   }
@@ -75,8 +78,9 @@
   @case ('updateQuest') {
     <div class="mt-4">
       <app-input-quest
-        [(quest)]="castToAny().quest"
+        [quest]="castToAny().quest"
         [defaultValue]="castToAny().quest"
+        (change)="castToAny().quest = $event"
       ></app-input-quest>
     </div>
 
@@ -99,8 +103,9 @@
         <div class="flex items-center gap-2 mb-2">
           <app-input-quest
             class="flex-1"
-            [(quest)]="castToAny().quests[$index]"
+            [quest]="castToAny().quests[$index]"
             [defaultValue]="castToAny().quests[$index]"
+            (change)="castToAny().quests[$index] = $event"
           ></app-input-quest>
 
           @if ($index !== 0 || ($index !== 0 && $last)) {
@@ -132,8 +137,9 @@
         <div class="flex items-center gap-2 mb-2">
           <app-input-quest
             class="flex-1"
-            [(quest)]="castToAny().quests[$index]"
+            [quest]="castToAny().quests[$index]"
             [defaultValue]="castToAny().quests[$index]"
+            (change)="castToAny().quests[$index] = $event"
           ></app-input-quest>
 
           @if ($index !== 0 || ($index !== 0 && $last)) {
@@ -325,7 +331,7 @@
     </div>
   }
 
-  @case ('checkNoItem') {
+  @case ('mergeAndGiveItem') {
     <app-input-item-dialogitem
       [(dialogItem)]="castToAny().item"
     ></app-input-item-dialogitem>
