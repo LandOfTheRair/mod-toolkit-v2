@@ -1,6 +1,14 @@
+## <small>1.10.25 (2025-11-05)</small>
+
+* closes #124 closes #125 ([71ec13d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/71ec13d)), closes [#124](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/124) [#125](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/125)
+
+
+
 ## <small>1.10.24 (2025-11-03)</small>
 
 * add title of currently editing thing to top bar. disable multi-editing. closes #636 ([fa9fe8d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/fa9fe8d)), closes [#636](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/636)
+* Release Patch 1.10.24 ([65aca7a](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/65aca7a))
+* Sync version ([b5e89c2](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b5e89c2))
 
 
 
