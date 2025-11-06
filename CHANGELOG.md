@@ -1,6 +1,14 @@
+## <small>1.10.26 (2025-11-06)</small>
+
+* add trinket support ([b90d155](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b90d155))
+
+
+
 ## <small>1.10.25 (2025-11-05)</small>
 
 * closes #124 closes #125 ([71ec13d](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/71ec13d)), closes [#124](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/124) [#125](https://github.com/LandOfTheRair/mod-toolkit-v2/issues/125)
+* Release Patch 1.10.25 ([390c678](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/390c678))
+* Sync version ([1c9d0e5](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/1c9d0e5))
 
 
 
