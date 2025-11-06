@@ -344,6 +344,65 @@
             </div>
           </div>
         }
+
+        @if (editingData.levelup) {
+          <hr class="mt-2" />
+
+          <div class="form-row split">
+            <div class="form-column">
+              <div class="form-row">
+                <app-input-stat
+                  [(stat)]="currentTrinketStat"
+                  label="Trinket Stat"
+                ></app-input-stat>
+              </div>
+            </div>
+
+            <div class="form-column button-column">
+              <div class="form-row w-full flex justify-end">
+                <button
+                  class="btn btn-accent btn-sm"
+                  [disabled]="
+                    !currentTrinketStat() ||
+                    doesItemHaveCurrentTrinketStatKey(currentTrinketStat())
+                  "
+                  (click)="addTrinketStat(currentTrinketStat())"
+                >
+                  <ng-icon name="heroPlus"></ng-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          @for (stat of trinketStatKeys(); track $index) {
+            <div class="form-row split">
+              <div class="form-column">
+                <div class="form-row">
+                  <app-input-floating-label>
+                    {{ stat }}
+                  </app-input-floating-label>
+                  <input
+                    [(ngModel)]="editingData.levelup!.statsPerLevel[stat]"
+                    type="number"
+                    placeholder="Choose value..."
+                    class="form-input"
+                  />
+                </div>
+              </div>
+
+              <div class="form-column">
+                <div class="form-row w-full flex justify-end">
+                  <button
+                    class="ml-1 btn btn-error btn-sm"
+                    (click)="removeTrinketStat(stat)"
+                  >
+                    <ng-icon name="heroMinus"></ng-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        }
       </div>
 
       <div class="form-column">
@@ -527,6 +586,44 @@
                   </div>
                 </div>
               }
+            }
+
+            @case ('levelup') {
+              <div class="form-row split">
+                <div class="form-column">
+                  <div class="form-row">
+                    <app-input-prop-editor
+                      [(propData)]="editingData.levelup!.maxLevel"
+                      [propName]="'Max Item Level'"
+                      [propType]="'number'"
+                    ></app-input-prop-editor>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row split">
+                <div class="form-column">
+                  <div class="form-row">
+                    <app-input-prop-editor
+                      [(propData)]="editingData.levelup!.xpPerLevel"
+                      [propName]="'XP Per Level'"
+                      [propType]="'number'"
+                    ></app-input-prop-editor>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row split">
+                <div class="form-column">
+                  <div class="form-row">
+                    <app-input-prop-editor
+                      [(propData)]="editingData.levelup!.xpScalarPerLevel"
+                      [propName]="'XP Scalar Per Level'"
+                      [propType]="'number'"
+                    ></app-input-prop-editor>
+                  </div>
+                </div>
+              </div>
             }
 
             @default {

@@ -252,6 +252,7 @@ export const sackableArmorClasses = [
   'Saucer',
   'Skull',
   'Tunic',
+  'Trinket',
 ];
 
 export const typePropSets: Record<string, string[]> = {
@@ -265,6 +266,7 @@ export const typePropSets: Record<string, string[]> = {
   Rock: ['canUpgradeWith'],
   Scroll: ['bookPage', 'recipe'],
   Twig: ['type'],
+  Trinket: ['levelup'],
 };
 
 export const typePropDefaults: Record<

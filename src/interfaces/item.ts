@@ -50,6 +50,13 @@ export interface IItemTrait {
   restrict?: string[];
 }
 
+export interface IItemLevelup {
+  maxLevel: number;
+  xpPerLevel: number;
+  xpScalarPerLevel: number;
+  statsPerLevel: StatBlock;
+}
+
 export interface IGear {
   // the effect the item gives on equip
   equipEffect?: IItemEffect;
@@ -192,6 +199,10 @@ export interface IRecipeScroll {
   recipe?: string;
 }
 
+export interface ITrinket {
+  levelup?: IItemLevelup;
+}
+
 export type IItem = IConsumable &
   IGear &
   IWeapon &
@@ -205,7 +216,8 @@ export type IItem = IConsumable &
   IUsable &
   IUpgradeable &
   IUpgradeMaterial &
-  IRecipeScroll & {
+  IRecipeScroll &
+  ITrinket & {
     // the name of the item
     name: string;
 

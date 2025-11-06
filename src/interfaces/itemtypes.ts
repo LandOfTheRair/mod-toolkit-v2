@@ -74,6 +74,7 @@ export enum ArmorClass {
   Scaleplate = 'Scaleplate',
   Skull = 'Skull',
   Tunic = 'Tunic',
+  Trinket = 'Trinket',
 }
 
 export enum MiscClass {
@@ -160,6 +161,8 @@ export const EarClasses = [ItemClass.Earring];
 
 export const PotionClasses = [ItemClass.Bottle];
 
+export const TrinketClasses = [ItemClass.Trinket];
+
 export const GivesBonusInHandItemClasses = [
   ...Object.keys(WeaponClass),
   ...NeckClasses,
@@ -176,6 +179,7 @@ export const EquippableItemClasses = [
   ...FeetClasses,
   ...HandsClasses,
   ...EarClasses,
+  ...TrinketClasses,
 ];
 
 export const EquippableItemClassesWithWeapons = [

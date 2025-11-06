@@ -1,4 +1,4 @@
-import { isBoolean, isInteger, isString } from 'lodash';
+import { isBoolean, isInteger, isNumber, isObject, isString } from 'lodash';
 import { Schema } from '../../../interfaces';
 import {
   isArrayOf,
@@ -137,6 +137,12 @@ export const itemSchema: Schema = [
 
   ['quality', false, isInteger],
   ['sellValue', false, isInteger],
+
+  ['levelup', false, isObject],
+  ['levelup.currentLevel', false, isNumber],
+  ['levelup.xpPerLevel', false, isNumber],
+  ['levelup.xpScalarPerLevel', false, isNumber],
+  ['levelup.statsPerLevel', false, isObject],
 
   ['randomStats', false, isRandomStatObject],
   ['randomTrait', false, isRandomTraitObject],

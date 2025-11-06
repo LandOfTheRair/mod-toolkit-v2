@@ -1,7 +1,8 @@
 import { Component, computed, OnInit, Signal, signal } from '@angular/core';
-import { sortBy } from 'lodash';
+import { isUndefined, sortBy } from 'lodash';
 import {
   IItemDefinition,
+  ItemClass,
   ItemClassType,
   Rollable,
   StatBlock,
@@ -58,6 +59,7 @@ export class ItemsEditorComponent
       | 'containedItems'
       | 'recipe'
       | 'bookPages'
+      | 'levelup'
     >
   > = {
     tier: 'number',
@@ -78,12 +80,14 @@ export class ItemsEditorComponent
     canUpgradeWith: 'boolean',
     damageClass: 'damageClass',
     succorInfo: 'succorInfo',
+    levelup: 'levelup',
     containedItems: 'containedItems',
     recipe: 'recipe',
   };
 
   public currentItem = signal<IItemDefinition | undefined>(undefined);
   public currentStat = signal<StatType>('agi');
+  public currentTrinketStat = signal<StatType>('agi');
   public currentTraitTab = signal<TraitSetting>('none');
   public currentTrait = signal<string | undefined>(undefined);
   public allStatEdits = signal<StatEdit[]>([]);
@@ -197,6 +201,7 @@ export class ItemsEditorComponent
         if (prop === 'containedItems') {
           return;
         }
+
         if (prop === 'succorInfo') {
           this.editing.update((i) => {
             delete i.succorInfo;
@@ -204,6 +209,7 @@ export class ItemsEditorComponent
           });
           return;
         }
+
         if (prop === 'stats') {
           Object.keys(typePropDefaults[oldItemClass].stats).forEach(
             (statKey) => {
@@ -211,6 +217,13 @@ export class ItemsEditorComponent
             },
           );
           return;
+        }
+
+        if (prop === 'levelup') {
+          this.editing.update((i) => {
+            delete i.levelup;
+            return i;
+          });
         }
 
         this.update(prop as keyof IItemDefinition, undefined);
@@ -225,6 +238,21 @@ export class ItemsEditorComponent
         if (prop === 'recipe') return;
 
         if (prop === 'containedItems') {
+          return;
+        }
+
+        if (prop === 'levelup') {
+          if (this.editing().levelup) return;
+
+          this.editing.update((i) => ({
+            ...i,
+            levelup: {
+              maxLevel: 5,
+              statsPerLevel: {},
+              xpPerLevel: 100_000_000,
+              xpScalarPerLevel: 2,
+            },
+          }));
           return;
         }
 
@@ -275,8 +303,28 @@ export class ItemsEditorComponent
     ]);
   }
 
+  public addTrinketStat(stat: StatType, value = 0) {
+    if (!isUndefined(this.editing()?.levelup?.statsPerLevel[stat])) return;
+
+    this.editing.update((item) => {
+      console.log(stat, value, item.levelup);
+      if (!item.levelup) return item;
+
+      item.levelup.statsPerLevel[stat] = value;
+      return item;
+    });
+  }
+
   public removeStat(stat: StatType) {
     this.allStatEdits.set(this.allStatEdits().filter((s) => s.stat !== stat));
+  }
+
+  public removeTrinketStat(stat: StatType) {
+    this.editing.update((item) => {
+      if (!item.levelup) return item;
+      delete item.levelup.statsPerLevel[stat];
+      return item;
+    });
   }
 
   public toggleStat(stat: StatEdit) {
@@ -437,6 +485,10 @@ export class ItemsEditorComponent
     if (!item.bookPages?.length) {
       delete item.bookPages;
     }
+
+    if (item.itemClass !== ItemClass.Trinket) {
+      delete item.levelup;
+    }
   }
 
   changeTraitTab(newTraitSetting: TraitSetting) {
@@ -501,6 +553,16 @@ export class ItemsEditorComponent
 
   public sortRandomTraits(items: string[]): string[] {
     return sortBy(items);
+  }
+
+  public trinketStatKeys(): StatType[] {
+    return Object.keys(
+      this.editing().levelup?.statsPerLevel ?? {},
+    ).sort() as StatType[];
+  }
+
+  public doesItemHaveCurrentTrinketStatKey(stat: StatType): boolean {
+    return !isUndefined(this.editing()?.levelup?.statsPerLevel[stat]);
   }
 
   public changeItemLevel(newLevel: number) {
