@@ -1,6 +1,14 @@
+## <small>1.10.27 (2025-11-07)</small>
+
+* add gold cost to trinkets ([c4ca110](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/c4ca110))
+
+
+
 ## <small>1.10.26 (2025-11-06)</small>
 
 * add trinket support ([b90d155](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/b90d155))
+* Release Patch 1.10.26 ([da045c7](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/da045c7))
+* Sync version ([88569b6](https://github.com/LandOfTheRair/mod-toolkit-v2/commit/88569b6))
 
 
 
