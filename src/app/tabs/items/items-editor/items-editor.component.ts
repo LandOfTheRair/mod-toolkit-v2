@@ -251,6 +251,7 @@ export class ItemsEditorComponent
               statsPerLevel: {},
               xpPerLevel: 100_000_000,
               xpScalarPerLevel: 2,
+              goldCostPerLevel: 10_000_000,
             },
           }));
           return;

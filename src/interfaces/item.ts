@@ -55,6 +55,7 @@ export interface IItemLevelup {
   xpPerLevel: number;
   xpScalarPerLevel: number;
   statsPerLevel: StatBlock;
+  goldCostPerLevel: number;
 }
 
 export interface IGear {

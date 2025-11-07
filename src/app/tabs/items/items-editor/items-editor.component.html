@@ -617,6 +617,18 @@
                 <div class="form-column">
                   <div class="form-row">
                     <app-input-prop-editor
+                      [(propData)]="editingData.levelup!.goldCostPerLevel"
+                      [propName]="'Gold Cost Per Level'"
+                      [propType]="'number'"
+                    ></app-input-prop-editor>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row split">
+                <div class="form-column">
+                  <div class="form-row">
+                    <app-input-prop-editor
                       [(propData)]="editingData.levelup!.xpScalarPerLevel"
                       [propName]="'XP Scalar Per Level'"
                       [propType]="'number'"
